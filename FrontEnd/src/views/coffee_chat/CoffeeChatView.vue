@@ -1,0 +1,49 @@
+<template>
+
+    <img src="@/assets/img/coffee-chat/chatterbanner.png" alt="" class="banner-img">
+
+
+    <div class="text">
+        <h2 class="subtitle">커피챗 채터 찾기</h2>
+        <p>고민에 대한 간단한 이야기를 나눌 채터 탐색</p>
+    </div>
+    <div class="chatter-list"></div>
+</template>
+
+<script setup>
+
+</script>
+
+<style scoped>
+
+  .banner-img {
+    height: 300px;
+    width: 1288px;
+    margin: 10px;
+  }
+
+  .chatter-list {
+    border: 1px solid black;
+    margin: 10px;
+    height: 300px;
+    width: 1344px;
+  }
+
+  .text {
+    margin-left: 10px;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    gap: 0;
+    width: 1344px;
+  }
+
+  .subtitle {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  p {
+    margin-top: 0;
+    padding-top: 0;
+  }
+</style>
