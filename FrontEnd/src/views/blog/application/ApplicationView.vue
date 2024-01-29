@@ -94,6 +94,8 @@ const addDummyEssay = () => {
   };
 
   resumeList.value.push(dummyData);
+  console.log(resumeList.value)
+
 };
 
 const newEssay = ref({ 
@@ -116,6 +118,7 @@ const submitEssay = () => {
 
   resumeList.value.push(dummyData)
 
+  
   showModal.value = false
   newEssay.value = { 
     categoryId: '',
