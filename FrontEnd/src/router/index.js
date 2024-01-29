@@ -17,6 +17,7 @@ import JobDetail from '@/views/job_post/JobDetailView.vue'
 //커뮤니티 페이지
 import QnABoard from '@/views/community/qna_board/QnABoardView.vue'
 import ResumeCreate from '@/views/blog/application/resume/ResumeCreateView.vue'
+import QnADetail from '@/views/community/qna_board/QnADetailView.vue'
 
 //취준로그 페이지
 import Schedule from '@/views/blog/schedule/ScheduleView.vue'
@@ -37,6 +38,12 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: "/test",
+      name: "test",
+      component: Test,
+    },
+// 메인/로그인 페이지
+    {
       path: "/",
       name: "Home",
       component: HomeView,
@@ -46,21 +53,15 @@ const router = createRouter({
       name: "Login",
       component: LoginView,
     },
-    {
-      path: "/test",
-      name: "test",
-      component: Test,
-    },
+// 커피챗 페이지
     {
       path: "/coffee-chat",
       name: "Coffee",
       component: CoffeeChat,
     },
-    {
-      path: "/employee-register",
-      name: "EmployeeRegister",
-      component: EmployeeRegister,
-    },
+
+
+// 여기부터 채용공고 페이지
     {
       path: "/job-posts",
       name: "Jobs",
@@ -73,12 +74,20 @@ const router = createRouter({
       // 추후에 각 번호로 입력 받아야함
       // /job-detail/<int: detail-pk>
     },
+
+// 여기부터 커뮤니티 페이지
     {
       path: '/qna-board',
       name: 'QnABoard',
       component: QnABoard
     },
+    {
+      path: '/qna-board/detail',
+      name: 'QnADetail',
+      component: QnADetail
+    },
 
+// 여기부터 취준로그 페이지
     {
       path: '/blog-schedule',
       name: 'BlogSchedule',
@@ -94,8 +103,8 @@ const router = createRouter({
       name: 'JournalCreate',
       component: JournalCreate
     },
-// 이력서, 자소서
 
+  // 이력서, 자소서
     {
       path: '/blog-application',
       name: 'BlogApplication',
@@ -111,6 +120,8 @@ const router = createRouter({
       name: 'ResumeCreate',
       component: ResumeCreate
     },
+
+// 여기부터 설정 페이지
     {
       path: '/profile-setting',
       name: 'ProfileSetting',
@@ -130,7 +141,12 @@ const router = createRouter({
       path: '/delete-check',
       name: 'DeleteCheck',
       component: DeleteCheck
-    }
+    },
+    {
+      path: "/employee-register",
+      name: "EmployeeRegister",
+      component: EmployeeRegister,
+    },
   ]
 })
 
