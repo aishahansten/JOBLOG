@@ -1,34 +1,38 @@
 <template>
   <header>
-    <nav>
-      <div
-        class="nav-container"
-        @mouseover="showDropdown = true"
-        @mouseleave="showDropdown = false"
-      >
-        <RouterLink class="logo-link" :to="{ name: 'Home' }">
-          <div class="logo">JOBLOG</div>
-        </RouterLink>
-        <div class="nav-links">
-          <RouterLink class="link" :to="{ name: 'Jobs' }">채용공고</RouterLink>
-          <RouterLink class="link" :to="{ name: 'BlogSchedule' }">취준일지</RouterLink>
-          <RouterLink class="link" :to="{ name: 'QnABoard' }">커뮤니티</RouterLink>
-          <RouterLink class="link" :to="{ name: 'Coffee' }">취업Talk</RouterLink>
-          <RouterLink class="link" :to="{ name: 'ProfileSetting' }">임시세팅</RouterLink>
-        </div>
-        <RouterLink :to="{ name: 'Login' }">
-          <button class="login-button">로그인</button>
-        </RouterLink>
-        <!-- <transition name="dropdown">
-        <div class="dropdown-content" v-show="showDropdown">
-          <p>테스트1</p>
-          <p>테스트1</p>
-          <p>테스트1</p>
-          <p>테스트1</p>
-        </div>
-      </transition> -->
+    <RouterLink class="logo-link" :to="{ name: 'Home' }">
+      <img src="@/assets/img/icon/main-logo.svg" alt="" />
+    </RouterLink>
+    <nav
+      class="nav-container"
+      @mouseover="showDropdown = true"
+      @mouseleave="showDropdown = false"
+    >
+      <div class="nav-links">
+        <RouterLink class="link" :to="{ name: 'Jobs' }">채용공고</RouterLink>
+        <RouterLink class="link" :to="{ name: 'BlogSchedule' }"
+          >취준일지</RouterLink
+        >
+        <RouterLink class="link" :to="{ name: 'QnABoard' }"
+          >커뮤니티</RouterLink
+        >
+        <RouterLink class="link" :to="{ name: 'Coffee' }">취업Talk</RouterLink>
+        <RouterLink class="link" :to="{ name: 'ProfileSetting' }"
+          >임시세팅</RouterLink
+        >
       </div>
+      <!-- <transition name="dropdown">
+          <div class="dropdown-content" v-show="showDropdown">
+            <p>테스트1</p>
+            <p>테스트1</p>
+            <p>테스트1</p>
+            <p>테스트1</p>
+          </div>
+        </transition> -->
     </nav>
+    <RouterLink :to="{ name: 'Login' }">
+      <button class="login-button">로그인</button>
+    </RouterLink>
   </header>
 </template>
 
@@ -63,16 +67,6 @@ nav {
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-}
-
-.logo {
-  color: #000;
-  font-family: Pretendard Variable;
-  font-size: 40px;
-  font-style: normal;
-  font-weight: 900;
-  line-height: normal;
-  letter-spacing: -1.2px;
 }
 
 .login-button {
