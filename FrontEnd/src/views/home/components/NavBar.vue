@@ -8,16 +8,20 @@
       @mouseover="showDropdown = true"
       @mouseleave="showDropdown = false"
     >
-      <div class="nav-links">
-        <RouterLink class="link" :to="{ name: 'Jobs' }">채용공고</RouterLink>
-        <RouterLink class="link" :to="{ name: 'BlogSchedule' }"
+      <div class="nav-titles">
+        <RouterLink class="link clickable-txt" :to="{ name: 'Jobs' }"
+          >채용공고</RouterLink
+        >
+        <RouterLink class="link clickable-txt" :to="{ name: 'BlogSchedule' }"
           >취준플랜</RouterLink
         >
-        <RouterLink class="link" :to="{ name: 'QnABoard' }"
+        <RouterLink class="link clickable-txt" :to="{ name: 'QnABoard' }"
           >커뮤니티</RouterLink
         >
-        <RouterLink class="link" :to="{ name: 'Coffee' }">취업Talk</RouterLink>
-        <RouterLink class="link" :to="{ name: 'ProfileSetting' }"
+        <RouterLink class="link clickable-txt" :to="{ name: 'Coffee' }"
+          >취업Talk</RouterLink
+        >
+        <RouterLink class="link clickable-txt" :to="{ name: 'ProfileSetting' }"
           >임시세팅</RouterLink
         >
       </div>
@@ -31,7 +35,7 @@
         </transition> -->
     </nav>
     <RouterLink :to="{ name: 'Login' }">
-      <button class="login-button">로그인</button>
+      <button class="login-btn clickable-btn">로그인</button>
     </RouterLink>
   </header>
 </template>
@@ -52,51 +56,42 @@ header {
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
+  border-bottom: 1px solid var(--main-gray);
 }
 
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.nav-titles {
+  display: flex;
+  gap: 30px;
+}
 .link {
-  color: #130000;
-  text-decoration: none;
-  padding: 10px 20px;
-  margin: 0 10px;
-  transition: background-color 0.1s ease;
+  justify-content: space-between;
+  padding: 10px;
   text-align: center;
-  font-family: Pretendard Variable;
-  font-size: 26px;
-  font-style: normal;
+  color: var(--main-black);
+  font-size: 24px;
   font-weight: 400;
-  line-height: normal;
 }
 
-.login-button {
-  color: #6880ff;
+.login-btn {
+  color: var(--main-blue);
   text-align: center;
-  font-family: Pretendard Variable;
-  font-size: 24px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
   background-color: white;
-  border: #6880ff 2px solid;
-  padding: 10px 20px;
+  border: var(--main-blue) 2px solid;
+  padding: 10px 30px;
   border-radius: 8px;
 }
-.nav-item {
-  position: relative;
-  display: inline-block;
-}
 
-.nav-container {
-  display: flex;
-  align-items: center;
-  position: relative; /* Position relative for absolute positioning of children */
-  gap: 120px;
-}
-
-.nav-links {
-  display: flex;
-  gap: 20px;
-}
 /* Styles for dropdown-content when it is visible */
 .dropdown-content {
   display: block;

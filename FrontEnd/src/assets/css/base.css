@@ -27,13 +27,14 @@ body,
   height: 100%;
   margin: 0;
   padding: 0;
+  min-width: 1920px;
   overflow-y: scroll;
 }
 
 main {
   height: auto;
   min-height: 100%;
-  padding: 100px 250px;
+  padding: 0 250px;
 }
 
 input:focus {
@@ -41,12 +42,28 @@ input:focus {
 }
 
 .clickable:hover {
+  opacity: 80%;
+  transition: 0.1s;
+}
+
+.clickable-shadow:hover {
   box-shadow: 1px 5px 5px rgb(0, 0, 0, 0.3);
   transition: 0.1s;
 }
 
 .clickable-img:hover {
   filter: drop-shadow(1px 5px 3px rgb(0, 0, 0, 0.3));
+  transition: 0.1s;
+}
+
+.clickable-btn:hover {
+  background-color: var(--main-blue);
+  color: white;
+  transition: 0.1s;
+}
+
+.clickable-txt:hover {
+  font-weight: 600;
   transition: 0.1s;
 }
 
