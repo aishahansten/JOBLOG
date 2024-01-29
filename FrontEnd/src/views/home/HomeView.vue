@@ -16,11 +16,13 @@
       </div>
     </div>
 
-    <RouterLink :to="{ name: 'Login' }">
-      <button class="login-btn-solid clickable">
-        SNS 계정으로 시작하기 ->
-      </button>
-    </RouterLink>
+    <div class="login-btn-space">
+      <RouterLink :to="{ name: 'Login' }">
+        <a class="login-btn-solid clickable">
+          SNS 계정으로 시작하기 ->
+        </a>
+      </RouterLink>
+    </div>
   </div>
 
   <div class="container-member" v-else>
@@ -48,32 +50,46 @@ function toggleLogin() {
 </script>
 
 <style scoped>
-.container {
+.container-visitor {
   background-image: url("@/assets/img/home/background-img.png");
-  background-size: cover;
   background-position: center;
   position: relative;
   width: 100%;
   height: 880px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   text-align: center;
 }
-.main-img-container {
+
+.welcome-pharse {
   display: flex;
-  width: 100%;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: -1;
-  padding: 0px;
-  margin: 0px;
+  align-items: baseline;
+  text-align: left;
+  padding-top: 130px;
+  gap: 30px;
 }
 
-.main-img {
-  margin: 0px;
-  padding: 0px;
+.welcome-title {
+  font-size: 64px;
+}
+.welcome-title .bold {
+  font-weight: 700;
+}
+.welcome-title .black {
+  font-weight: 900;
+}
+
+.welcome-txt {
+  font-size: 36px;
+  font-weight: 200;
+  line-height: 130%;
+}
+.welcome-txt b {
+  font-weight: 500;
+}
+
+.login-btn-space {
+  display: flex;
+  justify-content: end;
 }
 .login-btn-solid {
   color: white;
@@ -86,8 +102,5 @@ function toggleLogin() {
   border: var(--main-blue) 2px solid;
   padding: 30px 50px;
   border-radius: 8px;
-}
-.container-members {
-  width: 1344px;
 }
 </style>
