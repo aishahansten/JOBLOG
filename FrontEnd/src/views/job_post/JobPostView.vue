@@ -13,31 +13,15 @@
         <div class="recommendation">
             <h2>사용자 맞춤 추천 채용 공고</h2>
         </div>
-        <div class="job-posts">
-            <div class="job-post">
-                <div class="upper-post">이미지, 스크랩 버튼
-                <RouterLink :to="{ name:'JobDetail' }"><button>임시 상세페이지</button></RouterLink>
-                </div>
-                <div class="lower-post">공고명, 회사명, 회사 로고</div>
-            </div>
-            <div class="job-post">
-                <div class="upper-post">이미지, 스크랩 버튼</div>
-                <div class="lower-post">공고명, 회사명, 회사 로고</div>
-            </div>
-            <div class="job-post">
-                <div class="upper-post">이미지, 스크랩 버튼</div>
-                <div class="lower-post">공고명, 회사명, 회사 로고</div>
-            </div>
-            <div class="job-post">
-                <div class="upper-post">이미지, 스크랩 버튼</div>
-                <div class="lower-post">공고명, 회사명, 회사 로고</div>
-            </div>
-        </div>
+        <JobList/>
+
     </div>
 
 </template>
 
 <script setup>
+import JobList from './components/JobList.vue';
+
 
 </script>
 
@@ -93,35 +77,6 @@
     justify-content: flex-start;
     width: 100%;
     margin-bottom: 0px;
-  }
-
-  .job-posts {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
-    width: 100%;
-  }
-
-  .job-post {
-    display: grid;
-    grid-template-rows: 1.5fr 1fr;
-    
-  }
-
-  .upper-post {
-    border: black 1px solid;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    height: 200px;
-    background-color: rgb(61, 61, 61);
-    color: white;
-  }
-
-  .lower-post {
-    border: black 1px solid;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    height: 134px;
   }
 
   .search-bar {
