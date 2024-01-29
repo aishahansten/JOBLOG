@@ -11,7 +11,7 @@
       <div class="nav-links">
         <RouterLink class="link" :to="{ name: 'Jobs' }">채용공고</RouterLink>
         <RouterLink class="link" :to="{ name: 'BlogSchedule' }"
-          >취준일지</RouterLink
+          >취준플랜</RouterLink
         >
         <RouterLink class="link" :to="{ name: 'QnABoard' }"
           >커뮤니티</RouterLink
@@ -44,14 +44,13 @@ const showDropdown = ref(false);
 </script>
 
 <style scoped>
-nav {
+header {
   display: flex;
-  width: 1344px;
-  height: 150px;
-  padding: 50px 0px;
-  justify-content: center;
+  width: 100%;
+  height: 100px;
+  padding: 0 250px;
+  justify-content: space-between;
   align-items: center;
-  gap: 150px;
   flex-shrink: 0;
 }
 
