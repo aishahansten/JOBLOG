@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="title">
     QnA 게시판
   </div>
   <QnAList/>
@@ -17,5 +17,10 @@ onMounted (() => {
 </script>
 
 <style scoped>
-
+  .title {
+    display: flex;
+    justify-content: center;
+    font-size: 40px;
+    font-weight: bold;
+  }
 </style>

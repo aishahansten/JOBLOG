@@ -19,6 +19,7 @@ import JobDetail from "@/views/job_post/JobDetailView.vue";
 import QnABoard from "@/views/community/qna_board/QnABoardView.vue";
 import ResumeCreate from "@/views/blog/application/resume/ResumeCreateView.vue";
 import QnADetail from '@/views/community/qna_board/QnADetailView.vue'
+import QnACreate from "@/views/community/qna_board/QnACreateView.vue";
 
 //취준로그 페이지
 import Schedule from "@/views/blog/schedule/ScheduleView.vue";
@@ -85,14 +86,17 @@ const router = createRouter({
       name: "QnABoard",
       component: QnABoard,
     },
-
-// 여기부터 취준로그 페이지
     {
       path: '/qna-board/detail',
       name: 'QnADetail',
       component: QnADetail
     },
-
+    {
+      path: "/qna-create",
+      name: "QnACreate",
+      component: QnACreate
+    },
+    
 // 여기부터 취준로그 페이지
     {
       path: "/blog-schedule",
