@@ -19,7 +19,7 @@
           >커뮤니티</RouterLink
         >
         <RouterLink class="link clickable-txt" :to="{ name: 'Coffee' }"
-          >취업Talk</RouterLink
+          >커피챗</RouterLink
         >
         <RouterLink class="link clickable-txt" :to="{ name: 'ProfileSetting' }"
           >임시세팅</RouterLink
@@ -35,7 +35,7 @@
         </transition> -->
     </nav>
     <RouterLink :to="{ name: 'Login' }">
-      <button class="login-btn clickable-btn">로그인</button>
+      <a class="login-btn clickable-btn">로그인</a>
     </RouterLink>
   </header>
 </template>
@@ -57,6 +57,7 @@ header {
   align-items: center;
   flex-shrink: 0;
   border-bottom: 1px solid var(--main-gray);
+  box-sizing: border-box;
 }
 
 nav {

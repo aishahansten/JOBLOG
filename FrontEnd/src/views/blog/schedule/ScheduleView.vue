@@ -2,31 +2,30 @@
 import "@/assets/css/home/todo.css";
 
 import SubNav from "../_component/SubNav.vue";
-
 import Calendar from "./componnents/Calendar.vue";
 import Task from "./componnents/Task.vue";
 </script>
 
 <template>
-  <main class="full-cal">
+  <div class="container">
+    <SubNav />
     <div class="blog-schedule">
       <div>
         <h1>취준로그</h1>
       </div>
       <div class="calendar-container">
-        <div class="calendar"><Calendar /></div>
-        <div class="schedule"><Task /></div>
+        <div class="calendar-space"><Calendar /></div>
+        <div class="task-space"><Task /></div>
       </div>
     </div>
-  </main>
-  <SubNav />
+  </div>
 </template>
 
 <style scoped>
 .blog-schedule {
   display: grid;
   grid-template-rows: 1fr 9fr;
-  width: 1344px;
+  width: 100%;
   height: 600px;
   gap: 10px;
 }
@@ -37,12 +36,12 @@ import Task from "./componnents/Task.vue";
   gap: 20px;
 }
 
-.calendar {
+.calendar-space {
   border: 1px solid black;
   border-radius: 8px;
 }
 
-.schedule {
+.task-space {
   border: 1px solid black;
   border-radius: 8px;
 }
