@@ -9,6 +9,7 @@ import LoginView from "../views/home/LoginView.vue";
 
 //취준토크 페이지
 import CoffeeChat from "@/views/coffee_chat/CoffeeChatView.vue";
+import ChatterSign from "@/views/coffee_chat/ChatterSign.vue";
 
 //채용공고 페이지
 import JobPost from "@/views/job_post/JobPostView.vue";
@@ -60,7 +61,11 @@ const router = createRouter({
       name: "Coffee",
       component: CoffeeChat,
     },
-
+    {
+      path: "/chatter-reg",
+      name: "ChatterReg",
+      component: ChatterSign
+    },
 
 // 여기부터 채용공고 페이지
     {

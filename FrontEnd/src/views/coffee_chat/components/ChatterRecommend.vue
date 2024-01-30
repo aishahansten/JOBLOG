@@ -15,18 +15,18 @@ import ChatterListItem from './items/ChatterListItem.vue';
 
 const chatterList = ref(null);
 const chatterItems = [
-  { name: '홍길동', jobTitle: '개발자', experience: '5년' },
-  { name: '김철수', jobTitle: '디자이너', experience: '3년' },
-  { name: '이영희', jobTitle: '마케터', experience: '2년' },
-  { name: '홍길동', jobTitle: '개발자', experience: '5년' },
-  { name: '김철수', jobTitle: '디자이너', experience: '3년' },
-  { name: '이영희', jobTitle: '마케터', experience: '2년' },
-  { name: '홍길동', jobTitle: '개발자', experience: '5년' },
-  { name: '김철수', jobTitle: '디자이너', experience: '3년' },
-  { name: '이영희', jobTitle: '마케터', experience: '2년' },
-  { name: '홍길동', jobTitle: '개발자', experience: '5년' },
-  { name: '김철수', jobTitle: '디자이너', experience: '3년' },
-  { name: '이영희', jobTitle: '마케터', experience: '2년' },
+  { user_id: '홍길동', job: '개발자', career: '5년' },
+  { user_id: '김철수', job: '디자이너', career: '3년' },
+  { user_id: '이영희', job: '마케터', career: '2년' },
+  { user_id: '홍길동', job: '개발자', career: '5년' },
+  { user_id: '김철수', job: '디자이너', career: '3년' },
+  { user_id: '이영희', job: '마케터', career: '2년' },
+  { user_id: '홍길동', job: '개발자', career: '5년' },
+  { user_id: '김철수', job: '디자이너', career: '3년' },
+  { user_id: '이영희', job: '마케터', career: '2년' },
+  { user_id: '홍길동', job: '개발자', career: '5년' },
+  { user_id: '김철수', job: '디자이너', career: '3년' },
+  { user_id: '이영희', job: '마케터', career: '2년' },
   // Add more items as needed
 ];
 
