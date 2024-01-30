@@ -4,20 +4,36 @@
         <!-- Image or placeholder here -->
       </div>
       <div class="chatter-profile">
-        <div>{{ item.name }}</div>
-        <div>{{ item.jobTitle }}</div>
-        <div>{{ item.experience }}</div>
+        <div>{{ item.user_id }}</div>
+        <div>{{ item.job }}</div>
+        <div>{{ item.career }}</div>
         <button @click="toggleModal">예약하기</button>
       </div>
     </div>
+
     <div v-if="showModal" class="modal">
-    <div class="modal-content">
-      <div class="x-button"> <button @click="toggleModal">X</button></div>
-      <div class="profile"> 
-        <div class="chatter-img"></div>
+      <div class="modal-content">
+        <div class="x-button"> <button @click="toggleModal">X</button></div>
+        <div class="profile"> 
+          <div class="chatter-img-2"></div>
+          <div class="chatter-info">
+            <div class="info-bold">{{ item.user_id }}</div>
+            <div class="info-normal">직군: {{ item.job }}</div>
+            <div class="info-normal">경력: {{ item.career }}</div>
+            <div class="info-normal">나의 한마디: {{ item.description }}</div>
+          </div>
+        </div>
+        <div v-if="!showModal2">
+          <button @click="toggleModal2">예약하기</button>
+          schedule 또는 개인 선호 시간
+        </div>
+        <div v-else>
+          <button @click="toggleModal2">돌아가기</button>
+
+          예약 신청하는 페이지
+        </div>
       </div>
     </div>
-  </div>
   </template>
   
 <script setup>
@@ -27,12 +43,22 @@
     item: Object
   });
   
+  // 모달을 보이는 함수
   const showModal = ref(false);
   
   const toggleModal = () => {
     showModal.value = !showModal.value;
+
   };
-  
+
+  const showModal2 = ref(false)
+
+  const toggleModal2 = () => {
+    showModal2.value = !showModal2.value
+  }
+  //-----------------------------------
+
+  // 모달 esc 클릭을 위한 함수
   const handleEscapeKeyPress = event => {
     if (event.key === 'Escape') {
       showModal.value = false;
@@ -46,64 +72,12 @@
   onUnmounted(() => {
     window.removeEventListener('keydown', handleEscapeKeyPress);
   });
+  // -----------------------------------------------------------
 </script>
   
   
 <style scoped>
-.chatter-container {
-    display: grid;
-    grid-template-columns: 1.7fr 1fr;
-    border: 1px solid black;
-    border-radius: 8px;
-    width: 270px;
-    height: 198px;
-    padding: 10px;
-    box-sizing: border-box;
-    margin-left: 25px;
-}
-  .chatter-img {
-    border: 1px solid black;
-    background-color: #e0e0e0; /* Placeholder color, replace with actual image */
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .chatter-profile div {
-    margin-bottom: 5px;
-  }
-  .modal {
-    position: fixed;
-    top: 10%;
-    left: 21.5%;
-    width: 1100px;
-    height: 700px;
-    background-color: rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
-  }
+@import '@/views/coffee_chat/css/ChatterProfile.css'
 
-  .modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    width: 1000px;
-    height: 600px;
-  }
-
-  .modal-content textarea {
-    resize: none;
-    width: 994px;
-    height: 200px
-  }
-
-  .x-button {
-    margin-left: auto;
-  }
 </style>
   
