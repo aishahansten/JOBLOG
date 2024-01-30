@@ -56,7 +56,7 @@ header {
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
-  border-bottom: 1px solid var(--main-gray);
+  border-bottom: 1px solid var(--border-gray);
   box-sizing: border-box;
 }
 

@@ -29,11 +29,11 @@ import Application from "@/views/blog/application/ApplicationView.vue";
 import EssayCreate from "@/views/blog/application/essay/EssayCreateView.vue";
 
 //프로필 세팅 페이지
-import ProfileSetting from "@/views/profile/ProfileView.vue";
-import EmployeeRegister from "@/views/profile/EmployeeRegisterView.vue";
-import NotificationSetting from "@/views/profile/NotificationSettingView.vue";
-import DeleteMember from "@/views/profile/DeleteMemberView.vue";
-import DeleteCheck from "@/views/profile/DeleteCheckView.vue";
+import ProfileSetting from "@/views/setting/SettingView.vue";
+import EmployeeRegister from "@/views/setting/EmployeeRegisterView.vue";
+import NotificationSetting from "@/views/setting/NotificationSettingView.vue";
+import DeleteMember from "@/views/setting/DeleteMemberView.vue";
+import DeleteCheck from "@/views/setting/DeleteCheckView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -131,8 +131,10 @@ const router = createRouter({
       name: "ResumeCreate",
       component: ResumeCreate,
     },
+
+    // 설정 페이지
     {
-      path: "/profile-setting",
+      path: "/setting",
       name: "ProfileSetting",
       component: ProfileSetting,
     },

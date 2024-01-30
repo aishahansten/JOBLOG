@@ -18,9 +18,7 @@
 
     <div class="login-btn-space">
       <RouterLink :to="{ name: 'Login' }">
-        <a class="login-btn-solid clickable">
-          SNS 계정으로 시작하기 ->
-        </a>
+        <a class="login-btn-solid clickable"> SNS 계정으로 시작하기 -> </a>
       </RouterLink>
     </div>
   </div>
@@ -53,6 +51,7 @@ function toggleLogin() {
 .container-visitor {
   background-image: url("@/assets/img/home/background-img.png");
   background-position: center;
+  background-repeat: no-repeat;
   position: relative;
   width: 100%;
   height: 880px;
