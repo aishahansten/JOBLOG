@@ -1,13 +1,11 @@
 <template>
   <div class="carousel-container">
-    <button @click="scrollLeft">Left</button>
     <div ref="chatterList" class="chatter-list">
       <ChatterListItem 
         v-for="(item, index) in chatterItems" 
         :key="index"
         :item="item"/>
     </div>
-    <button @click="scrollRight">Right</button>
   </div>
 </template>
 
@@ -32,26 +30,6 @@ const chatterItems = [
   // Add more items as needed
 ];
 
-const scrollAmount = 1000; // Adjust this value as needed
-
-const scrollLeft = () => {
-  if (chatterList.value) {
-    chatterList.value.scrollTo({
-      left: chatterList.value.scrollLeft - scrollAmount,
-      behavior: 'smooth'
-    });
-  }
-};
-
-const scrollRight = () => {
-  if (chatterList.value) {
-    chatterList.value.scrollTo({
-      left: chatterList.value.scrollLeft + scrollAmount,
-      behavior: 'smooth'
-    });
-  }
-};
-
 </script>
 
 <style scoped>
@@ -62,15 +40,14 @@ const scrollRight = () => {
   .chatter-list {
     border: 1px solid black;
     margin: 10px;
-    height: 400px;
     width: 1344px;
     padding: 0 20px;
     box-sizing: border-box;
     display: grid;
-    grid-auto-flow: column; /* Flow items in a column direction */
-    grid-template-rows: 1fr 1fr; /* Two rows */
-    overflow-x: auto; /* Enable horizontal scrolling */
+    grid-template-columns: repeat(4, 1fr);
     gap: 10px; /* Optional: gap between items */
+    justify-content: center;
+    align-items: center;
   }
 
 </style>

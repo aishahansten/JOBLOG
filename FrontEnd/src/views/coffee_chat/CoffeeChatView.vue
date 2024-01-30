@@ -1,4 +1,5 @@
 <template>
+  <div class="main-container">
     <img src="@/assets/img/coffee-chat/chatterbanner.png" alt="" class="banner-img">
     <div class="text">
         <h2 class="subtitle">커피챗 채터 찾기</h2>
@@ -7,6 +8,7 @@
     <div>
       <ChatterRecommend/>
     </div>
+  </div>
 </template>
 
 <script setup>
@@ -14,6 +16,14 @@ import ChatterRecommend from './components/ChatterRecommend.vue';
 </script>
 
 <style scoped>
+
+  .main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
 
   .banner-img {
     height: 300px;
