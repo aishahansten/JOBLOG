@@ -4,15 +4,24 @@
         <ProfileSidebar/>
       </div>
       <div class="setting-content">
-        <div class="delete-information">삭제되는 정보 설명</div>
-        <div><input type="checkbox">동의함</div>
-        <div><RouterLink :to="{ name:'DeleteMember' }">취소</RouterLink></div>
+        <div>
+          <p>나의 일정관리</p>
+        </div>
+        <div>
+          <p>커뮤니티</p>
+        </div>
+        <div>
+          <p>커피챗</p>
+        </div>
+        <div>
+          저장
+        </div>
       </div>
     </div>
   </template>
   
   <script setup>
-  import ProfileSidebar from '@/views/profile/components/ProfileSidebar.vue'
+  import ProfileSidebar from '@/views/setting/components/ProfileSidebar.vue'
   </script>
   
   <style scoped>
@@ -25,9 +34,11 @@
     
     .setting-content {
       display: grid;
-      grid-template-rows: 1fr 1fr 1fr;
+      grid-template-rows: 3fr 3fr 3fr 1fr;
       border: 1px solid black;
- 
+      padding: 50px;
+      box-sizing: border-box;
+      justify-content: center;
     }
   
     .personal-information {

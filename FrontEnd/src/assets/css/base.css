@@ -3,13 +3,15 @@
 :root {
   --main-blue: #6880ff;
   --main-black: #1e1e1e;
-  --dark-gray: #777777;
-  --gray: #bbbbbb;
-  --main-gray: #d9d9d9;
+  --dark-gray: #404040;
+  --gray: #777777;
+  --border-gray: #d9d9d9;
   --light-gray: #f2f2f2;
 }
 
 * {
+  /* flex-shrink: 0; */
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 
@@ -25,7 +27,7 @@
 html,
 body,
 #app {
-  width: 100%;
+  width: 1920px;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -35,7 +37,7 @@ body,
 
 main {
   height: auto;
-  min-height: 100%;
+  min-height: 980px;
   padding: 0 250px;
 }
 
@@ -45,8 +47,7 @@ footer {
   height: 100px;
   justify-content: center;
   align-items: center;
-
-  background-color: bisque;
+  border-top: 1px solid var(--border-gray);
 }
 
 input:focus {
