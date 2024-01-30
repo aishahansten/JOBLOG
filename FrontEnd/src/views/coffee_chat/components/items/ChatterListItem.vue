@@ -59,7 +59,6 @@
     height: 198px;
     padding: 10px;
     box-sizing: border-box;
-    margin-left: 25px;
 }
   .chatter-img {
     border: 1px solid black;
@@ -75,7 +74,6 @@
   .modal {
     position: fixed;
     top: 10%;
-    left: 21.5%;
     width: 1100px;
     height: 700px;
     background-color: rgba(0, 0, 0, 0.2);
