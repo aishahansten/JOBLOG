@@ -1,38 +1,38 @@
-<script setup>
-import { RouterView, RouterLink } from "vue-router";
-import ProfileSidebar from "@/views/setting/components/ProfileSidebar.vue";
-</script>
+<script setup></script>
 
 <template>
-  <div class="container">
-    <ProfileSidebar />
-
-    <div class="content-container">
-      <div class="content-info-space">
-        <div class="content-info">
-          <p class="content-title">계정 정보 설정</p>
-          <p>JOBLOG 계정에 관한 설정을 변경합니다.</p>
-        </div>
-        <div class="content-function">
-          <a href="" class="update-btn clickable-btn">변경 완료</a>
-        </div>
+  <div class="content-container">
+    <div class="content-info-space">
+      <div class="content-info">
+        <p class="content-title">계정 정보 설정</p>
+        <p>JOBLOG 계정에 관한 설정을 변경합니다.</p>
       </div>
+      <div class="content-function">
+        <a href="" class="update-btn clickable-btn">변경 완료</a>
+      </div>
+    </div>
 
-      <div class="content">
+    <div class="content">
+      <form action="">
         <div class="profile-pic">
           <img src="@/assets/img/profile/임시.jpg" alt="" />
+          <img
+            src="@/assets/img/profile/user-pic-edit.svg"
+            class="hover-edit-img"
+            alt=""
+          />
         </div>
         <div class="account-info">
           <div>
             <span>닉네임</span>
-            <p>크림빵23</p>
+            <input type="text" placeholder="닉네임이 없으면 유저번호" />
           </div>
           <div>
             <span>연결된 계정</span>
             <p>cream23@gmail.com</p>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>
@@ -92,6 +92,18 @@ import ProfileSidebar from "@/views/setting/components/ProfileSidebar.vue";
   padding: 100px 0;
   gap: 50px;
 }
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+input {
+  text-align: center;
+  padding: 10px 5px;
+  font-size: 20px;
+  border: 1px solid var(--border-gray);
+  border-radius: 10px;
+}
 
 .profile-pic {
   width: 300px;
@@ -100,11 +112,22 @@ import ProfileSidebar from "@/views/setting/components/ProfileSidebar.vue";
   border: 1px solid var(--border-gray);
   border-radius: 70%;
   overflow: hidden;
+  position: relative;
 }
 .profile-pic img {
   width: 300px;
   height: 300px;
   object-fit: cover;
+  transition: opacity 0.2s ease;
+}
+.profile-pic .hover-edit-img { 
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+.profile-pic:hover .hover-edit-img {
+  opacity: 1;
 }
 
 .account-info {

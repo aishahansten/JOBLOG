@@ -18,7 +18,7 @@ import JobDetail from "@/views/job_post/JobDetailView.vue";
 //커뮤니티 페이지
 import QnABoard from "@/views/community/qna_board/QnABoardView.vue";
 import ResumeCreate from "@/views/blog/application/resume/ResumeCreateView.vue";
-import QnADetail from '@/views/community/qna_board/QnADetailView.vue'
+import QnADetail from "@/views/community/qna_board/QnADetailView.vue";
 import QnACreate from "@/views/community/qna_board/QnACreateView.vue";
 
 //취준로그 페이지
@@ -32,6 +32,7 @@ import EssayCreate from "@/views/blog/application/essay/EssayCreateView.vue";
 
 //프로필 세팅 페이지
 import ProfileSetting from "@/views/setting/SettingView.vue";
+import AccountSetting from "@/views/setting/components/account/AccountSetting.vue"
 import EmployeeRegister from "@/views/setting/EmployeeRegisterView.vue";
 import NotificationSetting from "@/views/setting/NotificationSettingView.vue";
 import DeleteMember from "@/views/setting/DeleteMemberView.vue";
@@ -45,7 +46,7 @@ const router = createRouter({
       name: "test",
       component: Test,
     },
-// 메인/로그인 페이지
+    // 메인/로그인 페이지
     {
       path: "/",
       name: "Home",
@@ -56,7 +57,7 @@ const router = createRouter({
       name: "Login",
       component: LoginView,
     },
-// 커피챗 페이지
+    // 커피챗 페이지
     {
       path: "/coffee-chat",
       name: "Coffee",
@@ -65,10 +66,10 @@ const router = createRouter({
     {
       path: "/chatter-reg",
       name: "ChatterReg",
-      component: ChatterSign
+      component: ChatterSign,
     },
 
-// 여기부터 채용공고 페이지
+    // 여기부터 채용공고 페이지
     {
       path: "/job-posts",
       name: "Jobs",
@@ -87,17 +88,17 @@ const router = createRouter({
       component: QnABoard,
     },
     {
-      path: '/qna-board/detail',
-      name: 'QnADetail',
-      component: QnADetail
+      path: "/qna-board/detail",
+      name: "QnADetail",
+      component: QnADetail,
     },
     {
       path: "/qna-create",
       name: "QnACreate",
-      component: QnACreate
+      component: QnACreate,
     },
-    
-// 여기부터 취준로그 페이지
+
+    // 여기부터 취준로그 페이지
     {
       path: "/blog-schedule",
       name: "BlogSchedule",
@@ -145,7 +146,15 @@ const router = createRouter({
     {
       path: "/setting",
       name: "ProfileSetting",
+      redirect: '/setting/account',
       component: ProfileSetting,
+      children: [
+        {
+          path: "account",
+          name: "AccountSetting",
+          component: AccountSetting,
+        },
+      ],
     },
     {
       path: "/notification-setting",
@@ -158,16 +167,16 @@ const router = createRouter({
       component: DeleteMember,
     },
     {
-      path: '/delete-check',
-      name: 'DeleteCheck',
-      component: DeleteCheck
+      path: "/delete-check",
+      name: "DeleteCheck",
+      component: DeleteCheck,
     },
     {
       path: "/employee-register",
       name: "EmployeeRegister",
       component: EmployeeRegister,
     },
-  ]
-})
+  ],
+});
 
 export default router;
