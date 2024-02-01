@@ -1,25 +1,29 @@
 package com.ssafy.joblog.domain.board.entity;
 
+import com.ssafy.joblog.domain.board.dto.request.PostUpdateRequestDto;
+import com.ssafy.joblog.domain.board.dto.response.PostResponseDto;
+import com.ssafy.joblog.domain.board.repository.PostLikeRepository;
 import com.ssafy.joblog.domain.user.entity.User;
 import com.ssafy.joblog.global.entity.BaseEntity;
-import com.ssafy.joblog.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.SQLDelete;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.stream.events.Comment;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static jakarta.persistence.FetchType.*;
+import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@SQLDelete(sql = "UPDATE post set is_delete = true WHERE post_id = ?")
 public class Post extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,5 +51,35 @@ public class Post extends BaseEntity {
     //cascade를 하면 post만 persist하면됨
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostComment> comments = new ArrayList<>();
+
+    //조회수 증가 비즈니스 로직
+    //도메인 주도 설계에서 엔티티 자체가 해결할 수 있다면 엔티티 안에 비즈니스 로직 추가
+    @Transactional
+    public void addHit(int countHit) {
+        this.hit += countHit;
+    }
+
+    //좋아요 개수 비즈니스 로직
+    public int getLikeCount() {
+        return postLikes.size();
+    }
+
+    //더티 체킹을 통해 변경사항을 db로 update 쿼리 전송
+    public void updatePost(PostUpdateRequestDto postUpdateRequestDto) {
+        this.title = postUpdateRequestDto.getTitle();
+        this.content = postUpdateRequestDto.getContent();
+        this.category = postUpdateRequestDto.getCategory();
+    }
+
+    // 생성자
+    @Builder
+    public Post(int id, User user, PostCategory category, String title, String content, int hit) {
+        this.id = id;
+        this.user = user;
+        this.category = category;
+        this.title = title;
+        this.content = content;
+        this.hit = hit;
+    }
 
 }

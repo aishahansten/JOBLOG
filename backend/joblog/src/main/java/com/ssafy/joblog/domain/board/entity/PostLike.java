@@ -1,12 +1,10 @@
 package com.ssafy.joblog.domain.board.entity;
 
+import com.ssafy.joblog.domain.board.dto.response.PostResponseDto;
 import com.ssafy.joblog.domain.user.entity.User;
 import com.ssafy.joblog.global.entity.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -34,5 +32,12 @@ public class PostLike extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Builder
+    public PostLike(int id, Post post, User user) {
+        this.id = id;
+        this.post = post;
+        this.user = user;
+    }
 
 }
