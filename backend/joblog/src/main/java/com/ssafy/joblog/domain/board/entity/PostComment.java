@@ -4,8 +4,7 @@ import com.ssafy.joblog.domain.user.entity.User;
 import com.ssafy.joblog.global.entity.BaseEntity;
 import com.ssafy.joblog.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -19,6 +18,9 @@ import static jakarta.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PostComment extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,4 +42,13 @@ public class PostComment extends BaseEntity {
     //cascade를 하면 postcomment만 persist하면됨
     @OneToMany(mappedBy = "postComment", cascade = CascadeType.ALL)
     private List<PostCommentLike> postCommentLikes = new ArrayList<>();
+
+    // 생성자
+    public PostComment(int id, Post post, User user, String content) {
+        this.id = id;
+        this.post = post;
+        this.user = user;
+        this.content = content;
+    }
+
 }

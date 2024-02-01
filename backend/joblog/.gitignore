@@ -208,3 +208,7 @@ gradle-app.setting
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,java,gradle
+
+.idea/uiDesigner.xml
+.idea/workspace.xml
+.gitignore

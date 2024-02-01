@@ -21,7 +21,6 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-@Data
 public class PostService {
 
     private final PostRepository postRepository;

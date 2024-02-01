@@ -6,10 +6,7 @@ import com.ssafy.joblog.domain.board.repository.PostLikeRepository;
 import com.ssafy.joblog.domain.user.entity.User;
 import com.ssafy.joblog.global.entity.BaseEntity;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +20,8 @@ import static jakarta.persistence.FetchType.LAZY;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @SQLDelete(sql = "UPDATE post set is_delete = true WHERE post_id = ?")
 public class Post extends BaseEntity {
     @Id
@@ -72,7 +71,6 @@ public class Post extends BaseEntity {
     }
 
     // 생성자
-    @Builder
     public Post(int id, User user, PostCategory category, String title, String content, int hit) {
         this.id = id;
         this.user = user;
