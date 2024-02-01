@@ -1,42 +1,38 @@
+<script setup></script>
+
 <template>
-    <body>
-      <div class="image-container">
-        <button class="social-login-btn"> <img src="../../assets/img/login/kakao_login.png" alt="kakao login"> </button>
-        <img src="../../assets/img/login/login-background.png" alt="login background" class="login-background-img">
-      </div>
-    </body>
-    <div>
-  
+  <div class="container">
+    <div class="login-pharse">
+      <h1>가입과 로그인 모두<br />SNS 계정으로</h1>
+      <p>간편하게 시작하세요.</p>
     </div>
-  
-  </template>
-  
-  <script setup>
-  
-  </script>
-  
-  <style scoped>
-    .image-container {
-      padding: 0px;
-      margin: 0px;
-    }
-    .login-background-img {
-      display: flex;
-      width: 1344px;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: -1; /* Ensure the background image is behind other elements */
-    }
-  
-    .social-login-btn {
-      position: relative;
-      top: 500px;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      border: 0px;
-      background-color: white;
-      /* Additional styling for the button if needed */
-    }
-  
-  </style>
+    <div class="login-btn-space">
+      <div id="google-login-btn" class="login-btn">
+        <img
+          src="@/assets/img/login/icon/logo-google.png"
+          class="login-icon"
+          alt=""
+        />
+        <span>구글 계정으로 시작하기</span>
+      </div>
+      <div id="kakao-login-btn" class="login-btn">
+        <img
+          src="@/assets/img/login/icon/logo-kakao.svg"
+          class="login-icon"
+          alt=""
+        />
+        <span>카카오 계정으로 시작하기</span>
+      </div>
+      <div id="naver-login-btn" class="login-btn">
+        <img
+          src="@/assets/img/login/icon/logo-naver.svg"
+          class="login-icon"
+          alt=""
+        />
+        <span>네이버 계정으로 시작하기</span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped></style>

@@ -69,7 +69,7 @@ nav {
 
 .nav-titles {
   display: flex;
-  gap: 30px;
+  gap: 50px;
 }
 .link {
   justify-content: space-between;
