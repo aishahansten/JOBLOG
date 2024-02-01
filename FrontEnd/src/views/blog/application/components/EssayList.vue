@@ -1,7 +1,7 @@
 <template>
       <div class="essay-list">
-        <div v-if="resumeList.length > 0">
-          <div v-for="resume in resumeList" :key="resume.id" class="resume-item">
+        <div v-if="essayList.length > 0">
+          <div v-for="resume in essayList" :key="resume.id" class="resume-item">
             <h3>{{ resume.question }}</h3>
             <p>{{ resume.answer }}</p>
           </div>
@@ -18,7 +18,7 @@
   
   // Define the props
   const props = defineProps({
-    resumeList: Array,
+    essayList: Array,
     // Define other props as needed
   });
   

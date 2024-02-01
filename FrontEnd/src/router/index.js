@@ -29,7 +29,8 @@ import Review from "@/views/blog/review/ReviewView.vue";
 import ReviewCreate from "@/views/blog/review/ReviewCreateView.vue";
 import Application from "@/views/blog/application/ApplicationView.vue";
 import EssayCreate from "@/views/blog/application/essay/EssayCreateView.vue";
-
+import Merge from "@/views/blog/application/components/MergeView.vue";
+import ResumeDetail from "@/views/blog/application/resume/ResumeDetailView.vue";
 //프로필 세팅 페이지
 import ProfileSetting from "@/views/setting/SettingView.vue";
 import EmployeeRegister from "@/views/setting/EmployeeRegisterView.vue";
@@ -139,6 +140,16 @@ const router = createRouter({
       path: "/blog-application/resume-create",
       name: "ResumeCreate",
       component: ResumeCreate,
+    },
+    {
+      path: "/blog-application/resume",
+      name: "ResumeDetail",
+      component: ResumeDetail
+    },
+    {
+      path: "/blog-application/merge",
+      name: "Merge",
+      component: Merge
     },
 
     // 설정 페이지
