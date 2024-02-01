@@ -74,6 +74,11 @@ input:focus {
   color: white;
   transition: 0.1s;
 }
+.clickable-btn-basic:hover {
+  background-color: var(--border-gray);
+  color: white;
+  transition: 0.1s;
+}
 
 .clickable-txt:hover {
   font-weight: 600;

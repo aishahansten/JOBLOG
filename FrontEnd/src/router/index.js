@@ -32,11 +32,12 @@ import EssayCreate from "@/views/blog/application/essay/EssayCreateView.vue";
 
 //프로필 세팅 페이지
 import ProfileSetting from "@/views/setting/SettingView.vue";
-import AccountSetting from "@/views/setting/components/account/AccountSetting.vue"
-import EmployeeRegister from "@/views/setting/EmployeeRegisterView.vue";
-import NotificationSetting from "@/views/setting/NotificationSettingView.vue";
-import DeleteMember from "@/views/setting/DeleteMemberView.vue";
-import DeleteCheck from "@/views/setting/DeleteCheckView.vue";
+import AccountSetting from "@/views/setting/components/account/AccountSetting.vue";
+import ResumeSetting from "@/views/setting/components/resume/ResumeSetting.vue";
+import AuthStatus from "@/views/setting/components/employee-auth/AuthStatus.vue";
+import NotificationSetting from "@/views/setting/components/notification/NotificationSetting.vue";
+import WithdrawSetting from "@/views/setting/components/withdrawal/WithdrawSetting.vue";
+import WithdrawCompleteView from "@/views/setting/WithdrawCompleteView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -146,7 +147,7 @@ const router = createRouter({
     {
       path: "/setting",
       name: "ProfileSetting",
-      redirect: '/setting/account',
+      redirect: "/setting/account",
       component: ProfileSetting,
       children: [
         {
@@ -154,27 +155,32 @@ const router = createRouter({
           name: "AccountSetting",
           component: AccountSetting,
         },
+        {
+          path: "resume",
+          name: "ResumeSetting",
+          component: ResumeSetting,
+        },
+        {
+          path: "employee-auth",
+          name: "AuthStatus",
+          component: AuthStatus,
+        },
+        {
+          path: "notification",
+          name: "NotificationSetting",
+          component: NotificationSetting,
+        },
+        {
+          path: "withdraw",
+          name: "WithdrawSetting",
+          component: WithdrawSetting,
+        },
       ],
     },
     {
-      path: "/notification-setting",
-      name: "NotificationSetting",
-      component: NotificationSetting,
-    },
-    {
-      path: "/delete-member",
-      name: "DeleteMember",
-      component: DeleteMember,
-    },
-    {
-      path: "/delete-check",
-      name: "DeleteCheck",
-      component: DeleteCheck,
-    },
-    {
-      path: "/employee-register",
-      name: "EmployeeRegister",
-      component: EmployeeRegister,
+      path: "/bye",
+      name: "WithdrawCompleteView",
+      component: WithdrawCompleteView,
     },
   ],
 });
