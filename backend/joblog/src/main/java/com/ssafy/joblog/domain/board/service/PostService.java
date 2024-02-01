@@ -49,6 +49,7 @@ public class PostService {
                 .hit(post.getHit())
                 .createdDate(post.getCreatedDate())
                 .modifiedDate(post.getModifiedDate())
+                .totalComment(post.getCommentCount())
                 .totalLike(post.getLikeCount())
                 .build()));
         return getPostsList;
@@ -70,6 +71,7 @@ public class PostService {
                 .hit(post.getHit())
                 .createdDate(post.getCreatedDate())
                 .modifiedDate(post.getModifiedDate())
+                .totalComment(post.getCommentCount())
                 .totalLike(post.getLikeCount())
                 .build();
         return postResponseDto;

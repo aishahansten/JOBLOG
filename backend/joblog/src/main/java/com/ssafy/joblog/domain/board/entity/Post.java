@@ -58,6 +58,9 @@ public class Post extends BaseEntity {
         this.hit += countHit;
     }
 
+    //댓글 개수 비즈니스 로직
+    public int getCommentCount() { return comments.size(); }
+
     //좋아요 개수 비즈니스 로직
     public int getLikeCount() {
         return postLikes.size();
