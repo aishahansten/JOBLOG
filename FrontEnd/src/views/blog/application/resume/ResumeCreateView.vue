@@ -11,13 +11,13 @@
             이름
           </div>
           <div>
-            <input type="text">
+            <input type="text" v-model="userData.real_name">
           </div>
           <div class="info-title">
             영문
           </div>
           <div>
-            <input type="text">
+            <input type="text" v-model="userData.english_name">
           </div>
         </div>
         <div class="reg-number">
@@ -25,25 +25,32 @@
             주민등록번호
           </div>
           <div>
-            <input type="text">
+            <!-- Assuming 'reg_number' is the field for 주민등록번호 -->
+            <input type="text" v-model="userData.reg_number">
           </div>
         </div>
         <div class="numbers">
           <div class="info-title">
             H.P
           </div>
-          <div><input type="text"></div>
+          <div>
+            <!-- Assuming 'mobile_phone' is the field for H.P -->
+            <input type="text" v-model="userData.phone_number">
+          </div>
           <div class="info-title">
             Tel.
           </div>
-          <div><input type="text"></div>
+          <div>
+            <!-- Assuming 'telephone' is the field for Tel. -->
+            <input type="text" v-model="userData.telephone">
+          </div>
         </div>
         <div class="email">
           <div class="info-title">
             이메일
           </div>
           <div>
-            <input type="text">
+            <input type="text" v-model="userData.email">
           </div>
         </div>
         <div class="address">
@@ -51,7 +58,7 @@
             주소
           </div>
           <div>
-            <input type="text">
+            <input type="text" v-model="userData.address">
           </div>
         </div>
       </div>
@@ -109,10 +116,11 @@
       <hr class="thick">
     </div>
   </div>
+  <button class="w-btn w-btn-indigo">저장하기</button>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 
 const fileInput = ref(null);
 const imageUrl = ref(null);
@@ -131,6 +139,13 @@ const handleFileUpload = event => {
     reader.readAsDataURL(file);
   }
 };
+
+// 더미데이터 가져오기
+import DummyUser from './dummyuser.json'
+
+const userData = reactive(DummyUser[0])
+
+
 </script>
 <style scoped>
 @import "@/views/blog/application/css/ResumeCreateView.css" 

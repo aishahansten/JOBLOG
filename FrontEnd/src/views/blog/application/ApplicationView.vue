@@ -25,7 +25,7 @@
         </div>
         <hr>
       </div>
-      <EssayList :resumeList="resumeList"/>
+      <EssayList :essayList="essayList"/>
     </div> 
   </div>
   <div v-if="showModal" class="modal">
@@ -65,8 +65,10 @@ import { ref, computed, onMounted } from 'vue';
 import SubNav from '../_component/SubNav.vue';
 import EssayList from '@/views/blog/application/components/EssayList.vue'
 import ResumeCreateView from './resume/ResumeCreateView.vue';
+import DummyUser from './resume/dummyuser.json'
 
-const resumeList = ref([])
+
+const essayList = ref([])
 
 const showModal = ref(false);
 const toggleModal = function() {
@@ -75,27 +77,23 @@ const toggleModal = function() {
 }
 
 //testing code
-const addDummyEssay = () => {
-  // Determine the new ID
-  let newId = 1;
-  if (resumeList.value.length > 0) {
-    // Find the maximum ID in the current list and increment it
-    newId = Math.max(...resumeList.value.map(resume => resume.id)) + 1;
-  }
+let currentId = 1;
 
+const addDummyEssay = () => {
   const dummyData = {
-    essayId: newId,
+    essayId: currentId,
     categoryId: 1,
     userId: 1,
     recruitId: 1,
-    question: `Dummy Resume Title ${newId}`,
-    content: `Dummy resume content for item ${newId}`,
+    question: `Dummy Resume Title ${currentId}`,
+    answer: `Dummy resume content for item ${currentId}`,
     // Add other fields as needed
   };
 
-  resumeList.value.push(dummyData);
-  console.log(resumeList.value)
-
+  essayList.value.push(dummyData);
+  console.log(essayList.value);
+  // Increment currentId for the next essay to be added
+  currentId++;
 };
 
 const newEssay = ref({ 
@@ -116,7 +114,7 @@ const submitEssay = () => {
     // Add other fields as needed
   }
 
-  resumeList.value.push(dummyData)
+  essayList.value.push(dummyData)
 
   
   showModal.value = false

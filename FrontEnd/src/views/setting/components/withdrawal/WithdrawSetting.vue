@@ -1,7 +1,8 @@
 <script setup>
-import { RouterView, RouterLink } from "vue-router";
-import ProfileSidebar from "@/views/setting/components/ProfileSidebar.vue";
-import AccountSettingEdit from "./AccountSettingEdit.vue";
+import { ref } from "vue";
+import WithdrawConfirm from "./WithdrawConfirm.vue";
+import "@/assets/css/setting/setting-header.css";
+import "@/assets/css/setting/menu/withdraw-setting.css";
 
 const isEdit = ref(false);
 function toggleEdit() {
@@ -10,42 +11,25 @@ function toggleEdit() {
 </script>
 
 <template>
-  <div class="container">
-    <ProfileSidebar />
-
-    <div class="content-container" v-if="!isEdit">
-      <div class="content-info-space">
-        <div class="content-info">
-          <p class="content-title">계정 정보 설정</p>
-          <p>JOBLOG 계정에 관한 설정을 변경합니다.</p>
-        </div>
-        <div class="content-function">
-          <a @click="toggleEdit" class="edit-btn clickable-btn"
-            >설정 변경하기</a
-          >
-        </div>
-      </div>
-
-      <div class="content">
-        <div class="profile-pic">
-          <img src="@/assets/img/profile/임시.jpg" alt="" />
-        </div>
-        <div class="account-info">
-          <div>
-            <span>닉네임</span>
-            <p>크림빵23</p>
-          </div>
-          <div>
-            <span>연결된 계정</span>
-            <p>cream23@gmail.com</p>
-          </div>
-        </div>
+  <div class="content-container" v-if="!isEdit">
+    <div class="content-info-space">
+      <div class="content-info">
+        <p class="content-title">회원 기능</p>
+        <p>회원 관련 기능을 설정합니다.</p>
       </div>
     </div>
-    <div class="content-container" v-else>
-      <AccountSettingEdit />
+
+    <div class="withdraw-content">
+      <section>
+        <div class="section-title">
+          <h2>회원 탈퇴</h2>
+          <p>JOBLOG 사이트 내 본인의 계정 관련 정보를 모두 삭제합니다.</p>
+        </div>
+        <a class="dont-btn clickable-txt" @click="toggleEdit">회원 탈퇴하기</a>
+      </section>
     </div>
   </div>
+    <WithdrawConfirm v-else/>
 </template>
 
 <style scoped>

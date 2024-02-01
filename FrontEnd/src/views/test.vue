@@ -1,19 +1,19 @@
 <template>
-  <div class="main-container">
-      <h1>취준생/현직자 질문</h1>
-      <h4>현직자라면!</h4>
-      <p>1. 현직자 커뮤니티 게시판 이용 가능</p>
-      <p>2. 채터로 등록 가능!</p>
-      <p>- 회사 메일 인증하기</p>
-      <div class="button-container">
-      <button>아직 다닐 회사를 찾고 있어요</button>
-      <button>네 인증할래요</button>
-      </div>
-  </div>
-
+  <ul>
+    <li v-for="category in jobCategories" :key="category.jobCode">
+      {{ category.jobName }}
+      <ul v-if="category.child && category.child.length">
+        <li v-for="childCategory in category.child" :key="childCategory.jobCode">
+          {{ childCategory.jobName }}
+        </li>
+      </ul>
+    </li>
+  </ul>
 </template>
 
 <script setup>
+import jobCategories from '@/assets/data/jobcategory.json';
+
 
 </script>
 

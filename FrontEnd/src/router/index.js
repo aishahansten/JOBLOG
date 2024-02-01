@@ -18,7 +18,7 @@ import JobDetail from "@/views/job_post/JobDetailView.vue";
 //커뮤니티 페이지
 import QnABoard from "@/views/community/qna_board/QnABoardView.vue";
 import ResumeCreate from "@/views/blog/application/resume/ResumeCreateView.vue";
-import QnADetail from '@/views/community/qna_board/QnADetailView.vue'
+import QnADetail from "@/views/community/qna_board/QnADetailView.vue";
 import QnACreate from "@/views/community/qna_board/QnACreateView.vue";
 
 //취준로그 페이지
@@ -29,13 +29,16 @@ import Review from "@/views/blog/review/ReviewView.vue";
 import ReviewCreate from "@/views/blog/review/ReviewCreateView.vue";
 import Application from "@/views/blog/application/ApplicationView.vue";
 import EssayCreate from "@/views/blog/application/essay/EssayCreateView.vue";
-
+import Merge from "@/views/blog/application/components/MergeView.vue";
+import ResumeDetail from "@/views/blog/application/resume/ResumeDetailView.vue";
 //프로필 세팅 페이지
 import ProfileSetting from "@/views/setting/SettingView.vue";
-import EmployeeRegister from "@/views/setting/EmployeeRegisterView.vue";
-import NotificationSetting from "@/views/setting/NotificationSettingView.vue";
-import DeleteMember from "@/views/setting/DeleteMemberView.vue";
-import DeleteCheck from "@/views/setting/DeleteCheckView.vue";
+import AccountSetting from "@/views/setting/components/account/AccountSetting.vue";
+import ResumeSetting from "@/views/setting/components/resume/ResumeSetting.vue";
+import AuthStatus from "@/views/setting/components/employee-auth/AuthStatus.vue";
+import NotificationSetting from "@/views/setting/components/notification/NotificationSetting.vue";
+import WithdrawSetting from "@/views/setting/components/withdrawal/WithdrawSetting.vue";
+import WithdrawCompleteView from "@/views/setting/WithdrawCompleteView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,7 +48,7 @@ const router = createRouter({
       name: "test",
       component: Test,
     },
-// 메인/로그인 페이지
+    // 메인/로그인 페이지
     {
       path: "/",
       name: "Home",
@@ -56,7 +59,7 @@ const router = createRouter({
       name: "Login",
       component: LoginView,
     },
-// 커피챗 페이지
+    // 커피챗 페이지
     {
       path: "/coffee-chat",
       name: "Coffee",
@@ -65,10 +68,10 @@ const router = createRouter({
     {
       path: "/chatter-reg",
       name: "ChatterReg",
-      component: ChatterSign
+      component: ChatterSign,
     },
 
-// 여기부터 채용공고 페이지
+    // 여기부터 채용공고 페이지
     {
       path: "/job-posts",
       name: "Jobs",
@@ -87,17 +90,17 @@ const router = createRouter({
       component: QnABoard,
     },
     {
-      path: '/qna-board/detail',
-      name: 'QnADetail',
-      component: QnADetail
+      path: "/qna-board/detail",
+      name: "QnADetail",
+      component: QnADetail,
     },
     {
       path: "/qna-create",
       name: "QnACreate",
-      component: QnACreate
+      component: QnACreate,
     },
-    
-// 여기부터 취준로그 페이지
+
+    // 여기부터 취준로그 페이지
     {
       path: "/blog-schedule",
       name: "BlogSchedule",
@@ -140,34 +143,57 @@ const router = createRouter({
       name: "ResumeCreate",
       component: ResumeCreate,
     },
+    {
+      path: "/blog-application/resume",
+      name: "ResumeDetail",
+      component: ResumeDetail
+    },
+    {
+      path: "/blog-application/merge",
+      name: "Merge",
+      component: Merge
+    },
 
     // 설정 페이지
     {
       path: "/setting",
       name: "ProfileSetting",
+      redirect: "/setting/account",
       component: ProfileSetting,
+      children: [
+        {
+          path: "account",
+          name: "AccountSetting",
+          component: AccountSetting,
+        },
+        {
+          path: "resume",
+          name: "ResumeSetting",
+          component: ResumeSetting,
+        },
+        {
+          path: "employee-auth",
+          name: "AuthStatus",
+          component: AuthStatus,
+        },
+        {
+          path: "notification",
+          name: "NotificationSetting",
+          component: NotificationSetting,
+        },
+        {
+          path: "withdraw",
+          name: "WithdrawSetting",
+          component: WithdrawSetting,
+        },
+      ],
     },
     {
-      path: "/notification-setting",
-      name: "NotificationSetting",
-      component: NotificationSetting,
+      path: "/bye",
+      name: "WithdrawCompleteView",
+      component: WithdrawCompleteView,
     },
-    {
-      path: "/delete-member",
-      name: "DeleteMember",
-      component: DeleteMember,
-    },
-    {
-      path: '/delete-check',
-      name: 'DeleteCheck',
-      component: DeleteCheck
-    },
-    {
-      path: "/employee-register",
-      name: "EmployeeRegister",
-      component: EmployeeRegister,
-    },
-  ]
-})
+  ],
+});
 
 export default router;

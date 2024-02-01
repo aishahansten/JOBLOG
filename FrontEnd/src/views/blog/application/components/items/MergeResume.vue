@@ -1,9 +1,4 @@
 <template>
-    <div>이력서 지원 title
-        <button v-if="isReadOnly" @click="toggleReadOnly">수정하기</button>
-        <button v-if="!isReadOnly" @click="toggleReadOnly">저장하기</button>
-
-    </div>
     <div class="resume-container">
       <div class="resume-upper">
         <div class="resume-picture" @click="triggerFileInput">
@@ -121,32 +116,14 @@
         <hr class="thick">
       </div>
     </div>
-    <button class="w-btn w-btn-indigo">저장하기</button>
   </template>
   
   <script setup>
-  import { ref, reactive, isReadonly } from 'vue';
-  
-  const fileInput = ref(null);
-  const imageUrl = ref(null);
-  
-  const triggerFileInput = () => {
-    fileInput.value.click();
-  };
-  
-  const handleFileUpload = event => {
-    const file = event.target.files[0];
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = e => {
-        imageUrl.value = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  import { ref, reactive } from 'vue';
+
   
   // 더미데이터 가져오기
-  import DummyUser from './dummyuser.json'
+  import DummyUser from '@/views/blog/application/resume/dummyuser.json'
   const userData = reactive(DummyUser[0])
   
 
