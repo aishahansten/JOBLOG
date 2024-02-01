@@ -2,10 +2,14 @@ package com.ssafy.joblog.domain.board.service;
 
 import com.ssafy.joblog.domain.board.dto.request.PostCreateRequestDto;
 import com.ssafy.joblog.domain.board.dto.request.PostUpdateRequestDto;
+import com.ssafy.joblog.domain.board.dto.response.CommentResponseDto;
 import com.ssafy.joblog.domain.board.dto.response.PostResponseDto;
+import com.ssafy.joblog.domain.board.dto.response.PostWithCommentsResponseDto;
 import com.ssafy.joblog.domain.board.entity.Post;
 import com.ssafy.joblog.domain.board.entity.PostCategory;
+import com.ssafy.joblog.domain.board.entity.PostComment;
 import com.ssafy.joblog.domain.board.entity.PostLike;
+import com.ssafy.joblog.domain.board.repository.CommentRepository;
 import com.ssafy.joblog.domain.board.repository.PostLikeRepository;
 import com.ssafy.joblog.domain.board.repository.PostRepository;
 import com.ssafy.joblog.domain.user.entity.User;
@@ -16,8 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -25,6 +28,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
     private final PostLikeRepository postLikeRepository;
 
     // 1. 게시글 작성
@@ -57,11 +61,22 @@ public class PostService {
 
     //3. 게시글 상세 조회
     @Transactional
-    public PostResponseDto getPost(int id) {
+    public PostWithCommentsResponseDto getPost(int id) {
         Post post = postRepository.findById(id).orElseThrow(() -> {
             return new IllegalArgumentException("해당 게시글을 찾을 수 없습니다");
         });
         post.addHit(1);
+        // 해당 post에 해당하는 comment 배열
+        List<PostComment> comments = commentRepository.findByPost(post);
+        List<CommentResponseDto> getCommentsList = new ArrayList<>();
+        comments.forEach(comment -> getCommentsList.add(CommentResponseDto.builder()
+                .commentId(comment.getId())
+                .userId(comment.getUser().getId())
+                .content(comment.getContent())
+                .createdDate(comment.getCreatedDate())
+                .modifiedDate(comment.getModifiedDate())
+                .build()));
+
         PostResponseDto postResponseDto = PostResponseDto.builder()
                 .postId(post.getId())
                 .userId(post.getUser().getId())
@@ -74,7 +89,8 @@ public class PostService {
                 .totalComment(post.getCommentCount())
                 .totalLike(post.getLikeCount())
                 .build();
-        return postResponseDto;
+        return new PostWithCommentsResponseDto(postResponseDto, getCommentsList);
+
     }
 
     //4. 게시글 수정
