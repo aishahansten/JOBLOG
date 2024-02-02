@@ -42,10 +42,3 @@ function toggleEdit() {
     <AccountSettingEdit />
   </div>
 </template>
-
-<style scoped>
-
-
-
-
-</style>

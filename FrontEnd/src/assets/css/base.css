@@ -1,4 +1,5 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500;700&display=swap");
 
 :root {
   --main-blue: #6880ff;
@@ -37,7 +38,7 @@ body,
 
 main {
   height: auto;
-  min-height: 980px;
+  min-height: 880px;
   padding: 0 250px;
 }
 
@@ -50,13 +51,18 @@ footer {
   border-top: 1px solid var(--border-gray);
 }
 
+button,
+a {
+  cursor: pointer;
+}
+
 input:focus {
   outline: none;
 }
 
 .clickable:hover {
   filter: brightness(120%);
-  transition: 0.1s;
+  transition: 0.2s;
 }
 
 .clickable-shadow:hover {
@@ -66,13 +72,13 @@ input:focus {
 
 .clickable-img:hover {
   filter: drop-shadow(1px 5px 3px rgb(0, 0, 0, 0.3));
-  transition: 0.1s;
+  transition: 0.2s;
 }
 
 .clickable-btn:hover {
   background-color: var(--main-blue);
   color: white;
-  transition: 0.1s;
+  transition: 0.2s;
 }
 .clickable-btn-basic:hover {
   background-color: var(--border-gray);
@@ -82,7 +88,7 @@ input:focus {
 
 .clickable-txt:hover {
   font-weight: 600;
-  transition: 0.1s;
+  transition: 0.2s;
 }
 
 ::-webkit-scrollbar {
