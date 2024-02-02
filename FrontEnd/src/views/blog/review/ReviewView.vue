@@ -1,45 +1,13 @@
 <template>
   <div class="scrap-container">
-      <div 
-        v-for="data in processedData"
-        :key="data.my_recruit_id"
-        class="item-container"
-        >
-        <div class="scrap-item">
-          <div class="title">{{ data.company_name }}</div>
-          <div class="main">
-            <div class="name">
-              {{ data.title }}
-            </div>
-            <div class="date-time">
-              <div class="date">공고 시작일: {{ formatDate(data.opening_date) }}</div> | 
-              <div class="date">공고 마감일: {{ formatDate(data.expiration_date) }}</div> |
-              <div class="status">
-                {{ calculateStatus(data.opening_date, data.expiration_date) }}
-              </div>
-            </div>
-          </div>
-          <div>
-            <button @click="toggleModal">리뷰 쓰기</button>
-            <button @click="toggleDropDown">▼</button>
-          </div>
-          <div :class="getStatusClass(data.opening_date, data.expiration_date)"> </div>
-        </div>
-        <div v-if="showModal" class="create-review">
-          <div class="">
-
-          </div>
-          <div>
-            <button>닫기</button>
-            <button>저장하기</button>
-          </div>
-        </div>
-        <div v-if="showDropDown">
-          <div v-for="review in data.reviews" :key="review.id" class="review">
-            {{ review.step }}
-          </div>
-        </div>
-      </div>
+    <ReviewItem
+      v-for="data in processedData"
+      :key="data.my_recruit_id"
+      :data="data"
+      :formatDate="formatDate"
+      :calculateStatus="calculateStatus"
+      :getStatusClass="getStatusClass"
+    />
   </div>
 </template>
 
@@ -47,19 +15,10 @@
 import { ref, computed } from 'vue'
 import dummyData from './data/dummy_data.json'
 import reviewDummy from './data/application_status_dummy_data.json'
+import ReviewItem from './component/ReviewItem.vue'
 
 //날짜 계산용 함수 -> 마감일까지의 정보
-// const processedData = computed(() => {
-//   return dummyData.map(item => {
-//     return {
-//       ...item,
-//       opening_date: new Date(item.opening_date),
-//       expiration_date: new Date(item.expiration_date)
-//     };
-//   });
-// });
 
-// Function to get reviews for a specific recruitment based on user_recruit_id
 function getReviewsForRecruitment(userRecruitId) {
   return reviewDummy.filter(review => review.user_recruit_id === userRecruitId);
 }
@@ -76,6 +35,8 @@ const processedData = computed(() => {
     };
   });
 });
+
+console.log(processedData)
 
 function formatDate(date) {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -111,21 +72,8 @@ function getStatusClass(openingDate, expirationDate) {
 }
 //--------------------------------------------------------------
 
-// 리뷰 목록 토글 버튼 (dropdown)
-const showDropDown = ref(false)
-
-const toggleDropDown = function() {
-  showDropDown.value = !showDropDown.value
-  console.log(showDropDown.value)
-}
 
 
-// 리뷰 작성
-const showModal = ref(false)
-
-const toggleModal = function() {
-  showModal.value = !showModal.value
-}
 
 
 </script>

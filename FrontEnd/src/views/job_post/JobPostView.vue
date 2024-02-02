@@ -1,27 +1,30 @@
 <template>
-    <div class="header">
-        <div class="title">
-            <h1 style="margin-bottom: 0px;">취업 공고</h1>
-        </div>
-        <div class="to-diary">
-            <RouterLink class="to-diary" :to="{ name:'Home' }"><h4 style="margin-top: 0px;">스크랩 공고 모아보기</h4></RouterLink>
-        </div>
-        <div class="filter-search-container">
-            <div class="filter">필터가 들어갑니다</div>
-            <div class="search"><input type="text" class="search-bar"></div>
-        </div>
-        <div class="recommendation">
-            <h2>사용자 맞춤 추천 채용 공고</h2>
-        </div>
-        <JobList/>
 
+  <div class="header">
+    <div class="title">
+        <h1 style="margin-bottom: 0px;">취업 공고</h1>
     </div>
+    <div class="search-filter">
+      <SearchFilter/>
+    </div>
+    <div class="to-diary">
+        <RouterLink class="to-diary" :to="{ name:'Home' }"><h4 style="margin-top: 0px;">스크랩 공고 모아보기</h4></RouterLink>
+    </div>
+    <div class="filter-search-container">
+        <div class="filter">필터가 들어갑니다</div>
+        <div class="search"><input type="text" class="search-bar"></div>
+    </div>
+    <div class="recommendation">
+        <h2>사용자 맞춤 추천 채용 공고</h2>
+    </div>
+    <JobList/>
+  </div>
 
 </template>
 
 <script setup>
 import JobList from './components/JobList.vue';
-
+import SearchFilter from './components/SearchFilter.vue';
 
 </script>
 
@@ -85,5 +88,9 @@ import JobList from './components/JobList.vue';
     background-color: aliceblue;
     border-radius: 30px;
     text-align: end;
+  }
+
+  .search-filter {
+    width: 1420px;
   }
 </style>
