@@ -35,5 +35,4 @@ public class PostCommentLike extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
 }

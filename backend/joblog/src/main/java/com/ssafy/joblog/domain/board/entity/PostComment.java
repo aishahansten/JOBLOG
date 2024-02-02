@@ -40,6 +40,4 @@ public class PostComment extends BaseEntity {
     //cascade를 하면 postcomment만 persist하면됨
     @OneToMany(mappedBy = "postComment", cascade = CascadeType.ALL)
     private List<PostCommentLike> postCommentLikes = new ArrayList<>();
-
-
 }
