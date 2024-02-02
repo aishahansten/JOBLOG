@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PostLikeRequestDto {
+public class CommentLikeRequestDto {
 
-    private Integer postId;
+    private Integer commentId;
     private Integer userId;
 }

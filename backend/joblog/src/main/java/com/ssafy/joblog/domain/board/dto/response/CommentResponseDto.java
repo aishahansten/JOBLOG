@@ -23,4 +23,5 @@ public class CommentResponseDto {
     private LocalDateTime createdDate;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime modifiedDate;
+    private int totalCommentLike;
 }

@@ -75,6 +75,7 @@ public class PostService {
                 .content(comment.getContent())
                 .createdDate(comment.getCreatedDate())
                 .modifiedDate(comment.getModifiedDate())
+                .totalCommentLike(comment.getCommentLikeCount())
                 .build()));
 
         PostResponseDto postResponseDto = PostResponseDto.builder()
@@ -107,6 +108,6 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(() -> {
             return new IllegalArgumentException("해당 게시글을 찾을 수 없습니다");
         });
-        postRepository.delete(post);
+        postRepository.markDeletedPost(postId);
     }
 }

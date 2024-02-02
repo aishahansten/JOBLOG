@@ -28,9 +28,15 @@ public class PostLikeService {
                 .post(post)
                 .build();
 
-        // 이미 좋아요를 누른 경우(post_like db에 저장되어있는 경우)
-        if (postLikeRepository.existsByUserAndPost(user, post)) {
-            postLikeRepository.deleteByUserAndPost(user, post);
+        // 이미 좋아요를 누른 경우(post_like db에 저장되어있는 경우), 좋아요 다시 누르기
+        if (postLikeRepository.existsByUserAndPostAndIsDelete(post.getId(), user.getId(), post.isDelete())) {
+            postLikeRepository.markLikePost(post.getId(), user.getId());
+
+        // 이미 좋아요를 누른 경우(post_like db에 저장되어있는 경우), 좋아요 취소
+        } else if (postLikeRepository.existsByUserAndPost(user, post)) {
+            postLikeRepository.markDeleteLikePost(post.getId(), user.getId());
+
+        // post_like db에 저장되어있지 않은 경우
         } else {
             postLikeRepository.save(postLike);
         }
