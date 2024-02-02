@@ -8,5 +8,4 @@ import java.util.List;
 
 @Repository
 public interface JobCategoryRepository extends JpaRepository<JobCategory, Integer> {
-    List<JobCategory> findAllByParentIsNull();
 }

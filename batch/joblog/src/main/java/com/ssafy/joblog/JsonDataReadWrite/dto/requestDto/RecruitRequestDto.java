@@ -73,8 +73,6 @@ public class RecruitRequestDto {
                         .companyName(this.company.detail.name)
                         .companyCode(companyCode)
                         .build())
-//                .companyCode(companyCode)
-//                .companyName(this.company.detail.name)
                 .jobId(Long.valueOf(this.id))
                 .title(this.position.title)
                 .locations(locations)

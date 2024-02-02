@@ -27,7 +27,4 @@ public class JobCategory {
     @OneToMany(mappedBy = "parent")
     private List<JobCategory> child = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "jobCategory", cascade = CascadeType.ALL)
-//    private List<JobCategoryRecruit> jobCategoryRecruits = new ArrayList<>();
-
 }
