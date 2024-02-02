@@ -2,6 +2,7 @@ package com.ssafy.joblog.domain.board.entity;
 
 import com.ssafy.joblog.domain.board.dto.request.PostUpdateRequestDto;
 import com.ssafy.joblog.domain.board.dto.response.PostResponseDto;
+<<<<<<< HEAD
 import com.ssafy.joblog.domain.user.entity.User;
 import com.ssafy.joblog.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -9,6 +10,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+=======
+import com.ssafy.joblog.domain.board.repository.PostLikeRepository;
+import com.ssafy.joblog.domain.user.entity.User;
+import com.ssafy.joblog.global.entity.BaseEntity;
+import jakarta.persistence.*;
+import lombok.*;
+>>>>>>> feature/443-board-comment-like
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +30,13 @@ import static jakarta.persistence.FetchType.LAZY;
 @Getter
 @Setter
 @NoArgsConstructor
+<<<<<<< HEAD
 @SQLDelete(sql = "UPDATE post set is_delete = true WHERE post_id = ?")
+=======
+@AllArgsConstructor
+@Builder
+
+>>>>>>> feature/443-board-comment-like
 public class Post extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,6 +72,17 @@ public class Post extends BaseEntity {
         this.hit += countHit;
     }
 
+<<<<<<< HEAD
+=======
+    //댓글 개수 비즈니스 로직
+    public int getCommentCount() { return comments.size(); }
+
+    //좋아요 개수 비즈니스 로직
+    public int getLikeCount() {
+        return postLikes.size();
+    }
+
+>>>>>>> feature/443-board-comment-like
     //더티 체킹을 통해 변경사항을 db로 update 쿼리 전송
     public void updatePost(PostUpdateRequestDto postUpdateRequestDto) {
         this.title = postUpdateRequestDto.getTitle();
@@ -65,6 +90,7 @@ public class Post extends BaseEntity {
         this.category = postUpdateRequestDto.getCategory();
     }
 
+<<<<<<< HEAD
     //Entity to DTO 전체조회
     public PostResponseDto toPostResponseDto() {
         return PostResponseDto.builder()
@@ -95,6 +121,9 @@ public class Post extends BaseEntity {
 
     // 생성자
     @Builder
+=======
+    // 생성자
+>>>>>>> feature/443-board-comment-like
     public Post(int id, User user, PostCategory category, String title, String content, int hit) {
         this.id = id;
         this.user = user;
@@ -104,5 +133,8 @@ public class Post extends BaseEntity {
         this.hit = hit;
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> feature/443-board-comment-like
 }

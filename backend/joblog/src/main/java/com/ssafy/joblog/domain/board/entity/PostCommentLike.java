@@ -4,10 +4,7 @@ import com.ssafy.joblog.domain.user.entity.User;
 import com.ssafy.joblog.global.entity.BaseEntity;
 import com.ssafy.joblog.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -20,6 +17,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //다른(여러개) 댓글좋아요 객체 생성 막기
+@Builder
 public class PostCommentLike extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,4 +33,14 @@ public class PostCommentLike extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+<<<<<<< HEAD
+=======
+
+    // 생성자
+    public PostCommentLike(int id, PostComment postComment, User user) {
+        this.id = id;
+        this.postComment = postComment;
+        this.user = user;
+    }
+>>>>>>> feature/443-board-comment-like
 }

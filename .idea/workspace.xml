@@ -35,8 +35,13 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+<<<<<<< HEAD
         <option value="Interface" />
         <option value="Class" />
+=======
+        <option value="Class" />
+        <option value="Interface" />
+>>>>>>> feature/443-board-comment-like
       </list>
     </option>
   </component>
@@ -75,6 +80,12 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\JOBLOG\S10P12B204\backend\joblog\src\main\resources" />
     </key>
+<<<<<<< HEAD
+=======
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.ssafy.joblog.domain.board.dto.request" />
+    </key>
+>>>>>>> feature/443-board-comment-like
   </component>
   <component name="RunManager">
     <configuration name="JoblogApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
@@ -101,11 +112,30 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1706683572650</updated>
+<<<<<<< HEAD
       <workItem from="1706683574515" duration="5668000" />
+=======
+      <workItem from="1706683574515" duration="76075000" />
+>>>>>>> feature/443-board-comment-like
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+<<<<<<< HEAD
+=======
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/backend/joblog/src/main/java/com/ssafy/joblog/domain/board/service/CommentService.java</url>
+          <line>21</line>
+          <properties field="postRepository" class="com.ssafy.joblog.domain.board.service.CommentService" />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+>>>>>>> feature/443-board-comment-like
 </project>
