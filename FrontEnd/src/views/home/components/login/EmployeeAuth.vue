@@ -1,6 +1,5 @@
 <script setup>
 import "@/assets/css/home/login.css";
-4;
 
 const goToHome = () => {
   // Vue Router를 사용하는 경우: this.$router.push('/');
@@ -32,7 +31,7 @@ const goToHome = () => {
       <a @click="goToHome" class="update-btn clickable" id="login-auth-btn">
         인증 완료
       </a>
-      <a class="clickable-txt">나중에 할게요</a>
+      <a @click="goToHome" class="clickable-txt">나중에 할게요</a>
     </div>
   </div>
 </template>

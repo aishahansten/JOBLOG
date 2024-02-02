@@ -44,6 +44,12 @@
 #google-login-btn {
   border: 1px solid var(--border-gray);
 }
+#google-login-btn:hover {
+  border: none;
+}
+#google-login-btn:hover span {
+  color: white;
+}
 #kakao-login-btn {
   background-color: #fee500;
 }

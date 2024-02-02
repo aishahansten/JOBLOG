@@ -27,7 +27,11 @@ import "@/assets/css/setting/menu/resume-setting.css";
               <li>얼굴이 뚜렷하게 드러난 사진 파일</li>
               <li>배경이 없는 png 등이 아닌 사진 파일</li>
             </ul>
-            <input type="file" class="file-input" accept="image/jpg, image/jpeg" />
+            <input
+              type="file"
+              class="file-input"
+              accept="image/jpg, image/jpeg"
+            />
           </div>
           <div class="identify-pic">
             <img src="@/assets/img/profile/default-user-pic.jpg" alt="" />
@@ -41,50 +45,49 @@ import "@/assets/css/setting/menu/resume-setting.css";
         </div>
         <div class="info-space">
           <div>
-            <div class="info">
+            <div class="user-info">
               <span class="tag">성명(한글)</span>
-              <input type="text" placeholder="원래 이름. 없으면 '성명(한글)'" />
+              <input type="text" placeholder="박시연" required />
             </div>
-            <div class="info">
+            <div class="user-info">
               <span class="tag">성명(영문)</span>
-              <input type="text" placeholder="원래 이름. 없으면 '성명(영문)'" />
+              <input type="text" placeholder="Park Si Yeon" required />
             </div>
           </div>
           <div>
-            <div class="info">
+            <div class="user-info">
               <span class="tag">생년월일</span>
-              <input
-                type="text"
-                placeholder="원래 생년월일. 없으면 '생년월일'"
-              />
+              <input type="date" required />
             </div>
-            <div class="info">
+            <div class="user-info">
               <span class="tag">성별</span>
-              <input type="text" placeholder="원래 성별. 없으면 '성별'" />
+              <div>
+                <div>
+                  <input type="radio" id="" />
+                  <label for=""></label>
+                </div>
+                <div>
+                  <input type="radio" class="user-radio" />
+                </div>
+              </div>
             </div>
           </div>
           <div>
-            <div class="info">
+            <div class="user-info">
               <span class="tag">전화번호</span>
-              <input
-                type="text"
-                placeholder="원래 전화번호. 없으면 '전화번호'"
-              />
+              <input type="tel" placeholder="010-0101-0101" />
             </div>
-            <div class="info">
+            <div class="user-info">
               <span class="tag">이메일 주소</span>
-              <input
-                type="text"
-                placeholder="원래 이메일. 없으면 '이메일 주소'"
-              />
+              <input type="email" placeholder="xion2664@gmail.com" />
             </div>
           </div>
           <div>
-            <div class="info">
+            <div class="user-info">
               <span class="tag">현주소(실거주지)</span>
               <input
                 type="text"
-                placeholder="원래 주소. 없으면 '현주소(실거주지)'"
+                placeholder="대전광역시 유성구 유성동 유성빌라 010호"
                 id="long"
               />
             </div>
@@ -146,7 +149,10 @@ import "@/assets/css/setting/menu/resume-setting.css";
                 />
               </td>
               <td>
-                <input type="text" placeholder="0000년 0월 ~ 0000년 0월" />
+                <div>
+                  <input type="month" value="" />
+                  <input type="month" />
+                </div>
               </td>
             </tr>
           </table>
@@ -169,16 +175,13 @@ import "@/assets/css/setting/menu/resume-setting.css";
             </tr>
             <tr class="data">
               <td>
-                <input type="text" placeholder="원래 학교명. 없으면 '학교명'" />
+                <input type="text" placeholder="정보처리기사" />
               </td>
               <td>
-                <input
-                  type="text"
-                  placeholder="원래 전공과 학위. 없으면 '전공 및 학위'"
-                />
+                <input type="date" value="2023-02-23" />
               </td>
               <td>
-                <input type="text" placeholder="0000년 0월 ~ 0000년 0월" />
+                <input type="text" placeholder="Q-net" />
               </td>
             </tr>
           </table>
@@ -201,16 +204,13 @@ import "@/assets/css/setting/menu/resume-setting.css";
             </tr>
             <tr class="data">
               <td>
-                <input type="text" placeholder="원래 학교명. 없으면 '학교명'" />
+                <input type="text" placeholder="2023 SW 창업경진대회 장려상" />
               </td>
               <td>
-                <input
-                  type="text"
-                  placeholder="원래 전공과 학위. 없으면 '전공 및 학위'"
-                />
+                <input type="date" value="2022-06-05" />
               </td>
               <td>
-                <input type="text" placeholder="0000년 0월 ~ 0000년 0월" />
+                <input type="text" placeholder="순천향대학교 SW융합대학" />
               </td>
             </tr>
           </table>
