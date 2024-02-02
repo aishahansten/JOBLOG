@@ -1,0 +1,133 @@
+.login-container {
+  display: flex;
+  width: 100%;
+  height: 880px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+
+  background-image: url("@/assets/img/login/background-img.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  text-align: center;
+}
+.login-pharse span {
+  font-size: 28px;
+  font-weight: 200;
+}
+
+.login-btn-space {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.social-login-btn {
+  display: flex;
+  width: 400px;
+  height: 70px;
+  justify-content: center;
+  align-items: center;
+  padding-right: 20px;
+  border-radius: 10px;
+}
+.social-login-btn span {
+  font-family: "Roboto", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+#google-login-btn {
+  border: 1px solid var(--border-gray);
+}
+#kakao-login-btn {
+  background-color: #fee500;
+}
+#naver-login-btn {
+  background-color: #03c75a;
+}
+#naver-login-btn span {
+  color: white;
+}
+
+.login-icon {
+  width: 55px;
+  height: 55px;
+}
+#google-login-icon {
+  width: 25px;
+  height: 25px;
+  margin: 15px;
+}
+
+/* 현직자 여부 질문 페이지 */
+
+.login-pharse {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.select-form {
+  display: flex;
+  width: 700px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 60px;
+
+  background-color: white;
+  border: 1px solid var(--border-gray);
+  border-radius: 10px;
+}
+
+.select-status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+.select-btn {
+  display: flex;
+  width: 250px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+.select-btn p {
+  font-size: 20px;
+}
+
+.next-btn {
+  width: 510px;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--main-blue);
+  border: 2px solid var(--main-blue);
+  border-radius: 10px;
+}
+.selected {
+  background-color: red;
+}
+
+/* 현직자 인증 페이지 */
+
+#login-auth {
+  justify-content: center;
+  gap: 10px;
+}
+#login-auth-btn {
+  width: 500px;
+}
+#complete-auth {
+  color: white;
+}

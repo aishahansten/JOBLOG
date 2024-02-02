@@ -27,7 +27,7 @@ import "@/assets/css/setting/menu/resume-setting.css";
               <li>얼굴이 뚜렷하게 드러난 사진 파일</li>
               <li>배경이 없는 png 등이 아닌 사진 파일</li>
             </ul>
-            <a class="basic-btn clickable-btn-basic">사진 찾아보기</a>
+            <input type="file" class="file-input" accept="image/jpg, image/jpeg" />
           </div>
           <div class="identify-pic">
             <img src="@/assets/img/profile/default-user-pic.jpg" alt="" />
