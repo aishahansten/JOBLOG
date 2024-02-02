@@ -23,7 +23,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@SQLDelete(sql = "UPDATE post_comment set is_delete = true WHERE comment_id = ?")
+//@SQLDelete(sql = "UPDATE post_comment set is_delete = true WHERE comment_id = ?")
 public class PostComment extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,8 +45,6 @@ public class PostComment extends BaseEntity {
     //cascade를 하면 postcomment만 persist하면됨
     @OneToMany(mappedBy = "postComment", cascade = CascadeType.ALL)
     private List<PostCommentLike> postCommentLikes = new ArrayList<>();
-<<<<<<< HEAD
-=======
 
     // 더티 체킹 변경사항을 db로 update 쿼리
     public void updateComment(CommentUpdateRequestDto commentUpdateRequestDto) {
@@ -64,5 +62,4 @@ public class PostComment extends BaseEntity {
         this.content = content;
     }
 
->>>>>>> feature/443-board-comment-like
 }

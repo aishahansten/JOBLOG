@@ -2,11 +2,6 @@ package com.ssafy.joblog.domain.board.service;
 
 import com.ssafy.joblog.domain.board.dto.request.PostCreateRequestDto;
 import com.ssafy.joblog.domain.board.dto.request.PostUpdateRequestDto;
-<<<<<<< HEAD
-import com.ssafy.joblog.domain.board.dto.response.PostResponseDto;
-import com.ssafy.joblog.domain.board.entity.Post;
-import com.ssafy.joblog.domain.board.entity.PostCategory;
-=======
 import com.ssafy.joblog.domain.board.dto.response.CommentResponseDto;
 import com.ssafy.joblog.domain.board.dto.response.PostResponseDto;
 import com.ssafy.joblog.domain.board.dto.response.PostWithCommentsResponseDto;
@@ -16,7 +11,6 @@ import com.ssafy.joblog.domain.board.entity.PostComment;
 import com.ssafy.joblog.domain.board.entity.PostLike;
 import com.ssafy.joblog.domain.board.repository.CommentRepository;
 import com.ssafy.joblog.domain.board.repository.PostLikeRepository;
->>>>>>> feature/443-board-comment-like
 import com.ssafy.joblog.domain.board.repository.PostRepository;
 import com.ssafy.joblog.domain.user.entity.User;
 import com.ssafy.joblog.domain.user.repository.UserRepository;
@@ -26,28 +20,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-<<<<<<< HEAD
-import java.util.ArrayList;
-import java.util.List;
-
-@RequiredArgsConstructor
-@Service
-@Data
-=======
 import java.util.*;
 
 @RequiredArgsConstructor
 @Service
->>>>>>> feature/443-board-comment-like
 public class PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
-<<<<<<< HEAD
-=======
     private final CommentRepository commentRepository;
     private final PostLikeRepository postLikeRepository;
->>>>>>> feature/443-board-comment-like
 
     // 1. 게시글 작성
     public void createPost(PostCreateRequestDto postCreateRequestDto) {
@@ -62,9 +44,6 @@ public class PostService {
     public List<PostResponseDto> getPosts(PostCategory category) {
         List<Post> posts = postRepository.findByCategory(category);
         List<PostResponseDto> getPostsList = new ArrayList<>();
-<<<<<<< HEAD
-        posts.forEach(post -> getPostsList.add(post.toPostResponseDto()));
-=======
         posts.forEach(post -> getPostsList.add(PostResponseDto.builder()
                 .postId(post.getId())
                 .userId(post.getUser().getId())
@@ -77,25 +56,16 @@ public class PostService {
                 .totalComment(post.getCommentCount())
                 .totalLike(post.getLikeCount())
                 .build()));
->>>>>>> feature/443-board-comment-like
         return getPostsList;
     }
 
     //3. 게시글 상세 조회
     @Transactional
-<<<<<<< HEAD
-    public PostResponseDto getPost(int id) {
-=======
     public PostWithCommentsResponseDto getPost(int id) {
->>>>>>> feature/443-board-comment-like
         Post post = postRepository.findById(id).orElseThrow(() -> {
             return new IllegalArgumentException("해당 게시글을 찾을 수 없습니다");
         });
         post.addHit(1);
-<<<<<<< HEAD
-        PostResponseDto postResponseDto = post.toDetailPostResponseDto();
-        return postResponseDto;
-=======
         // 해당 post에 해당하는 comment 배열
         List<PostComment> comments = commentRepository.findByPost(post);
         List<CommentResponseDto> getCommentsList = new ArrayList<>();
@@ -122,7 +92,6 @@ public class PostService {
                 .build();
         return new PostWithCommentsResponseDto(postResponseDto, getCommentsList);
 
->>>>>>> feature/443-board-comment-like
     }
 
     //4. 게시글 수정
@@ -139,10 +108,6 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(() -> {
             return new IllegalArgumentException("해당 게시글을 찾을 수 없습니다");
         });
-<<<<<<< HEAD
-        postRepository.delete(post);
-=======
         postRepository.markDeletedPost(postId);
->>>>>>> feature/443-board-comment-like
     }
 }

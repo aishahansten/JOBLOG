@@ -33,8 +33,6 @@ public class PostCommentLike extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-<<<<<<< HEAD
-=======
 
     // 생성자
     public PostCommentLike(int id, PostComment postComment, User user) {
@@ -42,5 +40,4 @@ public class PostCommentLike extends BaseEntity {
         this.postComment = postComment;
         this.user = user;
     }
->>>>>>> feature/443-board-comment-like
 }

@@ -34,8 +34,6 @@ public class PostLike extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-<<<<<<< HEAD
-=======
     //생성자
     public PostLike(int id, Post post, User user) {
         this.id = id;
@@ -43,5 +41,4 @@ public class PostLike extends BaseEntity {
         this.user = user;
     }
 
->>>>>>> feature/443-board-comment-like
 }
