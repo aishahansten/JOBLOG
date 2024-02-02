@@ -23,7 +23,7 @@ public class Recruit extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = LAZY )
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "company_code")
     private Company company;
 
@@ -33,7 +33,7 @@ public class Recruit extends BaseEntity {
     @OneToMany(mappedBy = "recruit", cascade = CascadeType.ALL)
     private List<Location> locations = new ArrayList<>();
 
-    @Column(length=2000)
+    @Column(length = 2000)
     private String jobDescription;
 
     @OneToMany(mappedBy = "recruit", cascade = CascadeType.ALL)

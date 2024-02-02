@@ -8,6 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface RecruitRepository extends JpaRepository<Recruit, Long> {
-
     Optional<Recruit> findByJobId(Long jobId);
 }
