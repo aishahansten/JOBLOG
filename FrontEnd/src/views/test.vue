@@ -1,38 +1,61 @@
 <template>
-  <ul>
-    <li v-for="category in jobCategories" :key="category.jobCode">
-      {{ category.jobName }}
-      <ul v-if="category.child && category.child.length">
-        <li v-for="childCategory in category.child" :key="childCategory.jobCode">
-          {{ childCategory.jobName }}
-        </li>
-      </ul>
-    </li>
-  </ul>
+  <div class="container">
+    <div class="sidebar">
+      <div class="category" v-for="category in jobCategories" :key="category.jobCode" @click="selectCategory(category)">
+        {{ category.jobName }}
+      </div>
+    </div>
+    <div class="content">
+      <testitem 
+      :category="selectedCategory" 
+      v-if="selectedCategory"
+      />
+    </div>
+  </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import jobCategories from '@/assets/data/jobcategory.json';
+import testitem from './testitem.vue';
 
+const selectedCategory = ref(null);
+
+function selectCategory(category) {
+  selectedCategory.value = category;
+  console.log(category)
+}
 
 </script>
 
 <style scoped>
+  .container {
+    display: flex;
+    max-height: 300px; 
+    overflow: hidden; 
+    border: 1px solid #ccc;
+  }
 
-.main-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-}
-.button-container {
-  display: flex;
-  flex-direction: row;
-}
+  .sidebar {
+    flex: 1;
+    border-right: 1px solid #ccc;
+    max-width: 200px;
+    overflow-y: auto; /* Enables vertical scrolling */
+    overflow-x: hidden; /* Keeps the horizontal overflow hidden */
+  }
 
-button {
-  width: 200px;
-  margin: 50px;
+  .content {
+    flex: 3;
+    overflow-y: auto; /* Enables vertical scrolling for the content area */
+    overflow-x: hidden; /* Keeps the horizontal overflow hidden */
+  }
+
+
+.category {
+  padding: 10px;
+  cursor: pointer;
+}
+.category:hover {
+  background-color: #f0f0f0;
 }
 </style>
