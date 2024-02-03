@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 public class PostResponseDto {
     private int postId;
     private int userId;
+    private String nickname;
     private PostCategory category;
     private String title;
     private String content;

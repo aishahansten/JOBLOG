@@ -18,6 +18,7 @@ public class CommentResponseDto {
 
     private int commentId;
     private int userId;
+    private String nickname;
     private String content;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdDate;

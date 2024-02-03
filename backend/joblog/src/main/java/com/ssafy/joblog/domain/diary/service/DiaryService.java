@@ -66,7 +66,7 @@ public class DiaryService {
         Diary diary = diaryRepository.findById(diaryId).orElseThrow(() -> {
             return new IllegalArgumentException("해당 복기를 찾을 수 없습니다");
         });
-        diaryRepository.delete(diary);
+        diaryRepository.markDeletedDiary(diaryId);
     }
 
 }
