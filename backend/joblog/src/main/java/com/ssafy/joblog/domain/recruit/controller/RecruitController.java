@@ -18,13 +18,14 @@ public class RecruitController {
 
     private final RecruitService recruitService;
     private final JobCategoryService jobCategoryService;
+
     @GetMapping("")
-    public ResponseEntity<List<RecruitListResponseDto>> findAllRecruit(){
+    public ResponseEntity<List<RecruitListResponseDto>> findAllRecruit() {
         return ResponseEntity.ok(recruitService.findAllRecruit());
     }
 
     @GetMapping("/{recruitId}")
-    public ResponseEntity<RecruitDetailResponseDto> findRecruit(@PathVariable Long recruitId){
+    public ResponseEntity<RecruitDetailResponseDto> findRecruit(@PathVariable Long recruitId) {
         return ResponseEntity.ok(recruitService.findRecruit(recruitId));
     }
 
@@ -34,16 +35,15 @@ public class RecruitController {
             @RequestParam(value = "expLv", required = false) String expLv, //0,1,2,3 경력사항
             @RequestParam(value = "jobCategory", required = false) String jobCategory, //<다중 가능> 직무 카테고리
             @RequestParam(value = "keyword", required = false) String keyword //공고명+기업명 키워드
-            ) {
+    ) {
         return ResponseEntity.ok(recruitService.findSearchRecruit(active, expLv, jobCategory, keyword));
     }
 
 
     @GetMapping("/category")
-    public ResponseEntity<List<JobCategoryResponseDto>> findAllParentCategory(){
+    public ResponseEntity<List<JobCategoryResponseDto>> findAllParentCategory() {
         return ResponseEntity.ok(jobCategoryService.findAllJobCategory());
     }
-
 
 
 }

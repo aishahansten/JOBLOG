@@ -21,7 +21,7 @@ public class CompanyReviewService {
     private final CompanyRepository companyRepository;
     private final CompanyReviewRepository companyReviewRepository;
 
-    public void create(CompanyReviewCreateRequestDto companyReviewRequestDto){
+    public void create(CompanyReviewCreateRequestDto companyReviewRequestDto) {
         User user = userRepository.findById(companyReviewRequestDto.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다"));
         Company company = companyRepository.findById(companyReviewRequestDto.getCompanyCode())
@@ -37,13 +37,13 @@ public class CompanyReviewService {
                 .orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다"));
         Company company = companyRepository.findById(companyReviewUpdateRequestDto.getCompanyCode())
                 .orElseThrow(() -> new EntityNotFoundException("회사가 존재하지 않습니다"));
-        CompanyReview companyReview  = companyReviewRepository.findById(companyReviewUpdateRequestDto.getId())
+        CompanyReview companyReview = companyReviewRepository.findById(companyReviewUpdateRequestDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("회사 리뷰가 존재하지 않습니다"));
         companyReview.updateReview(companyReviewUpdateRequestDto);
     }
 
     public void delete(Long reviewId) {
-        CompanyReview companyReview  = companyReviewRepository.findById(reviewId)
+        CompanyReview companyReview = companyReviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException("회사 리뷰가 존재하지 않습니다"));
         companyReview.deleteReview();
     }

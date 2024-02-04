@@ -1,13 +1,16 @@
 package com.ssafy.joblog.domain.recruit.entity;
+
 import jakarta.persistence.*;
 import lombok.*;
 
 import static jakarta.persistence.FetchType.LAZY;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class JobCategoryRecruit {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "job_recruit_id")
     private Long id;
 

@@ -14,7 +14,7 @@ public class CompanyResponseDto {
     private Long companyCode;
     private String companyName;
 
-    public static CompanyResponseDto fromEntity(Company company){
+    public static CompanyResponseDto fromEntity(Company company) {
         return CompanyResponseDto.builder()
                 .companyCode(company.getCompanyCode())
                 .companyName(company.getCompanyName())

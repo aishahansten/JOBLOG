@@ -48,10 +48,10 @@ public class RecruitService {
 
         Map<String, Object> searchKeys = new HashMap<>();
 
-        if(active != null) searchKeys.put("activeCode", active);
-        if(expLv != null) searchKeys.put("experienceLevelCode", expLv);
-        if(jobCategory != null) searchKeys.put("jobCategory", jobCategory);
-        if(keyword != null) searchKeys.put("keyword", keyword);
+        if (active != null) searchKeys.put("activeCode", active);
+        if (expLv != null) searchKeys.put("experienceLevelCode", expLv);
+        if (jobCategory != null) searchKeys.put("jobCategory", jobCategory);
+        if (keyword != null) searchKeys.put("keyword", keyword);
 
         return recruitRepository.findAll(RecruitSpecification.searchRecruit(searchKeys))
                 .stream().map(RecruitListResponseDto::fromEntity)

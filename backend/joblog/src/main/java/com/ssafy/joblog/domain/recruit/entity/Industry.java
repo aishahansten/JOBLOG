@@ -15,7 +15,7 @@ public class Industry {
     private Long id;
 
     @Setter
-    @ManyToOne(fetch = LAZY )
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "recruit_id")
     private Recruit recruit;
 

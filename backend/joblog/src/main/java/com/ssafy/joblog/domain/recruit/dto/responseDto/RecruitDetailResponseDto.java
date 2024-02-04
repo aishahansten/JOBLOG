@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,27 +37,27 @@ public class RecruitDetailResponseDto {
 
     public static RecruitDetailResponseDto fromEntity(Recruit recruit) {
         List<String> industryNames = new ArrayList<>();
-        for (Industry industry: recruit.getIndustries()){
+        for (Industry industry : recruit.getIndustries()) {
             industryNames.add(industry.getIndustry());
         }
         String industryDesc = String.join(", ", industryNames);
 
         List<String> locationNames = new ArrayList<>();
-        for (Location location: recruit.getLocations()){
+        for (Location location : recruit.getLocations()) {
             locationNames.add(location.getLocation());
         }
-        String locationDesc = String.join(", ", locationNames).replaceAll("&gt;",">");
+        String locationDesc = String.join(", ", locationNames).replaceAll("&gt;", ">");
 
         List<String> jobTypeNames = new ArrayList<>();
-        for (JobType jobType: recruit.getJobTypes()){
+        for (JobType jobType : recruit.getJobTypes()) {
             jobTypeNames.add(jobType.getJobType());
         }
         String jobTypeDesc = String.join(", ", jobTypeNames);
 
         List<String> jobCategoryNames = new ArrayList<>();
-        for (JobCategoryRecruit jobCategoryRecruit: recruit.getJobCategoryRecruits()){
+        for (JobCategoryRecruit jobCategoryRecruit : recruit.getJobCategoryRecruits()) {
             // 자식 카테고리만 가져옴
-            if(jobCategoryRecruit.getJobCategory().getParent() != null){
+            if (jobCategoryRecruit.getJobCategory().getParent() != null) {
                 jobCategoryNames.add(jobCategoryRecruit.getJobCategory().getJobName());
             }
         }

@@ -19,11 +19,11 @@ public class CompanyReview extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = LAZY )
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "company_code")
     private Company company;
 
-    @ManyToOne(fetch = LAZY )
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -32,7 +32,7 @@ public class CompanyReview extends BaseEntity {
     private int culture;
     private int promotionOpportunity;
     private int management;
-    @Column(length=1000)
+    @Column(length = 1000)
     private String content;
 
     @Builder

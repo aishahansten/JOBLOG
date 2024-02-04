@@ -19,7 +19,7 @@ public class JobCategoryService {
     public List<JobCategoryResponseDto> findAllJobCategory() {
         List<JobCategory> jobCategories = jobCategoryRepository.findAllByParentIsNull();
         List<JobCategoryResponseDto> jobCategoryResponseDtos = new ArrayList<>();
-        for (JobCategory jobCategory: jobCategories){
+        for (JobCategory jobCategory : jobCategories) {
             jobCategoryResponseDtos.add(JobCategoryResponseDto.fromEntity(jobCategory));
         }
         return jobCategoryResponseDtos;

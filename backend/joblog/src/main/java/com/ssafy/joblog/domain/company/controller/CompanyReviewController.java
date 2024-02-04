@@ -15,19 +15,19 @@ public class CompanyReviewController {
     private final CompanyReviewService companyReviewService;
 
     @PostMapping("/register")
-    public ResponseEntity<Void> create(@RequestBody CompanyReviewCreateRequestDto companyReviewRequestDto){
+    public ResponseEntity<Void> create(@RequestBody CompanyReviewCreateRequestDto companyReviewRequestDto) {
         companyReviewService.create(companyReviewRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<Void> update(@RequestBody CompanyReviewUpdateRequestDto companyReviewUpdateRequestDto){
+    public ResponseEntity<Void> update(@RequestBody CompanyReviewUpdateRequestDto companyReviewUpdateRequestDto) {
         companyReviewService.update(companyReviewUpdateRequestDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping("/delete/{reviewId}")
-    public ResponseEntity<Void> delete(@PathVariable(value = "reviewId") Long reviewId){
+    public ResponseEntity<Void> delete(@PathVariable(value = "reviewId") Long reviewId) {
         companyReviewService.delete(reviewId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
