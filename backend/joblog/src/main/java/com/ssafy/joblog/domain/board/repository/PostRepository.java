@@ -10,9 +10,17 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Integer> {
-    public List<Post> findByCategory(PostCategory category);
 
     @Modifying
     @Query("UPDATE Post post SET post.isDelete = true WHERE post.id = :id")
     void markDeletedPost(@Param("id") int id);
+
+    // is_delete=0인 댓글 개수
+    @Query("SELECT COUNT(comment) FROM PostComment comment WHERE comment.post.id = :postId AND comment.isDelete = false")
+    int countActiveComments(@Param("postId") int postId);
+
+    // is_delete=0인 좋아요 개수
+    @Query("SELECT COUNT(like) FROM PostLike like WHERE like.post.id = :postId AND like.isDelete = false")
+    int countActiveLikes(@Param("postId") int postId);
+
 }

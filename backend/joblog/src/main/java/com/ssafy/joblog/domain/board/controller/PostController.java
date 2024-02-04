@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping(value="/community")
+@RequestMapping(value="/api/community")
 @RequiredArgsConstructor
 @RestController
 public class PostController {
@@ -29,10 +29,10 @@ public class PostController {
     }
 
     // 2. 카테고리별 게시글 목록 조회
-    @GetMapping("/{categoryId}")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> getPosts(@PathVariable PostCategory categoryId) {
-        return new ResponseEntity<>(postService.getPosts(categoryId), HttpStatus.OK);
+    public ResponseEntity<?> getPosts() {
+        return new ResponseEntity<>(postService.getPosts(), HttpStatus.OK);
     }
 
     // 3. 상세 게시글 조회

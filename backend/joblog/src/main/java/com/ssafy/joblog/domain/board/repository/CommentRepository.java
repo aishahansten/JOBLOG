@@ -16,4 +16,8 @@ public interface CommentRepository extends JpaRepository<PostComment, Integer> {
     @Modifying
     @Query("UPDATE PostComment postComment SET postComment.isDelete = true WHERE postComment.id = :id")
     void markDeletedComment(@Param("id") int id);
+
+    // is_delete=0인 댓글 좋아요 개수
+    @Query("SELECT COUNT(commentlike) FROM PostCommentLike commentlike WHERE commentlike.postComment.id = :commentId AND commentlike.isDelete = false")
+    int countActiveCommentLikes(@Param("commentId") int commentId);
 }

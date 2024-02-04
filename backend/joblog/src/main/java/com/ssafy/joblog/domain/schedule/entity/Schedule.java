@@ -20,7 +20,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Getter
 @Setter
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE schedule set is_delete = true WHERE schedule_id = ?")
+
 public class Schedule extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

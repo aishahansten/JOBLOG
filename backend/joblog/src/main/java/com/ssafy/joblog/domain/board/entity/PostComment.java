@@ -22,7 +22,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+
 //@SQLDelete(sql = "UPDATE post_comment set is_delete = true WHERE comment_id = ?")
 public class PostComment extends BaseEntity {
     @Id
@@ -51,9 +51,7 @@ public class PostComment extends BaseEntity {
         this.content = commentUpdateRequestDto.getContent();
     }
 
-    //댓글 좋아요 개수 비즈니스 로직
-    public int getCommentLikeCount() { return postCommentLikes.size(); }
-
+    @Builder
     // 생성자
     public PostComment(int id, Post post, User user, String content) {
         this.id = id;

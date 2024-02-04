@@ -21,7 +21,6 @@ import static jakarta.persistence.FetchType.LAZY;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 
 public class Post extends BaseEntity {
     @Id
@@ -58,14 +57,6 @@ public class Post extends BaseEntity {
         this.hit += countHit;
     }
 
-    //댓글 개수 비즈니스 로직
-    public int getCommentCount() { return comments.size(); }
-
-    //좋아요 개수 비즈니스 로직
-    public int getLikeCount() {
-        return postLikes.size();
-    }
-
     //더티 체킹을 통해 변경사항을 db로 update 쿼리 전송
     public void updatePost(PostUpdateRequestDto postUpdateRequestDto) {
         this.title = postUpdateRequestDto.getTitle();
@@ -74,6 +65,7 @@ public class Post extends BaseEntity {
     }
 
     // 생성자
+    @Builder
     public Post(int id, User user, PostCategory category, String title, String content, int hit) {
         this.id = id;
         this.user = user;

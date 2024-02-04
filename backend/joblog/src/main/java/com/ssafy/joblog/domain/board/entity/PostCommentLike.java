@@ -17,7 +17,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //다른(여러개) 댓글좋아요 객체 생성 막기
-@Builder
+
 public class PostCommentLike extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +34,7 @@ public class PostCommentLike extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Builder
     // 생성자
     public PostCommentLike(int id, PostComment postComment, User user) {
         this.id = id;
