@@ -1,23 +1,19 @@
 <template>
   <div class="job-posts">
-    <JobListItem/>
-    <JobListItem/>
-    <JobListItem/>
-    <JobListItem/>
+    <JobListItem
+      v-for="data in dummyData"
+      :key="data.Id"
+      :data="data"
+    />
+
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import JobListItem from './items/JobListItem.vue'
+import dummyData from '@/views/job_post/data/dummy_data.json'
 
-const dummyData = ref({
-  title: '홀서비스 신입/경력 채용',
-  company_name: '(주)에이치제이푸드남부지점',
-  experience_level: '경력1년↑',
-  industry: '외식업·식음료',
-
-})
 
 
 </script>

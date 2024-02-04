@@ -4,9 +4,9 @@
     <RouterLink :to="{ name:'JobDetail' }"><button>임시 상세페이지</button></RouterLink>
   </div>
   <div class="lower-post">
-    <div class="title">{{ dummyData.title }}</div>
-    <div class="experience">{{ dummyData.experience_level }}, {{ dummyData.industry }}</div>
-    <div class="company-name">{{ dummyData.company_name }}</div>
+    <div class="title">{{ data.title }}</div>
+    <div class="experience">{{ data.experienceLevel }}, {{ data.industryDesc }}</div>
+    <div class="company-name">{{ data.companyName }}</div>
   </div>
 </div>
 </template>
@@ -14,12 +14,9 @@
 <script setup>
 import { ref } from 'vue';
 
-const dummyData = ref({
-  title: '홀서비스 신입/경력 채용',
-  company_name: '(주)에이치제이푸드남부지점',
-  experience_level: '경력1년↑',
-  industry: '외식업·식음료',
 
+const props = defineProps ({
+  data: Object
 })
 </script>
 

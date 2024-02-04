@@ -25,6 +25,7 @@
 import JobList from './components/JobList.vue';
 import SearchFilter from './components/SearchFilter.vue';
 
+
 </script>
 
 <style scoped>
