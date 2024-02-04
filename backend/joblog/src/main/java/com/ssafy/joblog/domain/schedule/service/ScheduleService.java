@@ -68,6 +68,6 @@ public class ScheduleService {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> {
             return new IllegalArgumentException("해당 일정을 찾을 수 없습니다");
         });
-        scheduleRepository.delete(schedule);
+        scheduleRepository.markDeletedSchedule(scheduleId);
     }
 }
