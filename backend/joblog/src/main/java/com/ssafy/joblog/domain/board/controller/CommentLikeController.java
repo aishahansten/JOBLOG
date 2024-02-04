@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/commentLike")
+@RequestMapping("/api/commentLike")
 @RequiredArgsConstructor
 @RestController
 public class CommentLikeController {

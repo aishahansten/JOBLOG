@@ -17,7 +17,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Getter
 @Setter
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE diary set is_delete = true WHERE diary_id = ?")
+
 public class Diary extends BaseEntity {
 
     @Id

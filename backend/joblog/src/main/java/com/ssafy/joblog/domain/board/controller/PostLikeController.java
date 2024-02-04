@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping(value="/like")
+@RequestMapping(value="/api/like")
 @RequiredArgsConstructor
 @RestController
 public class PostLikeController {

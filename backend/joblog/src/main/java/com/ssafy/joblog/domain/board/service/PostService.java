@@ -34,6 +34,7 @@ public class PostService {
     // 1. 게시글 작성
     public void createPost(PostCreateRequestDto postCreateRequestDto) {
         // 작성한 유저 불러옴
+
         User user = userRepository.findById(postCreateRequestDto.getUserId()).orElseThrow(()-> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
         Post post = postCreateRequestDto.createPost(user);
         postRepository.save(post);
@@ -41,20 +42,21 @@ public class PostService {
 
     //2. 카테고리별 게시글 목록 조회
     @Transactional(readOnly = true)
-    public List<PostResponseDto> getPosts(PostCategory category) {
-        List<Post> posts = postRepository.findByCategory(category);
+    public List<PostResponseDto> getPosts() {
+        List<Post> posts = postRepository.findAll();
         List<PostResponseDto> getPostsList = new ArrayList<>();
         posts.forEach(post -> getPostsList.add(PostResponseDto.builder()
                 .postId(post.getId())
                 .userId(post.getUser().getId())
+                .nickname(post.getUser().getNickname())
                 .category(post.getCategory())
                 .title(post.getTitle())
                 .content(post.getContent())
                 .hit(post.getHit())
                 .createdDate(post.getCreatedDate())
                 .modifiedDate(post.getModifiedDate())
-                .totalComment(post.getCommentCount())
-                .totalLike(post.getLikeCount())
+                .totalComment(postRepository.countActiveComments(post.getId()))
+                .totalLike(postRepository.countActiveLikes(post.getId()))
                 .build()));
         return getPostsList;
     }
@@ -72,10 +74,11 @@ public class PostService {
         comments.forEach(comment -> getCommentsList.add(CommentResponseDto.builder()
                 .commentId(comment.getId())
                 .userId(comment.getUser().getId())
+                .nickname(comment.getUser().getNickname())
                 .content(comment.getContent())
                 .createdDate(comment.getCreatedDate())
                 .modifiedDate(comment.getModifiedDate())
-                .totalCommentLike(comment.getCommentLikeCount())
+                .totalCommentLike(commentRepository.countActiveCommentLikes(comment.getId()))
                 .build()));
 
         PostResponseDto postResponseDto = PostResponseDto.builder()
@@ -87,8 +90,8 @@ public class PostService {
                 .hit(post.getHit())
                 .createdDate(post.getCreatedDate())
                 .modifiedDate(post.getModifiedDate())
-                .totalComment(post.getCommentCount())
-                .totalLike(post.getLikeCount())
+                .totalComment(postRepository.countActiveComments(post.getId()))
+                .totalLike(postRepository.countActiveLikes(post.getId()))
                 .build();
         return new PostWithCommentsResponseDto(postResponseDto, getCommentsList);
 
@@ -99,6 +102,7 @@ public class PostService {
     public void updatePost(PostUpdateRequestDto postUpdateRequestDto) {
         Post post = postRepository.findById(postUpdateRequestDto.getPostId())
                 .orElseThrow(()-> new IllegalArgumentException("해당 게시글이 존재하지 않습니다"));
+
         post.updatePost(postUpdateRequestDto);
     }
 

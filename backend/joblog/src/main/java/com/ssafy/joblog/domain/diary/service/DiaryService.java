@@ -28,6 +28,7 @@ public class DiaryService {
 
     // 1. 일기 등록하기
     public void createDiary(DiaryCreateRequestDto diaryCreateRequestDto) {
+
         User user = userRepository.findById(diaryCreateRequestDto.getUserId()).orElseThrow(()-> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
         Diary diary = diaryCreateRequestDto.createDiary(user);
         diaryRepository.save(diary);
@@ -57,6 +58,7 @@ public class DiaryService {
     public void updateDiary(DiaryUpdateRequestDto diaryUpdateRequestDto) {
         Diary diary = diaryRepository.findById(diaryUpdateRequestDto.getDiaryId())
                 .orElseThrow(()-> new IllegalArgumentException("해당 복기가 존재하지 않습니다"));
+
         diary.updateDiary(diaryUpdateRequestDto);
     }
 
@@ -66,7 +68,7 @@ public class DiaryService {
         Diary diary = diaryRepository.findById(diaryId).orElseThrow(() -> {
             return new IllegalArgumentException("해당 복기를 찾을 수 없습니다");
         });
-        diaryRepository.delete(diary);
+        diaryRepository.markDeletedDiary(diaryId);
     }
 
 }
