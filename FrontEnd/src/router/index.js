@@ -5,7 +5,10 @@ import Test from "../views/test.vue";
 
 //홈페이지 링크
 import HomeView from "../views/home/HomeView.vue";
+
+// 로그인 페이지
 import LoginView from "../views/home/LoginView.vue";
+import SignIn from "../views/home/components/login/SignIn.vue";
 
 //취준토크 페이지
 import CoffeeChat from "@/views/coffee_chat/CoffeeChatView.vue";
@@ -48,30 +51,26 @@ const router = createRouter({
       name: "test",
       component: Test,
     },
-    // 메인/로그인 페이지
+    // 메인
     {
       path: "/",
       name: "Home",
       component: HomeView,
     },
+
+    // 로그인
     {
       path: "/login",
       name: "Login",
       component: LoginView,
     },
-    // 커피챗 페이지
     {
-      path: "/coffee-chat",
-      name: "Coffee",
-      component: CoffeeChat,
-    },
-    {
-      path: "/chatter-reg",
-      name: "ChatterReg",
-      component: ChatterSign,
+      path: "/sign-in",
+      name: "SignIn",
+      component: SignIn,
     },
 
-    // 여기부터 채용공고 페이지
+    // 채용공고
     {
       path: "/job-posts",
       name: "Jobs",
@@ -84,6 +83,20 @@ const router = createRouter({
       // 추후에 각 번호로 입력 받아야함
       // /job-detail/<int: detail-pk>
     },
+
+    // 커피챗
+    {
+      path: "/coffee-chat",
+      name: "Coffee",
+      component: CoffeeChat,
+    },
+    {
+      path: "/chatter-reg",
+      name: "ChatterReg",
+      component: ChatterSign,
+    },
+
+    // Q&A
     {
       path: "/qna-board",
       name: "QnABoard",
@@ -100,12 +113,14 @@ const router = createRouter({
       component: QnACreate,
     },
 
-    // 여기부터 취준로그 페이지
+    // 캘린더
     {
       path: "/blog-schedule",
       name: "BlogSchedule",
       component: Schedule,
     },
+
+    // 다이어리
     {
       path: "/blog-journal",
       name: "BlogJournal",
@@ -116,6 +131,8 @@ const router = createRouter({
       name: "JournalCreate",
       component: JournalCreate,
     },
+
+    // 전형리뷰
     {
       path: "/blog-review",
       name: "BlogReview",
@@ -127,7 +144,7 @@ const router = createRouter({
       component: ReviewCreate,
     },
 
-    // 이력서, 자소서
+    // 이력서 및 자소서
     {
       path: "/blog-application",
       name: "BlogApplication",
@@ -146,15 +163,15 @@ const router = createRouter({
     {
       path: "/blog-application/resume",
       name: "ResumeDetail",
-      component: ResumeDetail
+      component: ResumeDetail,
     },
     {
       path: "/blog-application/merge",
       name: "Merge",
-      component: Merge
+      component: Merge,
     },
 
-    // 설정 페이지
+    // 설정
     {
       path: "/setting",
       name: "ProfileSetting",
