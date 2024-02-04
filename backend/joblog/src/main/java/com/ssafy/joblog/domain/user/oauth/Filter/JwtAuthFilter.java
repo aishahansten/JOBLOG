@@ -40,7 +40,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if (!jwtUtil.verifyToken(atc)) { //AccessToken을 검증하고, 만료되었을 경우 예외 발생.
             throw new JwtException("Expired Access Token");
         } else { //AccessToken이 유효한 경우
-            User user = userRepository.findById(jwtUtil.getUserId(atc));
+            User user = userRepository.findById(jwtUtil.getUserId(atc)).orElseThrow(()-> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
             if (user != null) {
                 user = User.builder()
                         .id(user.getId())

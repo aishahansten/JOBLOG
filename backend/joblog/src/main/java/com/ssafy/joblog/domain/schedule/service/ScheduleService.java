@@ -30,7 +30,7 @@ public class ScheduleService {
     // 1. 개인 일정 등록하기
     public void createSchedule(ScheduleCreateRequestDto scheduleCreateRequestDto) {
         // 작성한 유저 불러옴
-        User user = userRepository.findById(scheduleCreateRequestDto.getUserId());
+        User user = userRepository.findById(scheduleCreateRequestDto.getUserId()).orElseThrow(()-> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
         Schedule schedule = scheduleCreateRequestDto.createSchedule(user);
         scheduleRepository.save(schedule);
     }
@@ -58,7 +58,7 @@ public class ScheduleService {
     @Transactional
     public void updateSchedule(ScheduleUpdateRequestDto scheduleUpdateRequestDto) {
         Schedule schedule = scheduleRepository.findById(scheduleUpdateRequestDto.getScheduleId())
-                .orElseThrow(() -> new EntityNotFoundException("해당 일정이 존재하지 않습니다"));
+                .orElseThrow(()-> new IllegalArgumentException("해당 일정이 존재하지 않습니다"));
         schedule.updateSchedule(scheduleUpdateRequestDto);
     }
 

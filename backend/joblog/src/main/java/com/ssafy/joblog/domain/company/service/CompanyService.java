@@ -37,14 +37,14 @@ public class CompanyService {
 
     public CompanyResponseDto findCompany(Long companyCode) {
         Company company = companyRepository.findById(companyCode)
-                .orElseThrow(() -> new EntityNotFoundException("해당 회사가 존재하지 않습니다"));
+                .orElseThrow(()-> new IllegalArgumentException("해당 회사가 존재하지 않습니다"));
         return CompanyResponseDto.fromEntity(company);
     }
 
 
     public List<RecruitListResponseDto> findAllRecruitByCompany(Long companyCode) {
         Company company = companyRepository.findById(companyCode)
-                .orElseThrow(() -> new EntityNotFoundException("해당 회사가 존재하지 않습니다"));
+                .orElseThrow(()-> new IllegalArgumentException("해당 회사가 존재하지 않습니다"));
         List<Recruit> companyRecruit = recruitRepository.findAllRecruitByCompanyCompanyCode(company.getCompanyCode());
 
         List<RecruitListResponseDto> companyRecruitDto = new ArrayList<>();
@@ -56,7 +56,7 @@ public class CompanyService {
 
     public List<CompanyReviewListResponseDto> findAllReviewByCompany(Long companyCode) {
         Company company = companyRepository.findById(companyCode)
-                .orElseThrow(() -> new EntityNotFoundException("해당 회사가 존재하지 않습니다"));
+                .orElseThrow(()-> new IllegalArgumentException("해당 회사가 존재하지 않습니다"));
         List<CompanyReview> companyReview = companyReviewRepository.findAllReviewByCompanyCompanyCodeAndIsDeleteIsTrue(company.getCompanyCode());
 
         List<CompanyReviewListResponseDto> companyReviewListResponseDto = new ArrayList<>();

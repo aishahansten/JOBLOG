@@ -34,9 +34,7 @@ public class RecruitService {
 
     public RecruitDetailResponseDto findRecruit(Long recruitId) {
         Recruit recruit = recruitRepository.findById(recruitId)
-                .orElseThrow(() -> {
-                    return new EntityNotFoundException("해당 채용공고가 존재하지 않습니다");
-                });
+                .orElseThrow(()-> new IllegalArgumentException("해당 채용공고가 존재하지 않습니다"));
         return RecruitDetailResponseDto.fromEntity(recruit);
     }
 

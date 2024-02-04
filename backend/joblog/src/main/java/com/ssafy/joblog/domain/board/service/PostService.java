@@ -34,7 +34,7 @@ public class PostService {
     // 1. 게시글 작성
     public void createPost(PostCreateRequestDto postCreateRequestDto) {
         // 작성한 유저 불러옴
-        User user = userRepository.findById(postCreateRequestDto.getUserId());
+        User user = userRepository.findById(postCreateRequestDto.getUserId()).orElseThrow(()-> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
         Post post = postCreateRequestDto.createPost(user);
         postRepository.save(post);
     }
@@ -98,7 +98,7 @@ public class PostService {
     @Transactional
     public void updatePost(PostUpdateRequestDto postUpdateRequestDto) {
         Post post = postRepository.findById(postUpdateRequestDto.getPostId())
-                .orElseThrow(() -> new EntityNotFoundException("게시글이 존재하지 않습니다"));
+                .orElseThrow(()-> new IllegalArgumentException("해당 게시글이 존재하지 않습니다"));
         post.updatePost(postUpdateRequestDto);
     }
 
