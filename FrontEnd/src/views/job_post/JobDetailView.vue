@@ -21,12 +21,12 @@
         </div>
     </div>
     <div class="detail-body">
-        회사 공고 이미지 파일로 받아온 것 넣는 곳
+      <CompanyReview/>
     </div>
 </template>
 
 <script setup>
-
+  import CompanyReview from './components/CompanyReview.vue';
 </script>
 
 <style scoped>

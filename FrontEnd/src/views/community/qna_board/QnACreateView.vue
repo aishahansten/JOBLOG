@@ -1,26 +1,51 @@
 <template>
   <div class="question-create-container">
     <div class="title">
-      <input type="text" v-model="newQuestion.title" placeholder="제목을 입력하세요">
+      <input type="text" v-model="newQuestion.title" placeholder="제목을 입력하세요" required>
     </div>
     <div class="content">
-      <textarea v-model="newQuestion.content" placeholder="본문 내용을 입력하세요"></textarea>
+      <textarea v-model="newQuestion.content" placeholder="본문 내용을 입력하세요" required></textarea>
     </div>
     <div class="submit">
-      <button>작성하기</button>
+      <button @click="createPost">작성하기</button>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import axios from 'axios';
+import { useCommunityStore } from '@/stores/community';
+
+const store = useCommunityStore()
+
+const createPost = async () => {
+  try {
+    const response = await axios.post(`${store.API_URL}/community/register`)
+    console.log(response.data)
+
+    newQuestion.value = {
+      userID: 1,
+      category: 1,
+      title: '',
+      content: ''
+    }
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 const newQuestion = ref({
-  user_id: 1,
+  userId: 1,
+  category: 1,
   title: '',
   content: '',
-  created_date: '', // You might want to handle this differently, usually set on the server-side
 })
+
+
+
+
+
 </script>
 
 <style scoped>

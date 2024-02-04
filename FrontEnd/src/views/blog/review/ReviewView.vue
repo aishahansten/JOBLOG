@@ -1,4 +1,7 @@
 <template>
+  <div>
+    <SubNav/>
+  </div>
   <div class="scrap-container">
     <ReviewItem
       v-for="data in processedData"
@@ -16,7 +19,7 @@ import { ref, computed } from 'vue'
 import dummyData from './data/dummy_data.json'
 import reviewDummy from './data/application_status_dummy_data.json'
 import ReviewItem from './component/ReviewItem.vue'
-
+import SubNav from '../_component/SubNav.vue';
 //날짜 계산용 함수 -> 마감일까지의 정보
 
 function getReviewsForRecruitment(userRecruitId) {

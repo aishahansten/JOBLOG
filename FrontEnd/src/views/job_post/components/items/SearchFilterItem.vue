@@ -3,7 +3,12 @@
       <input type="text" v-model="searchTerm" placeholder="Search child categories..." class="search-input" />
       <div class="title">{{ category.jobName }}</div>
       <div class="sub-grid-container" v-if="filteredChildCategories.length">
-        <div class="sub-grid-item" v-for="childCategory in filteredChildCategories" :key="childCategory.jobCode">
+        <div 
+          class="sub-grid-item" 
+          v-for="childCategory in filteredChildCategories" 
+          :key="childCategory.jobCode"
+          @click="clickedCategory(childCategory)"
+        >
           {{ childCategory.jobName }}
         </div>
       </div>
@@ -11,12 +16,13 @@
   </template>
   
   <script setup>
-  import { computed, ref, defineProps } from 'vue';
+  import { computed, ref } from 'vue';
   
   const props = defineProps({
     category: Object
   });
   
+
   const searchTerm = ref('');
   
   const filteredChildCategories = computed(() => {
@@ -30,6 +36,17 @@
       child.jobName.toLowerCase().includes(searchTerm.value.toLowerCase())
     );
   });
+
+  const emits = defineEmits(['select'])
+
+  const clickedCategory = (childCategory) => {
+    emits('select', {
+      jobCode: childCategory.jobCode,
+      jobName: childCategory.jobName
+    })
+  }
+
+
   </script>
   
   <style scoped>
@@ -55,6 +72,11 @@
   .sub-grid-item {
     border: 1px solid #ccc;
     padding: 10px;
+    cursor: pointer;
+  }
+
+  .sub-grid-item :hover {
+    
   }
   </style>
   
