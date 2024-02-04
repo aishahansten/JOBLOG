@@ -57,11 +57,8 @@ public class ScheduleService {
     @Transactional
     public void updateSchedule(ScheduleUpdateRequestDto scheduleUpdateRequestDto) {
         Schedule schedule = scheduleRepository.findById(scheduleUpdateRequestDto.getScheduleId())
-<<<<<<< HEAD
                 .orElseThrow(()-> new IllegalArgumentException("해당 일정이 존재하지 않습니다"));
-=======
-                .orElseThrow(() -> new IllegalArgumentException("해당 일정이 존재하지 않습니다"));
->>>>>>> feature/465-crud
+
         schedule.updateSchedule(scheduleUpdateRequestDto);
     }
 
