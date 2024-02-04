@@ -14,5 +14,5 @@ public class BaseEntity extends BaseTimeEntity {
     //추가 상속 컬럼
     @ColumnDefault("false")
     @Column(columnDefinition = "TINYINT(1)")
-    private boolean isDelete;
+    protected boolean isDelete;
 }

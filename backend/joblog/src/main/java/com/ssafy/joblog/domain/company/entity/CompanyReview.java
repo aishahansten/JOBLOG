@@ -1,8 +1,8 @@
 package com.ssafy.joblog.domain.company.entity;
 
-import com.example.demo.domain.company.dto.requestDto.CompanyReviewUpdateRequestDto;
-import com.example.demo.domain.user.entity.User;
-import com.example.demo.global.entity.BaseEntity;
+import com.ssafy.joblog.domain.company.dto.requestDto.CompanyReviewUpdateRequestDto;
+import com.ssafy.joblog.domain.user.entity.User;
+import com.ssafy.joblog.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

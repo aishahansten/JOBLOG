@@ -1,7 +1,7 @@
 package com.ssafy.joblog.domain.company.entity;
 
-import com.example.demo.domain.recruit.entity.Recruit;
-import com.example.demo.global.entity.BaseEntity;
+import com.ssafy.joblog.domain.recruit.entity.Recruit;
+import com.ssafy.joblog.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
