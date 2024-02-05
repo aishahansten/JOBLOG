@@ -2,24 +2,25 @@
   <div class="title">
     QnA 게시판
   </div>
-  <QnAList/>
+  <QnAList :posts="communityStore.posts"/>
 </template>
 
 <script setup>
-  import { ref, onMounted } from 'vue';
-  import QnAList from './components/QnAList.vue';
-  import { useCommunityStore } from '@/stores/community';
+import { onMounted } from 'vue';
+import QnAList from './components/QnAList.vue';
+import { useCommunityStore } from '@/stores/community';
 
-  const communityStore = useCommunityStore()
-  // const posts = ref([])
-  // console.log(posts.value)
+const communityStore = useCommunityStore();
 
-  onMounted (() => {
-    communityStore.getPosts()
-    // posts.value = communityStore.posts1
-  })
-
+onMounted(async () => {
+  // Use an immediately-invoked async function
+  await communityStore.getPosts();
+  
+  // Now, this log will reflect the updated state
+  console.log('커뮤니티 리스트에서 찾는 로그', communityStore.posts);
+});
 </script>
+
 
 <style scoped>
   .title {

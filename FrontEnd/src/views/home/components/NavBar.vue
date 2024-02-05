@@ -21,9 +21,6 @@
         <RouterLink class="link clickable-txt" :to="{ name: 'Coffee' }"
           >커피챗</RouterLink
         >
-        <RouterLink class="link clickable-txt" :to="{ name: 'ProfileSetting' }"
-          >임시세팅</RouterLink
-        >
       </div>
       <!-- <transition name="dropdown">
           <div class="dropdown-content" v-show="showDropdown">
@@ -34,15 +31,32 @@
           </div>
         </transition> -->
     </nav>
+    <div v-if="!loggedIn">
     <RouterLink :to="{ name: 'Login' }">
       <a class="login-btn clickable-btn">로그인</a>
     </RouterLink>
+    </div>
+    <div v-else>
+      <RouterLink class="link clickable-txt" :to="{ name: 'ProfileSetting' }"
+          >임시세팅</RouterLink
+        >
+    <button @click="logout">로그아웃</button>
+    </div>
   </header>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { RouterLink } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
+
+const authStore = useAuthStore();
+
+const loggedIn = computed(() => !!authStore.userInfo);
+
+function logout() {
+  authStore.logout();
+}
 
 const showDropdown = ref(false);
 </script>

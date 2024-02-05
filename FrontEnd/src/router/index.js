@@ -103,7 +103,7 @@ const router = createRouter({
       component: QnABoard,
     },
     {
-      path: "/qna-board/detail",
+      path: "/qna-board/detail/:id",
       name: "QnADetail",
       component: QnADetail,
     },

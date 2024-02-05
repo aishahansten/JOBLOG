@@ -16,27 +16,27 @@
 import { ref } from 'vue'
 import axios from 'axios';
 import { useCommunityStore } from '@/stores/community';
-import { localAxios } from '@/utils/http-common';
+import { useAuthStore } from '@/stores/auth'
 
+const authStore = useAuthStore()
+const communityStore = useCommunityStore()
 
-const store = useCommunityStore()
-console.log(store.API_URL)
+console.log(authStore.userInfo.sub)
 
 const createPost = async () => {
   try {
     // Set the Authorization header for this specific request
     const config = {
       headers: {
-        'Authorization': `${token}`
+        'Authorization': `${authStore.accessToken}`
       }
     };
 
-    const response = await axios.post(`http://localhost:8080/api/community/register`, newQuestion.value, config);
+    const response = await axios.post(`${communityStore.API_URL}/community/register`, newQuestion.value, config);
     console.log(response.data);
-    console.log(config.value)
     // Resetting the newQuestion value after successful request
     newQuestion.value = {
-      userId: 1,
+      userId: authStore.userInfo.sub,
       category: 'QNA',
       title: '',
       content: ''
@@ -48,22 +48,11 @@ const createPost = async () => {
 
 
 const newQuestion = ref({
-  userId: 1,
-  category: 1,
+  userId: authStore.userInfo.sub,
+  category: 'QNA',
   title: '',
   content: '',
 })
-
-const getCookie = function(name) {
-  const value = `; ${document.cookie}`
-  const parts = value.split(`; ${name}=`)
-  if (parts.length === 2) return parts.pop().split(';').shift()
-} 
-
-const token = getCookie('accessToken')
-console.log('시발', token)
-
-
 
 </script>
 

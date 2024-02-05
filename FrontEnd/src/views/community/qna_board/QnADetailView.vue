@@ -1,42 +1,73 @@
 <template>
-  <div class="qnaDetailContainer">
-    <div class="question">
-      <div class="header">
-        <div>
-          <img src="@/assets/img/community/Q.svg" class="question-icon">
-        </div>
-        <div class="title">
-            param 으로 받아온 질문 제목
-        </div>
-      </div>
-      <div class="content">
-        테스트 내용 삽입
-      </div>
-    </div>
-    <div class="buttons">
-      <button class="w-btn w-btn-indigo" v-if="!showModal" @click="toggleModal">답변하기</button>
-      <button class="w-btn w-btn-indigo" v-if="showModal" @click="toggleModal">답변취소</button>
-    </div>
-    <div class="answer-create-container" v-if="showModal">
-      <div class="a-title">
-        <input type="text" v-model="newAnswer.title" placeholder="제목을 입력하세요">
-      </div>
-      <div class="a-content">
-        <textarea v-model="newAnswer.content" placeholder="본문 내용을 입력하세요"></textarea>
-      </div>
-      <div class="submit">
-        <button class="w-btn w-btn-indigo" @click="submitAnswer">작성하기</button>
-      </div>
+  <div v-if="!loading">
   </div>
-    <div class="answer">
-      <ReplyList :answers="dummyAnswerList"/>
+  <div v-else>
+    <div class="qnaDetailContainer">
+      <div class="question">
+        <div class="header">
+          <div>
+            <img src="@/assets/img/community/Q.svg" class="question-icon">
+          </div>
+          <div class="title" v-if="post">
+            {{ post.title }}
+          </div>
+        </div>
+        <div class="content">
+          {{ post.content }}
+        </div>
+      </div>
+      <div class="buttons">
+        <button class="w-btn w-btn-indigo" v-if="!showModal" @click="toggleModal">답변하기</button>
+        <button class="w-btn w-btn-indigo" v-if="showModal" @click="toggleModal">답변취소</button>
+      </div>
+      <div class="answer-create-container" v-if="showModal">
+        <div class="a-title">
+          <input type="text" v-model="newAnswer.title" placeholder="제목을 입력하세요">
+        </div>
+        <div class="a-content">
+          <textarea v-model="newAnswer.content" placeholder="본문 내용을 입력하세요"></textarea>
+        </div>
+        <div class="submit">
+          <button class="w-btn w-btn-indigo" @click="submitAnswer">작성하기</button>
+        </div>
+    </div>
+      <div class="answer">
+        <ReplyList :answers="dummyAnswerList"/>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router';
+import axios from 'axios';
 import ReplyList from './components/ReplyList.vue';
+import { useAuthStore } from '@/stores/auth';
+import { useCommunityStore } from '@/stores/community';
+
+const authStore = useAuthStore()
+const route = useRoute()
+const loading = ref(false)
+const post = ref(null)
+const comments = ref(null)
+console.log(post)
+
+onMounted(async () => {
+  try {
+    const res = await axios.get(`${authStore.API_URL}/community/detail/${route.params.id}`)
+    post.value = res.data.postResponseDto
+    comments.value = res.data.comments
+  } catch(error) {
+    console.error('불러오기 실패: ', error)
+  } finally {
+    loading.value = true
+  }
+})
+
+
+
+
 // 답변 div 띄울 때
 const showModal = ref(false)
 
@@ -65,6 +96,8 @@ const submitAnswer = function() {
     created_date: '', // Resetting the date, handle appropriately
   };
 }
+
+
 
 </script>
 

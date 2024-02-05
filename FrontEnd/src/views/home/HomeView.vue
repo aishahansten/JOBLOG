@@ -1,23 +1,21 @@
 <script setup>
-import { ref } from "vue";
+import { computed } from "vue";
 import Calendar from "./components/Calendar.vue";
 import ResumeEssay from "./components/ResumeEssay.vue";
 import Chatter from "./components/Chatter.vue";
 import "@/assets/css/home/welcome.css";
-// 로그인/로그아웃 상태를 대체하는 버튼 및 화면 전환용 로직
-// 나중에는 isAuthenticated나, token값 등을 사용하여 버튼 없이 자동 전환
-const isLoggedIn = ref(false);
+import { useAuthStore } from '@/stores/auth';
 
-function toggleLogin() {
-  isLoggedIn.value = !isLoggedIn.value;
-}
-// ----------------------------------------------------
+const authStore = useAuthStore();
+
+const loggedIn = computed(() => !!authStore.userInfo);
+
+authStore.updateUserInfoFromToken();
+
 </script>
-<template>
-  <!-- 로그인 시 화면 전환되는 메인 페이지를 구현하기 위한 버튼 -->
-  <button @click="toggleLogin">로그인 상태 전환인 척하는 버튼</button>
 
-  <div class="container-visitor" v-if="!isLoggedIn">
+<template>
+  <div class="container-visitor" v-if="!loggedIn">
     <div class="welcome-pharse">
       <div class="welcome-title">
         <p class="bold">나의 첫 취업준비,</p>
@@ -39,7 +37,6 @@ function toggleLogin() {
   </div>
 
   <div class="container-member" v-else>
-    <p>로그인 시 표시할 화면</p>
     <Calendar />
     <ResumeEssay />
     <ResumeEssay2 />
