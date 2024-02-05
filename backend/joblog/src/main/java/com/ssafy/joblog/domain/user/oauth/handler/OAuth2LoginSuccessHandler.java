@@ -47,7 +47,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
         Token token = jwtUtil.generateToken(user.getId(), role);
         System.out.println("JWT : " + token.getAccessToken());
-        String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:8080/") //로그인 성공 시 호출할 url
+        String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:5173/sign-in") //로그인 성공 시 호출할 url
                 .queryParam("accessToken", token.getAccessToken())
                 .build()
                 .encode(StandardCharsets.UTF_8)
