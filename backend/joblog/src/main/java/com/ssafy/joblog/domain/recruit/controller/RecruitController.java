@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/recruit")
+@RequestMapping("/api/recruit")
 public class RecruitController {
 
     private final RecruitService recruitService;

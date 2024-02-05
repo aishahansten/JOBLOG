@@ -1,12 +1,13 @@
 package com.ssafy.joblog.domain.user.entity;
 
 
+
 import com.ssafy.joblog.domain.board.entity.Post;
 import com.ssafy.joblog.domain.board.entity.PostComment;
 import com.ssafy.joblog.domain.board.entity.PostCommentLike;
 import com.ssafy.joblog.domain.board.entity.PostLike;
+import com.ssafy.joblog.domain.user.dto.request.UserUpdateRequestDto;
 import com.ssafy.joblog.global.entity.BaseEntity;
-import com.ssafy.joblog.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +18,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +41,7 @@ public class User extends BaseEntity {
     private String provider;
     private String providerId;
 
+    private int companyCode;
     private String nickname;
     private String objective;
     private String realName;
@@ -48,7 +51,7 @@ public class User extends BaseEntity {
     private String profileImageName;
     private String profileImageUrl;
     private String phoneNumber;
-    private Date birthDate;
+    private LocalDate birthDate;
 
     //연관관계 주인x
     @OneToMany(mappedBy = "user")
@@ -70,6 +73,9 @@ public class User extends BaseEntity {
     @OneToOne(mappedBy = "user")
     private Token token;
 
+    @OneToMany(mappedBy = "following")
+    private List<Follow> followings = new ArrayList<>();
+
 
     //Spring Security에서 사용
     @Builder
@@ -82,4 +88,18 @@ public class User extends BaseEntity {
         this.providerId = providerId;
     }
 
+    public void updateUser(UserUpdateRequestDto userUpdateRequestDto) {
+        this.nickname = userUpdateRequestDto.getNickname();
+        this.objective = userUpdateRequestDto.getObjective();
+        this. realName = userUpdateRequestDto.getRealName();
+        this.englishName = userUpdateRequestDto.getEnglishName();
+        this.address = userUpdateRequestDto.getAddress();
+        this.userEmail = userUpdateRequestDto.getUserEmail();
+        this.profileImageName = userUpdateRequestDto.getProfileImageName();
+        this.profileImageUrl = userUpdateRequestDto.getProfileImageUrl();
+        this.phoneNumber = userUpdateRequestDto.getPhoneNumber();
+        this.birthDate = userUpdateRequestDto.getBirthDate();
+    }
+
+    public void deleteUser() { this.isDelete = true; }
 }

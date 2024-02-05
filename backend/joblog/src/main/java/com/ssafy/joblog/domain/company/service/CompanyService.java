@@ -57,7 +57,7 @@ public class CompanyService {
     public List<CompanyReviewListResponseDto> findAllReviewByCompany(Long companyCode) {
         Company company = companyRepository.findById(companyCode)
                 .orElseThrow(()-> new IllegalArgumentException("해당 회사가 존재하지 않습니다"));
-        List<CompanyReview> companyReview = companyReviewRepository.findAllReviewByCompanyCompanyCodeAndIsDeleteIsTrue(company.getCompanyCode());
+        List<CompanyReview> companyReview = companyReviewRepository.findAllReviewByCompanyCompanyCodeAndIsDeleteIsFalse(company.getCompanyCode());
 
         List<CompanyReviewListResponseDto> companyReviewListResponseDto = new ArrayList<>();
         for (CompanyReview review : companyReview) {
