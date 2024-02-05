@@ -6,14 +6,20 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
-import QnAList from './components/QnAList.vue';
-import { useCommunityStore } from '@/stores/community';
+  import { ref, onMounted } from 'vue';
+  import QnAList from './components/QnAList.vue';
+  import { useCommunityStore } from '@/stores/community';
 
+  const API_URL = import.meta.env.VITE_API_BASE_URL
+  console.log(API_URL)
+  const communityStore = useCommunityStore()
+  const posts = ref([])
+  console.log(posts.value)
+  onMounted (() => {
+    communityStore.getPosts()
+    posts.value = communityStore.posts
+  })
 
-onMounted (() => {
-  
-})
 </script>
 
 <style scoped>
