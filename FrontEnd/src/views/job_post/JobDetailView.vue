@@ -1,84 +1,89 @@
 <template>
-    <div class="detail-header">
-        <div class="header-left">
-            <h4>공고명</h4>
-            <h3>회사명</h3>
-            <p></p>
-            <p>공고 기간</p>
-            <p>마감 ~~ 전</p>
-            <p></p>
-            <p>경력</p>
-            <p>근무형태</p>
-            <p>급여</p>
+  <div class="job-detail-container">
+    <div class="job-detail-content">
+      <div class="job-detail">
+        <div class="job-title">
+          <h1>공고명</h1>
+          <h3>회사명</h3>
         </div>
-        <div class="header-right">
-            <div class="box-container">
-                <div class="company-logo">회사로고</div>
-                <div class="company-logo">지원하기</div>
-                <div class="company-logo">이력서 쓰기</div>
-                <div class="company-logo">자소서 쓰기</div>
-            </div>
+        <div class="job-info">
+          <p>업종</p>
+          <p>지역</p>
+          <p>근무형태</p>
+          <p>연봉(급여)</p>
         </div>
+        <div class="job-info">
+          <p>공고 기간 (공고 시작 ~ 공고 마감)</p>
+          <p>학력</p>
+          <p>경력</p>
+        </div>
+      </div>
+      <div class="job-interaction">
+        <div class="job-check">
+          <span>마감 00일 전</span>
+          <!-- <span>마감</span> -->
+          <!-- <span>접수 00일 전</span> -->
+          <div class="job-scrap-info">
+            <i class="fa-regular fa-star fa-xl"></i> <span>178</span>
+          </div>
+        </div>
+        <div class="update-btn">이력서 쓰기</div>
+        <div class="update-btn">자소서 쓰기</div>
+      </div>
     </div>
-    <div class="detail-body">
-      <CompanyReview/>
-    </div>
+    <ScreenReview />
+    <CompanyReview />
+  </div>
 </template>
 
 <script setup>
-  import CompanyReview from './components/CompanyReview.vue';
+import ScreenReview from "./components/ScreenReview.vue";
+import CompanyReview from "./components/CompanyReview.vue";
 </script>
 
 <style scoped>
-  .detail-header {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    width: 1000px;
-    border: 1px solid black;
-    border-radius: 8px;
-    padding: 20px 100px;
-    box-sizing: border-box;
-  }
+.job-detail-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 1000px;
+  padding: 30px 0;
+}
 
-  .header-left {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-  }
-  
-  .header-left p {
-    margin-bottom: 0px;
-  }
+.job-detail-content {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px;
+  border: 1px solid;
+  border-radius: 10px;
+}
 
-  .header-right {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-  }
+.job-detail {
+  width: 100%;
+}
 
-  .company-logo {
-    width: 100px;
-    height: 100px;
-    border: 1px solid black;
-    border-radius: 8px;
-    margin-left: auto;
-  }
-  
-  .apply-related {
-    margin-left: auto;
-  }
+.job-title {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-gray);
+}
+.job-info {
+  padding: 20px 0;
+}
 
-  .box-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    width: 230px;
-    margin-left: auto;
-  }
+.job-interaction {
+  display: flex;
+  flex-direction: column;
+  justify-content: baseline;
+  align-items: end;
+  padding: 20px 0;
+}
 
-  .detail-body {
-    width: 1000px;
-    border: 1px solid black;
-    border-radius: 8px;
-  }
+.job-check {
+  display: flex;
+}
+
+.job-scrap-info {
+  display: flex;
+  flex-direction: column;
+}
 </style>

@@ -60,6 +60,10 @@ input:focus {
   outline: none;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .clickable:hover {
   filter: brightness(120%);
   transition: 0.2s;
@@ -73,6 +77,10 @@ input:focus {
 .clickable-img:hover {
   filter: drop-shadow(1px 5px 3px rgb(0, 0, 0, 0.3));
   transition: 0.2s;
+}
+
+.clickable-icon:hover {
+  cursor: pointer;
 }
 
 .clickable-btn:hover {
@@ -89,6 +97,15 @@ input:focus {
 .clickable-txt:hover {
   font-weight: 600;
   transition: 0.2s;
+}
+
+.clickable-transparent:hover {
+  background-color: rgb(104, 128, 255, 0.4);
+  transition: 0.2s;
+}
+
+.active:active {
+  filter: brightness(120%);
 }
 
 ::-webkit-scrollbar {

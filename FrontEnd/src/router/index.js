@@ -17,6 +17,7 @@ import ChatterSign from "@/views/coffee_chat/ChatterSign.vue";
 //채용공고 페이지
 import JobPost from "@/views/job_post/JobPostView.vue";
 import JobDetail from "@/views/job_post/JobDetailView.vue";
+import JobScrap from "@/views/job_post/ScrapJobView.vue";
 
 //커뮤니티 페이지
 import QnABoard from "@/views/community/qna_board/QnABoardView.vue";
@@ -82,6 +83,11 @@ const router = createRouter({
       component: JobDetail,
       // 추후에 각 번호로 입력 받아야함
       // /job-detail/<int: detail-pk>
+    },
+    {
+      path: "/job-scrap",
+      name: "JobScrap",
+      component: JobScrap,
     },
 
     // 커피챗

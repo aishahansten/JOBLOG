@@ -35,7 +35,7 @@
         </transition> -->
     </nav>
     <RouterLink :to="{ name: 'Login' }">
-      <a class="login-btn clickable-btn">로그인</a>
+      <a class="login-btn clickable-btn active">로그인</a>
     </RouterLink>
   </header>
 </template>
@@ -51,13 +51,17 @@ const showDropdown = ref(false);
 header {
   display: flex;
   width: 100%;
-  height: 100px;
+  height: 70px;
   padding: 0 250px;
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
   border-bottom: 1px solid var(--border-gray);
   box-sizing: border-box;
+}
+
+.logo-link img {
+  width: 120px;
 }
 
 nav {
@@ -76,21 +80,20 @@ nav {
   padding: 10px;
   text-align: center;
   color: var(--main-black);
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 400;
 }
 
 .login-btn {
   color: var(--main-blue);
   text-align: center;
-  font-size: 20px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
   background-color: white;
-  border: var(--main-blue) 2px solid;
-  padding: 10px 30px;
-  border-radius: 8px;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 /* Styles for dropdown-content when it is visible */
