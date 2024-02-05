@@ -4,6 +4,7 @@ import com.ssafy.joblog.domain.user.entity.Token;
 import com.ssafy.joblog.domain.user.entity.User;
 import com.ssafy.joblog.domain.user.oauth.JwtProperties;
 import com.ssafy.joblog.domain.user.repository.TokenRepository;
+import com.ssafy.joblog.domain.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -23,6 +24,7 @@ public class JwtUtil {
 
     private final JwtProperties jwtProperties;
     private final TokenRepository tokenRepository;
+    private final UserRepository userRepository;
     private String secretKey;
 
     @PostConstruct
@@ -33,14 +35,14 @@ public class JwtUtil {
     public Token generateToken(int userId, String role) {
         String refreshToken = generateRefreshToken(userId, role);
         String accessToken = generateAccessToken(userId, role);
-        User user = User.builder().id(userId).build();
-        System.out.println("username : "+user.getUsername());
-        System.out.println("id       : "+user.getId());
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
+        System.out.println("username : " + user.getUsername());
+        System.out.println("id       : " + user.getId());
 //        Token token = Token.create(user, accessToken, refreshToken);
         Token token = Token.builder().user(user).accessToken(accessToken).refreshToken(refreshToken).build();
         System.out.println("token_username : "+token.getUser().getUsername());
         //토큰을 DB에 저장
-        tokenRepository.save(token);
+//        tokenRepository.save(token);
         return token;
     }
 

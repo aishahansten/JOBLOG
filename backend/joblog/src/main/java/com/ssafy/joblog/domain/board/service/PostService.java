@@ -34,8 +34,12 @@ public class PostService {
     // 1. 게시글 작성
     public void createPost(PostCreateRequestDto postCreateRequestDto) {
         // 작성한 유저 불러옴
+<<<<<<< HEAD
 
         User user = userRepository.findById(postCreateRequestDto.getUserId()).orElseThrow(()-> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
+=======
+        User user = userRepository.findById(postCreateRequestDto.getUserId()).orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
+>>>>>>> e4deec38b544d2472615973aac3d417658b6423e
         Post post = postCreateRequestDto.createPost(user);
         postRepository.save(post);
     }
