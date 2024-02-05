@@ -41,12 +41,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if (!jwtUtil.verifyToken(atc)) { //AccessToken을 검증하고, 만료되었을 경우 예외 발생.
             throw new JwtException("Expired Access Token");
         } else { //AccessToken이 유효한 경우
-<<<<<<< HEAD
-
             User user = userRepository.findById(jwtUtil.getUserId(atc)).orElseThrow(()-> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
-=======
-            User user = userRepository.findById(jwtUtil.getUserId(atc)).orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
->>>>>>> e4deec38b544d2472615973aac3d417658b6423e
             if (user != null) {
                 Authentication authentication = getAuthentication(user); //SecurityContext에 인증 객체를 등록
                 SecurityContextHolder.getContext().setAuthentication(authentication);

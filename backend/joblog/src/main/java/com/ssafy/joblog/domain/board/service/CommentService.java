@@ -24,12 +24,7 @@ public class CommentService {
     // 1. 댓글 등록하기
     @Transactional
     public void createComment(CommentCreateRequestDto commentCreateRequestDto){
-<<<<<<< HEAD
-
         User user = userRepository.findById(commentCreateRequestDto.getUserId()).orElseThrow(()-> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
-=======
-        User user = userRepository.findById(commentCreateRequestDto.getUserId()).orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
->>>>>>> e4deec38b544d2472615973aac3d417658b6423e
         Post post = postRepository.findById(commentCreateRequestDto.getPostId()).orElseThrow(() -> new IllegalArgumentException("해당하는 게시글이 없습니다."));
         PostComment comment = commentCreateRequestDto.createComment(user, post);
         commentRepository.save(comment);
