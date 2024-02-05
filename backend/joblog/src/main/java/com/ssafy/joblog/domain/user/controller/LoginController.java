@@ -1,5 +1,6 @@
 package com.ssafy.joblog.domain.user.controller;
 
+import com.ssafy.joblog.domain.user.entity.User;
 import com.ssafy.joblog.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -17,8 +18,8 @@ public class LoginController {
     @GetMapping("/test/oauth")
     public @ResponseBody String testLogin(Authentication authentication) {
         System.out.println("/test/oauth=================");
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        System.out.println("oauth2User : " + oAuth2User.getAttributes());
+        User oAuth2User = (User) authentication.getPrincipal();
+        System.out.println("oauth2User : " + oAuth2User.getUsername());
         return "OAuth 세션 정보 확인하기";
     }
 
