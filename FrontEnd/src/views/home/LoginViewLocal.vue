@@ -9,13 +9,13 @@ function toggleEdit() {
 }
 
 function callGoogle() {
-  window.location.href = "https://joblog.pro/api/oauth2/authorization/google";
+  window.location.href = "http://localhost:8080/oauth2/authorization/google";
 }
 function callKakao() {
-  window.location.href = "https://joblog.pro/api/oauth2/authorization/kakao";
+  window.location.href = "http://localhost:8080/oauth2/authorization/kakao";
 }
 function callNaver() {
-  window.location.href = "https://joblog.pro/api/oauth2/authorization/naver";
+  window.location.href = "http://localhost:8080/oauth2/authorization/naver";
 }
 </script>
 

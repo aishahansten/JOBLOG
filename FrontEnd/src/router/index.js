@@ -8,6 +8,7 @@ import HomeView from "../views/home/HomeView.vue";
 
 // 로그인 페이지
 import LoginView from "../views/home/LoginView.vue";
+import LoginLocalView from '@/views/home/LoginViewLocal.vue'
 import SignIn from "../views/home/components/login/SignIn.vue";
 
 //취준토크 페이지
@@ -63,6 +64,11 @@ const router = createRouter({
       path: "/login",
       name: "Login",
       component: LoginView,
+    },    
+    {
+      path: "/login2",
+      name: "Login2",
+      component: LoginLocalView,
     },
     {
       path: "/sign-in",

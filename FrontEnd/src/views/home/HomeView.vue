@@ -33,6 +33,9 @@ authStore.updateUserInfoFromToken();
       <RouterLink :to="{ name: 'Login' }">
         <a class="login-btn-solid clickable"> SNS 계정으로 시작하기 -> </a>
       </RouterLink>
+      <RouterLink :to="{ name: 'Login2' }">
+        <a class="login-btn-solid clickable"> 로컬테스트는 이거 누르세요 -> </a>
+      </RouterLink>
     </div>
   </div>
 
