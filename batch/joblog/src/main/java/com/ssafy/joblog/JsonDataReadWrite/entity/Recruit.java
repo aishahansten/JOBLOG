@@ -23,7 +23,7 @@ public class Recruit extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "company_code")
     private Company company;
 
@@ -124,19 +124,28 @@ public class Recruit extends BaseEntity {
                 new ArrayList<>(Arrays.asList(jobTypes)),
                 new ArrayList<>(Arrays.asList(jobCategoryRecruits)));
 
-        for (Industry industry : industries) {
-            recruit.addIndustry(industry);
+        if (industries.length > 0) {
+            for (Industry industry : industries) {
+                recruit.addIndustry(industry);
+            }
         }
 
-        for (Location location : locations) {
-            recruit.addLocation(location);
-        }
-        for (JobType jobType : jobTypes) {
-            recruit.addJobType(jobType);
+        if (locations.length > 0) {
+            for (Location location : locations) {
+                recruit.addLocation(location);
+            }
         }
 
-        for (JobCategoryRecruit jobCategoryRecruit : jobCategoryRecruits) {
-            recruit.addJobCategoryRecruit(jobCategoryRecruit);
+        if (jobTypes.length > 0) {
+            for (JobType jobType : jobTypes) {
+                recruit.addJobType(jobType);
+            }
+        }
+
+        if (jobCategoryRecruits.length > 0) {
+            for (JobCategoryRecruit jobCategoryRecruit : jobCategoryRecruits) {
+                recruit.addJobCategoryRecruit(jobCategoryRecruit);
+            }
         }
         return recruit;
     }

@@ -62,7 +62,7 @@ public class JsonDataReadWriteConfig {
                                       ItemProcessor jsonDataProcessor,
                                       ItemWriter jsonDataWriter) {
         return new StepBuilder("jsonDataReadWriteStep", jobRepository)
-                .<RecruitRequestDto, Recruit>chunk(100, platformTransactionManager)
+                .<RecruitRequestDto, Recruit>chunk(110, platformTransactionManager)
                 .reader(jsonDataReader) //json 읽어오기
                 .processor(jsonDataProcessor) //json dto[] -> entity[] 가공
                 .writer(jsonDataWriter) //가공된 entity, DB에 save
@@ -81,60 +81,85 @@ public class JsonDataReadWriteConfig {
     @Bean
     public ItemProcessor<RecruitRequestDto, Recruit> jsonDataProcessor() {
         return item -> {
-            UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(item.getCompany().getDetail().getHref());
-            String companyCodeValue = builder.build().getQueryParams().get("csn").get(0);
-            Long companyCode = Long.parseLong(companyCodeValue);
-            Optional<Company> company = companyRepository.findById(companyCode);
-            if (!company.isPresent()) { //company 정보가 존재하지않으면
-                companyRepository.save(Company.builder()
-                        .companyCode(companyCode)
-                        .companyName(item.getCompany().getDetail().getName())
-                        .build());
+            if(item.getCompany().getDetail().getHref() != null){
+                UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(item.getCompany().getDetail().getHref());
+                String companyCodeValue = builder.build().getQueryParams().get("csn").get(0);
+                Long companyCode = Long.parseLong(companyCodeValue);
+                Optional<Company> company = companyRepository.findById(companyCode);
+                if (!company.isPresent()) { //company 정보가 존재하지않으면
+                    companyRepository.save(Company.builder()
+                            .companyCode(companyCode)
+                            .companyName(item.getCompany().getDetail().getName())
+                            .build());
+                }
             }
+
 
             RecruitRequestDto.IndustryDTO industryDTO = item.getPosition().getIndustry();
-            List<String> industry = Arrays.asList(industryDTO.getName().split(","));
-            List<String> industryCode = Arrays.asList(industryDTO.getCode().split(","));
             List<Industry> industries = new ArrayList<>();
-            int industrySize = industry.size();
-            for (int i = 0; i < industrySize; i++) {
-                industries.add(Industry.builder()
-                        .industry(industry.get(i))
-                        .industryCode(Integer.parseInt(industryCode.get(i)))
-                        .build());
+            int industrySize = 0;
+            if(industryDTO.getCode() != null){
+                List<String> industry = Arrays.asList(industryDTO.getName().split(","));
+                List<String> industryCode = Arrays.asList(industryDTO.getCode().split(","));
+                industrySize = industry.size();
+                for (int i = 0; i < industrySize; i++) {
+                    industries.add(Industry.builder()
+                            .industry(industry.get(i))
+                            .industryCode(Integer.parseInt(industryCode.get(i)))
+                            .build());
+                }
             }
+
 
             RecruitRequestDto.LocationDTO locationDTO = item.getPosition().getLocation();
-            List<String> location = Arrays.asList(locationDTO.getName().split(","));
-            List<String> locationCode = Arrays.asList(locationDTO.getCode().split(","));
             List<Location> locations = new ArrayList<>();
-            int locationSize = location.size();
-            for (int i = 0; i < locationSize; i++) {
-                locations.add(Location.builder()
-                        .location(location.get(i))
-                        .locationCode(Integer.parseInt(locationCode.get(i)))
-                        .build());
+            int locationSize = 0;
+            if (locationDTO.getCode() != null){
+                List<String> location = Arrays.asList(locationDTO.getName().split(","));
+                List<String> locationCode = Arrays.asList(locationDTO.getCode().split(","));
+                locationSize = location.size();
+                for (int i = 0; i < locationSize; i++) {
+                    locations.add(Location.builder()
+                            .location(location.get(i))
+                            .locationCode(Integer.parseInt(locationCode.get(i)))
+                            .build());
+                }
             }
+
 
             RecruitRequestDto.JobTypeDTO jobTypeDTO = item.getPosition().getJobType();
-            List<String> jobType = jobTypeDTO.getName() != null ? Arrays.asList(jobTypeDTO.getName().split(",")) : new ArrayList<>();
-            List<String> jobTypeCode = jobTypeDTO.getCode() != null ? Arrays.asList(jobTypeDTO.getCode().split(",")) : new ArrayList<>();
-
             List<JobType> jobTypes = new ArrayList<>();
-            int jobTypeSize = jobType.size();
-            for (int i = 0; i < jobTypeSize; i++) {
-                jobTypes.add(JobType.builder()
-                        .jobType(jobType.get(i))
-                        .jobTypeCode(Integer.parseInt(jobTypeCode.get(i)))
-                        .build());
-            }
+            int jobTypeSize = 0;
+            if(jobTypeDTO.getCode() != null){
+                List<String> jobType = jobTypeDTO.getName() != null ? Arrays.asList(jobTypeDTO.getName().split(",")) : new ArrayList<>();
+                List<String> jobTypeCode = jobTypeDTO.getCode() != null ? Arrays.asList(jobTypeDTO.getCode().split(",")) : new ArrayList<>();
+                jobTypeSize = jobType.size();
+                for (int i = 0; i < jobTypeSize; i++) {
+                    jobTypes.add(JobType.builder()
+                            .jobType(jobType.get(i))
+                            .jobTypeCode(Integer.parseInt(jobTypeCode.get(i)))
+                            .build());
+                }
 
+            }
 
             RecruitRequestDto.JobMidCodeDTO jobMidCodeDTO = item.getPosition().getJobMidCode();
             RecruitRequestDto.JobCodeDTO jobCodeDTO = item.getPosition().getJobCode();
             //상위, 하위 코드 합치기
-            String job = jobMidCodeDTO.getCode() + "," + jobCodeDTO.getCode();
-            List<String> jobCode = Arrays.asList(job.split(","));
+            String job = "";
+            if(jobMidCodeDTO != null && jobCodeDTO != null){
+                job = jobMidCodeDTO.getCode() + "," + jobCodeDTO.getCode();
+            }
+            else if(jobMidCodeDTO != null){
+                job = jobMidCodeDTO.getCode();
+            }
+            else if(jobCodeDTO != null){
+                job = jobCodeDTO.getCode();
+            }
+            List<String> jobCode = new ArrayList<>();
+            if(!job.equals("")){
+                jobCode = Arrays.asList(job.split(","));
+            }
 
             List<JobCategoryRecruit> jobCodes = new ArrayList<>();
             int jobCodeSize = jobCode.size();

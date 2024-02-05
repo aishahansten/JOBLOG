@@ -22,7 +22,8 @@ public class JobScheduler {
     @Autowired //joblauncher 직접 지정
     private JobLauncher jobLauncher;
 
-    @Scheduled(cron = "0 */60 * * * *") //60분마다 실행
+//    @Scheduled(cron = "0 */60 * * * *") //60분마다 실행
+    @Scheduled(cron = "0 0 0,4,8,12,16,20 * * ?", initialDelay = 60000, zone = "Asia/Seoul")
     public void JsonDataReadWriteJobRun() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
         JobParameters jobParameters = new JobParameters(
                 Collections.singletonMap("requestTime", new JobParameter(System.currentTimeMillis(), Long.class))
