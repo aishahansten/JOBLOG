@@ -28,7 +28,6 @@ public class DiaryService {
 
     // 1. 일기 등록하기
     public void createDiary(DiaryCreateRequestDto diaryCreateRequestDto) {
-
         User user = userRepository.findById(diaryCreateRequestDto.getUserId()).orElseThrow(()-> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
         Diary diary = diaryCreateRequestDto.createDiary(user);
         diaryRepository.save(diary);

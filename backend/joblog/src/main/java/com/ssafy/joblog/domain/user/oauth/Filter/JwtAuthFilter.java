@@ -34,23 +34,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String atc = request.getHeader("Authorization"); //request Header의 AccessToken
 
         if (!StringUtils.hasText(atc)) { //토큰 검사 생략(모두 허용 URL의 경우 토큰 검사 통과)
+            System.out.println("토큰 검사 생략");
             doFilter(request, response, filterChain);
             return;
         }
         if (!jwtUtil.verifyToken(atc)) { //AccessToken을 검증하고, 만료되었을 경우 예외 발생.
             throw new JwtException("Expired Access Token");
         } else { //AccessToken이 유효한 경우
-
             User user = userRepository.findById(jwtUtil.getUserId(atc)).orElseThrow(()-> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
             if (user != null) {
-                user = User.builder()
-                        .id(user.getId())
-                        .username(user.getUsername())
-                        .email(user.getEmail())
-                        .role(user.getRole())
-                        .provider(user.getProvider())
-                        .providerId(user.getProviderId())
-                        .build();
                 Authentication authentication = getAuthentication(user); //SecurityContext에 인증 객체를 등록
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
