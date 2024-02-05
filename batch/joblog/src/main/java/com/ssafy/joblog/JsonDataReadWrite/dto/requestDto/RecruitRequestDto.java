@@ -85,7 +85,7 @@ public class RecruitRequestDto {
         return Recruit.builder()
                 .company(Company.builder()
                         .companyName(this.company.detail.name)
-                        .companyCode(companyCode)
+                        .companyCode(companyCode != -1 ? companyCode: null)
                         .build())
                 .jobId(Long.valueOf(this.id))
                 .title(this.position.title)

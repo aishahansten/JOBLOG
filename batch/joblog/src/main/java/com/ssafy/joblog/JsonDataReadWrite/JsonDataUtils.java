@@ -68,6 +68,7 @@ public class JsonDataUtils {
                 "        \"active\": 1,\n" +
                 "        \"company\": {\n" +
                 "          \"detail\": {\n" +
+                "            \"name\": \"(주)사람인1\"\n" +
                 "          }\n" +
                 "        },\n" +
                 "        \"position\": {\n" +
