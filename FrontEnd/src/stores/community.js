@@ -17,7 +17,7 @@ export const useCommunityStore = defineStore('community', () => {
   const getPosts = function() {
     axios({
       method: 'get',
-      url: `${API_URL}community/`,
+      url: `${API_URL}/community`,
       headers: {
         Authorization: `${token}`
       }

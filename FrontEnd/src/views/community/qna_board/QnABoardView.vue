@@ -10,14 +10,13 @@
   import QnAList from './components/QnAList.vue';
   import { useCommunityStore } from '@/stores/community';
 
-  const API_URL = import.meta.env.VITE_API_BASE_URL
-  console.log(API_URL)
   const communityStore = useCommunityStore()
-  const posts = ref([])
-  console.log(posts.value)
+  // const posts = ref([])
+  // console.log(posts.value)
+
   onMounted (() => {
     communityStore.getPosts()
-    posts.value = communityStore.posts
+    // posts.value = communityStore.posts1
   })
 
 </script>
