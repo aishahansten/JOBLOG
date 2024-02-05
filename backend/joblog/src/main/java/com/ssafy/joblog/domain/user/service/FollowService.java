@@ -28,20 +28,18 @@ public class FollowService {
         User following = userRepository.findById(followRequestDto.getFollowingId())
                 .orElseThrow(() -> new EntityNotFoundException("팔로잉 유저가 존재하지 않습니다"));
 
-        if(follower == following) { //자신을 팔로우하는 경우
+        if (follower.getId() == following.getId()) { //자신을 팔로우하는 경우
             throw new IllegalStateException("자신은 팔로우할 수 없습니다");
         }
 
         Optional<Follow> followInfo = followRepository.findByFollowerIdAndFollowingId(follower.getId(), following.getId());
-        if(followInfo.isPresent()) { //기존 팔로우 정보가 있는 경우
-            if( followInfo.get().isDelete()){
+        if (followInfo.isPresent()) { //기존 팔로우 정보가 있는 경우
+            if (followInfo.get().isDelete()) {
                 followInfo.get().updateFollow();
-            }
-            else{
+            } else {
                 followInfo.get().deleteFollow();
             }
-        }
-        else { //새로운 팔로우정보 생성
+        } else { //새로운 팔로우정보 생성
             Follow follow = followRequestDto.createFollow(follower, following);
             followRepository.save(follow);
         }
@@ -53,7 +51,7 @@ public class FollowService {
         List<Follow> followingList = followRepository.findAllFollowByFollowerIdAndIsDeleteIsFalse(userId);
 
         List<FollowListResponseDto> followListResponseDto = new ArrayList<>();
-        for(Follow following: followingList){
+        for (Follow following : followingList) {
             followListResponseDto.add(FollowListResponseDto.fromEntity(following));
         }
         return followListResponseDto;
