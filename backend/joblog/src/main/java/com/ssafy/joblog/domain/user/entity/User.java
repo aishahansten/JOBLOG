@@ -2,6 +2,7 @@ package com.ssafy.joblog.domain.user.entity;
 
 
 
+import com.ssafy.joblog.domain.alarm.entity.Alarm;
 import com.ssafy.joblog.domain.board.entity.Post;
 import com.ssafy.joblog.domain.board.entity.PostComment;
 import com.ssafy.joblog.domain.board.entity.PostCommentLike;
@@ -17,6 +18,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.sql.Array;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -75,6 +77,9 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "following")
     private List<Follow> followings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Alarm> alarms = new ArrayList<>();
 
 
     //Spring Security에서 사용

@@ -36,29 +36,29 @@ public class Schedule extends BaseEntity {
 
     @Column(nullable = false)
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime start_date;
+    private LocalDateTime startDate;
 
     @Column(nullable = false)
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime end_date;
+    private LocalDateTime endDate;
 
     //더티 체킹 : for UPDATE
     public void updateSchedule(ScheduleUpdateRequestDto scheduleUpdateRequestDto) {
         this.title = scheduleUpdateRequestDto.getTitle();
         this.content = scheduleUpdateRequestDto.getContent();
-        this.start_date = scheduleUpdateRequestDto.getStartDate();
-        this.end_date = scheduleUpdateRequestDto.getEndDate();
+        this.startDate = scheduleUpdateRequestDto.getStartDate();
+        this.endDate = scheduleUpdateRequestDto.getEndDate();
     }
 
     // 생성자
     @Builder
-    public Schedule(int id, User user, String title, String content, LocalDateTime start_date, LocalDateTime end_date) {
+    public Schedule(int id, User user, String title, String content, LocalDateTime startDate, LocalDateTime endDate) {
         this.id = id;
         this.user = user;
         this.title = title;
         this.content = content;
-        this.start_date = start_date;
-        this.end_date = end_date;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     // Entity -> DTO 개인 전체 조회하기, DTO 개인 일정 상세 조회하기
@@ -68,8 +68,8 @@ public class Schedule extends BaseEntity {
                 .userId(user.getId())
                 .title(title)
                 .content(content)
-                .startDate(start_date)
-                .endDate(end_date)
+                .startDate(startDate)
+                .endDate(endDate)
                 .build();
     }
 }

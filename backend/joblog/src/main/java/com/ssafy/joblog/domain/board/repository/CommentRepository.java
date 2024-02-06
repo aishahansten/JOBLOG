@@ -11,7 +11,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface CommentRepository extends JpaRepository<PostComment, Integer> {
-    public List<PostComment> findByPost(Post post);
+
+    // is_delete=0인 댓글만 표시
+    public List<PostComment> findByPostAndIsDeleteIsFalseOrderByCreatedDateDesc(Post post);
 
     @Modifying
     @Query("UPDATE PostComment postComment SET postComment.isDelete = true WHERE postComment.id = :id")
@@ -20,4 +22,6 @@ public interface CommentRepository extends JpaRepository<PostComment, Integer> {
     // is_delete=0인 댓글 좋아요 개수
     @Query("SELECT COUNT(commentlike) FROM PostCommentLike commentlike WHERE commentlike.postComment.id = :commentId AND commentlike.isDelete = false")
     int countActiveCommentLikes(@Param("commentId") int commentId);
+
+
 }

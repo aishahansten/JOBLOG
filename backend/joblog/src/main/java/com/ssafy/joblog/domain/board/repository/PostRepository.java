@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Integer> {
 
@@ -23,4 +24,8 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Query("SELECT COUNT(like) FROM PostLike like WHERE like.post.id = :postId AND like.isDelete = false")
     int countActiveLikes(@Param("postId") int postId);
 
+    // is_delete인 게시글만 표시
+
+    List<Post> findAllByIsDeleteIsFalseOrderByCreatedDateDesc();
+    Optional<Post> findByIdAndIsDeleteIsFalse(Integer id);
 }
