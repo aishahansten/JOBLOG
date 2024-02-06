@@ -15,9 +15,11 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.webjars.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -38,7 +40,7 @@ public class ScheduleService {
     // 2. 개인 전체 조회하기
     @Transactional(readOnly = true)
     public List<ScheduleResponseDto> getSchedules(Integer userId) {
-        List<Schedule> schedules = scheduleRepository.findByUserId(userId);
+        List<Schedule> schedules = scheduleRepository.findByUserIdAndIsDeleteIsFalse(userId);
         List<ScheduleResponseDto> getSchedulesList = new ArrayList<>();
         schedules.forEach(schedule -> getSchedulesList.add(schedule.toScheduleResponseDto()));
         return getSchedulesList;
@@ -47,7 +49,9 @@ public class ScheduleService {
     // 3. 개인 일정 상세 조회하기
     @Transactional(readOnly = true)
     public ScheduleResponseDto getSchedule(Integer scheduleId) {
-        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new IllegalArgumentException("해당 일정이 존재하지 않습니다"));
+        Optional<Schedule> optionalSchedule = scheduleRepository.findByIdAndIsDeleteIsFalse(scheduleId);
+        Schedule schedule = optionalSchedule
+                .orElseThrow(() -> new NotFoundException("해당 일정이 존재하지 않습니다"));
         ScheduleResponseDto scheduleResponseDto = schedule.toScheduleResponseDto();
         return scheduleResponseDto;
     }

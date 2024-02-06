@@ -19,7 +19,9 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.webjars.NotFoundException;
 
+import javax.management.InstanceNotFoundException;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -42,7 +44,7 @@ public class PostService {
     //2. 카테고리별 게시글 목록 조회
     @Transactional(readOnly = true)
     public List<PostResponseDto> getPosts() {
-        List<Post> posts = postRepository.findAll();
+        List<Post> posts = postRepository.findAllByIsDeleteIsFalseOrderByCreatedDateDesc();
         List<PostResponseDto> getPostsList = new ArrayList<>();
         posts.forEach(post -> getPostsList.add(PostResponseDto.builder()
                 .postId(post.getId())
@@ -61,14 +63,13 @@ public class PostService {
     }
 
     //3. 게시글 상세 조회
-    @Transactional
-    public PostWithCommentsResponseDto getPost(int id) {
-        Post post = postRepository.findById(id).orElseThrow(() -> {
-            return new IllegalArgumentException("해당 게시글을 찾을 수 없습니다");
-        });
+    @Transactional(readOnly = true)
+    public PostWithCommentsResponseDto getPost(Integer id) {
+        Optional<Post> optionalPost = postRepository.findByIdAndIsDeleteIsFalse(id);
+        Post post = optionalPost.orElseThrow(() -> new NotFoundException("해당 게시글을 찾을 수 없습니다"));
         post.addHit(1);
         // 해당 post에 해당하는 comment 배열
-        List<PostComment> comments = commentRepository.findByPost(post);
+        List<PostComment> comments = commentRepository.findByPostAndIsDeleteIsFalseOrderByCreatedDateDesc(post);
         List<CommentResponseDto> getCommentsList = new ArrayList<>();
         comments.forEach(comment -> getCommentsList.add(CommentResponseDto.builder()
                 .commentId(comment.getId())
