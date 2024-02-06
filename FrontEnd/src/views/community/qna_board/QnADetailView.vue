@@ -15,7 +15,6 @@
             <RouterLink :to="{ name: 'QnAUpdate', params: { id: post.postId } }">
               <button>수정하기</button>
             </RouterLink>
-            <button>삭제하기</button>
           </div>
         </div>
         <div class="content">

@@ -7,6 +7,7 @@
         <div class="header">
           <div>
             <button @click="savePost">수정창</button>
+            <button @click="deletePost">삭제하기</button>
           </div>
           <div class="title" v-if="post">
              <input type="text" v-model="post.title" required>
@@ -51,7 +52,7 @@
     }
   }
   
-  const savePost = async () => {
+const savePost = async () => {
   try {
     const config = {
       headers: {
@@ -72,6 +73,24 @@
     router.push({ name: 'QnADetail', params: { id: post.value.postId } })
   } catch (error) {
     console.error('업데이트 실패: ', error);
+  }
+};
+
+const deletePost = async () => {
+  try {
+    const config = {
+      headers: {
+        'Authorization': `${authStore.accessToken}`
+      }
+    };
+    const res = await axios.delete(`${authStore.API_URL}/community/delete/${post.value.postId}`, config);
+    console.log(post.value.postId,'번글이 삭제되었습니다.');
+    console.log(res.data);
+    router.push({ name: 'QnABoard' })
+
+    // Optionally, emit an event to inform the parent component to update the comment list
+  } catch (error) {
+    console.error('삭제 실패: ', error);
   }
 };
 
