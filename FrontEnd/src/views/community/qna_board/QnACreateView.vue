@@ -16,24 +16,36 @@
 import { ref } from 'vue'
 import axios from 'axios';
 import { useCommunityStore } from '@/stores/community';
+import { localAxios } from '@/utils/http-common';
+
 
 const store = useCommunityStore()
+console.log(store.API_URL)
 
 const createPost = async () => {
   try {
-    const response = await axios.post(`${store.API_URL}/community/register`)
-    console.log(response.data)
+    // Set the Authorization header for this specific request
+    const config = {
+      headers: {
+        'Authorization': `${token}`
+      }
+    };
 
+    const response = await axios.post(`http://localhost:8080/api/community/register`, newQuestion.value, config);
+    console.log(response.data);
+    console.log(config.value)
+    // Resetting the newQuestion value after successful request
     newQuestion.value = {
-      userID: 1,
-      category: 1,
+      userId: 1,
+      category: 'QNA',
       title: '',
       content: ''
-    }
+    };
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 }
+
 
 const newQuestion = ref({
   userId: 1,
@@ -42,7 +54,14 @@ const newQuestion = ref({
   content: '',
 })
 
+const getCookie = function(name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+} 
 
+const token = getCookie('accessToken')
+console.log('시발', token)
 
 
 

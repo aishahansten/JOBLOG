@@ -1,5 +1,6 @@
 package com.ssafy.joblog.domain.user.oauth.Filter;
 
+import com.ssafy.joblog.domain.user.config.PrincipalDetails;
 import com.ssafy.joblog.domain.user.entity.User;
 import com.ssafy.joblog.domain.user.repository.UserRepository;
 import com.ssafy.joblog.domain.user.util.JwtUtil;
@@ -51,7 +52,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     public Authentication getAuthentication(User user) {
-        return new UsernamePasswordAuthenticationToken(user, "",
+        PrincipalDetails principalDetails = new PrincipalDetails(user);
+        return new UsernamePasswordAuthenticationToken(principalDetails, "",
                 List.of(new SimpleGrantedAuthority(user.getRole().toString())));
     }
 
