@@ -1,5 +1,6 @@
 package com.ssafy.joblog.domain.myRecruit.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.ssafy.joblog.domain.myRecruit.dto.request.MyRecruitRequestDto;
 import com.ssafy.joblog.domain.recruit.entity.Recruit;
 import com.ssafy.joblog.domain.user.entity.User;
@@ -9,6 +10,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DialectOverride;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -68,12 +71,17 @@ public class MyRecruit extends BaseEntity {
         this.isDelete = true;
     }
 
-    public void updateMyRecruit(MyRecruitRequestDto myRecruitRequestDto) {
+    public void updateMyRecruitNonScrap(MyRecruitRequestDto myRecruitRequestDto) {
         this.title = myRecruitRequestDto.getTitle();
         this.companyName = myRecruitRequestDto.getCompanyName();
         this.job = myRecruitRequestDto.getJob();
         this.openingDate = myRecruitRequestDto.getOpeningDate();
         this.expirationDate = myRecruitRequestDto.getExpirationDate();
+        this.description = myRecruitRequestDto.getDescription();
+    }
+
+    public void updateMyRecruitScrap(MyRecruitRequestDto myRecruitRequestDto) {
+        this.job = myRecruitRequestDto.getJob();
         this.description = myRecruitRequestDto.getDescription();
     }
 
