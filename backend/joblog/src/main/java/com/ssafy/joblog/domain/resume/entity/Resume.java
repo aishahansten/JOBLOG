@@ -17,6 +17,7 @@ import static jakarta.persistence.FetchType.LAZY;
 public class Resume extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "resume_id")
     private int id;
 
     @ManyToOne(fetch = LAZY )

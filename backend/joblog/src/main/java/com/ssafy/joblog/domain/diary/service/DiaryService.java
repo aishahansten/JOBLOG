@@ -14,9 +14,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.webjars.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -36,7 +38,7 @@ public class DiaryService {
     // 2. 일기 조회하기
     @Transactional(readOnly = true)
     public List<DiaryResponseDto> getDiaries(Integer userId) {
-        List<Diary> diaries = diaryRepository.findByUserId(userId);
+        List<Diary> diaries = diaryRepository.findByUserIdAndIsDeleteIsFalseOrderByCreatedDateDesc(userId);
         List<DiaryResponseDto> getDiariesList = new ArrayList<>();
         diaries.forEach(diary -> getDiariesList.add(diary.toDiaryResponseDto()));
         return getDiariesList;
@@ -45,9 +47,9 @@ public class DiaryService {
     // 3. 일기 상세 조회하기
     @Transactional(readOnly = true)
     public DiaryResponseDto getDiary(Integer diaryId) {
-        Diary diary = diaryRepository.findById(diaryId).orElseThrow(() -> {
-            return new IllegalArgumentException("해당 복기를 조회할 수 없습니다");
-        });
+        Optional<Diary> optionalDiary = diaryRepository.findByIdAndIsDeleteIsFalse(diaryId);
+        Diary diary = optionalDiary
+        .orElseThrow(() -> new NotFoundException("해당 복기를 조회할 수 없습니다"));
         DiaryResponseDto diaryResponseDto = diary.toDiaryResponseDto();
         return diaryResponseDto;
     }
