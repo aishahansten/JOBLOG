@@ -11,11 +11,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CoffeechatCreateRequestDto {
+public class ChatCreateRequestDto {
     private int chatterId;
     private int chatteeId;
     private String consultField;
-    private boolean acceptOrNot;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime startDate;
 
@@ -25,7 +24,6 @@ public class CoffeechatCreateRequestDto {
                 .chatter(chatter)
                 .chattee(chattee)
                 .consultField(this.consultField)
-                .acceptOrNot(this.acceptOrNot)
                 .startDate(this.startDate)
                 .build();
     };
