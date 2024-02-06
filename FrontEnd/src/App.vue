@@ -1,22 +1,15 @@
 <template>
-  <NavBar />
+  <Header />
   <main>
     <RouterView />
   </main>
-  <footer>
-    <img src="" alt="" /> 
-    ⓒ 2024. B204. All Rights Reserved.
-  </footer>
+  <Footer />
 </template>
 
 <script setup>
 import { RouterView, RouterLink } from "vue-router";
-import NavBar from "./views/home/components/NavBar.vue";
+import Header from "@/common/Header.vue";
+import Footer from "@/common/Footer.vue";
 </script>
 
-<style>
-  footer {
-    display: flex;
-    flex-direction: column;
-  }
-</style>
+<style></style>

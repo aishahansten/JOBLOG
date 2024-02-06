@@ -33,110 +33,87 @@ function toggleEdit() {
 </template>
 
 <style scoped>
-#account-setting {
-  font-weight: 700;
-}
+/* 회원 기능 (탈퇴 1단계) */
 
-.container {
+.withdraw-content {
   display: flex;
-  width: 100%;
-  min-height: 980px;
-  align-items: stretch;
-
-  border-left: 1px solid var(--border-gray);
-  border-right: 1px solid var(--border-gray);
-}
-
-.content-container {
-  display: flex;
-  width: 100%;
   flex-direction: column;
-  justify-content: baseline;
   align-items: baseline;
-  box-sizing: border-box;
+  padding: 70px 50px;
+  gap: 100px;
 }
 
-.content-info-space {
+.withdraw-content section {
   display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-  padding: 70px 50px 20px 50px;
-  gap: 10px;
-
-  border-bottom: 1px solid var(--border-gray);
+  flex-direction: column;
+  gap: 20px;
 }
-.content-info {
+.section-title {
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
-.content-info-space .content-title {
-  font-size: 32px;
-  font-weight: 700;
-}
-.content-info-space p {
-  font-size: 20px;
-  font-weight: 200;
+
+.dont-btn {
+  width: fit-content;
+  padding: 10px 30px;
+  border: 1px solid var(--border-gray);
+  border-radius: 10px;
 }
 
-.content {
+/* 회원 탈퇴 안내 (탈퇴 2단계) */
+
+.withdraw-confirm-content {
   display: flex;
   width: 100%;
   height: 100%;
   flex-direction: column;
-  justify-content: baseline;
+  justify-content: center;
   align-items: center;
-
-  padding: 100px 0;
-  gap: 50px;
-}
-
-.profile-pic {
-  width: 300px;
-  height: 300px;
-
-  border: 1px solid var(--border-gray);
-  border-radius: 70%;
-  overflow: hidden;
-}
-.profile-pic img {
-  width: 300px;
-  height: 300px;
-  object-fit: cover;
-}
-
-.account-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 70px 50px;
   gap: 30px;
 }
-.account-info div {
+
+.precautions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 50px;
+  border: 1px solid var(--border-gray);
+  border-radius: 10px;
+}
+
+.warning {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
-
-  font-size: 20px;
-}
-.account-info div span {
-  color: var(--gray);
-}
-.account-info div p {
-  font-weight: 700;
 }
 
-.edit-btn {
-  color: var(--main-blue);
-  text-align: center;
+#agreement {
+  width: 545px;
+  font-size: 16px;
+}
+
+.withdraw-confirm-content button {
+  background-color: var(--border-gray);
   font-size: 20px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  background-color: white;
-  border: var(--main-blue) 2px solid;
-  padding: 10px 30px;
-  border-radius: 8px;
+  color: white;
+}
+.btn-inactive {
+  background-color: var(--border-gray);
+}
+.btn-active:hover {
+  background-color: var(--gray);
+  font-size: 20px;
+  color: white;
+}
+
+/* 회원 탈퇴 완료 (탈퇴 3단계) */
+
+#withdraw-complete-view {
+  border-left: 1px solid var(--border-gray);
+  border-right: 1px solid var(--border-gray);
+  height: 1000px;
 }
 </style>
