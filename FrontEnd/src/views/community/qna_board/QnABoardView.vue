@@ -9,16 +9,14 @@
 import { onMounted } from 'vue';
 import QnAList from './components/QnAList.vue';
 import { useCommunityStore } from '@/stores/community';
-
+import { useRouter } from 'vue-router';
 const communityStore = useCommunityStore();
-
+const router = useRouter()
 onMounted(async () => {
   // Use an immediately-invoked async function
-  await communityStore.getPosts();
-  
-  // Now, this log will reflect the updated state
-  console.log('커뮤니티 리스트에서 찾는 로그', communityStore.posts);
+  await communityStore.getPosts(router);
 });
+
 </script>
 
 

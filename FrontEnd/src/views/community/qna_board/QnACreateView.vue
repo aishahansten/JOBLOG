@@ -7,24 +7,26 @@
       <textarea v-model="newQuestion.content" placeholder="본문 내용을 입력하세요" required></textarea>
     </div>
     <div class="submit">
-      <button @click="createPost">작성하기</button>
+      <button @click="createPost" :disabled="!isTitleValid">작성하기</button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import axios from 'axios';
 import { useCommunityStore } from '@/stores/community';
 import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 const authStore = useAuthStore()
 const communityStore = useCommunityStore()
 
-console.log(authStore.userInfo.sub)
-
 const createPost = async () => {
   try {
+    authStore.updateUserInfoFromToken()
+    newQuestion.value.userId = authStore.userInfo.sub;
     // Set the Authorization header for this specific request
     const config = {
       headers: {
@@ -41,6 +43,7 @@ const createPost = async () => {
       title: '',
       content: ''
     };
+    router.push('/qna-board')
   } catch (error) {
     console.error(error);
   }
@@ -48,11 +51,13 @@ const createPost = async () => {
 
 
 const newQuestion = ref({
-  userId: authStore.userInfo.sub,
+  userId: '',
   category: 'QNA',
   title: '',
   content: '',
 })
+
+const isTitleValid = computed(() => newQuestion.value.title.length >= 4);
 
 </script>
 

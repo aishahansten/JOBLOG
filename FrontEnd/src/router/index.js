@@ -24,6 +24,8 @@ import QnABoard from "@/views/community/qna_board/QnABoardView.vue";
 import ResumeCreate from "@/views/blog/application/resume/ResumeCreateView.vue";
 import QnADetail from "@/views/community/qna_board/QnADetailView.vue";
 import QnACreate from "@/views/community/qna_board/QnACreateView.vue";
+import QnACommentCreate from "@/views/community/qna_board/components/QnACommentCreate.vue";
+import QnAUpdate from "@/views/community/qna_board/QnAUpdateView.vue";
 
 //취준로그 페이지
 import Schedule from "@/views/blog/schedule/ScheduleView.vue";
@@ -117,6 +119,18 @@ const router = createRouter({
       path: "/qna-create",
       name: "QnACreate",
       component: QnACreate,
+    },
+    {
+      path: "/qna-board/comment",
+      name: "QnACommentCreate",
+      props: true,
+      component: QnACommentCreate,
+    },
+    {
+      path: "/qna-board/update/:id",
+      name: "QnAUpdate",
+      props: true,
+      component: QnAUpdate,
     },
 
     // 캘린더

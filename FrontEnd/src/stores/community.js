@@ -2,9 +2,11 @@ import { defineStore } from 'pinia';
 import axios from 'axios';
 import { useAuthStore } from './auth';
 
+
 export const useCommunityStore = defineStore('community', {
   state: () => ({
     posts: [],
+    API_URL: import.meta.env.VITE_API_BASE_URL
   }),
   actions: {
 
@@ -15,21 +17,23 @@ export const useCommunityStore = defineStore('community', {
       return null;
     },
 
-    async getPosts() {
-      const authStore = useAuthStore();
-      const token = authStore.accessToken
+    async getPosts(router) {
+
 
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/community`, {
           headers: {
-            Authorization: `${this.getCookie('accessToken')}`, // Use the token directly
+            Authorization: `${this.getCookie('accessToken')}`,
           },
         });
         this.posts = response.data;
-        console.log(response.data)
       } catch (err) {
-        console.error('Error fetching posts:', err);
-        console.log('token', token)
+        if (err.response && err.response.status === 500) {
+          router.push('/login2');
+        } else {
+          // Handle other errors or a case where the error does not have a response object
+          console.log('token', token); // Logging the token for debugging purposes
+        }
         this.posts = [];
       }
     },

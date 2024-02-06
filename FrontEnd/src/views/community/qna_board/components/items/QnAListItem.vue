@@ -10,12 +10,12 @@
             {{ post.hit }}
 
             <img src="@/assets/img/community/like.svg" class="icons">
-            {{ post.totalLikes }}
+            {{ post.totalLike }}
           </div>
         </div>
         <div class="container-right">
           <div>{{ post.createdDate }}</div>
-          <div>답변 개수: {{ post.totalComments }}</div>
+          <div>답변 개수: {{ post.totalComment }}</div>
         </div>
     </div>
 </template>
