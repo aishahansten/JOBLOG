@@ -2,6 +2,7 @@ package com.ssafy.joblog.domain.recruit.controller;
 
 import com.ssafy.joblog.domain.myRecruit.dto.request.MyRecruitRequestDto;
 import com.ssafy.joblog.domain.myRecruit.dto.request.RecruitScrapRequestDto;
+import com.ssafy.joblog.domain.myRecruit.dto.response.MyRecruitResponseDto;
 import com.ssafy.joblog.domain.myRecruit.service.MyRecruitService;
 import com.ssafy.joblog.domain.recruit.dto.responseDto.JobCategoryResponseDto;
 import com.ssafy.joblog.domain.recruit.dto.responseDto.RecruitDetailResponseDto;
@@ -31,7 +32,7 @@ public class RecruitController {
     }
 
     @GetMapping("/{recruitId}")
-    public ResponseEntity<RecruitDetailResponseDto> findRecruit(@PathVariable Long recruitId) {
+    public ResponseEntity<RecruitDetailResponseDto> findRecruit(@PathVariable(value = "recruitId") Long recruitId) {
         return ResponseEntity.ok(recruitService.findRecruit(recruitId));
     }
 
