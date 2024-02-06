@@ -1,0 +1,46 @@
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+
+  border-radius: 10px;
+  font-weight: 600;
+}
+.btn-s {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+/*! lined */
+.lined-c {
+  border: 1px solid var(--main-blue);
+}
+.lined-bg {
+  border: 1px solid var(--border-gray);
+}
+
+/*! solid */
+.solid-c {
+  background-color: var(--main-blue);
+  color: white;
+}
+.solid-dg {
+  background-color: var(--dark-gray);
+  color: white;
+}
+.solid-g {
+  background-color: var(--gray);
+  color: white;
+}
+.solid-bg {
+  background-color: var(--border-gray);
+}
+.solid-lg {
+  background-color: var(--light-gray);
+}

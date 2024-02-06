@@ -1,5 +1,15 @@
 <script setup>
+import { useRouter } from "vue-router";
 import "@/assets/css/setting/setting-nav.css";
+
+const router = useRouter();
+
+function logout() {
+  document.cookie =
+    "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; Secure;";
+
+  router.push("/");
+}
 </script>
 
 <template>
@@ -43,7 +53,42 @@ import "@/assets/css/setting/setting-nav.css";
       </div>
     </div>
     <div class="menu-logout">
-      <a id="logout" href="" class="clickable-txt">로그아웃</a>
+      <a @click="logout" id="logout" href="" class="clickable-txt">로그아웃</a>
     </div>
   </aside>
 </template>
+
+<style scoped>
+aside {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  width: 300px;
+  min-height: 100%;
+  gap: 100px;
+
+  box-sizing: border-box;
+  padding: 70px 50px;
+
+  border-right: 1px solid var(--border-gray);
+}
+aside * {
+  font-size: 20px;
+}
+
+.setting-menu div {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.setting-menu div p {
+  margin-bottom: 10px;
+  color: var(--gray);
+  font-weight: 600;
+}
+
+.clickable-txt:hover {
+  font-weight: 600;
+  transition: 0.1s;
+}
+</style>

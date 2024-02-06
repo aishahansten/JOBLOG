@@ -3,6 +3,7 @@ import { computed } from "vue";
 import Calendar from "./components/Calendar.vue";
 import ResumeEssay from "./components/ResumeEssay.vue";
 import Chatter from "./components/Chatter.vue";
+
 import "@/assets/css/home/welcome.css";
 import { useAuthStore } from '@/stores/auth';
 
@@ -12,16 +13,17 @@ const loggedIn = computed(() => !!authStore.userInfo);
 
 authStore.updateUserInfoFromToken();
 
+
 </script>
 
 <template>
   <div class="container-visitor" v-if="!loggedIn">
     <div class="welcome-pharse">
-      <div class="welcome-title">
-        <p class="bold">나의 첫 취업준비,</p>
-        <p class="black">JOBLOG.</p>
+      <div class="title">
+        <p class="f-weight-b">나의 첫 취업준비,</p>
+        <p class="f-weight-t">JOBLOG.</p>
       </div>
-      <div class="welcome-txt">
+      <div class="introduce f-weight-l">
         JOBLOG에서 <br />
         나의 <b>취준이력</b>과 <b>스케줄 관리</b>, <br />
         <b>현직자와의 커피챗</b>까지 <br />
@@ -31,7 +33,9 @@ authStore.updateUserInfoFromToken();
 
     <div class="welcome-btn-space">
       <RouterLink :to="{ name: 'Login' }">
-        <a class="login-btn-solid clickable"> SNS 계정으로 시작하기 -> </a>
+        <a id="to-login" class="btn solid-c h-bright a-dark">
+          SNS 계정으로 시작하기 ->
+        </a>
       </RouterLink>
       <RouterLink :to="{ name: 'Login2' }">
         <a class="login-btn-solid clickable"> 로컬테스트는 이거 누르세요 -> </a>
@@ -46,3 +50,44 @@ authStore.updateUserInfoFromToken();
     <Chatter />
   </div>
 </template>
+
+<style scoped>
+.container-visitor {
+  background-image: url("@/assets/img/home/background-img.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  width: 100%;
+  height: 880px;
+  text-align: center;
+}
+
+.welcome-pharse {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  text-align: left;
+  padding-top: 130px;
+  gap: 30px;
+}
+.title {
+  font-size: 60px;
+}
+.introduce {
+  font-size: 32px;
+  line-height: 130%;
+}
+.introduce b {
+  font-weight: 500;
+}
+
+.welcome-btn-space {
+  display: flex;
+  justify-content: end;
+}
+#to-login {
+  text-align: center;
+  font-size: 32px;
+  padding: 30px 50px;
+}
+</style>
