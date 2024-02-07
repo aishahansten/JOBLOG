@@ -21,5 +21,5 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     @Query("UPDATE Schedule schedule SET schedule.isDelete = true WHERE schedule.id = :id")
     void markDeletedSchedule(@Param("id") int id);
 
-    List<Schedule> findAllByEndDateBetween(LocalDateTime endDate1, LocalDateTime endDate2);
+    List<Schedule> findAllByEndDateBetweenAndIsDeleteFalse(LocalDateTime endDate1, LocalDateTime endDate2);
 }

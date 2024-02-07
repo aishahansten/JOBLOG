@@ -1,5 +1,6 @@
 package com.ssafy.joblog.domain.coffeechat.controller;
 
+import com.ssafy.joblog.domain.alarm.kafka.service.ProducerService;
 import com.ssafy.joblog.domain.coffeechat.dto.request.ChatCreateRequestDto;
 import com.ssafy.joblog.domain.coffeechat.dto.request.ChatUpdateRequestDto;
 import com.ssafy.joblog.domain.coffeechat.service.ChatService;
