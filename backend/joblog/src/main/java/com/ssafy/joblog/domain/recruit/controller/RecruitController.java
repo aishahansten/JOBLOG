@@ -1,11 +1,17 @@
 package com.ssafy.joblog.domain.recruit.controller;
 
+import com.ssafy.joblog.domain.myRecruit.dto.request.MyRecruitRequestDto;
+import com.ssafy.joblog.domain.myRecruit.dto.request.RecruitScrapRequestDto;
+import com.ssafy.joblog.domain.myRecruit.dto.response.MyRecruitResponseDto;
+import com.ssafy.joblog.domain.myRecruit.service.MyRecruitService;
 import com.ssafy.joblog.domain.recruit.dto.responseDto.JobCategoryResponseDto;
 import com.ssafy.joblog.domain.recruit.dto.responseDto.RecruitDetailResponseDto;
 import com.ssafy.joblog.domain.recruit.dto.responseDto.RecruitListResponseDto;
 import com.ssafy.joblog.domain.recruit.service.JobCategoryService;
 import com.ssafy.joblog.domain.recruit.service.RecruitService;
+import com.ssafy.joblog.domain.user.dto.request.FollowRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +24,7 @@ public class RecruitController {
 
     private final RecruitService recruitService;
     private final JobCategoryService jobCategoryService;
+    private final MyRecruitService myRecruitService;
 
     @GetMapping("")
     public ResponseEntity<List<RecruitListResponseDto>> findAllRecruit() {
@@ -25,7 +32,7 @@ public class RecruitController {
     }
 
     @GetMapping("/{recruitId}")
-    public ResponseEntity<RecruitDetailResponseDto> findRecruit(@PathVariable Long recruitId) {
+    public ResponseEntity<RecruitDetailResponseDto> findRecruit(@PathVariable(value = "recruitId") Long recruitId) {
         return ResponseEntity.ok(recruitService.findRecruit(recruitId));
     }
 
@@ -37,6 +44,12 @@ public class RecruitController {
             @RequestParam(value = "keyword", required = false) String keyword //공고명+기업명 키워드
     ) {
         return ResponseEntity.ok(recruitService.findSearchRecruit(active, expLv, jobCategory, keyword));
+    }
+
+    @PostMapping("/scrap") //채용공고 스크랩 등록,취소
+    public ResponseEntity<Void> scrapRecruit(@RequestBody RecruitScrapRequestDto recruitScrapRequestDto) {
+        myRecruitService.createScrap(recruitScrapRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 

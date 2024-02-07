@@ -3,6 +3,7 @@ package com.ssafy.joblog.domain.company.controller;
 import com.ssafy.joblog.domain.company.dto.responseDto.CompanyResponseDto;
 import com.ssafy.joblog.domain.company.dto.responseDto.CompanyReviewListResponseDto;
 import com.ssafy.joblog.domain.company.service.CompanyService;
+import com.ssafy.joblog.domain.myRecruit.dto.response.ReviewPublicResponseDto;
 import com.ssafy.joblog.domain.recruit.dto.responseDto.RecruitListResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,10 @@ public class CompanyController {
     }
 
 
-//    @GetMapping("/{companyCode}/recruitReview") //회사의 전형리뷰 리스트 조회
+    @GetMapping("/{companyCode}/selectionReview") //회사의 전형리뷰 리스트 조회
+    public ResponseEntity<List<ReviewPublicResponseDto>> findAllSelectionReviewByCompany(@PathVariable(value = "companyCode") Long companyCode) {
+        return ResponseEntity.ok(companyService.findAllSelectionReviewByCompany(companyCode));
+    }
 
 
 }

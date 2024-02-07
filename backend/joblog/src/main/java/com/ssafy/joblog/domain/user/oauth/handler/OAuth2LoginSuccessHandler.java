@@ -47,7 +47,14 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
         Token token = jwtUtil.generateToken(user.getId(), role);
         System.out.println("JWT : " + token.getAccessToken());
-        String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:5173/sign-in") //로그인 성공 시 호출할 url
+        String url = "";
+        if (user.isDelete()) {
+            userRepository.markUndeletedUser(user.getId());
+            url = "http://localhost:5173/delete-user";
+        } else {
+            url = "http://localhost:5173/sign-in";
+        }
+        String targetUrl = UriComponentsBuilder.fromUriString(url) //로그인 성공 시 호출할 url
                 .queryParam("accessToken", token.getAccessToken())
                 .build()
                 .encode(StandardCharsets.UTF_8)
