@@ -23,6 +23,7 @@ import static jakarta.persistence.FetchType.LAZY;
 public class Selection extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "selection_id")
     private int id;
 
     @JsonIgnore
@@ -51,7 +52,7 @@ public class Selection extends BaseEntity {
     @Column(length = 2000)
     private String comment;
 
-    @Column(length = 20000)
+    @Column(length = 10000)
     private String review; //private
 
     @Builder

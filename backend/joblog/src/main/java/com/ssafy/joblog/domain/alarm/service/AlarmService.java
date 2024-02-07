@@ -100,7 +100,7 @@ public class AlarmService {
     public void sendMyRecruitAlarm() {
         LocalDateTime today = LocalDateTime.now();
         LocalDateTime tomorrow = today.plusDays(1);
-        List<MyRecruit> myRecruits = myRecruitRepository.findAllByEndDateBetweenAndIsDeleteFalse(today, tomorrow);
+        List<MyRecruit> myRecruits = myRecruitRepository.findAllByExpirationDateBetweenAndIsDeleteFalse(today, tomorrow);
         myRecruits.forEach(myRecruit -> {
             User user = userRepository.findById(myRecruit.getUser().getId()).orElseThrow(() -> { return new IllegalArgumentException("해당 사용자를 찾을 수 없습니다"); });
             Alarm alarm = Alarm.builder()
@@ -116,7 +116,7 @@ public class AlarmService {
     public void sendMyRecruitReviewAlarm() {
         LocalDateTime today = LocalDateTime.now();
         LocalDateTime yesterday = today.minusDays(1);
-        List<MyRecruit> myRecruits = myRecruitRepository.findAllByEndDateBetweenAndIsDeleteFalse(yesterday, today);
+        List<MyRecruit> myRecruits = myRecruitRepository.findAllByExpirationDateBetweenAndIsDeleteFalse(yesterday, today);
         myRecruits.forEach(myRecruit -> {
             User user = userRepository.findById(myRecruit.getUser().getId()).orElseThrow(() -> { return new IllegalArgumentException("해당 사용자를 찾을 수 없습니다"); });
             Alarm alarm = Alarm.builder()
@@ -132,7 +132,7 @@ public class AlarmService {
     public void sendSelectionAlarm() {
         LocalDateTime today = LocalDateTime.now();
         LocalDateTime tomorrow = today.plusDays(1);
-        List<Selection> selections = selectionRepository.findAllByEndDateBetweenAndIsDeleteFalse(today, tomorrow);
+        List<Selection> selections = selectionRepository.findAllByProgressDateBetweenAndIsDeleteFalse(today, tomorrow);
         selections.forEach(selection -> {
             User user = userRepository.findById(selection.getUser().getId()).orElseThrow(() -> { return new IllegalArgumentException("해당 사용자를 찾을 수 없습니다"); });
             Alarm alarm = Alarm.builder()
@@ -148,7 +148,7 @@ public class AlarmService {
     public void sendSelectionReviewAlarm() {
         LocalDateTime today = LocalDateTime.now();
         LocalDateTime yesterday = today.minusDays(1);
-        List<Selection> selections = selectionRepository.findAllByEndDateBetweenAndIsDeleteFalse(yesterday, today);
+        List<Selection> selections = selectionRepository.findAllByProgressDateBetweenAndIsDeleteFalse(yesterday, today);
         selections.forEach(selection -> {
             User user = userRepository.findById(selection.getUser().getId()).orElseThrow(() -> { return new IllegalArgumentException("해당 사용자를 찾을 수 없습니다"); });
             Alarm alarm = Alarm.builder()

@@ -18,7 +18,6 @@ import static jakarta.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Alarm extends BaseEntity {
 
     @Id
@@ -33,7 +32,7 @@ public class Alarm extends BaseEntity {
 
     //연관관계 주인(=외래키 갖고있음)
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_recruit_id")
+    @JoinColumn(name = "my_recruit_id")
     private MyRecruit myRecruit;
 
     //연관관계 주인(=외래키 갖고있음)
@@ -48,7 +47,7 @@ public class Alarm extends BaseEntity {
 
     //연관관계 주인(=외래키 갖고있음)
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "apply_id")
+    @JoinColumn(name = "selection_id")
     private Selection selection;
 
     @ColumnDefault("0")

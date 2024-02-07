@@ -25,8 +25,8 @@ public class RecruitScrapRequestDto {
                 .recruit(recruit)
                 .scrapOrNot(true)
                 .title(recruit.getTitle())
-                .companyName(recruit.getCompany().getCompanyName())
-                .companyCode(recruit.getCompany().getCompanyCode())
+                .companyName(recruit.getCompanyName())
+                .companyCode(recruit.getCompanyCode())
                 .openingDate(LocalDateTime.ofInstant(Instant.ofEpochSecond(recruit.getOpeningTimestamp()), ZoneId.systemDefault()))
                 .expirationDate(recruit.getExpirationDate())
                 .build();

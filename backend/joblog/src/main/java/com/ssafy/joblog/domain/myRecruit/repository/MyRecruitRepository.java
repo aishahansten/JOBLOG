@@ -15,6 +15,6 @@ public interface MyRecruitRepository  extends JpaRepository<MyRecruit, Integer> 
 
     List<MyRecruit> findAllMyRecruitByUserIdAndIsDeleteIsFalseOrderByCreatedDateDesc(int id);
 
-    List<MyRecruit> findAllByEndDateBetweenAndIsDeleteFalse(LocalDateTime today, LocalDateTime tomorrow);
+    List<MyRecruit> findAllByExpirationDateBetweenAndIsDeleteFalse(LocalDateTime today, LocalDateTime tomorrow);
 
 }

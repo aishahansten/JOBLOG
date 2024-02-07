@@ -21,5 +21,5 @@ public interface SelectionRepository  extends JpaRepository<Selection, Integer> 
     @Query("SELECT s FROM Selection s WHERE s.companyCode = :code AND s.reviewOrNot = true AND s.isDelete = false")
     List<Selection> findAllSelectionByCompanyCodeAndIsDeleteIsFalseAndReviewOrNotIsTrue(@Param("code") Long code);
 
-    List<Selection> findAllByEndDateBetweenAndIsDeleteFalse(LocalDateTime today, LocalDateTime tomorrow);
+    List<Selection> findAllByProgressDateBetweenAndIsDeleteFalse(LocalDateTime today, LocalDateTime tomorrow);
 }
