@@ -17,6 +17,7 @@ import com.ssafy.joblog.domain.user.entity.User;
 import com.ssafy.joblog.domain.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,8 +34,8 @@ public class CompanyService {
     private final SelectionRepository selectionRepository;
     private final UserRepository userRepository;
 
-    public List<CompanyResponseDto> findAllCompany() {
-        List<Company> allCompany = companyRepository.findAll();
+    public List<CompanyResponseDto> findAllCompany(Pageable pageable) {
+        List<Company> allCompany = companyRepository.findAll(pageable).getContent();
 
         List<CompanyResponseDto> allCompanyDto = new ArrayList<>();
         for (Company company : allCompany) {
@@ -45,15 +46,15 @@ public class CompanyService {
 
     public CompanyResponseDto findCompany(Long companyCode) {
         Company company = companyRepository.findById(companyCode)
-                .orElseThrow(()-> new IllegalArgumentException("해당 회사가 존재하지 않습니다"));
+                .orElseThrow(() -> new IllegalArgumentException("해당 회사가 존재하지 않습니다"));
         return CompanyResponseDto.fromEntity(company);
     }
 
 
     public List<RecruitListResponseDto> findAllRecruitByCompany(Long companyCode) {
         Company company = companyRepository.findById(companyCode)
-                .orElseThrow(()-> new IllegalArgumentException("해당 회사가 존재하지 않습니다"));
-        List<Recruit> companyRecruit = recruitRepository.findAllRecruitByCompanyCode(company.getCompanyCode());
+                .orElseThrow(() -> new IllegalArgumentException("해당 회사가 존재하지 않습니다"));
+        List<Recruit> companyRecruit = recruitRepository.findAllRecruitByCompanyCodeOrderByCreatedDateDesc(company.getCompanyCode());
 
         List<RecruitListResponseDto> companyRecruitDto = new ArrayList<>();
         for (Recruit recruit : companyRecruit) {
@@ -64,8 +65,8 @@ public class CompanyService {
 
     public List<CompanyReviewListResponseDto> findAllReviewByCompany(Long companyCode) {
         Company company = companyRepository.findById(companyCode)
-                .orElseThrow(()-> new IllegalArgumentException("해당 회사가 존재하지 않습니다"));
-        List<CompanyReview> companyReview = companyReviewRepository.findAllReviewByCompanyCompanyCodeAndIsDeleteIsFalse(company.getCompanyCode());
+                .orElseThrow(() -> new IllegalArgumentException("해당 회사가 존재하지 않습니다"));
+        List<CompanyReview> companyReview = companyReviewRepository.findAllReviewByCompanyCompanyCodeAndIsDeleteIsFalseOrderByCreatedDateDesc(company.getCompanyCode());
 
         List<CompanyReviewListResponseDto> companyReviewListResponseDto = new ArrayList<>();
         for (CompanyReview review : companyReview) {
@@ -76,12 +77,12 @@ public class CompanyService {
 
     public List<ReviewPublicResponseDto> findAllSelectionReviewByCompany(Long companyCode) {
         Company company = companyRepository.findById(companyCode)
-                .orElseThrow(()-> new IllegalArgumentException("해당 회사가 존재하지 않습니다"));
-        List<Selection> selectionList = selectionRepository.findAllSelectionByCompanyCodeAndIsDeleteIsFalseAndReviewOrNotIsTrue(companyCode);
+                .orElseThrow(() -> new IllegalArgumentException("해당 회사가 존재하지 않습니다"));
+        List<Selection> selectionList = selectionRepository.findAllSelectionByCompanyCodeAndIsDeleteIsFalseAndReviewOrNotIsTrueOrderByCreatedDateDesc(companyCode);
         List<ReviewPublicResponseDto> reviewPublicResponseDto = new ArrayList<>();
         for (Selection selection : selectionList) {
             User user = userRepository.findById(selection.getUser().getId())
-                    .orElseThrow(()-> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
+                    .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
             reviewPublicResponseDto.add(ReviewPublicResponseDto.fromEntity(user, selection));
         }
         return reviewPublicResponseDto;

@@ -35,24 +35,6 @@ public class ReviewService {
         return reviewPrivateResponseDto;
     }
 
-    //    public List<MyRecruitResponseDto> findAllMyRecruit(int userId){
-//        User user = userRepository.findById(userId)
-//                .orElseThrow(()-> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
-//        List<MyRecruit> myRecruits = myRecruitRepository.findAllMyRecruitByUserIdAndIsDeleteIsFalse(user.getId());
-//
-//        List<MyRecruitResponseDto> myRecruitResponseDto = new ArrayList<>();
-//        for (MyRecruit myRecruit : myRecruits) {
-//            myRecruitResponseDto.add(MyRecruitResponseDto.fromEntity(myRecruit));
-//        }
-//        return myRecruitResponseDto;
-//    }
-//
-//    public MyRecruitResponseDto findMyRecruit(int myRecruitId) {
-//        MyRecruit myRecruit = myRecruitRepository.findByIdAndIsDeleteIsFalse(myRecruitId)
-//                .orElseThrow(()-> new IllegalArgumentException("해당 마이채용 정보가 존재하지 않습니다"));
-//        return MyRecruitResponseDto.fromEntity(myRecruit);
-//    }
-//
     public void create(ReviewRequestDto reviewRequestDto) {
         Selection selection = selectionRepository.findByIdAndIsDeleteIsFalse(reviewRequestDto.getSelectionId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 전형 정보가 존재하지 않습니다"));

@@ -19,7 +19,7 @@ public class RecruitSpecification {
                 if (key.equals("keyword")) { //공고명 또는 기업명
                     predicates.add(criteriaBuilder.or(
                             criteriaBuilder.like(root.get("title"), "%" + keyData + "%"),
-                            criteriaBuilder.like(root.get("company").get("companyName"), "%" + keyData + "%")));
+                            criteriaBuilder.like(root.get("companyName"), "%" + keyData + "%")));
                 } else if (key.equals("jobCategory")) {  //직무 카테고리, 다중선택가능
                     List<String> jobIds = Arrays.asList(keyData.split(","));
                     for (String jobId : jobIds) {

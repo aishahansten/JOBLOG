@@ -17,7 +17,7 @@ public class UserResponseDto {
     private int companyCode;
     private String email;
     private String nickname;
-    private String objective;
+    private int objective;
     private String realName;
     private String englishName;
     private String address;

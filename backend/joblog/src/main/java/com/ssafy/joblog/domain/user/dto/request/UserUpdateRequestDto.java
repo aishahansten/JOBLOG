@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public class UserUpdateRequestDto {
     private int id;
     private String nickname;
-    private String objective;
+    private int objective;
     private String realName;
     private String englishName;
     private String address;

@@ -1,7 +1,6 @@
 package com.ssafy.joblog.domain.user.entity;
 
 
-
 import com.ssafy.joblog.domain.alarm.entity.Alarm;
 import com.ssafy.joblog.domain.board.entity.Post;
 import com.ssafy.joblog.domain.board.entity.PostComment;
@@ -46,8 +45,8 @@ public class User extends BaseEntity {
     private int companyCode;
     @ColumnDefault("'-'")
     private String nickname;
-    @ColumnDefault("'-'")
-    private String objective;
+    @ColumnDefault("0")
+    private int objective;
     @ColumnDefault("'-'")
     private String realName;
     @ColumnDefault("'-'")
@@ -106,7 +105,7 @@ public class User extends BaseEntity {
     public void updateUser(UserUpdateRequestDto userUpdateRequestDto) {
         this.nickname = userUpdateRequestDto.getNickname();
         this.objective = userUpdateRequestDto.getObjective();
-        this. realName = userUpdateRequestDto.getRealName();
+        this.realName = userUpdateRequestDto.getRealName();
         this.englishName = userUpdateRequestDto.getEnglishName();
         this.address = userUpdateRequestDto.getAddress();
         this.userEmail = userUpdateRequestDto.getUserEmail();
@@ -116,5 +115,7 @@ public class User extends BaseEntity {
         this.birthDate = userUpdateRequestDto.getBirthDate();
     }
 
-    public void deleteUser() { this.isDelete = true; }
+    public void deleteUser() {
+        this.isDelete = true;
+    }
 }

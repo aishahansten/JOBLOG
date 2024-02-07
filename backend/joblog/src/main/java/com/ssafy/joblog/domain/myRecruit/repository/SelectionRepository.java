@@ -18,8 +18,9 @@ public interface SelectionRepository  extends JpaRepository<Selection, Integer> 
     @Query("SELECT s FROM Selection s WHERE s.user.id = :id AND s.reviewOrNot = true AND s.isDelete = false")
     List<Selection> findAllSelectionByUserIdAndIsDeleteIsFalseAndReviewOrNotIsTrue(@Param("id") int id);
 
-    @Query("SELECT s FROM Selection s WHERE s.companyCode = :code AND s.reviewOrNot = true AND s.isDelete = false")
-    List<Selection> findAllSelectionByCompanyCodeAndIsDeleteIsFalseAndReviewOrNotIsTrue(@Param("code") Long code);
+    @Query("SELECT s FROM Selection s WHERE s.companyCode = :code AND s.reviewOrNot = true AND s.isDelete = false order by s.createdDate desc")
+    List<Selection> findAllSelectionByCompanyCodeAndIsDeleteIsFalseAndReviewOrNotIsTrueOrderByCreatedDateDesc(@Param("code") Long code);
 
     List<Selection> findAllByProgressDateBetweenAndIsDeleteFalse(LocalDateTime today, LocalDateTime tomorrow);
+
 }

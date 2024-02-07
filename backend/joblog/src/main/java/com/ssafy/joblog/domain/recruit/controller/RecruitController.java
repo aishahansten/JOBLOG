@@ -11,9 +11,12 @@ import com.ssafy.joblog.domain.recruit.service.JobCategoryService;
 import com.ssafy.joblog.domain.recruit.service.RecruitService;
 import com.ssafy.joblog.domain.user.dto.request.FollowRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Pageable;
+
 
 import java.util.List;
 
@@ -26,24 +29,28 @@ public class RecruitController {
     private final JobCategoryService jobCategoryService;
     private final MyRecruitService myRecruitService;
 
-    @GetMapping("")
-    public ResponseEntity<List<RecruitListResponseDto>> findAllRecruit() {
-        return ResponseEntity.ok(recruitService.findAllRecruit());
-    }
-
-    @GetMapping("/{recruitId}")
+    @GetMapping("/{recruitId}") //채용공고 상세조회
     public ResponseEntity<RecruitDetailResponseDto> findRecruit(@PathVariable(value = "recruitId") Long recruitId) {
         return ResponseEntity.ok(recruitService.findRecruit(recruitId));
     }
 
-    @GetMapping("/search")
+    @GetMapping("/recommend/{userId}") //유저 추천 채용공고 리스트
+    public ResponseEntity<List<RecruitListResponseDto>> findRecommendRecruit(
+            @PageableDefault(size = 20) Pageable pageable,
+            @PathVariable(value = "userId") int userId
+    ) {
+        return ResponseEntity.ok(recruitService.findRecommendRecruit(pageable, userId));
+    }
+
+    @GetMapping("/search") //검색 및 전체 조회 리스트
     public ResponseEntity<List<RecruitListResponseDto>> findSearchRecruit(
+            @PageableDefault(size = 20) Pageable pageable,
             @RequestParam(value = "active", required = false) String active, //1:진행중, 0:마감
             @RequestParam(value = "expLv", required = false) String expLv, //0,1,2,3 경력사항
             @RequestParam(value = "jobCategory", required = false) String jobCategory, //<다중 가능> 직무 카테고리
             @RequestParam(value = "keyword", required = false) String keyword //공고명+기업명 키워드
     ) {
-        return ResponseEntity.ok(recruitService.findSearchRecruit(active, expLv, jobCategory, keyword));
+        return ResponseEntity.ok(recruitService.findSearchRecruit(pageable, active, expLv, jobCategory, keyword));
     }
 
     @PostMapping("/scrap") //채용공고 스크랩 등록,취소
