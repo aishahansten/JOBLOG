@@ -66,8 +66,8 @@ public class RecruitDetailResponseDto {
         LocalDateTime openingDate = LocalDateTime.ofInstant(Instant.ofEpochSecond(recruit.getOpeningTimestamp()), ZoneId.systemDefault());
         return RecruitDetailResponseDto.builder()
                 .id(recruit.getId())
-                .companyCode(recruit.getCompany().getCompanyCode())
-                .companyName(recruit.getCompany().getCompanyName())
+                .companyCode(recruit.getCompanyCode())
+                .companyName(recruit.getCompanyName())
                 .title(recruit.getTitle())
                 .jobId(recruit.getJobId())
                 .locationDesc(locationDesc)

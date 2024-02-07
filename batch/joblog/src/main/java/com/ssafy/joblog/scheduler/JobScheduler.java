@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 
 @Component
@@ -22,7 +23,7 @@ public class JobScheduler {
     @Autowired //joblauncher 직접 지정
     private JobLauncher jobLauncher;
 
-    @Scheduled(cron = "0 */60 * * * *") //60분마다 실행
+    @Scheduled(cron = "0 0 0/3 * * ?") //3시간 단위
     public void JsonDataReadWriteJobRun() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
         JobParameters jobParameters = new JobParameters(
                 Collections.singletonMap("requestTime", new JobParameter(System.currentTimeMillis(), Long.class))

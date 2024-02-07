@@ -23,9 +23,8 @@ public class Recruit extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "company_code")
-    private Company company;
+    private Long companyCode;
+    private String companyName;
 
     private Long jobId;
     private String title;
@@ -65,8 +64,9 @@ public class Recruit extends BaseEntity {
     private int closeTypeCode;
 
     @Builder
-    public Recruit(Company company, Long jobId, String title, List<Location> locations, String jobDescription, List<JobType> jobTypes, List<JobCategoryRecruit> jobCategoryRecruits, List<Industry> industries, String experienceLevel, int experienceLevelCode, int experienceLevelMin, int experienceLevelMax, String requiredEducationLevel, int requiredEducationLevelCode, String salary, int salaryCode, Long postingTimestamp, LocalDateTime postingDate, Long modificationTimestamp, Long openingTimestamp, Long expirationTimestamp, LocalDateTime expirationDate, String active, int activeCode, String closeType, int closeTypeCode) {
-        this.company = company;
+    public Recruit(Long companyCode, String companyName, Long jobId, String title, List<Location> locations, String jobDescription, List<JobType> jobTypes, List<JobCategoryRecruit> jobCategoryRecruits, List<Industry> industries, String experienceLevel, int experienceLevelCode, int experienceLevelMin, int experienceLevelMax, String requiredEducationLevel, int requiredEducationLevelCode, String salary, int salaryCode, Long postingTimestamp, LocalDateTime postingDate, Long modificationTimestamp, Long openingTimestamp, Long expirationTimestamp, LocalDateTime expirationDate, String active, int activeCode, String closeType, int closeTypeCode) {
+        this.companyCode = companyCode;
+        this.companyName = companyName;
         this.jobId = jobId;
         this.title = title;
         this.locations = locations;
@@ -93,7 +93,6 @@ public class Recruit extends BaseEntity {
         this.closeType = closeType;
         this.closeTypeCode = closeTypeCode;
     }
-
 
     public void addIndustry(Industry industry) {
         industries.add(industry);

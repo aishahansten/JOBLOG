@@ -19,12 +19,12 @@ public class JobCategory {
 
     private String jobName;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "parent_id")
     private JobCategory parent;
 
     @Setter
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<JobCategory> child = new ArrayList<>();
 
 }

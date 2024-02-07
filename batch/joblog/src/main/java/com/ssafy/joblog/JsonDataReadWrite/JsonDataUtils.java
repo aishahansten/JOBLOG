@@ -11,6 +11,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,9 +26,13 @@ public class JsonDataUtils {
     WebClient webClient;
 
     //client(RESTAPI)로부터 Json data 받아오기 + jsonNode로 변환
-    public JsonNode getJsonData(int start) {
+    public JsonNode getJsonData(int start, String published_min, String published_max) {
         DefaultUriBuilderFactory defaultUriBuilderFactory = new DefaultUriBuilderFactory();
         defaultUriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
+
+
+//        System.out.println(now);
+//        System.out.println(result);
 
         //webclient 생성
         webClient = WebClient.builder().uriBuilderFactory(defaultUriBuilderFactory).build();
@@ -37,15 +43,15 @@ public class JsonDataUtils {
                         .host("oapi.saramin.co.kr")
                         .path("/job-search")
                         .queryParam("access-key", accesskey) //.queryParam으로 추가 가능
-                        .queryParam("count", 100)
+                        .queryParam("count", 110)
                         .queryParam("start", start)
-                        .queryParam("published_min", "2024-01-30%2014:00:00") //yyyy-mm-dd + "%20" + hh:mm:ss 형식
-                        .queryParam("published_max", "2024-01-30%2015:00:00")
+                        .queryParam("published_min", published_min) //yyyy-mm-dd+"%20"+hh:mm:ss 형식
+                        .queryParam("published_max", published_max)
+                        .queryParam("job_type", 1)
                         .build())
                 .retrieve()
                 .bodyToMono(String.class)
                 .block(); // 동기적으로 결과를 얻음
-        // jsonNode로 변환
         return parseJson(responseBody);
     }
 
@@ -62,9 +68,18 @@ public class JsonDataUtils {
 
     public List<RecruitRequestDto> getJsonDataAsDtoList() throws IOException {
         List<RecruitRequestDto> recruitRequestDtoList = new ArrayList<>();
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter dtFmtMin = DateTimeFormatter.ofPattern("yyyy-MM-dd%20HH:00:00");
+        LocalDateTime result = now.minusHours(3);
+        String published_min = result.format(dtFmtMin);
+        DateTimeFormatter dtFmtMax = DateTimeFormatter.ofPattern("yyyy-MM-dd%20HH:59:59");
+        result = now.minusHours(1);
+        String published_max = result.format(dtFmtMax);
+        System.out.println(published_min);
+        System.out.println(published_max);
         // 처음 100개 불러오기
         int total = 0;
-        JsonNode jsonNode = getJsonData(0);
+        JsonNode jsonNode = getJsonData(0, published_min, published_max);
         if (jsonNode != null) {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNodeTotal = jsonNode.get("jobs").get("total");
@@ -75,8 +90,8 @@ public class JsonDataUtils {
             recruitRequestDtoList.addAll(Arrays.asList(objectMapper.readValue(json, RecruitRequestDto[].class)));
         }
         // 더 불러올 데이터 있는지, 있다면 for문
-        for (int start = 1; start <= total / 100; start++) {
-            jsonNode = getJsonData(start);
+        for (int start = 1; start <= total / 110; start++) {
+            jsonNode = getJsonData(start, published_min, published_max);
             if (jsonNode != null) {
                 jsonNode = jsonNode.get("jobs").get("job");
                 String json = jsonNode.toString();
@@ -94,6 +109,7 @@ public class JsonDataUtils {
                 recruitRequestDtoList.remove(i);
             }
         }
+        System.out.println("hi");
 
         return recruitRequestDtoList;
     }

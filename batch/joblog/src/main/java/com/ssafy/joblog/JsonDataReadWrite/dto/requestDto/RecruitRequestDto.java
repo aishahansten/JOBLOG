@@ -56,10 +56,12 @@ public class RecruitRequestDto {
     public Recruit toEntity(List<Industry> industries, List<Location> locations, List<JobType> jobTypes, List<JobCategoryRecruit> jobCategoryRecruits) {
         Long companyCode = -1l;
         try {
-            UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(this.company.detail.href);
-            String companyCodeValue = builder.build().getQueryParams().get("csn").get(0);
-            if (companyCodeValue != null) {
-                companyCode = Long.parseLong(companyCodeValue);
+            if (this.company.detail.href != null) {
+                UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(this.company.detail.href);
+                String companyCodeValue = builder.build().getQueryParams().get("csn").get(0);
+                if (companyCodeValue != null) {
+                    companyCode = Long.parseLong(companyCodeValue);
+                }
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -69,10 +71,8 @@ public class RecruitRequestDto {
 
 
         return Recruit.builder()
-                .company(Company.builder()
-                        .companyName(this.company.detail.name)
-                        .companyCode(companyCode)
-                        .build())
+                .companyName(this.company.detail.name)
+                .companyCode(companyCode)
                 .jobId(Long.valueOf(this.id))
                 .title(this.position.title)
                 .locations(locations)
