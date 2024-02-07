@@ -8,20 +8,13 @@ export const useSettingResumeStore = defineStore('settingResume', {
     informations: [],
   }),
   actions: {
-    nullToEmptyString(obj) {
-      Object.keys(obj).forEach(key => {
-        if (obj[key] === null) {
-          obj[key] = '';
-        }
-      });
-      return obj;
-    },
+
     async getUserInfo() {
       const authStore = useAuthStore();
       await authStore.updateUserInfoFromToken();
       try {
         const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/users/${authStore.userInfo.sub}`);
-        this.userInfo = this.nullToEmptyString(res.data); // Apply transformation here
+        this.userInfo = res.data
         console.log('유저 정보', res.data);
         console.log('스토어에서',this.userInfo)
 
@@ -29,11 +22,26 @@ export const useSettingResumeStore = defineStore('settingResume', {
         console.error(err);
       }
     },
+    async updateUserInfo(info) {
+      const authStore = useAuthStore()
+      await authStore.updateUserInfoFromToken()
+      const config = {
+        headers: {
+          'Authorization': `${authStore.accessToken}`,
+        },
+      }
+      try {
+        const res = await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/users/update`, info, config)
+        console.log('업데이트 완료')
+      } catch(err) {
+        console.error(err)
+      }
+    },
+
     async createInfo (info) {
       const authStore = useAuthStore();
       await authStore.updateUserInfoFromToken();
       info.userId = authStore.userInfo.sub
-      console.log('함수 내에 들어가는 education 테스트', info)
       const config = {
           headers: {
             'Authorization': `${authStore.accessToken}`,
@@ -41,10 +49,11 @@ export const useSettingResumeStore = defineStore('settingResume', {
         };
       try {
         const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/info/register`, info, config);
-        console.log('이력서 정보 추가', res.data);
+        
       } catch (err) {
         console.error(err);
-        console.log(info.value)
+      } finally {
+        this.getInfo()
       }
     },
 
@@ -62,6 +71,21 @@ export const useSettingResumeStore = defineStore('settingResume', {
       } catch(err) {
         console.error(err)
       }
-    }
+    },
+    
+    async deleteInfo(id) {
+      const authStore = useAuthStore()
+      await authStore.updateUserInfoFromToken()
+      const config = {
+        headers: {
+          'Authorization': `${authStore.accessToken}`,
+        },
+      }
+      try {
+        const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/info/delete/${id}`, config)
+      } catch(err) {
+        console.error(err)
+      }
+    },
   },
 });

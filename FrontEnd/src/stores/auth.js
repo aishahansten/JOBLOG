@@ -49,6 +49,12 @@ export const useAuthStore = defineStore('auth', {
         this.accessToken = null
         document.cookie = 'accessToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
         router.push('/')
-      },
+    },
+    
+    logout2() {
+      this.userInfo = null
+      this.accessToken = null
+      document.cookie = 'accessToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+    }
   },
 });

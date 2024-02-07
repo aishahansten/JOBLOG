@@ -13,27 +13,68 @@ import { useSettingResumeStore } from "@/stores/settingResume"
 import { useAuthStore } from "@/stores/auth"
 import axios from "axios"
 
+import CategoryData from '@/assets/data/jobcategory.json'
+
+const category = ref([])
+category.value = CategoryData.map(({ jobCode, jobName }) => ({
+  jobCode,
+  jobName
+}));
+
+console.log(category)
 const authStore = useAuthStore()
 const settingResumeStore = useSettingResumeStore()
 
-const userInfo = ref(null)
+const loading = ref(true)
+
+
 const informations = ref([])
+const userInfo = ref(null)
+
+const handleRefresh = async () => {
+  try {
+    loading.value = true;
+    await settingResumeStore.getInfo();
+  } catch (error) {
+    console.error('Error refreshing data:', error);
+  } finally {
+    informations.value = settingResumeStore.informations;
+    loading.value = false;
+  }
+};
+
+
 onMounted(async() => {
   await settingResumeStore.getInfo()
+  await settingResumeStore.getUserInfo()
+  userInfo.value = settingResumeStore.userInfo
   informations.value = settingResumeStore.informations
-  console.log(informations)
   authStore.updateUserInfoFromToken()
+  loading.value = false
 })
 
 const filteredInfo = function(category) {
   return this.informations.filter(info => info.infoCategory === category)
 }
 
+const submitUserInfo = function(userInfo) {
+  console.log(userInfo)
+  settingResumeStore.updateUserInfo(userInfo)
+}
+
+const deleteInfo = async(id) => {
+  await settingResumeStore.deleteInfo(id)
+  await handleRefresh()
+}
+
 </script>
 
 <template>
-  <div class="content-container">
+  <div v-if="loading"> </div>
+
+  <div class="content-container" v-else>
     <div class="content-info-space">
+      <button @click="submitUserInfo(userInfo)">유저 정보 업데이트 하는 버튼</button>
       <div class="content-info">
         <p class="content-title">이력 정보 설정</p>
         <p>이력서 작성에 사용될 개인 이력 정보를 변경합니다.</p>
@@ -74,39 +115,35 @@ const filteredInfo = function(category) {
           <div>
             <div class="user-info">
               <span class="tag">성명(한글)</span>
-              <input type="text" placeholder="박시연" required />
+              <input type="text" v-model="userInfo.realName" required />
             </div>
             <div class="user-info">
               <span class="tag">성명(영문)</span>
-              <input type="text" placeholder="Park Si Yeon" required />
+              <input type="text" v-model="userInfo.englishName" required />
             </div>
           </div>
           <div>
             <div class="user-info">
               <span class="tag">생년월일</span>
-              <input type="date" required />
+              <input type="date" v-model="userInfo.birthDate" required />
             </div>
             <div class="user-info">
-              <span class="tag">성별</span>
-              <div>
-                <div>
-                  <input type="radio" id="" />
-                  <label for=""></label>
-                </div>
-                <div>
-                  <input type="radio" class="user-radio" />
-                </div>
-              </div>
+              <span class="tag">희망 직군/직무</span>
+              <select v-model="userInfo.objective">
+                <option v-for="item in category" :key="item.jobCode" :value="item.jobCode">
+                  {{ item.jobName }}
+                </option>
+              </select>
             </div>
           </div>
           <div>
             <div class="user-info">
               <span class="tag">전화번호</span>
-              <input type="tel" placeholder="010-0101-0101" />
+              <input type="tel" v-model="userInfo.phoneNumber"/>
             </div>
             <div class="user-info">
               <span class="tag">이메일 주소</span>
-              <input type="email" placeholder="xion2664@gmail.com" />
+              <input type="email" v-model="userInfo.userEmail"/>
             </div>
           </div>
           <div>
@@ -116,6 +153,7 @@ const filteredInfo = function(category) {
                 type="text"
                 placeholder="대전광역시 유성구 유성동 유성빌라 010호"
                 id="long"
+                v-model="userInfo.address"
               />
             </div>
           </div>
@@ -130,8 +168,11 @@ const filteredInfo = function(category) {
         {{ info.graduationStatus }}
         {{ info.yesOrNot }}
         {{ info.dayOrNight }}
+        <div>
+          <button @click="deleteInfo(info.id)">삭제</button>
+        </div>
       </div>
-      <Education/>
+      <Education @refresh="handleRefresh"/>
     </div>
     <div>
       <div v-for="info in filteredInfo('CAREER')" :key="info.id">
@@ -139,8 +180,11 @@ const filteredInfo = function(category) {
         {{ info.title }}
         {{ info.startDate }}
         {{ info.endDate }}
+        <div>
+          <button @click="deleteInfo(info.id)">삭제</button>
+        </div>
       </div>
-      <Career/>
+      <Career @refresh="handleRefresh"/>
     </div>
     <div>
       <div v-for="info in filteredInfo('ACTIVITY')" :key="info.id">
@@ -149,8 +193,11 @@ const filteredInfo = function(category) {
         {{ info.description }}
         {{ info.startDate }}
         {{ info.endDate }}
+        <div>
+          <button @click="deleteInfo(info.id)">삭제</button>
+        </div>
       </div>
-      <Activity/>
+      <Activity @refresh="handleRefresh"/>
     </div>
     <div>
       <div v-for="info in filteredInfo('CERTIFICATE')" :key="info.id">
@@ -160,16 +207,22 @@ const filteredInfo = function(category) {
         {{ info.startDate }}
         {{ info.endDate }}
         {{ info.level }}
+        <div>
+          <button @click="deleteInfo(info.id)">삭제</button>
+        </div>
       </div>
-      <Certificate/>
+      <Certificate @refresh="handleRefresh"/>
     </div>
       <div v-for="info in filteredInfo('AWARD')" :key="info.id">
         {{ info.title }}
         {{ info.institutionName }}
         {{ info.startDate }}
         {{ info.description }}
+        <div>
+          <button @click="deleteInfo(info.id)">삭제</button>
+        </div>
       </div>    
-      <Award/>
+      <Award @refresh="handleRefresh"/>
     </div>
     <div>
       <div v-for="info in filteredInfo('SKILL')" :key="info.id">
@@ -177,8 +230,11 @@ const filteredInfo = function(category) {
         {{ info.institutionName }}
         {{ info.description }}
         {{ info.skillLevel }}
+        <div>
+          <button @click="deleteInfo(info.id)">삭제</button>
+        </div>
       </div>
-      <Skill/>
+      <Skill @refresh="handleRefresh"/>
     </div>
   </div>
 </template>

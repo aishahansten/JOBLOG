@@ -52,19 +52,21 @@
 <script setup>
 import { useSettingResumeStore } from "@/stores/settingResume";
 import { ref, onMounted } from 'vue'
+const emit = defineEmits(['refresh'])
 
 const settingResumeStore = useSettingResumeStore()
-const createInfo = function(info) {
-    settingResumeStore.createInfo(info)
+const createInfo = async(info) => {
+  await settingResumeStore.createInfo(info)
 
-    skill.value = {
-      userId: "",
-      infoCategory: 'SKILL',
-      title: "",
-      institutionName: "",
-      description: "",
-      skillLevel: 1,
-    }
+  skill.value = {
+    userId: "",
+    infoCategory: 'SKILL',
+    title: "",
+    institutionName: "",
+    description: "",
+    skillLevel: 1,
+  }
+  emit('refresh') 
   }
 
 
