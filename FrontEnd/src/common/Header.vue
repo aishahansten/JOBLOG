@@ -1,7 +1,11 @@
 <script setup>
 import { ref } from "vue";
 import { RouterLink } from "vue-router";
-
+import { useAuthStore } from "@/stores/auth";
+const authStore = useAuthStore()
+const logout = function () {
+  authStore.logout()
+}
 const showDropdown = ref(false);
 </script>
 
@@ -53,6 +57,9 @@ const showDropdown = ref(false);
             <img src="@/assets/img/profile/default-user-pic.jpg" alt="" />
           </div>
         </RouterLink>
+        <div>
+          <button @click="logout">로그아웃</button>
+        </div>
       </div>
     </nav>
   </header>
