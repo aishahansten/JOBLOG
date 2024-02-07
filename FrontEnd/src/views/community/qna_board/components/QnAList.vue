@@ -1,7 +1,11 @@
 <template>
   <div class="list-content">
     <div class="item-body">
-    <QnAListItem/>
+    <QnAListItem
+      v-for="post in posts"
+      :key="post.postId"
+      :post="post"
+    />
     </div>
     <div class="create-button">
       <RouterLink :to="{ name:'QnACreate' }"> <button>작성하기</button></RouterLink>
@@ -12,6 +16,9 @@
 <script setup>
 import QnAListItem from './items/QnAListItem.vue';
 
+const props = defineProps ({
+  posts: Array
+})
 </script>
 
 <style scoped>

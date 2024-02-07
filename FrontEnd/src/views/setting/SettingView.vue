@@ -12,7 +12,6 @@ function toggleEdit() {
 <template>
   <div class="container">
     <SettingNav />
-
     <RouterView />
   </div>
 </template>
@@ -21,7 +20,7 @@ function toggleEdit() {
 .container {
   display: flex;
   width: 100%;
-  min-height: 980px;
+  min-height: 1000px;
   align-items: stretch;
 
   border-left: 1px solid var(--border-gray);

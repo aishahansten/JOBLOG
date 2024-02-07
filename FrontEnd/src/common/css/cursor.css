@@ -1,0 +1,101 @@
+.pointer {
+  cursor: pointer;
+}
+
+/*! :hover */
+.h-bright:hover {
+  filter: brightness(110%);
+  transition: 0.2s ease;
+}
+.h-dark:hover {
+  filter: brightness(90%);
+  transition: 0.2s ease;
+}
+.h-shadow:hover {
+  box-shadow: 1px 5px 5px rgb(0, 0, 0, 0.3);
+  transition: 0.2s ease;
+}
+
+.h-solid-c:hover {
+  background-color: var(--main-blue);
+  color: white;
+  transition: 0.2s ease;
+}
+.h-solid-c:hover * {
+  color: white;
+  transition: 0.2s ease;
+}
+.h-solid-dg:hover {
+  background-color: var(--dark-gray);
+  color: white;
+  transition: 0.2s ease;
+}
+.h-solid-dg:hover * {
+  color: white;
+  transition: 0.2s ease;
+}
+.h-solid-g:hover {
+  background-color: var(--gray);
+  color: white;
+  transition: 0.2s ease;
+}
+.h-solid-g:hover * {
+  color: white;
+  transition: 0.2s ease;
+}
+.h-solid-bg:hover {
+  background-color: var(--border-gray);
+  transition: 0.2s ease;
+}
+.h-solid-lg:hover {
+  background-color: var(--light-gray);
+  transition: 0.2s ease;
+}
+
+.h-txt:hover {
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.h-transparent-c:hover {
+  background-color: rgb(104, 128, 255, 0.2);
+  transition: 0.2s ease;
+}
+
+/*! :active */
+.a-bright:active {
+  filter: brightness(110%);
+  transition: none;
+}
+.a-dark:active {
+  filter: brightness(90%);
+  transition: none;
+}
+.a-no-shadow:active {
+  box-shadow: 0px 0px 0px rgb(0, 0, 0, 0.3);
+  transition: none;
+}
+
+.a-solid-c:active {
+  background-color: var(--main-blue);
+  color: white;
+  transition: none;
+}
+.a-solid-dg:active {
+  background-color: var(--dark-gray);
+  color: white;
+  transition: none;
+}
+.a-solid-g:active {
+  background-color: var(--gray);
+  color: white;
+  transition: none;
+}
+.a-solid-bg:active {
+  background-color: var(--border-gray);
+  transition: none;
+}
+.a-solid-lg:active {
+  background-color: var(--light-gray);
+  transition: none;
+}

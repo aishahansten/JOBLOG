@@ -104,3 +104,79 @@ function toggleCoffeeStartAlert() {
     </div>
   </div>
 </template>
+
+<style scoped>
+.notify-content {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: baseline;
+  padding: 70px 50px;
+  gap: 100px;
+}
+
+section {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 20px;
+}
+.section-title {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+article {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.line span {
+  font-weight: 600;
+}
+
+.toggle-btn {
+  display: flex;
+  gap: 5px;
+  padding: 5px;
+
+  border: 1px solid var(--border-gray);
+  border-radius: 10px;
+}
+.toggle-btn div {
+  padding: 10px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--gray);
+  border-radius: 7px;
+}
+
+.btn-on .on {
+  background-color: var(--main-blue);
+  color: white;
+}
+.btn-off .off {
+  background-color: var(--gray);
+  color: white;
+}
+
+.clickable-on:hover {
+  background-color: var(--main-blue);
+  filter: brightness(150%);
+  color: white;
+  transition: 0.1s;
+}
+.clickable-off:hover {
+  background-color: var(--gray);
+  filter: brightness(150%);
+  color: white;
+  transition: 0.1s;
+}
+</style>

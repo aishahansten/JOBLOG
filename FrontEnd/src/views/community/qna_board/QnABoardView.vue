@@ -2,19 +2,23 @@
   <div class="title">
     QnA 게시판
   </div>
-  <QnAList/>
+  <QnAList :posts="communityStore.posts"/>
 </template>
 
 <script setup>
 import { onMounted } from 'vue';
 import QnAList from './components/QnAList.vue';
 import { useCommunityStore } from '@/stores/community';
+import { useRouter } from 'vue-router';
+const communityStore = useCommunityStore();
+const router = useRouter()
+onMounted(async () => {
+  // Use an immediately-invoked async function
+  await communityStore.getPosts(router);
+});
 
-
-onMounted (() => {
-  
-})
 </script>
+
 
 <style scoped>
   .title {

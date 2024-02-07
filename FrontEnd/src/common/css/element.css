@@ -1,0 +1,63 @@
+/* ! font-size */
+.f-size-12 {
+  font-size: 12px;
+}
+.f-size-14 {
+  font-size: 14px;
+}
+.f-size-16 {
+  font-size: 16px;
+}
+.f-size-20 {
+  font-size: 20px;
+}
+.f-size-24 {
+  font-size: 24px;
+}
+
+/*! font-color */
+.f-color-w {
+  color: white;
+}
+.f-color-c {
+  color: var(--main-blue);
+}
+.f-color-bg {
+  color: var(--border-gray);
+}
+.f-color-g {
+  color: var(--gray);
+}
+.f-color-dg {
+  color: var(--dark-gray);
+}
+
+/*! font-weight */
+.f-weight-l {
+  font-weight: 200;
+}
+.f-weight-b {
+  font-weight: 600;
+}
+.f-weight-t {
+  font-weight: 900;
+}
+
+.w-btn {
+  position: relative;
+  border: none;
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 15px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  font-size: 18px;
+  transition: 0.25s;
+}
+.w-btn-indigo:hover {
+  background-color: rgb(231, 244, 255);
+}
+.w-btn-indigo {
+  background-color: rgb(252, 254, 255);
+  color: #1e6b7b;
+}

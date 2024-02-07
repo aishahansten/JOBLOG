@@ -1,5 +1,7 @@
 package com.ssafy.joblog.domain.coffeechat.service;
 
+import com.ssafy.joblog.domain.alarm.kafka.service.ProducerService;
+import com.ssafy.joblog.domain.alarm.service.AlarmService;
 import com.ssafy.joblog.domain.coffeechat.dto.request.ChatCreateRequestDto;
 import com.ssafy.joblog.domain.coffeechat.dto.request.ChatUpdateRequestDto;
 import com.ssafy.joblog.domain.coffeechat.dto.response.ChatResponseDto;
@@ -21,6 +23,7 @@ public class ChatService {
 
     private final UserRepository userRepository;
     private final ChatRepository chatRepository;
+    private final AlarmService alarmService;
 
     // 1. 커피챗 신청하기
     public void createChat(ChatCreateRequestDto chatCreateRequestDto){
@@ -29,12 +32,12 @@ public class ChatService {
         User chattee = userRepository.findById(chatCreateRequestDto.getChatteeId())
                 .orElseThrow(() -> new IllegalArgumentException("채티가 존재하지 않습니다"));
         CoffeeChatRoom coffeeChatRoom = chatCreateRequestDto.createRoom(chatter, chattee);
-        chatRepository.save(coffeeChatRoom);
+        int chatId = chatRepository.save(coffeeChatRoom).getId();
+        alarmService.sendChatCreateAlarm(chatter.getId(), chatId);
     }
 
     // 2. 커피챗 조회하기
     @Transactional(readOnly = true)
-
     public List<ChatResponseDto> getChatsByUserId(Integer userId) {
         List<CoffeeChatRoom> chattings = chatRepository.findByChatterIdAndIsDeleteIsFalseOrChatteeIdAndIsDeleteIsFalse(userId, userId);
 
@@ -66,7 +69,7 @@ public class ChatService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 커피챗이 존재하지 않습니다"));
         chatRepository.markUnacceptChat(chatId);
         chatRepository.markNoshowChat(chatId);
+        alarmService.sendChatRejectAlarm(coffeeChatRoom.getChattee().getId(), coffeeChatRoom.getId());
     }
-
 
 }
