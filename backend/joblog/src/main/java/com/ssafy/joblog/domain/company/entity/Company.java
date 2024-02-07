@@ -21,13 +21,10 @@ public class Company extends BaseEntity {
 
     private String companyName;
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
-    private List<Recruit> recruits = new ArrayList<>();
 
     @Builder
-    public Company(Long companyCode, String companyName, List<Recruit> recruits) {
+    public Company(Long companyCode, String companyName) {
         this.companyCode = companyCode;
         this.companyName = companyName;
-        this.recruits = recruits;
     }
 }

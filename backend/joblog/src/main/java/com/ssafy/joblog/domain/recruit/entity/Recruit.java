@@ -1,7 +1,5 @@
 package com.ssafy.joblog.domain.recruit.entity;
 
-import com.ssafy.joblog.domain.company.entity.Company;
-import com.ssafy.joblog.domain.recruit.dto.requestDto.RecruitRequestDto;
 import com.ssafy.joblog.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -10,10 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import static jakarta.persistence.FetchType.LAZY;
 
 @Getter
 @Entity
@@ -24,9 +19,8 @@ public class Recruit extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "company_code")
-    private Company company;
+    private Long companyCode;
+    private String companyName;
 
     private Long jobId;
     private String title;
@@ -66,8 +60,9 @@ public class Recruit extends BaseEntity {
     private int closeTypeCode;
 
     @Builder
-    public Recruit(Company company, Long jobId, String title, List<Location> locations, String jobDescription, List<JobType> jobTypes, List<JobCategoryRecruit> jobCategoryRecruits, List<Industry> industries, String experienceLevel, int experienceLevelCode, int experienceLevelMin, int experienceLevelMax, String requiredEducationLevel, int requiredEducationLevelCode, String salary, int salaryCode, Long postingTimestamp, LocalDateTime postingDate, Long modificationTimestamp, Long openingTimestamp, Long expirationTimestamp, LocalDateTime expirationDate, String active, int activeCode, String closeType, int closeTypeCode) {
-        this.company = company;
+    public Recruit(Long companyCode, String companyName, Long jobId, String title, List<Location> locations, String jobDescription, List<JobType> jobTypes, List<JobCategoryRecruit> jobCategoryRecruits, List<Industry> industries, String experienceLevel, int experienceLevelCode, int experienceLevelMin, int experienceLevelMax, String requiredEducationLevel, int requiredEducationLevelCode, String salary, int salaryCode, Long postingTimestamp, LocalDateTime postingDate, Long modificationTimestamp, Long openingTimestamp, Long expirationTimestamp, LocalDateTime expirationDate, String active, int activeCode, String closeType, int closeTypeCode) {
+        this.companyCode = companyCode;
+        this.companyName = companyName;
         this.jobId = jobId;
         this.title = title;
         this.locations = locations;
@@ -93,52 +88,5 @@ public class Recruit extends BaseEntity {
         this.activeCode = activeCode;
         this.closeType = closeType;
         this.closeTypeCode = closeTypeCode;
-    }
-
-
-    public void addIndustry(Industry industry) {
-        industries.add(industry);
-        industry.setRecruit(this);
-    }
-
-    public void addLocation(Location location) {
-        locations.add(location);
-        location.setRecruit(this);
-    }
-
-    public void addJobType(JobType jobType) {
-        jobTypes.add(jobType);
-        jobType.setRecruit(this);
-    }
-
-    public void addJobCategoryRecruit(JobCategoryRecruit jobCategoryRecruit) {
-        jobCategoryRecruits.add(jobCategoryRecruit);
-        jobCategoryRecruit.setRecruit(this);
-    }
-
-
-    public static Recruit createRecruit(RecruitRequestDto item, Industry[] industries, Location[] locations, JobType[] jobTypes, JobCategoryRecruit[] jobCategoryRecruits) {
-        //배열로 받아야 연관관계 함수 addXXX 작동해도 순서 안바뀜
-        Recruit recruit = item.toEntity(
-                new ArrayList<>(Arrays.asList(industries)),
-                new ArrayList<>(Arrays.asList(locations)),
-                new ArrayList<>(Arrays.asList(jobTypes)),
-                new ArrayList<>(Arrays.asList(jobCategoryRecruits)));
-
-        for (Industry industry : industries) {
-            recruit.addIndustry(industry);
-        }
-
-        for (Location location : locations) {
-            recruit.addLocation(location);
-        }
-        for (JobType jobType : jobTypes) {
-            recruit.addJobType(jobType);
-        }
-
-        for (JobCategoryRecruit jobCategoryRecruit : jobCategoryRecruits) {
-            recruit.addJobCategoryRecruit(jobCategoryRecruit);
-        }
-        return recruit;
     }
 }

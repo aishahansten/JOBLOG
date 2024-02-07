@@ -2,10 +2,7 @@ package com.ssafy.joblog.JsonDataReadWrite.entity;
 
 import com.ssafy.joblog.global.entity.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +10,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class Company extends BaseEntity {
     @Id
     @Column(name = "company_code")
@@ -20,13 +18,9 @@ public class Company extends BaseEntity {
 
     private String companyName;
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
-    private List<Recruit> recruits = new ArrayList<>();
-
     @Builder
-    public Company(Long companyCode, String companyName, List<Recruit> recruits) {
+    public Company(Long companyCode, String companyName) {
         this.companyCode = companyCode;
         this.companyName = companyName;
-        this.recruits = recruits;
     }
 }

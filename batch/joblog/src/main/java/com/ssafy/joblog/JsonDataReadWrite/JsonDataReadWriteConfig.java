@@ -75,7 +75,7 @@ public class JsonDataReadWriteConfig {
         return recruitRepository::saveAll;
     }
 
-    static int count = 1;
+    static List<Long> companyCodes = new ArrayList<>();
 
     @StepScope
     @Bean
@@ -85,12 +85,14 @@ public class JsonDataReadWriteConfig {
                 UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(item.getCompany().getDetail().getHref());
                 String companyCodeValue = builder.build().getQueryParams().get("csn").get(0);
                 Long companyCode = Long.parseLong(companyCodeValue);
-                Optional<Company> company = companyRepository.findById(companyCode);
-                if (!company.isPresent()) { //company 정보가 존재하지않으면
-                    companyRepository.save(Company.builder()
-                            .companyCode(companyCode)
-                            .companyName(item.getCompany().getDetail().getName())
-                            .build());
+                if(!companyCodes.contains(companyCode)){
+                    companyCodes.add(companyCode);
+                    companyRepository.save(
+                            Company.builder()
+                                    .companyCode(companyCode)
+                                    .companyName(item.getCompany().getDetail().getName())
+                                    .build()
+                    );
                 }
             }
 

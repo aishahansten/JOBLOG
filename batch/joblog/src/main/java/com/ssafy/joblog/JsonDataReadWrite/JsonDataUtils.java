@@ -26,107 +26,32 @@ public class JsonDataUtils {
     WebClient webClient;
 
     //client(RESTAPI)로부터 Json data 받아오기 + jsonNode로 변환
-    public JsonNode getJsonData(int start) {
+    public JsonNode getJsonData(int start, String published_min, String published_max) {
         DefaultUriBuilderFactory defaultUriBuilderFactory = new DefaultUriBuilderFactory();
         defaultUriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
 
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter dtFmtMin = DateTimeFormatter.ofPattern("yyyy-MM-dd%20HH:00:00");
-        String published_min = now.format(dtFmtMin);
-        LocalDateTime result = now.minusHours(4);
-        DateTimeFormatter dtFmtMax = DateTimeFormatter.ofPattern("yyyy-MM-dd%20HH:00:00");
-        String published_max = result.format(dtFmtMax);
+
 //        System.out.println(now);
 //        System.out.println(result);
-        System.out.println("hi");
 
         //webclient 생성
         webClient = WebClient.builder().uriBuilderFactory(defaultUriBuilderFactory).build();
         //webclient를 통해 동기적으로 데이터 요청
-//        String responseBody = webClient.get()
-//                .uri(builder -> builder
-//                        .scheme("https")
-//                        .host("oapi.saramin.co.kr")
-//                        .path("/job-search")
-//                        .queryParam("access-key", accesskey) //.queryParam으로 추가 가능
-//                        .queryParam("count", 110)
-//                        .queryParam("start", start)
-//                        .queryParam("published_min", published_min) //yyyy-mm-dd + "%20" + hh:mm:ss 형식
-//                        .queryParam("published_max", published_max)
-//                        .build())
-//                .retrieve()
-//                .bodyToMono(String.class)
-//                .block(); // 동기적으로 결과를 얻음
-        String responseBody = "{\n" +
-                "  \"jobs\": {\n" +
-                "    \"count\": 2,\n" +
-                "    \"start\": 1,\n" +
-                "    \"total\": \"7629\",\n" +
-                "    \"job\": [\n" +
-                "      {\n" +
-                "        \"url\": \"http://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=27614114&utm_source=job-search-api&utm_medium=api&utm_campaign=saramin-job-search-api\",\n" +
-                "        \"active\": 1,\n" +
-                "        \"company\": {\n" +
-                "          \"detail\": {\n" +
-                "            \"name\": \"(주)사람인1\"\n" +
-                "          }\n" +
-                "        },\n" +
-                "        \"position\": {\n" +
-                "          \"title\": \"(주)사람인 사무보조·문서작성 경력 채용합니다11212\",\n" +
-                "          \"industry\": {\n" +
-                "            \"code\": \"301\",\n" +
-                "            \"name\": \"솔루션·SI·ERP·CRM\"\n" +
-                "          },\n" +
-                "          \"location\": {\n" +
-                "            \"code\": \"101050,101060,101070\",\n" +
-                "            \"name\": \"서울 > 관악구,서울 > 광진구,서울 > 구로구\"\n" +
-                "          },\n" +
-                "          \"job-type\": {\n" +
-                "            \"code\": \"1\",\n" +
-                "            \"name\": \"정규직\"\n" +
-                "          },\n" +
-                "          \"job-mid-code\": {\n" +
-                "            \"code\": \"22\",\n" +
-                "            \"name\": \"건설·건축\"\n" +
-                "          },\n" +
-                "          \"job-code\": {\n" +
-                "            \"code\": \"2206\",\n" +
-                "            \"name\": \"건축설계\"\n" +
-                "          },\n" +
-                "          \"experience-level\": {\n" +
-                "            \"code\": 2,\n" +
-                "            \"min\": 2,\n" +
-                "            \"max\": 3,\n" +
-                "            \"name\": \"경력 2~3년\"\n" +
-                "          },\n" +
-                "          \"required-education-level\": {\n" +
-                "            \"code\": \"0\",\n" +
-                "            \"name\": \"학력무관\"\n" +
-                "          }\n" +
-                "        },\n" +
-                "        \"keyword\": \"SI·시스템통합,Excel·도표,PowerPoint,전산입력·편집\",\n" +
-                "        \"salary\": {\n" +
-                "          \"code\": \"6\",\n" +
-                "          \"name\": \"1,800~2,000만원\"\n" +
-                "        },\n" +
-                "        \"id\": \"27614114\",\n" +
-                "        \"posting-timestamp\": \"1559191564\",\n" +
-                "        \"posting-date\": \"2019-05-30T13:46:04+0900\",\n" +
-                "        \"modification-timestamp\": \"1559191564\",\n" +
-                "        \"opening-timestamp\": \"1559188800\",\n" +
-                "        \"expiration-timestamp\": \"1561820399\",\n" +
-                "        \"expiration-date\": \"2019-06-29T23:59:59+0900\",\n" +
-                "        \"close-type\": {\n" +
-                "          \"code\": \"1\",\n" +
-                "          \"name\": \"접수마감일\"\n" +
-                "        },\n" +
-                "        \"read-cnt\": \"0\",\n" +
-                "        \"apply-cnt\": \"0\"\n" +
-                "      }\n" +
-                "    ]\n" +
-                "  }\n" +
-                "}";
-        // jsonNode로 변환
+        String responseBody = webClient.get()
+                .uri(builder -> builder
+                        .scheme("https")
+                        .host("oapi.saramin.co.kr")
+                        .path("/job-search")
+                        .queryParam("access-key", accesskey) //.queryParam으로 추가 가능
+                        .queryParam("count", 110)
+                        .queryParam("start", start)
+                        .queryParam("published_min", published_min) //yyyy-mm-dd+"%20"+hh:mm:ss 형식
+                        .queryParam("published_max", published_max)
+                        .queryParam("job_type", 1)
+                        .build())
+                .retrieve()
+                .bodyToMono(String.class)
+                .block(); // 동기적으로 결과를 얻음
         return parseJson(responseBody);
     }
 
@@ -143,9 +68,18 @@ public class JsonDataUtils {
 
     public List<RecruitRequestDto> getJsonDataAsDtoList() throws IOException {
         List<RecruitRequestDto> recruitRequestDtoList = new ArrayList<>();
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter dtFmtMin = DateTimeFormatter.ofPattern("yyyy-MM-dd%20HH:00:00");
+        LocalDateTime result = now.minusHours(3);
+        String published_min = result.format(dtFmtMin);
+        DateTimeFormatter dtFmtMax = DateTimeFormatter.ofPattern("yyyy-MM-dd%20HH:59:59");
+        result = now.minusHours(1);
+        String published_max = result.format(dtFmtMax);
+        System.out.println(published_min);
+        System.out.println(published_max);
         // 처음 100개 불러오기
         int total = 0;
-        JsonNode jsonNode = getJsonData(0);
+        JsonNode jsonNode = getJsonData(0, published_min, published_max);
         if (jsonNode != null) {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNodeTotal = jsonNode.get("jobs").get("total");
@@ -157,7 +91,7 @@ public class JsonDataUtils {
         }
         // 더 불러올 데이터 있는지, 있다면 for문
         for (int start = 1; start <= total / 110; start++) {
-            jsonNode = getJsonData(start);
+            jsonNode = getJsonData(start, published_min, published_max);
             if (jsonNode != null) {
                 jsonNode = jsonNode.get("jobs").get("job");
                 String json = jsonNode.toString();
@@ -175,6 +109,7 @@ public class JsonDataUtils {
                 recruitRequestDtoList.remove(i);
             }
         }
+        System.out.println("hi");
 
         return recruitRequestDtoList;
     }

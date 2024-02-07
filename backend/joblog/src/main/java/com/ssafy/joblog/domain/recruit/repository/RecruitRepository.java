@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface RecruitRepository extends JpaRepository<Recruit, Long>, JpaSpecificationExecutor<Recruit> {
-    List<Recruit> findAllRecruitByCompanyCompanyCode(Long companyCode);
+    List<Recruit> findAllRecruitByCompanyCode(Long companyCode);
 
 }

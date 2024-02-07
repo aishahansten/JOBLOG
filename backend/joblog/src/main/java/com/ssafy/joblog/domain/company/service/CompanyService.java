@@ -45,7 +45,7 @@ public class CompanyService {
     public List<RecruitListResponseDto> findAllRecruitByCompany(Long companyCode) {
         Company company = companyRepository.findById(companyCode)
                 .orElseThrow(()-> new IllegalArgumentException("해당 회사가 존재하지 않습니다"));
-        List<Recruit> companyRecruit = recruitRepository.findAllRecruitByCompanyCompanyCode(company.getCompanyCode());
+        List<Recruit> companyRecruit = recruitRepository.findAllRecruitByCompanyCode(company.getCompanyCode());
 
         List<RecruitListResponseDto> companyRecruitDto = new ArrayList<>();
         for (Recruit recruit : companyRecruit) {

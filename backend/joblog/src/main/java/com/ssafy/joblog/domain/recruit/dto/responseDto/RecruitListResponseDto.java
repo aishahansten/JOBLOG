@@ -61,8 +61,8 @@ public class RecruitListResponseDto {
 
         return RecruitListResponseDto.builder()
                 .id(recruit.getId())
-                .companyCode(recruit.getCompany().getCompanyCode())
-                .companyName(recruit.getCompany().getCompanyName())
+                .companyCode(recruit.getCompanyCode())
+                .companyName(recruit.getCompanyName())
                 .title(recruit.getTitle())
                 .jobId(recruit.getJobId())
                 .locationDesc(locationDesc)

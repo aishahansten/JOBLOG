@@ -32,12 +32,6 @@ public class RecruitRequestDto {
     @JsonProperty("keyword")
     private String keyword;
 
-    @JsonProperty("read-cnt")
-    private String readCnt;
-
-    @JsonProperty("apply-cnt")
-    private String applyCnt;
-
     @JsonProperty("salary")
     private SalaryDTO salary;
 
@@ -46,9 +40,6 @@ public class RecruitRequestDto {
 
     @JsonProperty("posting-timestamp")
     private String postingTimestamp;
-
-    @JsonProperty("posting-date")
-    private String postingDate;
 
     @JsonProperty("modification-timestamp")
     private String modificationTimestamp;
@@ -59,16 +50,13 @@ public class RecruitRequestDto {
     @JsonProperty("expiration-timestamp")
     private String expirationTimestamp;
 
-    @JsonProperty("expiration-date")
-    private String expirationDate;
-
     @JsonProperty("close-type")
     private CloseTypeDTO closeType;
 
     public Recruit toEntity(List<Industry> industries, List<Location> locations, List<JobType> jobTypes, List<JobCategoryRecruit> jobCategoryRecruits) {
         Long companyCode = -1l;
         try {
-            if(this.company.detail.href != null){
+            if (this.company.detail.href != null) {
                 UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(this.company.detail.href);
                 String companyCodeValue = builder.build().getQueryParams().get("csn").get(0);
                 if (companyCodeValue != null) {
@@ -83,14 +71,12 @@ public class RecruitRequestDto {
 
 
         return Recruit.builder()
-                .company(Company.builder()
-                        .companyName(this.company.detail.name)
-                        .companyCode(companyCode != -1 ? companyCode: null)
-                        .build())
+                .companyName(this.company.detail.name)
+                .companyCode(companyCode)
                 .jobId(Long.valueOf(this.id))
                 .title(this.position.title)
                 .locations(locations)
-                .jobDescription(this.position.jobCode != null ? this.position.jobCode.name : "")
+                .jobDescription(this.position.jobCode.name)
                 .jobTypes(jobTypes)
                 .industries(industries)
                 .jobCategoryRecruits(jobCategoryRecruits)
@@ -163,9 +149,6 @@ public class RecruitRequestDto {
 
         @JsonProperty("required-education-level")
         private RequiredEducationLevelDTO requiredEducationLevel;
-
-        @JsonProperty("industry-keyword-code")
-        private String industryKeywordCode;
 
     }
 
