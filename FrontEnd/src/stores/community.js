@@ -20,10 +20,7 @@ export const useCommunityStore = defineStore('community', {
     async getPosts(router) {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/community`, {
-          headers: {
-            Authorization: `${this.getCookie('accessToken')}`,
-          },
-        });
+        })
         this.posts = response.data;
       } catch (err) {
         if (err.response && err.response.status === 500) {
@@ -35,5 +32,6 @@ export const useCommunityStore = defineStore('community', {
         this.posts = [];
       }
     },
+
   }
 });

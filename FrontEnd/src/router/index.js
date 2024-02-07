@@ -9,7 +9,8 @@ import HomeView from "../views/home/HomeView.vue";
 // 로그인 페이지
 import LoginView from "../views/home/LoginView.vue";
 import LoginLocalView from '@/views/home/LoginViewLocal.vue'
-import SignIn from "../views/home/components/login/SignIn.vue";
+import SignIn from "../views/home/components/login/SignIn.vue"
+import DeleteUser from "@/views/home/DeleteUserView.vue"
 
 //취준토크 페이지
 import CoffeeChat from "@/views/coffee_chat/CoffeeChatView.vue";
@@ -77,6 +78,11 @@ const router = createRouter({
       path: "/sign-in",
       name: "SignIn",
       component: SignIn,
+    },
+    {
+      path: "/delete-user",
+      name: "DeleteUserHandle",
+      component: DeleteUser,
     },
 
     // 채용공고
