@@ -1,7 +1,10 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import SelectStatus from "./components/login/SelectStatus.vue";
 import "@/assets/css/home/login.css";
+import { useAuthStore } from "@/stores/auth";
+
+const authStore = useAuthStore()
 
 const isEdit = ref(false);
 function toggleEdit() {
@@ -17,6 +20,11 @@ function callKakao() {
 function callNaver() {
   window.location.href = "http://localhost:8080/oauth2/authorization/naver";
 }
+
+onMounted(async() => {
+  await authStore.logout2()
+})
+
 </script>
 
 <template>

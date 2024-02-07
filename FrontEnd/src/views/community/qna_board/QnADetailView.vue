@@ -69,12 +69,17 @@ async function fetchPostAndComments() {
 }
 
 const handleRefresh = async () => {
-  loading.value = false
-  const { post: fetchedPost, comments: fetchedComments } = await fetchPostAndComments()
-  post.value = fetchedPost
-  comments.value = fetchedComments
-  showModal.value = false
-  loading.value = true
+  try {
+    loading.value = true;
+    await settingResumeStore.getInfo();
+    userInfo.value = settingResumeStore.userInfo;
+    console.log('refresh 작동 확인');
+  } catch (error) {
+    console.error('Error refreshing data:', error);
+  } finally {
+    loading.value = false;
+  }
+  console.log(loading.value);
 }
 
 onMounted(async () => {

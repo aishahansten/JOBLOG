@@ -46,10 +46,11 @@
 <script setup>
 import { useSettingResumeStore } from "@/stores/settingResume";
 import { ref, onMounted } from 'vue'
+const emit = defineEmits(['refresh'])
 
 const settingResumeStore = useSettingResumeStore()
-const createInfo = function(info) {
-    settingResumeStore.createInfo(info)
+const createInfo = async(info) => {
+    await settingResumeStore.createInfo(info)
 
     certificate.value = {
       userId: "",
@@ -61,6 +62,7 @@ const createInfo = function(info) {
       description: "",
       level: "",
     }
+    emit('refresh') 
   }
 
 const certificate = ref ({
