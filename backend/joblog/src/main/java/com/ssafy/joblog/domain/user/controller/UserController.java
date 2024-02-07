@@ -4,8 +4,10 @@ import com.ssafy.joblog.domain.user.dto.request.UserUpdateRequestDto;
 import com.ssafy.joblog.domain.user.dto.response.UserResponseDto;
 import com.ssafy.joblog.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,6 +30,13 @@ public class UserController {
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<Void> delete(@PathVariable(value = "userId") int userId) {
         userService.delete(userId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    //시연용 삭제
+    @DeleteMapping("/permanent/delete/{userId}")
+    public ResponseEntity<Void> tempDelete(@PathVariable(value = "userId") int userId) {
+        userService.tempDelete(userId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

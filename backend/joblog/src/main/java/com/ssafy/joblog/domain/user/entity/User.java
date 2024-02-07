@@ -14,9 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
 import java.sql.Array;
 import java.sql.Timestamp;
@@ -28,6 +26,7 @@ import java.util.List;
 
 @Data
 @Entity
+@DynamicInsert
 @NoArgsConstructor
 public class User extends BaseEntity {
 
@@ -45,25 +44,25 @@ public class User extends BaseEntity {
 
     @ColumnDefault("0")
     private int companyCode;
-    @ColumnDefault("-")
+    @ColumnDefault("'-'")
     private String nickname;
-    @ColumnDefault("-")
+    @ColumnDefault("'-'")
     private String objective;
-    @ColumnDefault("-")
+    @ColumnDefault("'-'")
     private String realName;
-    @ColumnDefault("-")
+    @ColumnDefault("'-'")
     private String englishName;
-    @ColumnDefault("-")
+    @ColumnDefault("'-'")
     private String address;
-    @ColumnDefault("-")
+    @ColumnDefault("'-'")
     private String userEmail;
-    @ColumnDefault("-")
+    @ColumnDefault("'-'")
     private String profileImageName;
-    @ColumnDefault("-")
+    @ColumnDefault("'-'")
     private String profileImageUrl;
-    @ColumnDefault("-")
+    @ColumnDefault("'-'")
     private String phoneNumber;
-    @ColumnDefault("-")
+    @ColumnDefault("'1900-01-01'")
     private LocalDate birthDate;
 
     //연관관계 주인x
