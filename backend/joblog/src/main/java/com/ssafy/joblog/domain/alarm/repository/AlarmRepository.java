@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface AlarmRepository extends JpaRepository<Alarm, Integer> {
 
-    List<Alarm> findByUserId(int userId);
+    List<Alarm> findByUserIdAndIsDeleteTrue(int userId);
 
     @Modifying
     @Query("UPDATE Alarm alarm SET alarm.isChecked = true WHERE alarm.id = :id")

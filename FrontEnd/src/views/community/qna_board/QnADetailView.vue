@@ -1,69 +1,97 @@
 <template>
-  <div class="qnaDetailContainer">
-    <div class="question">
-      <div class="header">
-        <div>
-          <img src="@/assets/img/community/Q.svg" class="question-icon">
-        </div>
-        <div class="title">
-            param 으로 받아온 질문 제목
-        </div>
-      </div>
-      <div class="content">
-        테스트 내용 삽입
-      </div>
-    </div>
-    <div class="buttons">
-      <button class="w-btn w-btn-indigo" v-if="!showModal" @click="toggleModal">답변하기</button>
-      <button class="w-btn w-btn-indigo" v-if="showModal" @click="toggleModal">답변취소</button>
-    </div>
-    <div class="answer-create-container" v-if="showModal">
-      <div class="a-title">
-        <input type="text" v-model="newAnswer.title" placeholder="제목을 입력하세요">
-      </div>
-      <div class="a-content">
-        <textarea v-model="newAnswer.content" placeholder="본문 내용을 입력하세요"></textarea>
-      </div>
-      <div class="submit">
-        <button class="w-btn w-btn-indigo" @click="submitAnswer">작성하기</button>
-      </div>
+  <div v-if="!loading">
   </div>
-    <div class="answer">
-      <ReplyList :answers="dummyAnswerList"/>
+  <div v-else>
+    <div class="qnaDetailContainer">
+      <div class="question">
+        <div class="header">
+          <div>
+            <img src="@/assets/img/community/Q.svg" class="question-icon">
+          </div>
+          <div class="title" v-if="post">
+            {{ post.title }}
+          </div>
+          <div class="buttons" v-if="post.userId == authStore.userInfo.sub">
+            <RouterLink :to="{ name: 'QnAUpdate', params: { id: post.postId } }">
+              <button>수정하기</button>
+            </RouterLink>
+          </div>
+        </div>
+        <div class="content">
+          {{ post.postId }}
+          {{ post.content }}
+        </div>
+      </div>
+      <button @click="toggleModal">버튼 키기</button>
+      <div v-if="showModal">
+        <QnACommentCreate 
+          :postId="post.postId"
+          @refresh="handleRefresh"
+        />
+      </div>
+
+      <ReplyList 
+        :comments="comments"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router';
+import axios from 'axios';
 import ReplyList from './components/ReplyList.vue';
-// 답변 div 띄울 때
-const showModal = ref(false)
+import { useAuthStore } from '@/stores/auth';
+import QnACommentCreate from '@/views/community/qna_board/components/QnACommentCreate.vue'
 
+const authStore = useAuthStore()
+const route = useRoute()
+
+const loading = ref(false)
+const post = ref(null)
+const comments = ref([])
+
+
+async function fetchPostAndComments() {
+  try {
+
+    await authStore.updateUserInfoFromToken()
+    const response = await axios.get(`${authStore.API_URL}/community/detail/${route.params.id}`)
+
+    
+    return {
+      post: response.data.postResponseDto,
+      comments: response.data.comments,
+    };
+    
+  } catch (error) {
+    console.error('불러오기 실패: ', error);
+    return { post: null, comments: null }; // Return nulls or defaults on error
+  }
+}
+
+const handleRefresh = async () => {
+  loading.value = false
+  const { post: fetchedPost, comments: fetchedComments } = await fetchPostAndComments()
+  post.value = fetchedPost
+  comments.value = fetchedComments
+  showModal.value = false
+  loading.value = true
+}
+
+onMounted(async () => {
+  const { post: fetchedPost, comments: fetchedComments } = await fetchPostAndComments();
+  post.value = fetchedPost;
+  comments.value = fetchedComments;
+  loading.value = true;
+  authStore.updateUserInfoFromToken()
+});
+
+//-----------
+const showModal = ref(false)
 const toggleModal = function() {
   showModal.value = !showModal.value
-}
-//----------------------------------
-const newAnswer = ref({
-  user_id: 1,
-  title: '',
-  content: '',
-  created_date: '', // You might want to handle this differently, usually set on the server-side
-})
-
-const dummyAnswerList = ref ([])
-
-const submitAnswer = function() {
-  const answerCopy = { ...newAnswer.value };
-  dummyAnswerList.value.push(answerCopy);
-
-  // Reset newAnswer
-  newAnswer.value = {
-    user_id: 1,
-    title: '',
-    content: '',
-    created_date: '', // Resetting the date, handle appropriately
-  };
 }
 
 </script>
@@ -98,7 +126,7 @@ const submitAnswer = function() {
 
   .header { 
     display: grid;
-    grid-template-columns: 150px auto;
+    grid-template-columns: 150px auto 100px;
   }
 
   .content {
@@ -111,42 +139,5 @@ const submitAnswer = function() {
     width: 987px;
   }
 
-  .buttons {
-    display: flex;
-    justify-content: flex-end;
-  }
 
-  .answer-create-container {
-    display: flex;
-    flex-direction: column;
-    width: 1344px;
-    min-height: 600px;
-    border: 1px solid black;
-    padding: 20px; /* Add padding for better spacing */
-    box-sizing: border-box;
-  }
-
-  .a-title input {
-    width: 100%; /* Full width of the container */
-    height: 40px; /* Fixed height */
-    padding: 8px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 20px; /* Spacing between title and content */
-  }
-
-  .a-content textarea {
-    width: 100%; /* Full width of the container */
-    height: 400px; /* Fixed height */
-    padding: 8px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: none; /* Prevents resizing */
-  }
-
-  .submit {
-    margin-left: auto;
-  }
 </style>

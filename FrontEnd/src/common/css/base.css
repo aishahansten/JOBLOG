@@ -1,0 +1,55 @@
+:root {
+  --main-blue: #6880ff;
+  --main-black: #1e1e1e;
+  --dark-gray: #404040;
+  --gray: #777777;
+  --border-gray: #d9d9d9;
+  --light-gray: #f2f2f2;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: #1e1e1e;
+  text-decoration: none;
+}
+
+html,
+body,
+#app {
+  width: 1920px;
+  min-width: 1920px;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-y: scroll;
+}
+
+main {
+  height: auto;
+  min-height: 800px;
+  padding: 0 250px;
+}
+
+.container {
+  width: 100%;
+  min-height: 800px;
+}
+
+button,
+a {
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari용 */
+  -moz-user-select: none; /* Firefox용 */
+  -ms-user-select: none; /* Internet Explorer/Edge용 */
+  user-select: none; /* 비표준 브라우저를 위한 표준 구문 */
+}
+
+input:focus {
+  outline: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}

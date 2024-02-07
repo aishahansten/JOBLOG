@@ -1,5 +1,6 @@
 package com.ssafy.joblog.domain.alarm.entity;
 
+import com.ssafy.joblog.domain.coffeechat.entity.CoffeeChatRoom;
 import com.ssafy.joblog.domain.schedule.entity.Schedule;
 import com.ssafy.joblog.domain.user.entity.User;
 import com.ssafy.joblog.global.entity.BaseEntity;
@@ -39,9 +40,9 @@ public class Alarm extends BaseEntity {
     private Schedule schedule;
 
     //연관관계 주인(=외래키 갖고있음)
-//    @ManyToOne(fetch = LAZY)
-//    @JoinColumn(name = "chat_room_id")
-//    private CoffeeChatRoom coffeeChatRoom;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "chat_room_id")
+    private CoffeeChatRoom coffeeChatRoom;
 
     //연관관계 주인(=외래키 갖고있음)
 //    @ManyToOne(fetch = LAZY)
@@ -52,10 +53,11 @@ public class Alarm extends BaseEntity {
     private boolean isChecked;
 
     @Builder
-    public Alarm(int id, User user, Schedule schedule) {
+    public Alarm(int id, User user, Schedule schedule, CoffeeChatRoom coffeeChatRoom) {
         this.id = id;
         this.user = user;
         this.schedule = schedule;
+        this.coffeeChatRoom = coffeeChatRoom;
     }
 
 }

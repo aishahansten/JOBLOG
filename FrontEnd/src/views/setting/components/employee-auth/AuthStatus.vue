@@ -35,4 +35,68 @@ function toggleEdit() {
   <AuthProceed v-else />
 </template>
 
-<style scoped></style>
+<style scoped>
+.auth-content {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 100px 0;
+  gap: 50px;
+}
+.status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+}
+
+#edit-content {
+  width: 100%;
+  height: 820px;
+}
+
+.auth-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.auth {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lines {
+  display: flex;
+  width: 700px;
+  justify-content: space-between;
+  align-items: center;
+}
+.lines div {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+input {
+  padding: 10px;
+  font-size: 20px;
+  border: 1px solid var(--border-gray);
+  border-radius: 10px;
+}
+
+#email-input {
+  width: 320px;
+}
+
+#go-auth-btn {
+  padding: 10px 50px;
+  font-size: 20px;
+}
+</style>

@@ -12,9 +12,9 @@ function localAxios() {
   });
 
   // 기본 요청 헤더 설정
-  instance.defaults.headers.common["Authorization"] = "";
-  instance.defaults.headers.post["Content-Type"] = "application/json";
-  instance.defaults.headers.put["Content-Type"] = "application/json";
+  // instance.defaults.headers.common["Authorization"] = "";
+  // instance.defaults.headers.post["Content-Type"] = "application/json";
+  // instance.defaults.headers.put["Content-Type"] = "application/json";
 
   // 요청 인터셉터 추가
   instance.interceptors.request.use(
@@ -29,6 +29,9 @@ function localAxios() {
         // 요청 헤더에 Authorization 추가
         config.headers["Authorization"] = `Bearer ${accessToken}`;
       }
+
+      // 요청 헤더 로깅
+      console.log("Request Headers:", config.headers);
 
       return config;
     },

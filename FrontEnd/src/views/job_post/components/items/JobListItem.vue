@@ -1,55 +1,77 @@
 <template>
-<div class="job-post">
-  <div class="upper-post">이미지, 스크랩 버튼
-    <RouterLink :to="{ name:'JobDetail' }"><button>임시 상세페이지</button></RouterLink>
-  </div>
-  <div class="lower-post">
-    <div class="title">{{ data.title }}</div>
-    <div class="experience">{{ data.experienceLevel }}, {{ data.industryDesc }}</div>
-    <div class="company-name">{{ data.companyName }}</div>
-  </div>
-</div>
+  <RouterLink :to="{ name: 'JobDetail' }">
+    <div class="job-post">
+      <div class="content">
+        <div class="title">{{ data.title }}</div>
+        <div class="experience">
+          {{ data.experienceLevel }} | {{ data.industryDesc }}
+        </div>
+        <div class="company-name">{{ data.companyName }}</div>
+      </div>
+      <div class="etc">
+        <span>D-7</span>
+        <div class="scrap">
+          <i class="fa-regular fa-star pointer"></i>
+        </div>
+      </div>
+    </div>
+  </RouterLink>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 
-
-const props = defineProps ({
-  data: Object
-})
+const props = defineProps({
+  data: Object,
+});
 </script>
 
 <style scoped>
-  .job-post {
-    display: grid;
-    grid-template-rows: 1.5fr 1fr;
-    
-  }
+.job-post {
+  display: grid;
+  grid-template-columns: 1fr 0.3fr;
+  padding: 30px 20px;
 
-  .upper-post {
-    border: black 1px solid;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    height: 200px;
-    background-color: rgb(61, 61, 61);
-    color: white;
-  }
+  border: 1px solid var(--border-gray);
+  border-radius: 20px;
+}
+.job-post:hover {
+  background-color: rgb(104, 128, 255, 0.1);
+  transition: 0.2s;
+}
 
-  .lower-post {
-    border: black 1px solid;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    height: 134px;
-  }
+.job-post .content {
+  display: grid;
+  grid-template-rows: 1.5fr 1fr;
+  grid-gap: 5px;
+}
 
-  .title {
-    font-size: 20px;
-    font-weight: bold;
-  }
+.job-post .content .title {
+  font-size: 20px;
+  font-weight: bold;
+}
+.job-post .content .experience {
+  color: var(--gray);
+}
+.job-post .content .company-name {
+  font-weight: 500;
+}
 
-  .experience {
-    font-size: 18px;
-    color: grey;
-  }
+.job-post .etc {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: end;
+}
+.etc span {
+  color: var(--gray);
+}
+.etc .scrap {
+  display: flex;
+  justify-content: end;
+  opacity: 50%;
+}
+.etc .scrap:hover {
+  opacity: 100%;
+}
 </style>

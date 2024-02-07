@@ -8,6 +8,7 @@ import HomeView from "../views/home/HomeView.vue";
 
 // 로그인 페이지
 import LoginView from "../views/home/LoginView.vue";
+import LoginLocalView from '@/views/home/LoginViewLocal.vue'
 import SignIn from "../views/home/components/login/SignIn.vue";
 
 //취준토크 페이지
@@ -17,12 +18,15 @@ import ChatterSign from "@/views/coffee_chat/ChatterSign.vue";
 //채용공고 페이지
 import JobPost from "@/views/job_post/JobPostView.vue";
 import JobDetail from "@/views/job_post/JobDetailView.vue";
+import JobScrap from "@/views/job_post/ScrapJobView.vue";
 
 //커뮤니티 페이지
 import QnABoard from "@/views/community/qna_board/QnABoardView.vue";
 import ResumeCreate from "@/views/blog/application/resume/ResumeCreateView.vue";
 import QnADetail from "@/views/community/qna_board/QnADetailView.vue";
 import QnACreate from "@/views/community/qna_board/QnACreateView.vue";
+import QnACommentCreate from "@/views/community/qna_board/components/QnACommentCreate.vue";
+import QnAUpdate from "@/views/community/qna_board/QnAUpdateView.vue";
 
 //취준로그 페이지
 import Schedule from "@/views/blog/schedule/ScheduleView.vue";
@@ -63,6 +67,11 @@ const router = createRouter({
       path: "/login",
       name: "Login",
       component: LoginView,
+    },    
+    {
+      path: "/login2",
+      name: "Login2",
+      component: LoginLocalView,
     },
     {
       path: "/sign-in",
@@ -82,6 +91,11 @@ const router = createRouter({
       component: JobDetail,
       // 추후에 각 번호로 입력 받아야함
       // /job-detail/<int: detail-pk>
+    },
+    {
+      path: "/job-scrap",
+      name: "JobScrap",
+      component: JobScrap,
     },
 
     // 커피챗
@@ -103,7 +117,7 @@ const router = createRouter({
       component: QnABoard,
     },
     {
-      path: "/qna-board/detail",
+      path: "/qna-board/detail/:id",
       name: "QnADetail",
       component: QnADetail,
     },
@@ -111,6 +125,18 @@ const router = createRouter({
       path: "/qna-create",
       name: "QnACreate",
       component: QnACreate,
+    },
+    {
+      path: "/qna-board/comment",
+      name: "QnACommentCreate",
+      props: true,
+      component: QnACommentCreate,
+    },
+    {
+      path: "/qna-board/update/:id",
+      name: "QnAUpdate",
+      props: true,
+      component: QnAUpdate,
     },
 
     // 캘린더

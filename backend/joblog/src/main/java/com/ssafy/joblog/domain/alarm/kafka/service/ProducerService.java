@@ -3,6 +3,7 @@ package com.ssafy.joblog.domain.alarm.kafka.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.joblog.domain.alarm.kafka.vo.AlarmVo;
+import com.ssafy.joblog.domain.coffeechat.repository.ChatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,14 @@ public class ProducerService {
     }
 
     public void chatCreateAlarm(int userId, String message) {
+        kafkaTemplate.send("chat", createMessage(userId, message));
+    }
+
+    public void chatAcceptAlarm(int userId, String message) {
+        kafkaTemplate.send("chat", createMessage(userId, message));
+    }
+
+    public void chatRejectAlarm(int userId, String message) {
         kafkaTemplate.send("chat", createMessage(userId, message));
     }
 
