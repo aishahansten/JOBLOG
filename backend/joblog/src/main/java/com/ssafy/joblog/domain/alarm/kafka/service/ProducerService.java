@@ -47,4 +47,11 @@ public class ProducerService {
         kafkaTemplate.send("schedule", createMessage(userId, message));
     }
 
+    public void upcomingMyRecruitAlarm(int userId, String message) {
+        kafkaTemplate.send("myRecruit", createMessage(userId, message));
+    }
+
+    public void upcomingSelectionAlarm(int userId, String message) {
+        kafkaTemplate.send("selection", createMessage(userId, message));
+    }
 }
