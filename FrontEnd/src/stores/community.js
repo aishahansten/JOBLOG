@@ -16,10 +16,8 @@ export const useCommunityStore = defineStore('community', {
       if (parts.length === 2) return parts.pop().split(';').shift();
       return null;
     },
-
+    
     async getPosts(router) {
-
-
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/community`, {
           headers: {
