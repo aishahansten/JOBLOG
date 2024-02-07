@@ -38,6 +38,7 @@ import Application from "@/views/blog/application/ApplicationView.vue";
 import EssayCreate from "@/views/blog/application/essay/EssayCreateView.vue";
 import Merge from "@/views/blog/application/components/MergeView.vue";
 import ResumeDetail from "@/views/blog/application/resume/ResumeDetailView.vue";
+
 //프로필 세팅 페이지
 import ProfileSetting from "@/views/setting/SettingView.vue";
 import AccountSetting from "@/views/setting/components/account/AccountSetting.vue";

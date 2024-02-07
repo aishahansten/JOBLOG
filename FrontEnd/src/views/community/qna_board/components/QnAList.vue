@@ -1,40 +1,22 @@
+<script setup>
+import QnAListItem from "./items/QnAListItem.vue";
+import { useCommunityStore } from "@/stores/community";
+
+const props = defineProps({
+  posts: Array,
+});
+</script>
+
 <template>
-  <div class="list-content">
-    <div class="item-body">
-    <QnAListItem
-      v-for="post in posts"
-      :key="post.postId"
-      :post="post"
-    />
-    </div>
-    <div class="create-button">
-      <RouterLink :to="{ name:'QnACreate' }"> <button>작성하기</button></RouterLink>
-    </div>
+  <div class="list">
+    <QnAListItem v-for="post in posts" :key="post.postId" :post="post" />
   </div>
 </template>
 
-<script setup>
-import QnAListItem from './items/QnAListItem.vue';
-
-const props = defineProps ({
-  posts: Array
-})
-</script>
-
 <style scoped>
-  .list-content {
-    display: flex;
-    flex-direction: column;
-    max-height: 1300px;
-    border: 1px solid black;
-  }
-  
-  .item-body {
-    margin-left: 40px;
-  }
-
-  .create-button {
-    margin-left: auto;
-  }
-
+.list {
+  display: flex;
+  flex-direction: column;
+  max-height: 1300px;
+}
 </style>

@@ -16,6 +16,11 @@
   transition: 0.2s ease;
 }
 
+.h-lined-c:hover {
+  border: 1px solid var(--main-blue);
+  transition: 0.2s ease;
+}
+
 .h-solid-c:hover {
   background-color: var(--main-blue);
   color: white;

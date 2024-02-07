@@ -46,7 +46,8 @@ a {
   user-select: none; /* 비표준 브라우저를 위한 표준 구문 */
 }
 
-input:focus {
+input:focus,
+textarea:focus {
   outline: none;
 }
 
