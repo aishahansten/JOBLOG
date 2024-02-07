@@ -1,6 +1,7 @@
 package com.ssafy.joblog.domain.chatter.service;
 
 import com.ssafy.joblog.domain.chatter.dto.request.ChatterCreateRequestDto;
+import com.ssafy.joblog.domain.chatter.dto.request.ChatterUpdateRequestDto;
 import com.ssafy.joblog.domain.chatter.dto.response.ChatterResponseDto;
 import com.ssafy.joblog.domain.chatter.entity.ChatterProfile;
 import com.ssafy.joblog.domain.chatter.repository.ChatterRepository;
@@ -34,7 +35,7 @@ public class ChatterService {
     @Transactional(readOnly = true)
     // 2. 커피 채터 조회하기 (최신순, 삭제되지 않은 프로필만 조회)
     public List<ChatterResponseDto> getChatters() {
-        List<ChatterProfile> chatters = chatterRepository.findAllByIsDeleteIsFalseOrderByCreatedDateDesc();
+        List<ChatterProfile> chatters = chatterRepository.findAllByIsDeleteIsFalseOrderByModifiedDateDesc();
         List<ChatterResponseDto> getChattersList = new ArrayList<>();
         chatters.forEach(chatter -> getChattersList.add(ChatterResponseDto.builder()
                 .userId(chatter.getId())
@@ -56,8 +57,23 @@ public class ChatterService {
                 .description(chatter.getDescription())
                 .build();
         return chatterResponseDto;
+    }
 
+    // 4. 커피 채터 수정
+    @Transactional
+    public void updateChatter(ChatterUpdateRequestDto chatterUpdateRequestDto) {
+        Optional<ChatterProfile> optionalChatter = chatterRepository.findByUserIdAndIsDeleteIsFalse(chatterUpdateRequestDto.getUserId());
+        ChatterProfile chatter = optionalChatter.orElseThrow(()->new IllegalArgumentException("채터가 존재하지 않습니다"));
+        chatter.updateChatter(chatterUpdateRequestDto);
+    }
 
+    // 5. 커피 채터 삭제
+    @Transactional
+    public void markDeletedChatter(int userId) {
+        Optional<ChatterProfile> optionalChatter = chatterRepository.findByUserIdAndIsDeleteIsFalse(userId);
+        ChatterProfile chatter = optionalChatter
+                .orElseThrow(() -> new IllegalArgumentException("해당 채터를 찾을 수 없습니다"));
+        chatterRepository.markDeletedChatter(chatter.getId());
     }
 
 

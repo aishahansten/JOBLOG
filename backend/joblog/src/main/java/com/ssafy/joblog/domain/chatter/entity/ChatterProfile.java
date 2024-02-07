@@ -1,6 +1,7 @@
 package com.ssafy.joblog.domain.chatter.entity;
 
 
+import com.ssafy.joblog.domain.chatter.dto.request.ChatterUpdateRequestDto;
 import com.ssafy.joblog.domain.user.entity.User;
 import com.ssafy.joblog.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -36,4 +37,13 @@ public class ChatterProfile extends BaseEntity {
         this.career=career;
         this.description=description;
     }
+
+    // update 더티체킹
+    public void updateChatter(ChatterUpdateRequestDto chatterUpdateRequestDto) {
+        this.career = chatterUpdateRequestDto.getCareer();
+        this.description = chatterUpdateRequestDto.getDescription();
+    }
+
+
+
 }

@@ -21,6 +21,7 @@ public class ChatterCreateRequestDto {
     public ChatterProfile createChatter(User user) {
         return ChatterProfile.builder()
                 .id(this.userId)
+                .user(user)
                 .career(this.career)
                 .description(this.description)
                 .build();

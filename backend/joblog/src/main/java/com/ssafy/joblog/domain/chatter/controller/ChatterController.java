@@ -1,6 +1,7 @@
 package com.ssafy.joblog.domain.chatter.controller;
 
 import com.ssafy.joblog.domain.chatter.dto.request.ChatterCreateRequestDto;
+import com.ssafy.joblog.domain.chatter.dto.request.ChatterUpdateRequestDto;
 import com.ssafy.joblog.domain.chatter.dto.response.ChatterResponseDto;
 import com.ssafy.joblog.domain.chatter.service.ChatterService;
 import com.ssafy.joblog.global.dto.StatusResponseDto;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 public class ChatterController {
 
     private final ChatterService chatterService;
-//    private final ChatterResponseDto chatterResponseDto;
 
     // 1. 커피 채터 프로필 등록하기
     @PostMapping("/profile/register")
@@ -43,8 +43,21 @@ public class ChatterController {
 
 
     // 4. 커피 채터 프로필 수정하기
+    @PatchMapping("/profile/update")
+    @ResponseStatus(HttpStatus.OK)
+    public StatusResponseDto updateChatter(@RequestBody ChatterUpdateRequestDto chatterUpdateRequestDto) {
+        chatterService.updateChatter(chatterUpdateRequestDto);
+        String message = "ok";
+        return new StatusResponseDto(200, message);
+    }
 
     // 5. 커피 채터 비활성화하기
+    @DeleteMapping("/profile/delete/{userId}")
+    public StatusResponseDto markDeletedChatter(@PathVariable Integer userId) {
+        chatterService.markDeletedChatter(userId);
+        String message = "ok";
+        return new StatusResponseDto(200, message);
+    }
 
 
 
