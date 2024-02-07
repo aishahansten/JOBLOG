@@ -2,6 +2,7 @@ package com.ssafy.joblog.domain.user.entity;
 
 
 
+import com.ssafy.joblog.domain.alarm.entity.Alarm;
 import com.ssafy.joblog.domain.board.entity.Post;
 import com.ssafy.joblog.domain.board.entity.PostComment;
 import com.ssafy.joblog.domain.board.entity.PostCommentLike;
@@ -17,6 +18,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.sql.Array;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -41,16 +43,27 @@ public class User extends BaseEntity {
     private String provider;
     private String providerId;
 
+    @ColumnDefault("0")
     private int companyCode;
+    @ColumnDefault("-")
     private String nickname;
+    @ColumnDefault("-")
     private String objective;
+    @ColumnDefault("-")
     private String realName;
+    @ColumnDefault("-")
     private String englishName;
+    @ColumnDefault("-")
     private String address;
+    @ColumnDefault("-")
     private String userEmail;
+    @ColumnDefault("-")
     private String profileImageName;
+    @ColumnDefault("-")
     private String profileImageUrl;
+    @ColumnDefault("-")
     private String phoneNumber;
+    @ColumnDefault("-")
     private LocalDate birthDate;
 
     //연관관계 주인x
@@ -75,6 +88,9 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "following")
     private List<Follow> followings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Alarm> alarms = new ArrayList<>();
 
 
     //Spring Security에서 사용

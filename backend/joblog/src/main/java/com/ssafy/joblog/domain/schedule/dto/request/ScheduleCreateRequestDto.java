@@ -25,8 +25,8 @@ public class ScheduleCreateRequestDto {
         return Schedule.builder()
                 .title(this.title)
                 .content(this.content)
-                .start_date(this.startDate)
-                .end_date(this.endDate)
+                .startDate(this.startDate)
+                .endDate(this.endDate)
                 .user(user)
                 .build();
     }
