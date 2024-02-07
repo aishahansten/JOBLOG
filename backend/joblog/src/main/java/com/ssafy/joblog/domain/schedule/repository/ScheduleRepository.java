@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,4 +20,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     @Modifying
     @Query("UPDATE Schedule schedule SET schedule.isDelete = true WHERE schedule.id = :id")
     void markDeletedSchedule(@Param("id") int id);
+
+    List<Schedule> findAllByEndDateBetweenAndIsDeleteFalse(LocalDateTime endDate1, LocalDateTime endDate2);
 }

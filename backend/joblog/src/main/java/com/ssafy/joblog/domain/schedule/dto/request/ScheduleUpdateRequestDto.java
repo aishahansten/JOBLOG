@@ -19,5 +19,5 @@ public class ScheduleUpdateRequestDto {
     private LocalDateTime endDate;
 }
 
-// Update 하면 postman에서 startDate, endDate를 key값으로 넣어야되는데, start_date, end_date
+// Update 하면 postman에서 startDate, endDate를 key값으로 넣어야되는데, startDate, endDate
 //로 입력해서 null로 update 되는 문제 발생함.
