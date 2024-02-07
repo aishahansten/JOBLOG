@@ -1,6 +1,34 @@
 <script setup>
-import "@/assets/css/setting/setting-header.css";
-import "@/assets/css/setting/menu/resume-setting.css";
+import Education from "./item/Education.vue"
+import Career from "./item/Career.vue"
+import Activity from "./item/Activity.vue"
+import Award from "./item/Award.vue"
+import Skill from "./item/Skill.vue"
+import Certificate from "./item/Certificate.vue"
+
+import "@/assets/css/setting/setting-header.css"
+import "@/assets/css/setting/menu/resume-setting.css"
+import { ref, onMounted } from 'vue'
+import { useSettingResumeStore } from "@/stores/settingResume"
+import { useAuthStore } from "@/stores/auth"
+import axios from "axios"
+
+const authStore = useAuthStore()
+const settingResumeStore = useSettingResumeStore()
+
+const userInfo = ref(null)
+const informations = ref([])
+onMounted(async() => {
+  await settingResumeStore.getInfo()
+  informations.value = settingResumeStore.informations
+  console.log(informations)
+  authStore.updateUserInfoFromToken()
+})
+
+const filteredInfo = function(category) {
+  return this.informations.filter(info => info.infoCategory === category)
+}
+
 </script>
 
 <template>
@@ -14,7 +42,6 @@ import "@/assets/css/setting/menu/resume-setting.css";
         <a href="" class="update-btn clickable">변경 완료</a>
       </div>
     </div>
-
     <div class="resume-content">
       <div class="component" id="half">
         <div class="description">
@@ -94,131 +121,64 @@ import "@/assets/css/setting/menu/resume-setting.css";
           </div>
         </div>
       </div>
-      <div class="component">
-        <div class="description">
-          <p class="title">학적사항 등록</p>
-          <p>고등학교, 대학원, 대학원 등의 학적입니다.</p>
-        </div>
-        <div>
-          <table>
-            <tr>
-              <th class="tag">학교명</th>
-              <th class="tag">전공 및 학위</th>
-              <th class="tag">입학 및 졸업 연/월</th>
-            </tr>
-            <tr class="data">
-              <td>
-                <input type="text" placeholder="원래 학교명. 없으면 '학교명'" />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  placeholder="원래 전공과 학위. 없으면 '전공 및 학위'"
-                />
-              </td>
-              <td>
-                <input type="text" placeholder="0000년 0월 ~ 0000년 0월" />
-              </td>
-            </tr>
-          </table>
-          <div>
-            <a class="add-btn click">+</a>
-          </div>
-        </div>
+    <div>
+      <div v-for="info in filteredInfo('EDUCATION')" :key="info.id">
+        {{ info.title }}
+        {{ info.institutionName }}
+        {{ info.startDate }}
+        {{ info.endDate }}
+        {{ info.graduationStatus }}
+        {{ info.yesOrNot }}
+        {{ info.dayOrNight }}
       </div>
-      <div class="component">
-        <div class="description">
-          <p class="title">경력사항 등록</p>
-          <p>이력서에 등록할 수 있는 경력사항입니다.</p>
-        </div>
-        <div>
-          <table>
-            <tr>
-              <th class="tag">기관명</th>
-              <th class="tag">담당 직무</th>
-              <th class="tag">재직 기간</th>
-            </tr>
-            <tr class="data">
-              <td>
-                <input type="text" placeholder="원래 학교명. 없으면 '학교명'" />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  placeholder="원래 전공과 학위. 없으면 '전공 및 학위'"
-                />
-              </td>
-              <td>
-                <div>
-                  <input type="month" value="" />
-                  <input type="month" />
-                </div>
-              </td>
-            </tr>
-          </table>
-          <div>
-            <a class="add-btn click">+</a>
-          </div>
-        </div>
+      <Education/>
+    </div>
+    <div>
+      <div v-for="info in filteredInfo('CAREER')" :key="info.id">
+        {{ info.institutionName }}
+        {{ info.title }}
+        {{ info.startDate }}
+        {{ info.endDate }}
       </div>
-      <div class="component">
-        <div class="description">
-          <p class="title">자격 및 교육사항 등록</p>
-          <p>이력서에 등록할 수 있는 자격·면허사항 및 교육사항입니다.</p>
-        </div>
-        <div>
-          <table>
-            <tr>
-              <th class="tag">자격명</th>
-              <th class="tag">발급일</th>
-              <th class="tag">발급기관</th>
-            </tr>
-            <tr class="data">
-              <td>
-                <input type="text" placeholder="정보처리기사" />
-              </td>
-              <td>
-                <input type="date" value="2023-02-23" />
-              </td>
-              <td>
-                <input type="text" placeholder="Q-net" />
-              </td>
-            </tr>
-          </table>
-          <div>
-            <a class="add-btn click">+</a>
-          </div>
-        </div>
+      <Career/>
+    </div>
+    <div>
+      <div v-for="info in filteredInfo('ACTIVITY')" :key="info.id">
+        {{ info.title }}
+        {{ info.institutionName }}
+        {{ info.description }}
+        {{ info.startDate }}
+        {{ info.endDate }}
       </div>
-      <div class="component">
-        <div class="description">
-          <p class="title">수상이력 등록</p>
-          <p>이력서에 등록할 수 있는 공모전, 대회 등의 수상이력입니다.</p>
-        </div>
-        <div>
-          <table>
-            <tr>
-              <th class="tag">대회 및 수상명</th>
-              <th class="tag">수상일</th>
-              <th class="tag">주최기관</th>
-            </tr>
-            <tr class="data">
-              <td>
-                <input type="text" placeholder="2023 SW 창업경진대회 장려상" />
-              </td>
-              <td>
-                <input type="date" value="2022-06-05" />
-              </td>
-              <td>
-                <input type="text" placeholder="순천향대학교 SW융합대학" />
-              </td>
-            </tr>
-          </table>
-          <div>
-            <a class="add-btn click">+</a>
-          </div>
-        </div>
+      <Activity/>
+    </div>
+    <div>
+      <div v-for="info in filteredInfo('CERTIFICATE')" :key="info.id">
+        {{ info.title }}
+        {{ info.institutionName }}
+        {{ info.description }}
+        {{ info.startDate }}
+        {{ info.endDate }}
+        {{ info.level }}
       </div>
+      <Certificate/>
+    </div>
+      <div v-for="info in filteredInfo('AWARD')" :key="info.id">
+        {{ info.title }}
+        {{ info.institutionName }}
+        {{ info.startDate }}
+        {{ info.description }}
+      </div>    
+      <Award/>
+    </div>
+    <div>
+      <div v-for="info in filteredInfo('SKILL')" :key="info.id">
+        {{ info.title }}
+        {{ info.institutionName }}
+        {{ info.description }}
+        {{ info.skillLevel }}
+      </div>
+      <Skill/>
     </div>
   </div>
 </template>

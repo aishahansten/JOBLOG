@@ -55,11 +55,8 @@ const comments = ref([])
 
 async function fetchPostAndComments() {
   try {
-
     await authStore.updateUserInfoFromToken()
     const response = await axios.get(`${authStore.API_URL}/community/detail/${route.params.id}`)
-
-    
     return {
       post: response.data.postResponseDto,
       comments: response.data.comments,
