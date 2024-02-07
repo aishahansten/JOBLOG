@@ -59,21 +59,24 @@ import { useSettingResumeStore } from "@/stores/settingResume";
 import { ref, onMounted } from 'vue'
 
 const settingResumeStore = useSettingResumeStore()
-const createInfo = function(info) {
-    settingResumeStore.createInfo(info)
-    
-    education.value = {
-      userId: "",
-      infoCategory: 'EDUCATION',
-      title: "",
-      institutionName:"",
-      startDate: "",
-      endDate: "",
-      graduationStatus: 0,
-      yesOrNot: 0,
-      dayOrNight: 0,
-    }
+const createInfo = async(info) => {
+  await settingResumeStore.createInfo(info)
+  
+  education.value = {
+    userId: "",
+    infoCategory: 'EDUCATION',
+    title: "",
+    institutionName:"",
+    startDate: "",
+    endDate: "",
+    graduationStatus: 0,
+    yesOrNot: 0,
+    dayOrNight: 0,
   }
+  emit('refresh') 
+}
+
+const emit = defineEmits(['refresh'])
 
 const education = ref({
   userId: "",

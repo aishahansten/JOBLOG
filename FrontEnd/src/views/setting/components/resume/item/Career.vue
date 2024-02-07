@@ -37,10 +37,11 @@
 <script setup>
 import { useSettingResumeStore } from "@/stores/settingResume";
 import { ref, onMounted } from 'vue'
+const emit = defineEmits(['refresh'])
 
 const settingResumeStore = useSettingResumeStore()
-const createInfo = function(info) {
-  settingResumeStore.createInfo(info);
+const createInfo = async(info) => {
+  await settingResumeStore.createInfo(info);
 
   career.value = {
     userId: "",
@@ -49,7 +50,8 @@ const createInfo = function(info) {
     institutionName: "",
     startDate: "",
     endDate: "",
-  };
+  }
+  emit('refresh') 
 }
 
 const career = ref({

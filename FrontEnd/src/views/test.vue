@@ -1,45 +1,49 @@
 <template>
-  <table>
-    <tbody>
-      <tr v-for="(value, key) in filteredData" :key="key">
-        <td>{{ key }}</td>
-        <td>{{ value }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="diary-create-container">
+      <div class="diary-header"></div>
+      <div class="diary-title">
+          <div class="title-left">
+              <h1>다이어리 쓰기</h1>
+          </div>
+          <div class="title-right">
+              <button @click="console.log(diary)">저장</button>
+          </div>
+      </div>
+      <div class="diary-content">
+          <textarea name="내용 작성" class="content-textarea" v-model="diary.content"></textarea>
+      </div>
+  </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref } from 'vue'
 
-const data = ref({
-  dayOrNight: 0,
-  description: null,
-  endDate: "2023-02-05",
-  graduationStatus: 0,
-  id: 2,
-  infoCategory: "EDUCATION",
-  institutionName: "살려줘",
-  level: null,
-  link: null,
-  resumeId: 0,
-  role: null,
-  skillLevel: null,
-  startDate: "2023-02-05",
-  techStack: null,
-  title: "살려줘",
-  totalMember: null,
-  userId: 1,
-  yesOrNot: 0
-});
-
-const filteredData = computed(() => {
-  const result = {};
-  Object.entries(data.value).forEach(([key, value]) => {
-    if (value !== null) {
-      result[key] = value;
-    }
-  });
-  return result;
-});
+const diary = ref({
+  userId: '',
+  content: '',
+})
 </script>
+
+<style scoped>
+.diary-create-container {
+  display: grid;
+  grid-template-rows: 1fr 1fr 3fr;
+  width: 800px;
+  
+}
+
+.diary-header {
+  background-color: rgb(103, 103, 103);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.diary-title {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.content-textarea {
+  width: 800px;
+}
+</style>
