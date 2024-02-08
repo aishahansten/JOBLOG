@@ -3,15 +3,15 @@
     <div class="category-header">
       <h2>{{ category.jobName }}</h2>
       <div class="search-bar">
+        <i
+          class="fa-solid fa-magnifying-glass clickable-icon"
+          @click="performSearch"
+        ></i>
         <input
           type="text"
           v-model="searchTerm"
           placeholder="세부 카테고리 검색"
         />
-        <i
-          class="fa-solid fa-magnifying-glass clickable-icon"
-          @click="performSearch"
-        ></i>
       </div>
     </div>
     <div class="sub-grid-container" v-if="filteredChildCategories.length">
@@ -75,11 +75,12 @@ const clickedCategory = (childCategory) => {
   padding: 10px 0;
   border-bottom: 1px solid var(--border-gray);
 }
-.category-header input {
+.search-bar input {
   padding: 0;
   font-size: 16px;
   border: none;
   border-radius: 0px;
+  text-align: right;
 }
 
 /* 세부 카테고리 그리드 목록 */

@@ -1,83 +1,106 @@
 <template>
-    <h2>작성 중인 자소서/이력서</h2>
+  <div class="container">
+    <div class="header">
+      <div>
+        <h1 class="f-weight-t">나의 이력서·자소서 관리</h1>
+        <i class="fa-solid fa-angle-right fa-xl"></i>
+      </div>
+    </div>
 
-    <div class="container">
-      <div class="subcontainer">
-        <div class="doc-container">
-            <img src="@/assets/img/home/icon/doc-mini.svg" alt="doc" class="icon">
-            <p>SSAFY 지원 이력서</p>
+    <div class="content">
+      <div class="applications">
+        <div class="application">
+          <div class="info">
+            <h2>신한은행 지원 이력서</h2>
+            <p>2024.02.04</p>
+          </div>
+          <img src="@/assets/img/icon/resume.svg" alt="" />
         </div>
-        <div class="doc-container">
-            <img src="@/assets/img/home/icon/doc-mini.svg" alt="doc" class="icon">
-            <p>SSAFY 지원 이력서</p>
+        <div class="application">
+          <div class="info">
+            <h2>삼성SDS 지원 이력서</h2>
+            <p>2024.02.02</p>
+          </div>
+          <img src="@/assets/img/icon/resume.svg" alt="" />
         </div>
-        <div class="doc-container">
-            <img src="@/assets/img/home/icon/doc-mini.svg" alt="doc" class="icon">
-            <p>SSAFY 지원 이력서</p>
-        </div>
-        <div class="doc-container">
-            <img src="@/assets/img/home/icon/doc-mini.svg" alt="doc" class="icon">
-            <p>SSAFY 지원 이력서</p>
+        <div class="application">
+          <div class="info">
+            <h2>국민은행 지원 이력서</h2>
+            <p>2024.01.20</p>
+          </div>
+          <img src="@/assets/img/icon/resume.svg" alt="" />
         </div>
       </div>
-      <div class="subcontainer">
-        <div class="essay-container">
-          <img src="@/assets/img/home/icon/doc-mini.svg" alt="doc" class="icon">
-          <p>SSAFY 지원 자소서</p>
+
+      <div class="applications">
+        <div class="application">
+          <div class="info">
+            <h2>신한은행 지원 자소서</h2>
+            <p>2024.02.04</p>
+          </div>
+          <img src="@/assets/img/icon/essay.svg" alt="" />
+        </div>
+        <div class="application">
+          <div class="info">
+            <h2>삼성SDS 지원 자소서</h2>
+            <p>2024.02.02</p>
+          </div>
+          <img src="@/assets/img/icon/essay.svg" alt="" />
+        </div>
+        <div class="application">
+          <div class="info">
+            <h2>삼성SDS 지원 자소서 v2</h2>
+            <p>2024.02.03</p>
+          </div>
+          <img src="@/assets/img/icon/essay.svg" alt="" />
         </div>
       </div>
     </div>
+  </div>
 </template>
 
-<script setup>
-
-</script>
+<script setup></script>
 
 <style scoped>
-  .container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 10px;
-    height: 170px;
-    border: solid 1px black;
-  }
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
-  .subcontainer {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    border: 1px black solid;
-    border-radius: 8px;
-    padding: 10px 30px;
-    gap: 30px;
-  }
-  .essay-container, .doc-container {
-    height: 120px;
-    width: 100px;
-    background-color: rgba(192, 181, 255, 0.701);
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 10px; /* Added padding for better spacing */
-  }
+.header div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-  .essay-container {
-    background-color: rgb(176, 180, 255);
-  }
-  .icon {
-    height: 80px;
-    width: 80px;
-    margin-bottom: 10px;
-  }
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 30px;
+}
 
-  p {
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 90%; /* Adjust as needed */
-  }
+.applications {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.application {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+  border: 1px solid var(--border-gray);
+  border-radius: 10px;
+}
+.application img {
+  padding: 0 10px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
 </style>

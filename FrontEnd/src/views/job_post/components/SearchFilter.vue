@@ -3,6 +3,7 @@
     <div class="search-bar">
       <input
         type="text"
+        class="f-size-20"
         placeholder="'공고명/회사명'을 검색해주세요!"
         v-model="searchTerm"
       />

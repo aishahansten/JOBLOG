@@ -3,6 +3,11 @@
   border: 1px solid var(--border-gray);
   border-radius: 10px;
 }
+.input-simple {
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid var(--border-gray);
+}
 
 .focus-lg:focus {
   background-color: var(--light-gray);
@@ -14,5 +19,10 @@
 }
 .focus-c:focus {
   background-color: rgb(104, 128, 255, 0.2);
+  transition: 0.2s ease;
+}
+
+.focus-lined-c:focus {
+  border-color: var(--main-blue);
   transition: 0.2s ease;
 }

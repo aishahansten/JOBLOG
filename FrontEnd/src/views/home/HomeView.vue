@@ -5,15 +5,12 @@ import ResumeEssay from "./components/ResumeEssay.vue";
 import Chatter from "./components/Chatter.vue";
 
 import "@/assets/css/home/welcome.css";
-import { useAuthStore } from '@/stores/auth';
+import { useAuthStore } from "@/stores/auth";
 
 const authStore = useAuthStore();
-
 const loggedIn = computed(() => !!authStore.userInfo);
 
 authStore.updateUserInfoFromToken();
-
-
 </script>
 
 <template>
@@ -46,7 +43,6 @@ authStore.updateUserInfoFromToken();
   <div class="container-member" v-else>
     <Calendar />
     <ResumeEssay />
-    <ResumeEssay2 />
     <Chatter />
   </div>
 </template>
@@ -89,5 +85,12 @@ authStore.updateUserInfoFromToken();
   text-align: center;
   font-size: 32px;
   padding: 30px 50px;
+}
+
+.container-member {
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+  padding: 50px 0;
 }
 </style>

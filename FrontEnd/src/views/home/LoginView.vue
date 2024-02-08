@@ -29,7 +29,7 @@ function callNaver() {
       <a
         @click="callGoogle"
         id="google-login-btn"
-        class="social-login-btn btn h-solid-c a-dark"
+        class="social-login-btn btn lined-bg h-solid-c a-dark"
       >
         <img
           src="@/assets/img/login/icon/logo-google.svg"
@@ -113,14 +113,8 @@ function callNaver() {
   font-weight: 400;
 }
 
-#google-login-btn {
-  border: 1px solid var(--border-gray);
-}
 #google-login-btn:hover {
   border: none;
-}
-#google-login-btn:hover span {
-  color: white;
 }
 #kakao-login-btn {
   background-color: #fee500;

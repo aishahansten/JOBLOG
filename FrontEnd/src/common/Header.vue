@@ -1,12 +1,16 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { RouterLink } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
-const authStore = useAuthStore()
 const logout = function () {
-  authStore.logout()
-}
+  authStore.logout();
+};
+
 const showDropdown = ref(false);
+const authStore = useAuthStore();
+const loggedIn = computed(() => !!authStore.userInfo);
+
+authStore.updateUserInfoFromToken();
 </script>
 
 <template>
@@ -15,8 +19,12 @@ const showDropdown = ref(false);
       <img src="@/assets/img/icon/main-logo.svg" alt="" />
     </RouterLink>
 
-    <nav @mouseover="showDropdown = true" @mouseleave="showDropdown = false">
-      <div id="nav-menu">
+    <nav>
+      <div
+        id="nav-menu"
+        @mouseover="showDropdown = true"
+        @mouseleave="showDropdown = false"
+      >
         <RouterLink class="link h-txt" :to="{ name: 'Jobs' }"
           >채용공고</RouterLink
         >
@@ -39,16 +47,16 @@ const showDropdown = ref(false);
         </div>
       </transition>
 
-      <!-- <div class="right">
+      <div class="right" v-if="!loggedIn">
         <RouterLink :to="{ name: 'Login' }">
           <a
             id="header-login-btn"
-            class="btn-s lined-bg f-color-c h-solid-c a-dark"
+            class="btn-s lined-bg f-color-c h-solid-c h-lined-c a-bright"
             >로그인 · 회원가입</a
           >
         </RouterLink>
-      </div> -->
-      <div class="right">
+      </div>
+      <div class="right" v-else>
         <div id="alert" class="pointer h-bright a-dark">
           <img src="@/assets/img/icon/non-alert-icon.svg" alt="" />
         </div>
