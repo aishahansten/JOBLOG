@@ -1,153 +1,222 @@
 <template>
-  <div class="resume-container">
-    <div class="resume-upper">
-      <div class="resume-picture" @click="triggerFileInput">
-        <img v-if="imageUrl" :src="imageUrl" alt="Profile Picture Preview" class="profileImage">
-      </div>
-      <input type="file" ref="fileInput" @change="handleFileUpload" style="display:none;">
-      <div class="personal-info">
-        <div class="name">
-          <div class="info-title">
-            이름
-          </div>
-          <div>
-            <input type="text" v-model="userData.real_name">
-          </div>
-          <div class="info-title">
-            영문
-          </div>
-          <div>
-            <input type="text" v-model="userData.english_name">
-          </div>
-        </div>
-        <div class="reg-number">
-          <div class="info-title">
-            주민등록번호
-          </div>
-          <div>
-            <!-- Assuming 'reg_number' is the field for 주민등록번호 -->
-            <input type="text" v-model="userData.reg_number">
-          </div>
-        </div>
-        <div class="numbers">
-          <div class="info-title">
-            H.P
-          </div>
-          <div>
-            <!-- Assuming 'mobile_phone' is the field for H.P -->
-            <input type="text" v-model="userData.phone_number">
-          </div>
-          <div class="info-title">
-            Tel.
-          </div>
-          <div>
-            <!-- Assuming 'telephone' is the field for Tel. -->
-            <input type="text" v-model="userData.telephone">
-          </div>
-        </div>
-        <div class="email">
-          <div class="info-title">
-            이메일
-          </div>
-          <div>
-            <input type="text" v-model="userData.email">
-          </div>
-        </div>
-        <div class="address">
-          <div class="info-title">
-            주소
-          </div>
-          <div>
-            <input type="text" v-model="userData.address">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="section">
-      <div class="section-title">학력사항</div>
-        <div>
-          <table>
-            <colgroup>
-              <col style="width: 25%;">
-              <col style="width: 30%;">
-              <col style="width: 30%;">
-              <col style="width: 15%;">
-            </colgroup>
-            <tbody>
-              <tr>
-                <td>재학기간</td>
-                <td>학교</td>
-                <td>전공</td>
-                <td>구분</td>
-              </tr>
-            </tbody>
-          </table>
-        <hr>
-      </div>
-    </div>
-    <div class="section">
-      <div class="section-title">경력사항</div>
+  <button @click="createResume">이력서 생성하기</button>
+  <div class="create-container">
+    <div class="resume">
       <div>
-        <table>
-          <colgroup>
-            <col style="width: 25%;">
-            <col style="width: 40%;">
-            <col style="width: 20%;">
-            <col style="width: 15%;">
-          </colgroup>
-          <tbody>
-            <tr>
-              <td>근무기간</td>
-              <td>회사/부서</td>
-              <td>직위</td>
-              <td>담당업무</td>
-            </tr>
-          </tbody>
-        </table>
-        <hr>
+        제목: <input type="text" v-model="resume.title" required>
       </div>
-    </div>  
-    <div class="section">
-      <div class="section-title">교육</div>
-      <hr class="thick">
-    </div>
-    <div class="section">
-      <div class="section-title">대외활동</div>
-      <hr class="thick">
+      <div>
+        직무: <input type="text" v-model="resume.job" required>
+      </div>
+      <div>
+        사용 정보:
+        <div class="info-container">
+          <!-- EDUCATION Section -->
+          <div class="info-title">
+            <th>학교명</th>
+            <th>전공 및 학위</th>
+            <th>입학 일자</th>
+            <th>졸업 일자</th>
+            <th>졸업여부</th>
+            <th>편입 여부</th>
+            <th>주간/야간</th>
+          </div>
+          <div class="info-item" v-for="info in filteredInfo('EDUCATION')" :key="info.id" @click="addToInfoList(info.id)" :class="{'selected': isInInfoList(info.id)}">
+            {{ info.title }}
+            {{ info.institutionName }}
+            {{ info.startDate }}
+            {{ info.endDate }}
+            {{ info.graduationStatus }}
+            {{ info.yesOrNot }}
+            {{ info.dayOrNight }}
+          </div>
+        </div>
+        <!-- CAREER Section -->
+        <div class="info-container">
+          <div class="info-title">
+            <th>회사명</th>
+            <th>직무</th>
+            <th>시작 일자</th>
+            <th>종료 일자</th>
+          </div>
+          <div class="info-item" v-for="info in filteredInfo('CAREER')" :key="info.id" @click="addToInfoList(info.id)" :class="{'selected': isInInfoList(info.id)}">
+            {{ info.institutionName }}
+            {{ info.title }}
+            {{ info.startDate }}
+            {{ info.endDate }}
+          </div>
+        </div>
+        <!-- ACTIVITY Section -->
+        <div class="info-container">
+          <div class="info-title">
+            <th>활동/교육명</th>
+            <th>활동/교육 주관 기관명</th>
+            <th>활동/교육 시작 일자</th>
+            <th>활동/교육 종료 일자</th>
+            <th>활동/교육 상세 내용</th>
+          </div>
+          <div class="info-item" v-for="info in filteredInfo('ACTIVITY')" :key="info.id" @click="addToInfoList(info.id)" :class="{'selected': isInInfoList(info.id)}">
+            {{ info.title }}
+            {{ info.institutionName }}
+            {{ info.description }}
+            {{ info.startDate }}
+            {{ info.endDate }}
+          </div>
+        </div>
+        <!-- CERTIFICATE Section -->
+        <div class="info-container">
+          <div class="info-title">
+            <th>자격증/어학성적명</th>
+            <th>기관명</th>
+            <th>응시 일자/발급 일자</th>
+            <th>만료 일자</th>
+            <th>자격번호/언어 종류</th>
+            <th>자격 등급/어학 등급</th>
+          </div>
+          <div class="info-item" v-for="info in filteredInfo('CERTIFICATE')" :key="info.id" @click="addToInfoList(info.id)" :class="{'selected': isInInfoList(info.id)}">
+            {{ info.title }}
+            {{ info.institutionName }}
+            {{ info.description }}
+            {{ info.startDate }}
+            {{ info.endDate }}
+            {{ info.level }}
+          </div>
+        </div>
+        <!-- AWARD Section -->
+        <div class="info-container">
+          <div class="info-title">
+            <th>수상명</th>
+            <th>기관명</th>
+            <th>수상 일자</th>
+            <th>수상 상세 내용</th>
+          </div>
+          <div class="info-item" v-for="info in filteredInfo('AWARD')" :key="info.id" @click="addToInfoList(info.id)" :class="{'selected': isInInfoList(info.id)}">
+            {{ info.title }}
+            {{ info.institutionName }}
+            {{ info.startDate }}
+            {{ info.description }}
+          </div>    
+        </div>
+        <!-- SKILL Section -->
+        <div class="info-container">
+          <div class="info-title">
+            <th>기술명</th>
+            <th>분야</th>
+            <th>상세 설명</th>
+            <th>숙련도</th>
+          </div>
+          <div class="info-item" v-for="info in filteredInfo('SKILL')" :key="info.id" @click="addToInfoList(info.id)" :class="{'selected': isInInfoList(info.id)}">
+            {{ info.title }}
+            {{ info.institutionName }}
+            {{ info.description }}
+            {{ info.skillLevel }}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <button class="w-btn w-btn-indigo">저장하기</button>
 </template>
 
+
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useSettingResumeStore } from '@/stores/settingResume';
+import { useAuthStore } from '@/stores/auth';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
 
-const fileInput = ref(null);
-const imageUrl = ref(null);
+const router = useRouter()
+const settingResumeStore = useSettingResumeStore();
+const resume = ref({
+  userId: "",
+  title: "",
+  job: "",
+  infoList: [] 
+});
 
-const triggerFileInput = () => {
-  fileInput.value.click();
-};
+const infoListAll = ref([])
 
-const handleFileUpload = event => {
-  const file = event.target.files[0];
-  if (file && file.type.startsWith('image/')) {
-    const reader = new FileReader();
-    reader.onload = e => {
-      imageUrl.value = e.target.result;
-    };
-    reader.readAsDataURL(file);
+const filteredInfo = (category) => {
+  return infoListAll.value.filter(info => info.infoCategory === category);
+}
+
+const addToInfoList = (id) => {
+  const index = resume.value.infoList.indexOf(id)
+  if (index > -1) {
+    resume.value.infoList.splice(index, 1)
+  } else {
+    resume.value.infoList.push(id)
   }
 };
 
-// 더미데이터 가져오기
-import DummyUser from './dummyuser.json'
+const isInInfoList = (id) => {
+  return resume.value.infoList.includes(id)
+};
 
-const userData = reactive(DummyUser[0])
+onMounted(async () => {
+  await settingResumeStore.getInfo()
+  infoListAll.value = settingResumeStore.informations
+  resume.value.infoList = infoListAll.value.map(info => info.id)
+})
 
+const createResume = async() => {
+  const authStore = useAuthStore()
+  await authStore.updateUserInfoFromToken()
+  resume.value.userId = authStore.userInfo.sub
+  if (resume.value.title.trim() === ''){
+    alert('제목을 작성해주세요');
+    return
+  }
+  if (resume.value.job.trim() === '') {
+    alert('직업을 작성해주세요');
+    return;
+  }
+  const config = {
+    headers: {
+      'Authorization': `${authStore.accessToken}`,
+    },
+  };
+  try {
+    const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/resume/register`, resume.value, config);
+    console.log(res.data)
+    router.push('/blog-application')
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 </script>
-<style scoped>
-@import "@/views/blog/application/css/ResumeCreateView.css" 
 
+
+<style scoped>
+.info-container {
+  border: 1px solid #ccc;
+  margin: 20px 0;
+  padding: 10px;
+}
+
+ .info-title th {
+  font-weight: bold;
+  margin-bottom: 5px;
+  gap: 10px;
+}
+
+.info-item {
+  border: 1px solid #eee;
+  margin: 10px 0;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.info-item:hover {
+  background-color: #f9f9f9;
+}
+
+.selected {
+  background-color: #e2e2e2; /* Light grey background for selected items */
+  border-color: #d1d1d1; /* Slightly darker border for better contrast */
+}
+
+/* Optional: Add more specific styles below if needed */
 </style>

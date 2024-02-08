@@ -14,6 +14,7 @@
       </div>
       <div class="application-list">
         이력서 나올 곳
+        <ResumeListView/>
       </div>
     </div>
     <div class="application-right">
@@ -64,8 +65,8 @@ import { ref, computed, onMounted } from 'vue';
 
 import SubNav from '../_component/SubNav.vue';
 import EssayList from '@/views/blog/application/components/EssayList.vue'
-import ResumeCreateView from './resume/ResumeCreateView.vue';
 import DummyUser from './resume/dummyuser.json'
+import ResumeListView from './resume/ResumeListView.vue';
 
 
 const essayList = ref([])
