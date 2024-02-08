@@ -43,7 +43,6 @@ authStore.updateUserInfoFromToken();
   <div class="container-member" v-else>
     <Calendar />
     <ResumeEssay />
-    <!-- <ResumeEssay2 /> -->
     <Chatter />
   </div>
 </template>
@@ -86,5 +85,12 @@ authStore.updateUserInfoFromToken();
   text-align: center;
   font-size: 32px;
   padding: 30px 50px;
+}
+
+.container-member {
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+  padding: 50px 0;
 }
 </style>

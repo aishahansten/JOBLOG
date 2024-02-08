@@ -16,8 +16,12 @@ authStore.updateUserInfoFromToken();
       <img src="@/assets/img/icon/main-logo.svg" alt="" />
     </RouterLink>
 
-    <nav @mouseover="showDropdown = true" @mouseleave="showDropdown = false">
-      <div id="nav-menu">
+    <nav>
+      <div
+        id="nav-menu"
+        @mouseover="showDropdown = true"
+        @mouseleave="showDropdown = false"
+      >
         <RouterLink class="link h-txt" :to="{ name: 'Jobs' }"
           >채용공고</RouterLink
         >

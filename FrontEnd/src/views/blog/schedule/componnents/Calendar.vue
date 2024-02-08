@@ -7,8 +7,6 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { INITIAL_EVENTS, createEventId } from "@/event-utils";
 import "@/assets/css/home/todo.css";
 
-
-
 const calendarOptions = ref({
   plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
   headerToolbar: {
@@ -76,13 +74,90 @@ function formatTime(isoString) {
 </script>
 
 <template>
-  <section class="calendar">
-      <FullCalendar class="demo-app-calendar" :options="calendarOptions">
-        <template v-slot:eventContent="arg">
-          <b>{{ arg.event.title }}</b>
-          {{ arg.timeText }}
-        </template>
-      </FullCalendar>
-    </section>
+  <div class="container">
+    <div class="full-cal">
+      <div class="calendar">
+        <FullCalendar class="demo-app-calendar" :options="calendarOptions">
+          <template v-slot:eventContent="arg">
+            <b>{{ arg.event.title }}</b>
+            {{ arg.timeText }}
+          </template>
+        </FullCalendar>
+      </div>
+
+      <div class="task-space">
+        <h2 class="f-weight-t">나의 일정 목록</h2>
+        <div class="tasks">
+          <div v-for="event in currentEvents" :key="event.id" class="task">
+            <div class="coloring"></div>
+            <div class="task-info">
+              <b class="f-size-20">{{ event.title }}</b>
+              {{ formatTime(event.startStr) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
+<style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* calendar */
+.calendar {
+  margin-right: 20px;
+}
+
+.fc .fc-daygrid-day {
+  height: 50px;
+  width: 100px;
+}
+
+/* tasks */
+.task-space {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.task-space h2 {
+  padding: 10px 0;
+  text-align: end;
+  border-bottom: 1px solid var(--border-gray);
+}
+.tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.task {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  gap: 10px;
+  height: 100px;
+  border: none;
+}
+.coloring {
+  width: 10px;
+  border-radius: 10px;
+  background-color: var(--main-blue);
+}
+.task-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  height: 100%;
+}
+</style>

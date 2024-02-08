@@ -69,4 +69,70 @@ function callNaver() {
   <SelectStatus v-else />
 </template>
 
-<style scoped></style>
+<style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  min-height: 800px;
+
+  background-image: url("@/assets/img/login/background-img.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  text-align: center;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.login-btn-space {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.social-login-btn {
+  display: flex;
+  width: 400px;
+  height: 70px;
+  justify-content: center;
+  align-items: center;
+  padding-right: 20px;
+}
+.social-login-btn span {
+  font-family: "Roboto", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+#google-login-btn:hover {
+  border: none;
+}
+#kakao-login-btn {
+  background-color: #fee500;
+}
+#naver-login-btn {
+  background-color: #03c75a;
+}
+#naver-login-btn span {
+  color: white;
+}
+
+.login-icon {
+  width: 55px;
+  height: 55px;
+}
+#google-login-icon {
+  width: 25px;
+  height: 25px;
+  margin: 15px;
+}
+</style>
