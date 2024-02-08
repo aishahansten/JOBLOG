@@ -1,42 +1,43 @@
 <template>
-  <div class="container">
+  <div v-if="!isLoaded">로딩중</div>
+  <div class="container" v-else>
     <div id="job-post" class="content">
       <div class="job-detail">
         <div class="job-title">
-          <h1>공고명</h1>
-          <h3>회사명</h3>
+          <h1>{{ currentJob.value.title }}</h1>
+          <h3>{{ currentJob.value.companyName}}</h3>
         </div>
         <div class="job-info">
           <div>
             <div>
               <span>업종</span>
-              <p>IT 개발</p>
+              <p>{{ currentJob.value.jobCategoryDesc }}</p>
             </div>
             <div>
               <span>지역</span>
-              <p>충남 천안시</p>
+              <p>{{ currentJob.value.locationDesc}}</p>
             </div>
             <div>
               <span>근무 형태</span>
-              <p>정규직</p>
+              <p>{{ currentJob.value.jotTypeDesc }}</p>
             </div>
             <div>
               <span>급여</span>
-              <p>면접 시 결정</p>
+              <p>{{ currentJob.value.salary }}</p>
             </div>
           </div>
           <div>
             <div>
               <span>접수 기간</span>
-              <p>2024년 1월 28일 ~ 2024년 2월 5일</p>
+              <p>{{ currentJob.value.openingDate }} ~ {{ currentJob.value.expirationDate }}</p>
             </div>
             <div>
               <span>학력</span>
-              <p>4년제 대졸 이상</p>
+              <p>{{ currentJob.value.requiredEducationLevel }}</p>
             </div>
             <div>
               <span>경력</span>
-              <p>신입/경력</p>
+              <p>{{ currentJob.value.experienceLevel}}</p>
             </div>
           </div>
         </div>
@@ -69,7 +70,29 @@
 <script setup>
 import ScreenReview from "./components/detail/ScreenReview.vue";
 import CompanyReview from "./components/detail/CompanyReview.vue";
+import { ref, onMounted } from 'vue';
+import { useRoute } from "vue-router";
+import { useJobPostStore } from '@/stores/jobPosts';
+
+const jobPostStore = useJobPostStore();
+const route = useRoute();
+
+const isLoaded = ref(false);
+const currentJob = ref(null);
+
+onMounted(async () => {
+  try {
+    await jobPostStore.getJobPostDetail(route.params.id)
+    currentJob.value = jobPostStore.currentJob
+    console.log(currentJob.value)
+  } catch (err) {
+    console.error(err);
+  } finally {
+    isLoaded.value = true
+  }
+})
 </script>
+
 
 <style scoped>
 .container {
