@@ -5,6 +5,7 @@ import com.ssafy.joblog.domain.myRecruit.dto.request.RecruitScrapRequestDto;
 import com.ssafy.joblog.domain.myRecruit.dto.response.MyRecruitResponseDto;
 import com.ssafy.joblog.domain.myRecruit.service.MyRecruitService;
 import com.ssafy.joblog.domain.recruit.dto.responseDto.JobCategoryResponseDto;
+import com.ssafy.joblog.domain.recruit.dto.responseDto.PageRecruitListResponseDto;
 import com.ssafy.joblog.domain.recruit.dto.responseDto.RecruitDetailResponseDto;
 import com.ssafy.joblog.domain.recruit.dto.responseDto.RecruitListResponseDto;
 import com.ssafy.joblog.domain.recruit.service.JobCategoryService;
@@ -35,7 +36,7 @@ public class RecruitController {
     }
 
     @GetMapping("/recommend/{userId}") //유저 추천 채용공고 리스트
-    public ResponseEntity<List<RecruitListResponseDto>> findRecommendRecruit(
+    public ResponseEntity<PageRecruitListResponseDto> findRecommendRecruit(
             @PageableDefault(size = 20) Pageable pageable,
             @PathVariable(value = "userId") int userId
     ) {
@@ -43,7 +44,7 @@ public class RecruitController {
     }
 
     @GetMapping("/search") //검색 및 전체 조회 리스트
-    public ResponseEntity<List<RecruitListResponseDto>> findSearchRecruit(
+    public ResponseEntity<PageRecruitListResponseDto> findSearchRecruit(
             @PageableDefault(size = 20) Pageable pageable,
             @RequestParam(value = "active", required = false) String active, //1:진행중, 0:마감
             @RequestParam(value = "expLv", required = false) String expLv, //0,1,2,3 경력사항

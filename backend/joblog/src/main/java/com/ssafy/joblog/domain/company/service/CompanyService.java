@@ -2,6 +2,7 @@ package com.ssafy.joblog.domain.company.service;
 
 import com.ssafy.joblog.domain.company.dto.responseDto.CompanyResponseDto;
 import com.ssafy.joblog.domain.company.dto.responseDto.CompanyReviewListResponseDto;
+import com.ssafy.joblog.domain.company.dto.responseDto.PageCompanyResponseDto;
 import com.ssafy.joblog.domain.company.entity.Company;
 import com.ssafy.joblog.domain.company.entity.CompanyReview;
 import com.ssafy.joblog.domain.company.repository.CompanyRepository;
@@ -17,6 +18,7 @@ import com.ssafy.joblog.domain.user.entity.User;
 import com.ssafy.joblog.domain.user.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,14 +36,17 @@ public class CompanyService {
     private final SelectionRepository selectionRepository;
     private final UserRepository userRepository;
 
-    public List<CompanyResponseDto> findAllCompany(Pageable pageable) {
-        List<Company> allCompany = companyRepository.findAll(pageable).getContent();
+    public PageCompanyResponseDto findAllCompany(Pageable pageable) {
+        Page<Company> companyPages = companyRepository.findAll(pageable);
+        List<Company> allCompany = companyPages.getContent();
 
         List<CompanyResponseDto> allCompanyDto = new ArrayList<>();
         for (Company company : allCompany) {
             allCompanyDto.add(CompanyResponseDto.fromEntity(company));
         }
-        return allCompanyDto;
+
+
+        return PageCompanyResponseDto.fromEntity(companyPages.getTotalPages(), companyPages.getTotalElements(), allCompanyDto);
     }
 
     public CompanyResponseDto findCompany(Long companyCode) {
