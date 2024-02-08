@@ -46,7 +46,7 @@ public class User extends BaseEntity {
     @ColumnDefault("'-'")
     private String nickname;
     @ColumnDefault("0")
-    private int objective;
+    private Integer objective;
     @ColumnDefault("'-'")
     private String realName;
     @ColumnDefault("'-'")
