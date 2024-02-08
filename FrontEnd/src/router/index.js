@@ -93,11 +93,9 @@ const router = createRouter({
       component: JobPost,
     },
     {
-      path: "/job-detail",
+      path: "/job-detail/:id",
       name: "JobDetail",
       component: JobDetail,
-      // 추후에 각 번호로 입력 받아야함
-      // /job-detail/<int: detail-pk>
     },
     {
       path: "/job-scrap",

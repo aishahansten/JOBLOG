@@ -1,5 +1,5 @@
 <template>
-  <RouterLink :to="{ name: 'JobDetail' }">
+  <RouterLink :to="{ name: 'JobDetail', params: { id: data.id } }">
     <div class="job-post">
       <div class="content">
         <div class="title">{{ data.title }}</div>

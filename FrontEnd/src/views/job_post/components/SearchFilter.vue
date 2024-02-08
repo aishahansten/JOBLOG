@@ -7,10 +7,11 @@
         placeholder="'공고명/회사명'을 검색해주세요!"
         v-model="searchTerm"
       />
+      <a @click="performSearch">
       <i
         class="fa-solid fa-magnifying-glass clickable-icon"
-        @click="performSearch"
       ></i>
+    </a>
     </div>
     <div class="search-filter-check">
       <div class="radio-check">
@@ -136,9 +137,8 @@ const handleClicked = (selected) => {
     // If the item is not found, add it to the array
     clickedCategory.value.push(selected);
   }
-
-  console.log(clickedCategory.value);
 };
+
 
 const discardCategory = (index) => {
   clickedCategory.value.splice(index, 1);
@@ -158,10 +158,16 @@ const performSearch = () => {
     jobCategory: clickedCategory.value.map((c) => c.jobCode).join(","),
     expLv: selectedExperience.value,
     keyword: searchTerm.value.trim(),
+    page: 0,
   };
-
+  emits('search', {
+    searchConditions: searchConditions
+  })
   console.log(searchConditions);
 };
+const emits = defineEmits(['search'])
+
+
 </script>
 
 <style scoped>

@@ -1,12 +1,59 @@
 <script setup>
 import JobList from "./components/JobList.vue";
 import SearchFilter from "./components/SearchFilter.vue";
+import { useJobPostStore } from "@/stores/jobPosts"
+
+const jobPostStore = useJobPostStore()
+
+import { ref, onMounted } from 'vue'
+
+const search = ref({
+  jobCategory: null,
+  expLv: null,
+  keyword: null,
+  page: 0,
+  size: 30,
+});
+
+const jobPosts = ref([])
+
+onMounted(async () => {
+  await jobPostStore.getJobPost(search.value); // Pass the reactive search object's value
+  try {
+    jobPosts.value = jobPostStore.jobPosts
+    console.log(jobPosts)
+  } catch (err) {
+    console.error(err)
+  }
+})
+
+const handleSearch = async (searchCrit) => {
+  // Iterate over each property in searchCrit.searchConditions
+  for (const key in searchCrit.searchConditions) {
+    if (Object.hasOwnProperty.call(searchCrit.searchConditions, key)) {
+      // If the property's value is an empty string, change it to null
+      if (searchCrit.searchConditions[key] === "") {
+        searchCrit.searchConditions[key] = null;
+      }
+    }
+  }
+
+  await jobPostStore.getJobPost(searchCrit.searchConditions);
+  jobPosts.value = jobPostStore.jobPosts;
+
+  console.log('검색하면', searchCrit.searchConditions);
+  console.log('검색 이후 리스트', jobPostStore.jobPosts);
+};
+
+
 </script>
 
 <template>
   <div class="job-header">
     <div class="search-filter">
-      <SearchFilter />
+      <SearchFilter 
+        @search="handleSearch"
+      />
     </div>
     <div class="search-footer">
       <div class="saramin">
@@ -28,7 +75,7 @@ import SearchFilter from "./components/SearchFilter.vue";
         <div class="title">
           <h2>{000}님 맞춤 추천 채용 공고!</h2>
         </div>
-        <JobList />
+        <JobList :jobPosts="jobPosts"/>
       </div>
       <!-- 검색 시 추천 공고 div가 사라지고 나타날 div -->
       <!-- <div class="job-search-result">

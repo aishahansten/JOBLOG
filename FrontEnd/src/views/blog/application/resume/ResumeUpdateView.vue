@@ -1,5 +1,5 @@
 <template>
-    <button @click="createResume">이력서 생성하기</button>
+    <button @click="updateResume">이력서 생성하기</button>
     <div class="create-container">
       <div class="resume">
         <div>
@@ -162,9 +162,15 @@
     await essayResumeStore.getResumeDetail(route.params.id)
     infoListAll.value = settingResumeStore.informations
     resume.value.infoList = infoListAll.value.map(info => info.id)
+    resume.value.title = essayResumeStore.currentResume.resumeResponseDto.title
+    resume.value.job = essayResumeStore.currentResume.resumeResponseDto.job
+    resume.value.userId = essayResumeStore.currentResume.resumeResponseDto.userId
+    console.log(essayResumeStore.currentResume)
   })
   
-  const createResume = async() => {
+  console.log(resume)
+
+  const updateResume = async() => {
     const authStore = useAuthStore()
     await authStore.updateUserInfoFromToken()
     resume.value.userId = authStore.userInfo.sub
@@ -172,7 +178,10 @@
       alert('제목을 작성해주세요');
       return
     }
-
+    if (resume.value.job.trim() === '') {
+      alert('직업을 작성해주세요');
+      return;
+    }
     const config = {
       headers: {
         'Authorization': `${authStore.accessToken}`,
