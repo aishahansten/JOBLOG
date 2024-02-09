@@ -22,25 +22,26 @@ public class EssayCategory extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "question_category_id")
-    private int id;
+    private Integer id;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     @ColumnDefault("기타")
-    private String question_category_name;
+    @Column(name = "question_category_name")
+    private String questionCategoryName;
 
     // 생성자
     @Builder
-    public EssayCategory(int id, User user, String question_category_name) {
+    public EssayCategory(Integer id, User user, String question_category_name) {
         this.id = id;
         this.user = user;
-        this.question_category_name = question_category_name;
+        this.questionCategoryName = question_category_name;
     }
 
     // update 더티체킹
     public void updateEssayCategory(EssayCategoryUpdateRequestDto essayCategoryUpdateRequestDto) {
-        this.question_category_name = essayCategoryUpdateRequestDto.getCategoryName();
+        this.questionCategoryName = essayCategoryUpdateRequestDto.getCategoryName();
     }
 }

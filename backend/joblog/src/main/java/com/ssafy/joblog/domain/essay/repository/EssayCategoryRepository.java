@@ -15,5 +15,8 @@ public interface EssayCategoryRepository extends JpaRepository<EssayCategory, In
 
     @Modifying
     @Query("UPDATE EssayCategory category SET category.isDelete = true WHERE category.id = :id")
-    void markDeletedEssayCategory(@Param("id") int id);
+    void markDeletedEssayCategory(@Param("id") Integer id);
+
+
+    EssayCategory findEssayCategoryByQuestionCategoryNameAndIsDeleteIsFalse(String question_category_name);
 }

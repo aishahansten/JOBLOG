@@ -68,6 +68,7 @@ public class Essay extends BaseEntity {
                 .essayId(id)
                 .recruitId(recruit.getId())
                 .categoryId(essayCategory.getId())
+                .categoryName(essayCategory.getQuestionCategoryName())///////
                 .userId(user.getId())
                 .question(question)
                 .answer(answer)

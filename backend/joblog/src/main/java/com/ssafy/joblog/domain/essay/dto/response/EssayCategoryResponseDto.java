@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EssayCategoryResponseDto {
-    private int categoryId;
+    private Integer categoryId;
     private String categoryName;
 }

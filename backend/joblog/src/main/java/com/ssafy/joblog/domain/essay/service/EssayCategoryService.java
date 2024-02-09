@@ -38,7 +38,7 @@ public class EssayCategoryService {
         List<EssayCategoryResponseDto> getCategoryList = new ArrayList<>();
         categories.forEach(category -> getCategoryList.add(EssayCategoryResponseDto.builder()
                 .categoryId(category.getId())
-                .categoryName(category.getQuestion_category_name())
+                .categoryName(category.getQuestionCategoryName())
                 .build()));
         return getCategoryList;
     }
