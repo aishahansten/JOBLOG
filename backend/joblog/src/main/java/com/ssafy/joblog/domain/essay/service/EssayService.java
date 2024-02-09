@@ -37,8 +37,23 @@ public class EssayService {
                 .orElseThrow(()-> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
         Recruit recruit = recruitRepository.findById(essayCreateRequestDto.getRecruitId())
                 .orElseThrow(()-> new IllegalArgumentException("해당 채용이 존재하지 않습니다"));
-        EssayCategory essayCategory = essayCategoryRepository.findById(essayCreateRequestDto.getCategoryId())
-                .orElseThrow(()-> new IllegalArgumentException("해당 자소서 항목이 존재하지 않습니다"));
+        EssayCategory essayCategory;
+        if (Optional.ofNullable(essayCreateRequestDto.getCategoryId()).isPresent()) {
+            essayCategory = essayCategoryRepository.findById(essayCreateRequestDto.getCategoryId())
+                    .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 카테고리 아이디" + essayCreateRequestDto.getCategoryId()));
+            // is_delete=1인 카테고리
+            if (essayCategory.isDelete()) {
+                throw new IllegalArgumentException("삭제된 카테고리입니다" + essayCreateRequestDto.getCategoryId());
+            }
+            // category_id == null 인 경우 question_category_name "기타" 인 category 생성
+        } else {
+            essayCategory = essayCategoryRepository.findEssayCategoryByQuestionCategoryNameAndIsDeleteIsFalse("기타");
+            if (essayCategory == null) {
+                essayCategory = new EssayCategory(null, user,"기타");
+
+                essayCategoryRepository.save(essayCategory);
+            }
+        }
         Essay essay = essayCreateRequestDto.createEssay(user, recruit, essayCategory);
         essayRepository.save(essay);
     }
@@ -52,6 +67,7 @@ public class EssayService {
                 .essayId(essay.getId())
                 .recruitId(essay.getRecruit().getId())
                 .categoryId(essay.getEssayCategory().getId())
+                .categoryName(essay.getEssayCategory().getQuestionCategoryName())
                 .userId(essay.getUser().getId())
                 .question(essay.getQuestion())
                 .answer(essay.getAnswer())

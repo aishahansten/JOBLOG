@@ -13,6 +13,7 @@ public class EssayResponseDto {
     private int essayId;
     private long recruitId;
     private int categoryId;
+    private String categoryName;/////
     private int userId;
     private String question;
     private String answer;

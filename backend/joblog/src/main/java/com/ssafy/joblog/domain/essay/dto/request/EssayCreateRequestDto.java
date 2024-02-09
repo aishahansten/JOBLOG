@@ -15,7 +15,7 @@ public class EssayCreateRequestDto {
 
     private int userId;
     private long recruitId;
-    private int categoryId;
+    private Integer categoryId;  // Integer로 선택적 입력받기, null 허용
     private String question;
     private String answer;
 

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class EssayCategoryUpdateRequestDto {
-    private int categoryId;
+    private Integer categoryId;
     private int userId;
     private String categoryName;
 }
