@@ -4,27 +4,27 @@ import SearchFilter from "./components/SearchFilter.vue";
 </script>
 
 <template>
-  <div class="job-header">
-    <div class="search-filter">
+  <div class="container">
+    <div class="search">
       <SearchFilter />
-    </div>
-    <div class="search-footer">
-      <div class="saramin">
-        Powered by
-        <a href="http://www.saramin.co.kr" target="_blank">취업 사람인</a>
+      <div class="bottom">
+        <div class="saramin">
+          Powered by
+          <a href="http://www.saramin.co.kr" target="_blank">취업 사람인</a>
+        </div>
+        <RouterLink
+          :to="{ name: 'JobScrap' }"
+          id="job-scrap-link"
+          class="h-transparent-c"
+        >
+          <i class="fa-solid fa-star"></i>
+          <span>스크랩 공고 모아보기</span>
+          <i class="fa-solid fa-chevron-right"></i>
+        </RouterLink>
       </div>
-      <RouterLink
-        :to="{ name: 'JobScrap' }"
-        id="job-scrap-link"
-        class="clickable-transparent"
-      >
-        <i class="fa-solid fa-star"></i>
-        <span>스크랩 공고 모아보기</span>
-        <i class="fa-solid fa-chevron-right"></i>
-      </RouterLink>
     </div>
-    <div class="job-list-space">
-      <div class="job-recommend">
+    <div class="list">
+      <div class="recommend">
         <div class="title">
           <h2>{000}님 맞춤 추천 채용 공고!</h2>
         </div>
@@ -42,31 +42,31 @@ import SearchFilter from "./components/SearchFilter.vue";
 </template>
 
 <style scoped>
-.job-header {
+.container {
   display: flex;
   width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 10px 0;
 }
 
 .saramin {
   padding: 10px;
 }
-.saramin a {
-  font-weight: bold;
-  color: rgba(61, 28, 205, 0.784);
-}
-.search-filter {
+.search {
   width: 1420px;
 }
-
-.search-footer {
+.bottom {
   display: flex;
   width: 100%;
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
+}
+.saramin a {
+  font-weight: bold;
+  color: rgba(61, 28, 205, 0.784);
 }
 #job-scrap-link {
   display: flex;
@@ -77,16 +77,16 @@ import SearchFilter from "./components/SearchFilter.vue";
   border-radius: 10px;
 }
 
-.job-list-space {
+.list {
   display: flex;
   width: 100%;
   flex-direction: column;
 }
-.job-recommend {
+.recommend {
   display: flex;
   flex-direction: column;
 }
-.job-recommend .title {
+.recommend .title {
   padding: 30px 0;
   border-top: 1px solid var(--border-gray);
 }

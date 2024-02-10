@@ -15,7 +15,7 @@ authStore.updateUserInfoFromToken();
 
 <template>
   <header>
-    <RouterLink id="main-logo-link" :to="{ name: 'Home' }">
+    <RouterLink class="main-logo-link" :to="{ name: 'Home' }">
       <img src="@/assets/img/icon/main-logo.svg" alt="" />
     </RouterLink>
 
@@ -39,11 +39,50 @@ authStore.updateUserInfoFromToken();
         >
       </div>
       <transition name="dropdown">
-        <div class="dropdown-content" v-show="showDropdown">
-          <p>테스트1</p>
-          <p>테스트1</p>
-          <p>테스트1</p>
-          <p>테스트1</p>
+        <div
+          class="dropdown-content"
+          v-show="showDropdown"
+          @mouseover="showDropdown = true"
+          @mouseleave="showDropdown = false"
+        >
+          <div class="width">
+            <div class="width550">
+              <div class="sub-nav">
+                <RouterLink class="menu h-txt" :to="{ name: 'Jobs' }"
+                  >공고 검색</RouterLink
+                >
+                <a class="menu h-txt">스크랩 공고</a>
+              </div>
+              <div class="sub-nav">
+                <RouterLink class="menu h-txt" :to="{ name: 'BlogSchedule' }"
+                  >나의 일정 관리</RouterLink
+                >
+                <RouterLink class="menu h-txt" :to="{ name: 'BlogReview' }"
+                  >전형 리뷰</RouterLink
+                >
+                <RouterLink class="menu h-txt" :to="{ name: 'BlogApplication' }"
+                  >이력서·자소서</RouterLink
+                >
+                <RouterLink class="menu h-txt" :to="{ name: 'BlogJournal' }"
+                  >다이어리</RouterLink
+                >
+              </div>
+              <div class="sub-nav">
+                <RouterLink class="menu h-txt" :to="{ name: 'QnABoard' }"
+                  >Q&A 게시판</RouterLink
+                >
+                <a class="menu h-txt">나의 Q&A</a>
+              </div>
+              <div class="sub-nav">
+                <RouterLink class="menu h-txt" :to="{ name: 'Coffee' }"
+                  >채터 탐색하기</RouterLink
+                >
+                <a class="menu h-txt">마이프로필</a>
+                <a class="menu h-txt">팔로잉 채터</a>
+              </div>
+            </div>
+            <div class="width170">　</div>
+          </div>
         </div>
       </transition>
 
@@ -65,9 +104,9 @@ authStore.updateUserInfoFromToken();
             <img src="@/assets/img/profile/default-user-pic.jpg" alt="" />
           </div>
         </RouterLink>
-        <div>
+        <!-- <div>
           <button @click="logout">로그아웃</button>
-        </div>
+        </div> -->
       </div>
     </nav>
   </header>
@@ -85,12 +124,13 @@ header {
   height: 80px;
   padding: 0 250px;
   box-sizing: border-box;
+  position: relative;
 
   border-bottom: 1px solid var(--border-gray);
 }
 
 /* 메인 로고 링크 */
-#main-logo-link img {
+.main-logo-link img {
   width: 120px;
 }
 
@@ -99,11 +139,16 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 100%;
 }
 
 #nav-menu {
-  display: flex;
-  gap: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  align-items: center;
+  width: 550px;
+  height: 100%;
+  /* background-color: aquamarine; */
 }
 .link {
   justify-content: space-between;
@@ -119,7 +164,8 @@ nav {
   align-items: center;
   gap: 50px;
   width: 150px;
-  margin-left: 50px;
+  margin-left: 20px;
+  /* background-color: violet; */
 }
 
 #alert {
@@ -148,15 +194,20 @@ nav {
   position: absolute;
   left: 0;
   right: 0;
-  top: 100%; /* Position right below the nav-container */
+  top: 100%;
   background-color: white;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1;
+  border-bottom: 1px solid var(--border-gray);
+  z-index: 2;
   opacity: 1;
+  background-image: url("@/assets/img/home/nav-background-img.png");
+  background-position: center;
+  background-repeat: no-repeat;
 }
-.dropdown-enter-active,
+.dropdown-enter-active {
+  transition: opacity 0.2s ease;
+}
 .dropdown-leave-active {
-  transition: opacity 0.1s;
+  transition: opacity 0.1s ease;
 }
 
 .dropdown-enter-from,
@@ -164,26 +215,27 @@ nav {
   opacity: 0;
 }
 
-/* Show dropdown content when showDropdown is true */
-.nav-container:hover .dropdown-content {
+.width {
+  display: flex;
+  justify-content: end;
+  width: 100%;
+  padding: 20px 250px 50px 250px;
+}
+.width550 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  width: 550px;
+}
+.width170 {
+  width: 170px;
+}
+
+.sub-nav {
   display: flex;
   flex-direction: column;
-}
+  align-items: center;
+  gap: 30px;
 
-.nav-container:hover .dropdown-content {
-  display: flex;
-  flex-direction: column; /* Stack the links vertically */
-}
-
-.dropdown-content p {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-  text-align: center;
-}
-
-.dropdown-content p:hover {
-  background-color: #ddd;
+  font-size: 18px;
 }
 </style>

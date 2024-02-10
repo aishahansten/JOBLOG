@@ -1,13 +1,10 @@
 <script setup>
 import "@/assets/css/home/todo.css";
-
-import SubNav from "../_component/SubNav.vue";
-import Calendar from "./componnents/Calendar.vue";
+import Calendar from "./components/Calendar.vue";
 </script>
 
 <template>
   <div class="container">
-    <SubNav />
     <Calendar />
   </div>
 </template>

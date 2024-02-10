@@ -44,12 +44,12 @@
       <div class="job-interaction">
         <div class="job-check">
           <h3>마감 00일 전</h3>
-          <!-- <span>마감</span> -->
-          <!-- <span>접수 00일 전</span> -->
-          <div class="job-scrap-info">
+          <!-- <h3>마감</h3> -->
+          <!-- <h3>접수 00일 전</h3> -->
+          <a class="job-scrap-info">
             <i class="fa-regular fa-star fa-xl"></i>
             <span>178</span>
-          </div>
+          </a>
         </div>
         <div class="job-apply">
           <div class="btn solid-c h-bright a-dark f-size-20">이력서 쓰기</div>
@@ -129,14 +129,12 @@ import CompanyReview from "./components/detail/CompanyReview.vue";
   gap: 20px;
   width: 100%;
 }
-.job-check h3 {
-  border-bottom: 2px double var(--main-blue);
-}
 .job-scrap-info {
   display: flex;
   align-items: center;
   gap: 5px;
 }
+
 .job-apply {
   display: flex;
   flex-direction: column;

@@ -52,7 +52,7 @@ authStore.updateUserInfoFromToken();
   background-image: url("@/assets/img/home/background-img.png");
   background-position: center;
   background-repeat: no-repeat;
-  position: relative;
+  /* position: relative; */
   width: 100%;
   height: 880px;
   text-align: center;
@@ -63,8 +63,8 @@ authStore.updateUserInfoFromToken();
   flex-direction: column;
   align-items: baseline;
   text-align: left;
-  padding-top: 130px;
-  gap: 30px;
+  padding-top: 150px;
+  gap: 15px;
 }
 .title {
   font-size: 60px;

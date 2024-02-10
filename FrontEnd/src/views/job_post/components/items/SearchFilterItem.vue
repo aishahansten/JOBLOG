@@ -16,7 +16,7 @@
     </div>
     <div class="sub-grid-container" v-if="filteredChildCategories.length">
       <div
-        class="sub-grid-item clickable-txt"
+        class="sub-grid-item h-txt h-transparent-lg"
         v-for="childCategory in filteredChildCategories"
         :key="childCategory.jobCode"
         @click="clickedCategory(childCategory)"

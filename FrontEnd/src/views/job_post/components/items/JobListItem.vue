@@ -10,9 +10,9 @@
       </div>
       <div class="etc">
         <span>D-7</span>
-        <div class="scrap">
+        <a class="scrap">
           <i class="fa-regular fa-star pointer"></i>
-        </div>
+        </a>
       </div>
     </div>
   </RouterLink>
