@@ -35,10 +35,15 @@ public class EssayService {
     public void createEssay(EssayCreateRequestDto essayCreateRequestDto) {
         User user = userRepository.findById(essayCreateRequestDto.getUserId())
                 .orElseThrow(()-> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
-        Recruit recruit = recruitRepository.findById(essayCreateRequestDto.getRecruitId())
-                .orElseThrow(()-> new IllegalArgumentException("해당 채용이 존재하지 않습니다"));
-        EssayCategory essayCategory;
-        if (Optional.ofNullable(essayCreateRequestDto.getCategoryId()).isPresent()) {
+
+        Recruit recruit = null;
+        if (essayCreateRequestDto.getRecruitId() != null && essayCreateRequestDto.getRecruitId() > 0) {
+            recruit = recruitRepository.findById(essayCreateRequestDto.getRecruitId())
+                    .orElseThrow(()-> new IllegalArgumentException("해당 채용이 존재하지 않습니다"));
+        }
+
+        EssayCategory essayCategory = null;
+        if (essayCreateRequestDto.getCategoryId() != null && essayCreateRequestDto.getCategoryId() > 0) {
             essayCategory = essayCategoryRepository.findById(essayCreateRequestDto.getCategoryId())
                     .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 카테고리 아이디" + essayCreateRequestDto.getCategoryId()));
             // is_delete=1인 카테고리
@@ -63,15 +68,23 @@ public class EssayService {
     public List<EssayResponseDto> getEssays(Integer userId) {
         List<Essay> essays = essayRepository.findByUserIdAndIsDeleteIsFalse(userId);
         List<EssayResponseDto> getEssaysList = new ArrayList<>();
-        essays.forEach(essay -> getEssaysList.add(EssayResponseDto.builder()
-                .essayId(essay.getId())
-                .recruitId(essay.getRecruit().getId())
-                .categoryId(essay.getEssayCategory().getId())
-                .categoryName(essay.getEssayCategory().getQuestionCategoryName())
-                .userId(essay.getUser().getId())
-                .question(essay.getQuestion())
-                .answer(essay.getAnswer())
-                .build()));
+        essays.forEach(essay -> {
+            EssayResponseDto essayResponseDto = EssayResponseDto.builder()
+                    .essayId(essay.getId())
+                    .userId(essay.getUser().getId())
+                    .question(essay.getQuestion())
+                    .answer(essay.getAnswer())
+                    .build();
+
+            if (essay.getRecruit() != null) {
+                essayResponseDto.setRecruitId(essay.getRecruit().getId());
+            }
+            if (essay.getEssayCategory() != null) {
+                essayResponseDto.setCategoryId(essay.getEssayCategory().getId());
+                essayResponseDto.setCategoryName(essay.getEssayCategory().getQuestionCategoryName());
+            }
+            getEssaysList.add(essayResponseDto);
+        });
         return getEssaysList;
     }
 
@@ -80,7 +93,20 @@ public class EssayService {
     public EssayResponseDto getEssay(Integer id) {
         Optional<Essay> optionalEssay = essayRepository.findByIdAndIsDeleteIsFalse(id);
         Essay essay = optionalEssay.orElseThrow(() -> new NotFoundException("해당 자소서가 존재하지 않습니다"));
-        EssayResponseDto essayResponseDto = essay.toEssayResponseDto();
+        EssayResponseDto essayResponseDto = EssayResponseDto.builder()
+                .essayId(essay.getId())
+                .userId(essay.getUser().getId())
+                .question(essay.getQuestion())
+                .answer(essay.getAnswer())
+                .build();
+
+        if (essay.getRecruit() != null) {
+            essayResponseDto.setRecruitId(essay.getRecruit().getId());
+        }
+        if (essay.getEssayCategory() != null) {
+            essayResponseDto.setCategoryId(essay.getEssayCategory().getId());
+            essayResponseDto.setCategoryName(essay.getEssayCategory().getQuestionCategoryName());
+        }
         return essayResponseDto;
     }
 
@@ -89,10 +115,17 @@ public class EssayService {
     public void updateEssay(EssayUpdateRequestDto essayUpdateRequestDto) {
         Essay essay = essayRepository.findById(essayUpdateRequestDto.getEssayId())
                 .orElseThrow(()-> new IllegalArgumentException("해당 자소서가 존재하지 않습니다"));
-        Recruit recruit = recruitRepository.findById(essayUpdateRequestDto.getRecruitId())
-                .orElseThrow(()-> new IllegalArgumentException("해당 채용이 존재하지 않습니다"));
-        EssayCategory essayCategory = essayCategoryRepository.findById(essayUpdateRequestDto.getCategoryId())
-                .orElseThrow(()-> new IllegalArgumentException("해당 자소서 항목이 존재하지 않습니다"));
+        Recruit recruit = null;
+        if (essayUpdateRequestDto.getRecruitId() != null) {
+            recruit = recruitRepository.findById(essayUpdateRequestDto.getRecruitId())
+                    .orElseThrow(()-> new IllegalArgumentException("해당 채용이 존재하지 않습니다"));
+        }
+
+        EssayCategory essayCategory = null;
+        if (essayUpdateRequestDto.getCategoryId() != null) {
+            essayCategory = essayCategoryRepository.findById(essayUpdateRequestDto.getCategoryId())
+                    .orElseThrow(()-> new IllegalArgumentException("해당 자소서 항목이 존재하지 않습니다"));
+        }
         essay.updateEssay(essayUpdateRequestDto, recruit, essayCategory);
     }
 

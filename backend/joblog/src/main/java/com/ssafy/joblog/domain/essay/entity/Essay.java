@@ -29,11 +29,11 @@ public class Essay extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, optional = true)
     @JoinColumn(name = "recruit_id")
     private Recruit recruit;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, optional = true)
     @JoinColumn(name = "question_category_id")
     private EssayCategory essayCategory;
 

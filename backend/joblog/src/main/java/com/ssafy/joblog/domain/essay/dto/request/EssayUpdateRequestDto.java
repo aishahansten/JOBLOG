@@ -11,8 +11,8 @@ public class EssayUpdateRequestDto {
 
     private int essayId;
     private int userId;
-    private long recruitId;
-    private int categoryId;
+    private Long recruitId;
+    private Integer categoryId;
     private String question;
     private String answer;
 }

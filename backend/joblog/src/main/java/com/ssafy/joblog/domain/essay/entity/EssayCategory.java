@@ -28,7 +28,7 @@ public class EssayCategory extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ColumnDefault("기타")
+    @ColumnDefault("'기타'")
     @Column(name = "question_category_name")
     private String questionCategoryName;
 
