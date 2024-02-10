@@ -1,8 +1,8 @@
 <template>
     <div class="create-container">
       <div v-for="(essay, index) in essays" :key="index" class="essay-container">
-        <input v-model="essay.title" type="text" placeholder="문항을 입력하세요" class="input-title"/>
-        <textarea v-model="essay.content" placeholder="내용을 입력하세요" class="input-content"></textarea>
+        <input v-model="essay.question" type="text" placeholder="문항을 입력하세요" class="input-title"/>
+        <textarea v-model="essay.answer" placeholder="내용을 입력하세요" class="input-content"></textarea>
         <button @click="deleteEssay(index)">Delete</button>
       </div>
       <button @click="addEssay">Add Essay</button>
@@ -11,15 +11,28 @@
 
 <script setup>  
 import { ref } from 'vue';
+import { useEssayResumeStore } from '@/stores/essayResume';
 
-const essays = ref([
-  { title: '', content: '' },
-  { title: '', content: '' }
-]);
+const essayResumeStore = useEssayResumeStore()
 
-const addEssay = () => {
-  essays.value.push({ title: '', content: '' });
-};
+const essays = ref({
+    userId: '',
+    recruitId: null,
+    categoryId: 1,
+    question: '',
+    answer: '',
+  });
+
+const addEssay = async() => {
+  await essayResumeStore.createEssay(essays.value)
+  essays.value = {
+    userId: '',
+    recruitId: null,
+    categoryId: 1,
+    question: '',
+    answer: '',
+  }
+}
 
 const deleteEssay = (index) => {
   essays.value.splice(index, 1);
