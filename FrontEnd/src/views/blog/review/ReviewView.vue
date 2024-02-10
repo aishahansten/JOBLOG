@@ -2,6 +2,9 @@
   <div>
     <SubNav/>
   </div>
+  <div v-if="isLoaded">
+
+  </div>
   <div class="scrap-container">
     <ReviewItem
       v-for="data in processedData"
@@ -15,7 +18,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import dummyData from './data/dummy_data.json'
 import reviewDummy from './data/application_status_dummy_data.json'
 import ReviewItem from './component/ReviewItem.vue'
@@ -74,7 +77,16 @@ function getStatusClass(openingDate, expirationDate) {
   }
 }
 //--------------------------------------------------------------
+import { useBlogReviewStore } from '@/stores/blogReview';
+const blogReviewStore = useBlogReviewStore()
+const myJobs = ref([])
+const isLoaded = ref(false)
 
+onMounted(async() => {
+  await blogReviewStore.getMyJobs()
+  myJobs.value = blogReviewStore.myJobs
+  isLoaded.value = true
+})
 
 
 

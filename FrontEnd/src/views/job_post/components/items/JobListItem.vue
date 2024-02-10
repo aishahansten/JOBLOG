@@ -11,7 +11,7 @@
       <div class="etc">
         <span>D-7</span>
         <div class="scrap">
-          <i class="fa-regular fa-star pointer"></i>
+          <i class="fa-regular fa-star pointer" @click="scrapPost(scrap)"></i>
         </div>
       </div>
     </div>
@@ -20,10 +20,22 @@
 
 <script setup>
 import { ref } from "vue";
+import { useJobPostStore } from "@/stores/jobPosts";
 
+const jobPostStore = useJobPostStore()
 const props = defineProps({
   data: Object,
 });
+
+
+const scrap = ref({
+  userId: null,
+  recruitId: props.data.id
+})
+
+const scrapPost = function(scrap) {
+  jobPostStore.scrapJobPost(scrap.value)
+}
 </script>
 
 <style scoped>

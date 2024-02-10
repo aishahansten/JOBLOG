@@ -57,5 +57,39 @@ export const useEssayResumeStore = defineStore('essayResume', {
         console.error(err)
       }
     },
+
+    async createEssay(essay) {
+      const authStore = useAuthStore()
+      await authStore.updateUserInfoFromToken()
+      essay.userId = authStore.userInfo.sub
+      console.log(essay)
+      const config = {
+        headers: {
+          'Authorization': `${authStore.accessToken}`,
+        },
+      }
+      try {
+        const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/essay/register`, essay, config)
+        console.log(res.data)
+      } catch(err) {
+        console.error(err)
+      }
+    },
+
+    // async createCategory() {
+    //   const authStore = useAuthStore()
+    //   await authStore.updateUserInfoFromToken()
+    //   const config = {
+    //     headers: {
+    //       'Authorization': `${authStore.accessToken}`,
+    //     },
+    //   }
+    //   try {
+    //     const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/essay/${authStore.userInfo.sub}`, config)
+    //     this.essay = res.data
+    //   } catch(err) {
+    //     console.error(err)
+    //   }
+    // }
   },
 });

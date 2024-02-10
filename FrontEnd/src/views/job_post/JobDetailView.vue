@@ -47,7 +47,7 @@
           <h3>마감 00일 전</h3>
           <!-- <span>마감</span> -->
           <!-- <span>접수 00일 전</span> -->
-          <div class="job-scrap-info">
+          <div class="job-scrap-info" @click="scrapJobPost">
             <i class="fa-regular fa-star fa-xl"></i>
             <span>178</span>
           </div>
@@ -73,6 +73,8 @@ import CompanyReview from "./components/detail/CompanyReview.vue";
 import { ref, onMounted } from 'vue';
 import { useRoute } from "vue-router";
 import { useJobPostStore } from '@/stores/jobPosts';
+import { useAuthStore } from "@/stores/auth";
+import axios from "axios";
 
 const jobPostStore = useJobPostStore();
 const route = useRoute();
@@ -91,6 +93,29 @@ onMounted(async () => {
     isLoaded.value = true
   }
 })
+
+
+
+const scrapJobPost = async() => {
+      const authStore = useAuthStore()
+      await authStore.updateUserInfoFromToken()
+      const scrap = {
+        userId: authStore.userInfo.sub,
+        recruitId: route.params.id
+      }
+      const config = {
+        headers: {
+          'Authorization': `${authStore.accessToken}`,
+        },
+      }
+      try { 
+        const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/recruit/scrap`, scrap, config)
+        console.log('스크랩')
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
 </script>
 
 

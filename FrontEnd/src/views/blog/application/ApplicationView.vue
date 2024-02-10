@@ -36,7 +36,7 @@
         <label for="job-post">채용공고:</label>
         <input type="text" class="job-post-dropdown">
         <label for="category">카테고리:</label>
-        <input type="text" class="category-dropdown" v-model="newEssay.category">
+        <input type="text" class="category-dropdown" v-model="essays.category">
         <button v-if="!showAdd" @click="toggleShowAdd" class="w-btn w-btn-indigo" type="button">추가</button>
         <button v-if="showAdd" @click="toggleShowAdd" class="w-btn w-btn-indigo" type="button">취소</button>
 
@@ -45,11 +45,11 @@
         </div>
       </div>
       <label for="question">질문:</label>
-      <input type="text" id="question" v-model="newEssay.question">
+      <input type="text" id="question" v-model="essays.question">
 
       <label for="answer">답변:</label>
-      <textarea id="answer" v-model="newEssay.answer"></textarea>
-      <div>{{ newEssay.answer.length }}자</div>
+      <textarea id="answer" v-model="essays.answer"></textarea>
+      <div>{{ essays.answer.length }}자</div>
       <div class="modal-buttons">
         <button @click="submitEssay" class="w-btn w-btn-indigo" type="button">제출</button>
 
@@ -67,8 +67,30 @@ import SubNav from '../_component/SubNav.vue';
 import EssayList from '@/views/blog/application/components/EssayList.vue'
 import DummyUser from './resume/dummyuser.json'
 import ResumeListView from './resume/ResumeListView.vue';
+import { useEssayResumeStore } from '@/stores/essayResume';
 
+const essayResumeStore = useEssayResumeStore()
 
+const essays = ref({
+    userId: '',
+    recruitId: 1,
+    categoryId: 1,
+    question: '',
+    answer: '',
+  });
+
+const submitEssay = async() => {
+  await essayResumeStore.createEssay(essays.value)
+  console.log(essays)
+  showModal.value = false
+  essays.value = {
+    userId: '',
+    recruitId: null,
+    categoryId: 1,
+    question: '',
+    answer: '',
+  }
+}
 const essayList = ref([])
 
 const showModal = ref(false);
@@ -76,57 +98,6 @@ const toggleModal = function() {
   showModal.value = !showModal.value
   console.log(showModal.value)
 }
-
-//testing code
-let currentId = 1;
-
-const addDummyEssay = () => {
-  const dummyData = {
-    essayId: currentId,
-    categoryId: 1,
-    userId: 1,
-    recruitId: 1,
-    question: `Dummy Resume Title ${currentId}`,
-    answer: `Dummy resume content for item ${currentId}`,
-    // Add other fields as needed
-  };
-
-  essayList.value.push(dummyData);
-  console.log(essayList.value);
-  // Increment currentId for the next essay to be added
-  currentId++;
-};
-
-const newEssay = ref({ 
-  categoryId: '',
-  question: '',
-  answer: ''
-})
-
-const submitEssay = () => {
-  let test = 1
-  const dummyData = {
-    essayId: test,
-    categoryId: 1,
-    userId: 1,
-    recruitId: 1,
-    question: newEssay.value.question,
-    answer: newEssay.value.answer,
-    // Add other fields as needed
-  }
-
-  essayList.value.push(dummyData)
-
-  
-  showModal.value = false
-  newEssay.value = { 
-    categoryId: '',
-    question: '',
-    answer: ''
-  }
-}
-// ------------------------------------------------
-
 
 const showAdd = ref(false)
 const toggleShowAdd = function() {
