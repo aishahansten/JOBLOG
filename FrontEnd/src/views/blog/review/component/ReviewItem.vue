@@ -7,18 +7,16 @@
           {{ data.title }}
         </div>
         <div class="date-time">
-          <div class="date">공고 시작일: {{ formatDate(data.opening_date) }}</div> | 
-          <div class="date">공고 마감일: {{ formatDate(data.expiration_date) }}</div> |
-          <div class="status">
-            {{ calculateStatus(data.opening_date, data.expiration_date) }}
-          </div>
+          <div class="date">공고 시작일: {{ formatDate(data.openingDate) }}</div> | 
+          <div class="date">공고 마감일: {{ formatDate(data.expirationDate) }}</div> |
+
         </div>
       </div>
       <div>
-        <button @click="toggleModal">리뷰 쓰기</button>
+        <button @click="toggleModal">전형 등록</button>
         <button @click="toggleDropDown">▼</button>
       </div>
-      <div :class="getStatusClass(data.opening_date, data.expiration_date)"></div>
+      <div :class="getStatusClass(data.openingDate, data.expirationDate)"></div>
     </div>
     <div v-if="showModal" class="create-modal">
       <div class="create-content">
@@ -28,8 +26,22 @@
       </div>
     </div>
     <div v-if="showDropDown">
-      <div v-for="review in data.reviews" :key="review.id" class="review">
-        {{ review.step }}
+      <div v-for="step in data.selectionListResponseDto" :key="step.id" class="step">
+        <div>
+          <div>{{ step.title }}</div>
+          <div>{{ step.step }}단계</div>
+          <div>{{ step.status }}</div>
+        </div>
+        <button @click="toggleModal2">리뷰 작성하기</button>
+
+        <div v-if="showModal2">
+          <RegisterReview
+          :step="step"
+          @close2="showModal2 = false"
+          />
+          리뷰 작성하기
+          
+        </div>
       </div>
     </div>
   </div>
@@ -38,14 +50,11 @@
 <script setup>
 import { ref }  from 'vue'
 import ReviewCreate from '../ReviewCreateView.vue';
-
+import RegisterReview from '../component/item/RegisterReview.vue'
 const props = defineProps({
   data: Object,
   showModal: Boolean,
   toggleModal: Function,
-  formatDate: Function,
-  calculateStatus: Function,
-  getStatusClass: Function
 });
 
 // 드랍다운
@@ -53,7 +62,6 @@ const showDropDown = ref(false)
 
 const toggleDropDown = function() {
   showDropDown.value = !showDropDown.value
-  console.log(showDropDown.value)
 }
 
 // 리뷰 작성
@@ -63,10 +71,30 @@ const toggleModal = function() {
   showModal.value = !showModal.value
 }
 
+const showModal2 = ref(false)
+
+const toggleModal2 = function() {
+  showModal2.value = !showModal2.value
+}
+
+function formatDate(dateString) {
+  return dateString.slice(0, 10);
+}
+
+// 현재 날짜와 마감 시작일/종료일 사이의 관계 설정
+function getStatusClass(openingDate, expirationDate) {
+  const today = new Date();
+  if (today < openingDate) {
+    return 'status-yet-opened';
+  } else if (today > expirationDate) {
+    return 'status-expired';
+  } else {
+    return 'status-ongoing';
+  }
+}
 </script>
 
 <style scoped>
-
 .item-container {
     display: flex;
     flex-direction: column;
@@ -106,8 +134,7 @@ const toggleModal = function() {
     background-color: rgba(255, 0, 0, 0.148); /* Color for expired */
   }
 
-  .review {
-    height: 80px;
+  .step {
     border: 1px solid black;
   }
 

@@ -10,10 +10,8 @@
         <div class="header-right">
           <RouterLink :to="{ name: 'ResumeCreate' }"> <h1>+</h1></RouterLink>
         </div>
-        <hr>
       </div>
       <div class="application-list">
-        이력서 나올 곳
         <ResumeListView/>
       </div>
     </div>
@@ -22,9 +20,7 @@
           <h1>자기소개서</h1>
         <div class="header-right">
           <button @click="toggleModal" class="w-btn w-btn-indigo">+ 추가하기</button>
-          <button class="dummy-essay" @click="addDummyEssay">자소서 있는척 해보기</button>
         </div>
-        <hr>
       </div>
       <EssayList :essayList="essayList"/>
     </div> 
@@ -74,7 +70,7 @@ const essayResumeStore = useEssayResumeStore()
 const essays = ref({
     userId: '',
     recruitId: 1,
-    categoryId: 1,
+    categoryId: null,
     question: '',
     answer: '',
   });
@@ -85,8 +81,8 @@ const submitEssay = async() => {
   showModal.value = false
   essays.value = {
     userId: '',
-    recruitId: null,
-    categoryId: 1,
+    recruitId: 1,
+    categoryId: null,
     question: '',
     answer: '',
   }
