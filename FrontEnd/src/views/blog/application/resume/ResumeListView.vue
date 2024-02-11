@@ -1,6 +1,5 @@
 <template>
   <div>
-    hi
     <ResumeItem
       v-for="resu in resume"
       :key="resu.id"
