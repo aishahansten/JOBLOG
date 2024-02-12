@@ -1,9 +1,9 @@
 <template>
       <div class="essay-list">
         <div v-if="essayList.length > 0">
-          <div v-for="resume in essayList" :key="resume.id" class="resume-item">
-            <h3>{{ resume.question }}</h3>
-            <p>{{ resume.answer }}</p>
+          <div v-for="essay in essayList" :key="essay.id" class="resume-item">
+            <h3>{{ essay.question }}</h3>
+            <p>{{ essay.answer }}</p>
           </div>
         </div>
         <div v-else class="empty-essay"> 

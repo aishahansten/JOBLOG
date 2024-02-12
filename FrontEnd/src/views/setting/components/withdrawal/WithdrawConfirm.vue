@@ -25,14 +25,14 @@ const isBtnActive = ref(false);
       <h2>회원 탈퇴 시 주의사항</h2>
 
       <ul class="precautions">
+        <li>일주일 후</li>
         <li>사이트 내에 저장한 모든 개인 일정 정보가 삭제됩니다.</li>
         <li>사이트 내에 저장한 모든 개인 계정 및 이력 정보가 삭제됩니다.</li>
-        <li>
-          사이트 내에 사용자가 생성한 모든 이력서 및 자소서 정보가 삭제됩니다.
-        </li>
+        <li>사이트 내에 사용자가 생성한 모든 이력서 및 자소서 정보가 삭제됩니다.</li>
       </ul>
       <div class="warning">
         <p>탈퇴하시려면 아래에 보이는 문구를 입력하세요.</p>
+        <p style="font-weight: bold;">위 내용을 모두 숙지하였으며, 모든 사항에 동의합니다.</p>
         <input
           type="text"
           v-model="inputment"
@@ -47,7 +47,10 @@ const isBtnActive = ref(false);
         custom
         v-slot="{ navigate }"
       >
-        <button class="basic-btn btn-active" @click="navigate">
+        <button 
+          class="basic-btn btn-active" 
+          @click="navigate"
+        >
           회원 탈퇴하기
         </button>
       </RouterLink>

@@ -43,7 +43,8 @@ export const useBlogReviewStore = defineStore("blogReview", {
         console.error(err)
       }
     },
-    async createStep(stepReview) {
+    
+    async createStepReview(stepReview) {
       const authStore = useAuthStore()
       await authStore.updateUserInfoFromToken()
       const config = {
@@ -56,7 +57,7 @@ export const useBlogReviewStore = defineStore("blogReview", {
           `${import.meta.env.VITE_API_BASE_URL}/selectionReview/register`, stepReview.value, config);
         console.log(res.data)
       } catch (err) {
-        console.error(err)
+        console.error('createStepErr',err)
       }
     },
   }
