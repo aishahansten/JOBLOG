@@ -39,7 +39,7 @@ public class Schedule extends BaseEntity {
     private LocalDateTime startDate;
 
     @Column(nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mmx")
     private LocalDateTime endDate;
 
     //더티 체킹 : for UPDATE

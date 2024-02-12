@@ -200,4 +200,5 @@
   button[type="button"] {
     margin-top: 5px; /* Adjust if necessary to align with the submit button */
   }
+
 </style>
