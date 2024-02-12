@@ -88,4 +88,14 @@ public class ConsumerService {
         listenAndSend(message);
     }
 
+    @KafkaListener(topics = "myRecruit", groupId = "myRecruit")
+    public void listenMyRecruitAlarm(String message) {
+        listenAndSend(message);
+    }
+
+    @KafkaListener(topics = "selection", groupId = "selection")
+    public void listenSelectionAlarm(String message) {
+        listenAndSend(message);
+    }
+
 }

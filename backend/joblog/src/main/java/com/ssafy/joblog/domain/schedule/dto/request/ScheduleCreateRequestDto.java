@@ -16,9 +16,7 @@ public class ScheduleCreateRequestDto {
     private int userId;
     private String title;
     private String content;
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime startDate;
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime endDate;
 
     public Schedule createSchedule(User user){
