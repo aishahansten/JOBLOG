@@ -3,11 +3,15 @@ import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import "@/assets/css/setting/setting-header.css";
 import "@/assets/css/setting/menu/withdraw-setting.css";
+import { useAuthStore } from "@/stores/auth";
+const authStore = useAuthStore()
+const router = useRouter()
 
-onMounted(() => {
+onMounted(async() => {
+  await authStore.deleteUser()
+  await authStore.logout2()
   setTimeout(() => {
-    const router = useRouter();
-    router.push("/");
+    router.push({name: 'Home'});
   }, 4000);
 });
 </script>
@@ -25,7 +29,7 @@ onMounted(() => {
       <h2>탈퇴 완료</h2>
       <p>3초 후 메인 페이지로 이동합니다.</p>
       <RouterLink :to="{ name: 'Home' }">
-        <a @click="toggleEdit" class="basic-btn clickable-txt">직접 이동</a>
+        <a class="basic-btn clickable-txt">직접 이동</a>
       </RouterLink>
     </div>
   </div>

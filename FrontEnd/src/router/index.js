@@ -245,4 +245,43 @@ const router = createRouter({
   ],
 });
 
+function checkAuthentication(cookieName) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${cookieName}=`)
+  if (parts.length === 2) {
+    return true
+  }
+  return false
+}
+
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = checkAuthentication('accessToken')
+
+  const publicRoutes = [
+    'Login', 
+    'Login2',
+    'SignIn',
+    'Jobs', 
+    'Home',
+    'JobDetail',
+    'QnABoard',
+    'QnADetail',
+    'Coffee'
+  ];
+
+  if (!isAuthenticated && !publicRoutes.includes(to.name)) {
+    alert('로그인이 필요합니다'); // Notify the user
+    next({ name: 'Login2' });
+  } else if (isAuthenticated && to.name === 'Login2') {
+    alert('이미 로그인되어 있습니다.')
+    next({ name: 'Home' })
+  } else {
+    // In all other cases, proceed as normal
+    next(); // Proceed to the route
+  }
+});
+
+
+
 export default router;

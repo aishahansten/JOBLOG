@@ -61,15 +61,15 @@ export const useEssayResumeStore = defineStore('essayResume', {
     async createEssay(essay) {
       const authStore = useAuthStore()
       await authStore.updateUserInfoFromToken()
-      essay.userId = authStore.userInfo.sub
-      console.log(essay)
+      essay.value.userId = authStore.userInfo.sub
+      console.log('createEssay', essay)
       const config = {
         headers: {
           'Authorization': `${authStore.accessToken}`,
         },
       }
       try {
-        const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/essay/register`, essay, config)
+        const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/essay/register`, essay.value, config)
         console.log(res.data)
       } catch(err) {
         console.error(err)

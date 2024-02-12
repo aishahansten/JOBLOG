@@ -69,23 +69,23 @@ const essayResumeStore = useEssayResumeStore()
 
 const essays = ref({
     userId: '',
-    recruitId: 1,
-    categoryId: null,
-    question: '',
-    answer: '',
+    // recruitId: null,
+    // categoryId: null,
+    question: '답변을 입력해주세요',
+    answer: '문항을 입력해주세요',
   });
 
 const submitEssay = async() => {
-  await essayResumeStore.createEssay(essays.value)
-  console.log(essays)
-  showModal.value = false
-  essays.value = {
-    userId: '',
-    recruitId: 1,
-    categoryId: null,
-    question: '',
-    answer: '',
-  }
+  await essayResumeStore.createEssay(essays)
+  console.log('에세이 컴포 벨류', essays)
+  // showModal.value = false
+  // essays.value = {
+  //   userId: '',
+  //   recruitId: 1,
+  //   categoryId: null,
+  //   question: '',
+  //   answer: '',
+  // }
 }
 const essayList = ref([])
 
