@@ -108,3 +108,8 @@
   background-color: var(--light-gray);
   transition: none;
 }
+
+.a-transparent-c:active {
+  background-color: rgb(104, 128, 255, 0.2);
+  transition: none;
+}
