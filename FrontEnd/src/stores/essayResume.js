@@ -6,7 +6,8 @@ export const useEssayResumeStore = defineStore('essayResume', {
   state: () => ({
     currentResume: [],
     resume: [],
-    essay: [],
+    essayList: [],
+    categoryList: [],
   }),
   actions: {
     async getResume() {
@@ -52,44 +53,74 @@ export const useEssayResumeStore = defineStore('essayResume', {
       }
       try {
         const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/essay/${authStore.userInfo.sub}`, config)
-        this.essay = res.data
+        this.essayList = res.data
       } catch(err) {
         console.error(err)
       }
     },
 
-    async createEssay(essay) {
+    async deleteEssay(id) {
       const authStore = useAuthStore()
       await authStore.updateUserInfoFromToken()
-      essay.userId = authStore.userInfo.sub
-      console.log(essay)
       const config = {
         headers: {
           'Authorization': `${authStore.accessToken}`,
         },
       }
       try {
-        const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/essay/register`, essay, config)
-        console.log(res.data)
+        const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/essay/delete/${id}`, config)
       } catch(err) {
         console.error(err)
       }
     },
 
-    // async createCategory() {
-    //   const authStore = useAuthStore()
-    //   await authStore.updateUserInfoFromToken()
-    //   const config = {
-    //     headers: {
-    //       'Authorization': `${authStore.accessToken}`,
-    //     },
-    //   }
-    //   try {
-    //     const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/essay/${authStore.userInfo.sub}`, config)
-    //     this.essay = res.data
-    //   } catch(err) {
-    //     console.error(err)
-    //   }
-    // }
+    async getCategory() {
+      const authStore = useAuthStore()
+      await authStore.updateUserInfoFromToken()
+      const config = {
+        headers: {
+          'Authorization': `${authStore.accessToken}`,
+        },
+      }
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/category/${authStore.userInfo.sub}`, config)
+        this.categoryList = res.data
+      } catch(err) {
+        console.error(err)
+      }
+    },
+
+    async createCategory(category) {
+      const authStore = useAuthStore()
+      await authStore.updateUserInfoFromToken()
+      category.value.userId = authStore.userInfo.sub
+      const config = {
+        headers: {
+          'Authorization': `${authStore.accessToken}`,
+        },
+      }
+      try {
+        const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/category/register`, category.value, config)
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/category/${authStore.userInfo.sub}`, config)
+        this.categoryList = response.data
+      } catch(err) {
+        console.error(err)
+      }
+    },
+    async deleteCategory(id) {
+      const authStore = useAuthStore()
+      await authStore.updateUserInfoFromToken()
+      const config = {
+        headers: {
+          'Authorization': `${authStore.accessToken}`,
+        },
+      }
+      try {
+        const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/category/delete/${id}`, config)
+        this.categoryList = this.categoryList.filter(category => category.categoryId !== id);
+      } catch(err) {
+        console.error(err)
+      }
+    },
   },
 });

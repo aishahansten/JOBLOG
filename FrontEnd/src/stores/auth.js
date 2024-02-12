@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import router from '@/router';
+import axios from 'axios';
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -55,6 +56,35 @@ export const useAuthStore = defineStore('auth', {
       this.userInfo = null
       this.accessToken = null
       document.cookie = 'accessToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-    }
+    },
+
+    async deleteUser() {
+      await this.updateUserInfoFromToken()
+      const config = {
+        headers: {
+          'Authorization': `${this.accessToken}`,
+        },
+      }
+      try {
+        const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/users/delete/${this.userInfo.sub}`, config)
+      } catch {
+
+      }
+    },
+
+    async deleteUserPerm() {
+      await this.updateUserInfoFromToken()
+      const config = {
+        headers: {
+          'Authorization': `${this.accessToken}`,
+        },
+      }
+      try {
+        const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/users/permanent/delete/${this.userInfo.sub}`, config)
+        console.log(res)
+      } catch (err) {
+        console.error(err)
+      }
+    },
   },
 });
