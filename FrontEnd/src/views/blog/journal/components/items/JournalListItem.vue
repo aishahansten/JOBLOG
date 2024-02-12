@@ -1,8 +1,12 @@
 <template>
   <div class="review">
-    <div class="image-placeholder"></div>
-    <h3>{{ title }}</h3>
-    <p>{{ dateCreated }}</p>
+    <p>{{ diaryId }}번째 나의 복기</p>
+    <h3>복기 내용</h3>
+    
+    <div class="image-placeholder"><h3>{{ content }}</h3></div>
+    
+    <p>작성일자 : {{ createdDate }}</p>
+    <p>수정일자 : {{ modifiedDate }}</p>
   </div>
 </template>
 
@@ -10,8 +14,10 @@
 import { defineProps } from 'vue'
 
 const props = defineProps({
-  title: String,
-  dateCreated: String
+  diaryId: Number,
+  content: String,
+  createdDate : String,
+  modifiedDate: String,
 })
 </script>
 

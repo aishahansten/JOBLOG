@@ -7,6 +7,7 @@
       <RouterLink :to="{ name:'JournalCreate' }" class="journal-button-container"><button class="journal-button">+ 다이어리 쓰기</button></RouterLink>
     </div>
     <div class="journal-list">
+
       <JournalList/>
     </div>
   </div>
@@ -14,9 +15,21 @@
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router';
+import { useRouter } from 'vue-router';
 import JournalList from './components/JournalList.vue';
 import SubNav from '../_component/SubNav.vue';
+import { useJournalStore } from '@/stores/journal';
+import { onMounted, ref } from "vue";
+
+const journalStore = useJournalStore();
+const journals = ref([]);
+const router = useRouter();
+
+onMounted(async () => {
+  await journalStore.getJournals(router)
+  journals.value = journalStore.journals
+  console.log(journals.value)
+});
 </script>
 
 <style scoped>

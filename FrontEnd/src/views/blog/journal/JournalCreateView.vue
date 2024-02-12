@@ -13,28 +13,28 @@
             <textarea v-model="newJournal.content" name="내용 작성" placeholder="다이어리 내용을 입력하세요" class="content-textarea" required></textarea>
         </div>
     </div>
-</template>
+</template> 
 
 <script setup>
-import {ref} from 'vue'
+import {ref} from 'vue';
 import axios from 'axios';
 import {useJournalStore} from '@/stores/journal';
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
 
-const router = useRouter()
-const authStore = useAuthStore()
-const journalStore = useJournalStore()
+const router = useRouter();
+const authStore = useAuthStore();
+const journalStore = useJournalStore();
 
 const createJournal = async () => {
   try {
-    authStore.updateUserInfoFromToken()
+    authStore.updateUserInfoFromToken();
     newJournal.value.userId = authStore.userInfo.sub;
 
     const config = {
       headers: {
-        'Authorization': `${authStore.accessToken}`
-      }
+        'Authorization': `${authStore.accessToken}`,
+      },
     };
 
     const response = await axios.post(`${journalStore.API_URL}/diary/register`, newJournal.value, config);
@@ -48,12 +48,17 @@ const createJournal = async () => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 const newJournal = ref({
   userId: '',
   content: '',
-})
+});
+
+// 되돌아가기
+// function toDiary() {
+//   router.push('/blog-journal')
+// }
 
 
 </script>
