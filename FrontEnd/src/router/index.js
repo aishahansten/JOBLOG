@@ -36,7 +36,6 @@ import JournalCreate from "@/views/blog/journal/JournalCreateView.vue";
 import Review from "@/views/blog/review/ReviewView.vue";
 import ReviewCreate from "@/views/blog/review/ReviewCreateView.vue";
 import Application from "@/views/blog/application/ApplicationView.vue";
-import EssayCreate from "@/views/blog/application/essay/EssayCreateView.vue";
 import ResumeDetail from "@/views/blog/application/resume/ResumeDetailView.vue";
 import ResumeUpdate from "@/views/blog/application/resume/ResumeUpdateView.vue";
 
@@ -182,11 +181,6 @@ const router = createRouter({
       component: Application,
     },
     {
-      path: "/blog-application/essay-create",
-      name: "EssayCreate",
-      component: EssayCreate,
-    },
-    {
       path: "/blog-application/resume-create",
       name: "ResumeCreate",
       component: ResumeCreate,
@@ -267,7 +261,8 @@ router.beforeEach((to, from, next) => {
     'JobDetail',
     'QnABoard',
     'QnADetail',
-    'Coffee'
+    'Coffee',
+    'DeleteUserHandle'
   ];
 
   if (!isAuthenticated && !publicRoutes.includes(to.name)) {

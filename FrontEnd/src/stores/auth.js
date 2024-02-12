@@ -81,8 +81,9 @@ export const useAuthStore = defineStore('auth', {
       }
       try {
         const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/users/permanent/delete/${this.userInfo.sub}`, config)
-      } catch {
-
+        console.log(res)
+      } catch (err) {
+        console.error(err)
       }
     },
   },
