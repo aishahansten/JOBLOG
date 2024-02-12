@@ -1,53 +1,82 @@
 <template>
-  <div class="main-container">
+  <div class="container">
     <RouterLink :to="{ name: 'ChatterReg' }">
-      <img src="@/assets/img/coffee-chat/chatterbanner.png" alt="" class="banner-img">
+      <div class="banner">
+        <div class="banner-cover">
+          <h1>커피챗 채팅</h1>
+          <p>
+            <b>취준생·현직자</b>와<br />
+            언제 어디서나<br />
+            빠르고 간편하게, <b>커피챗</b>.
+          </p>
+          <a class="btn solid-g h-solid-c a-bright">채터 등록하기</a>
+        </div>
+        <img
+          src="@/assets/img/coffee-chat/banner.jpg"
+          alt=""
+          class="banner-img"
+        />
+      </div>
     </RouterLink>
-    <div class="text">
-        <h2 class="subtitle">커피챗 채터 찾기</h2>
-        <p>고민에 대한 간단한 이야기를 나눌 채터 탐색</p>
+    <div class="title">
+      <h2>커피챗 채터 찾기</h2>
+      <p>고민에 대한 간단한 이야기를 나눌 채터 탐색</p>
     </div>
-    <div>
-      <ChatterRecommend/>
+    <div class="content">
+      <ChatterRecommend />
     </div>
   </div>
 </template>
 
 <script setup>
-import ChatterRecommend from './components/ChatterRecommend.vue';
+import ChatterRecommend from "./components/ChatterRecommend.vue";
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 50px 0;
+}
 
-  .main-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
+.banner,
+.banner-cover,
+.banner-img {
+  width: 100%;
+  height: 400px;
+  border-radius: 10px;
+}
+.banner {
+  position: relative;
+}
+.banner-cover {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: end;
+  gap: 20px;
 
-  .banner-img {
-    height: 300px;
-    width: 1288px;
-    margin: 10px;
-  }
+  width: 1420px;
+  padding: 100px;
+  position: absolute;
 
-  .text {
-    margin-left: 10px;
-    margin-bottom: 0;
-    padding-bottom: 0;
-    gap: 0;
-    width: 1344px;
-  }
+  background: linear-gradient(
+    0.25turn,
+    rgba(0, 0, 0, 0) 25%,
+    rgba(0, 0, 0, 0.8)
+  );
+}
+.banner-cover * {
+  color: white;
+  text-align: end;
+}
+.banner-cover:hover {
+  background: linear-gradient(0.25turn, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1));
+  transition: 0.3s ease;
+}
 
-  .subtitle {
-    margin-bottom: 0;
-    padding-bottom: 0;
-  }
-
-  p {
-    margin-top: 0;
-    padding-top: 0;
-  }
+.title {
+  padding: 30px 0 0 0;
+}
 </style>

@@ -1,11 +1,11 @@
 <script setup>
 import JobList from "./components/JobList.vue";
 import SearchFilter from "./components/SearchFilter.vue";
-import { useJobPostStore } from "@/stores/jobPosts"
+import { useJobPostStore } from "@/stores/jobPosts";
 
-const jobPostStore = useJobPostStore()
+const jobPostStore = useJobPostStore();
 
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from "vue";
 
 const search = ref({
   jobCategory: null,
@@ -15,17 +15,17 @@ const search = ref({
   size: 30,
 });
 
-const jobPosts = ref([])
+const jobPosts = ref([]);
 
 onMounted(async () => {
   await jobPostStore.getJobPost(search.value); // Pass the reactive search object's value
   try {
-    jobPosts.value = jobPostStore.jobPosts
-    console.log(jobPosts)
+    jobPosts.value = jobPostStore.jobPosts;
+    console.log(jobPosts);
   } catch (err) {
-    console.error(err)
+    console.error(err);
   }
-})
+});
 
 const handleSearch = async (searchCrit) => {
   // Iterate over each property in searchCrit.searchConditions
@@ -41,41 +41,37 @@ const handleSearch = async (searchCrit) => {
   await jobPostStore.getJobPost(searchCrit.searchConditions);
   jobPosts.value = jobPostStore.jobPosts;
 
-  console.log('검색하면', searchCrit.searchConditions);
-  console.log('검색 이후 리스트', jobPostStore.jobPosts);
+  console.log("검색하면", searchCrit.searchConditions);
+  console.log("검색 이후 리스트", jobPostStore.jobPosts);
 };
-
-
 </script>
 
 <template>
-  <div class="job-header">
-    <div class="search-filter">
-      <SearchFilter 
-        @search="handleSearch"
-      />
-    </div>
-    <div class="search-footer">
-      <div class="saramin">
-        Powered by
-        <a href="http://www.saramin.co.kr" target="_blank">취업 사람인</a>
+  <div class="container">
+    <div class="search">
+      <SearchFilter @search="handleSearch" />
+      <div class="bottom">
+        <div class="saramin">
+          Powered by
+          <a href="http://www.saramin.co.kr" target="_blank">취업 사람인</a>
+        </div>
+        <RouterLink
+          :to="{ name: 'JobScrap' }"
+          id="job-scrap-link"
+          class="h-transparent-c"
+        >
+          <i class="fa-solid fa-star"></i>
+          <span>스크랩 공고 모아보기</span>
+          <i class="fa-solid fa-chevron-right"></i>
+        </RouterLink>
       </div>
-      <RouterLink
-        :to="{ name: 'JobScrap' }"
-        id="job-scrap-link"
-        class="clickable-transparent"
-      >
-        <i class="fa-solid fa-star"></i>
-        <span>스크랩 공고 모아보기</span>
-        <i class="fa-solid fa-chevron-right"></i>
-      </RouterLink>
     </div>
-    <div class="job-list-space">
-      <div class="job-recommend">
+    <div class="list">
+      <div class="recommend">
         <div class="title">
           <h2>{000}님 맞춤 추천 채용 공고!</h2>
         </div>
-        <JobList :jobPosts="jobPosts"/>
+        <JobList :jobPosts="jobPosts" />
       </div>
       <!-- 검색 시 추천 공고 div가 사라지고 나타날 div -->
       <!-- <div class="job-search-result">
@@ -89,31 +85,31 @@ const handleSearch = async (searchCrit) => {
 </template>
 
 <style scoped>
-.job-header {
+.container {
   display: flex;
   width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 10px 0;
 }
 
 .saramin {
   padding: 10px;
 }
-.saramin a {
-  font-weight: bold;
-  color: rgba(61, 28, 205, 0.784);
-}
-.search-filter {
+.search {
   width: 1420px;
 }
-
-.search-footer {
+.bottom {
   display: flex;
   width: 100%;
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
+}
+.saramin a {
+  font-weight: bold;
+  color: rgba(61, 28, 205, 0.784);
 }
 #job-scrap-link {
   display: flex;
@@ -124,16 +120,16 @@ const handleSearch = async (searchCrit) => {
   border-radius: 10px;
 }
 
-.job-list-space {
+.list {
   display: flex;
   width: 100%;
   flex-direction: column;
 }
-.job-recommend {
+.recommend {
   display: flex;
   flex-direction: column;
 }
-.job-recommend .title {
+.recommend .title {
   padding: 30px 0;
   border-top: 1px solid var(--border-gray);
 }

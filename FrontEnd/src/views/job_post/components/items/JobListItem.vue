@@ -10,9 +10,9 @@
       </div>
       <div class="etc">
         <span>D-7</span>
-        <div class="scrap">
+        <a class="scrap">
           <i class="fa-regular fa-star pointer" @click="scrapPost(scrap)"></i>
-        </div>
+        </a>
       </div>
     </div>
   </RouterLink>
@@ -22,20 +22,19 @@
 import { ref } from "vue";
 import { useJobPostStore } from "@/stores/jobPosts";
 
-const jobPostStore = useJobPostStore()
+const jobPostStore = useJobPostStore();
 const props = defineProps({
   data: Object,
 });
 
-
 const scrap = ref({
   userId: null,
-  recruitId: props.data.id
-})
+  recruitId: props.data.id,
+});
 
-const scrapPost = function(scrap) {
-  jobPostStore.scrapJobPost(scrap.value)
-}
+const scrapPost = function (scrap) {
+  jobPostStore.scrapJobPost(scrap.value);
+};
 </script>
 
 <style scoped>

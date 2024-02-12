@@ -65,14 +65,16 @@
 .tasks {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
+  height: 650px;
+  overflow-y: scroll;
 }
 .task {
   display: flex;
   flex-direction: row;
   align-content: center;
   gap: 10px;
-  height: 100px;
+  height: 60px;
   border: none;
 }
 .coloring {

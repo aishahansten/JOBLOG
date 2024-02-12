@@ -5,7 +5,7 @@
       <div class="job-detail">
         <div class="job-title">
           <h1>{{ currentJob.value.title }}</h1>
-          <h3>{{ currentJob.value.companyName}}</h3>
+          <h3>{{ currentJob.value.companyName }}</h3>
         </div>
         <div class="job-info">
           <div>
@@ -15,7 +15,7 @@
             </div>
             <div>
               <span>지역</span>
-              <p>{{ currentJob.value.locationDesc}}</p>
+              <p>{{ currentJob.value.locationDesc }}</p>
             </div>
             <div>
               <span>근무 형태</span>
@@ -29,7 +29,10 @@
           <div>
             <div>
               <span>접수 기간</span>
-              <p>{{ currentJob.value.openingDate }} ~ {{ currentJob.value.expirationDate }}</p>
+              <p>
+                {{ currentJob.value.openingDate }} ~
+                {{ currentJob.value.expirationDate }}
+              </p>
             </div>
             <div>
               <span>학력</span>
@@ -37,7 +40,7 @@
             </div>
             <div>
               <span>경력</span>
-              <p>{{ currentJob.value.experienceLevel}}</p>
+              <p>{{ currentJob.value.experienceLevel }}</p>
             </div>
           </div>
         </div>
@@ -45,12 +48,12 @@
       <div class="job-interaction">
         <div class="job-check">
           <h3>마감 00일 전</h3>
-          <!-- <span>마감</span> -->
-          <!-- <span>접수 00일 전</span> -->
-          <div class="job-scrap-info" @click="scrapJobPost">
+          <!-- <h3>마감</h3> -->
+          <!-- <h3>접수 00일 전</h3> -->
+          <a class="job-scrap-info" @click="scrapJobPost">
             <i class="fa-regular fa-star fa-xl"></i>
             <span>178</span>
-          </div>
+          </a>
         </div>
         <div class="job-apply">
           <div class="btn solid-c h-bright a-dark f-size-20">이력서 쓰기</div>
@@ -70,9 +73,9 @@
 <script setup>
 import ScreenReview from "./components/detail/ScreenReview.vue";
 import CompanyReview from "./components/detail/CompanyReview.vue";
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { useJobPostStore } from '@/stores/jobPosts';
+import { useJobPostStore } from "@/stores/jobPosts";
 import { useAuthStore } from "@/stores/auth";
 import axios from "axios";
 
@@ -84,40 +87,40 @@ const currentJob = ref(null);
 
 onMounted(async () => {
   try {
-    await jobPostStore.getJobPostDetail(route.params.id)
-    currentJob.value = jobPostStore.currentJob
-    console.log(currentJob.value)
+    await jobPostStore.getJobPostDetail(route.params.id);
+    currentJob.value = jobPostStore.currentJob;
+    console.log(currentJob.value);
   } catch (err) {
     console.error(err);
   } finally {
-    isLoaded.value = true
+    isLoaded.value = true;
   }
-})
+});
 
-
-
-const scrapJobPost = async() => {
-      const authStore = useAuthStore()
-      await authStore.updateUserInfoFromToken()
-      const scrap = {
-        userId: authStore.userInfo.sub,
-        recruitId: route.params.id
-      }
-      const config = {
-        headers: {
-          'Authorization': `${authStore.accessToken}`,
-        },
-      }
-      try { 
-        const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/recruit/scrap`, scrap, config)
-        console.log('스크랩')
-      } catch (err) {
-        console.error(err)
-      }
-    }
-
+const scrapJobPost = async () => {
+  const authStore = useAuthStore();
+  await authStore.updateUserInfoFromToken();
+  const scrap = {
+    userId: authStore.userInfo.sub,
+    recruitId: route.params.id,
+  };
+  const config = {
+    headers: {
+      Authorization: `${authStore.accessToken}`,
+    },
+  };
+  try {
+    const res = await axios.post(
+      `${import.meta.env.VITE_API_BASE_URL}/recruit/scrap`,
+      scrap,
+      config
+    );
+    console.log("스크랩");
+  } catch (err) {
+    console.error(err);
+  }
+};
 </script>
-
 
 <style scoped>
 .container {
@@ -177,14 +180,12 @@ const scrapJobPost = async() => {
   gap: 20px;
   width: 100%;
 }
-.job-check h3 {
-  border-bottom: 2px double var(--main-blue);
-}
 .job-scrap-info {
   display: flex;
   align-items: center;
   gap: 5px;
 }
+
 .job-apply {
   display: flex;
   flex-direction: column;
