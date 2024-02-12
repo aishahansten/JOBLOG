@@ -1,49 +1,42 @@
 <template>
-  <div class="diary-create-container">
-      <div class="diary-header"></div>
-      <div class="diary-title">
-          <div class="title-left">
-              <h1>다이어리 쓰기</h1>
-          </div>
-          <div class="title-right">
-              <button @click="console.log(diary)">저장</button>
-          </div>
-      </div>
-      <div class="diary-content">
-          <textarea name="내용 작성" class="content-textarea" v-model="diary.content"></textarea>
-      </div>
+  <div>
+    <button @click="deleteSelection()">테스트 버튼</button>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import axios from "axios";
+import { useAuthStore } from "@/stores/auth";
 
-const diary = ref({
-  userId: '',
-  content: '',
-})
+const authStore = useAuthStore();
+
+const deleteSelection = async () => {
+  const isConfirmed = confirm("삭제하시겠습니까?");
+
+  if (isConfirmed) {
+    try {
+      const config = {
+        headers: {
+          Authorization: `${authStore.accessToken}`,
+        },
+      };
+      const res = await axios.delete(
+        `${import.meta.env.VITE_API_BASE_URL}/selection/delete/1`,
+        config
+      );
+      console.log(res.data);
+      // router.push();
+
+      // Optionally, emit an event to inform the parent component to update the comment list
+    } catch (error) {
+      console.error("삭제 실패: ", error);
+    }
+  } else {
+    console.log("삭제하지 않음.");
+  }
+};
 </script>
 
 <style scoped>
-.diary-create-container {
-  display: grid;
-  grid-template-rows: 1fr 1fr 3fr;
-  width: 800px;
-  
-}
 
-.diary-header {
-  background-color: rgb(103, 103, 103);
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-}
-
-.diary-title {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-.content-textarea {
-  width: 800px;
-}
 </style>
