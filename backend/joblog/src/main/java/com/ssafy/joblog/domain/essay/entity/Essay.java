@@ -38,7 +38,9 @@ public class Essay extends BaseEntity {
     private EssayCategory essayCategory;
 
     private int question_number;
+    @Column(length = 10000)
     private String question;
+    @Column(length = 10000)
     private String answer;
 
     // 생성자
