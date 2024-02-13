@@ -39,17 +39,14 @@
     </div>
     <div class="selection-container">
       <div v-if="essayList.length > 0">
-        <div
-          v-for="essay in essayList"
-          :key="essay.id"
-          class="essay-item"
-          draggable="true"
+        <div v-for="essay in essayList"
+          :key="essay.id" 
+          class="essay-item" 
+          draggable="true" 
           @dragstart="handleDragStart(essay)"
-        >
-          <div
-            @click="toggleShowEssay(essay)"
-            :class="{ selected: isEssaySelected(essay) }"
+          :class="{ 'selected': isEssaySelected(essay) }"
           >
+          <div @click="toggleShowEssay(essay)">
             <h3>{{ essay.question }}</h3>
             <p>{{ essay.answer }}</p>
           </div>
@@ -79,18 +76,17 @@ const route = useRoute();
 // here
 const resumeResponse = ref([]);
 
-const exportToPdf = function () {
-  const pdfArea = document.getElementById("pdf-download");
-  const pdfOptions = {
-    filename: "testing.pdf",
-    image: { type: "jpeg", quality: "0.98" },
-    html2canvas: { scale: 2 },
-    margin: 0.2,
-  };
-  html2pdf(pdfArea, pdfOptions);
-  console.log("됨?");
-};
-
+  const exportToPdf = function () {
+    const pdfArea = document.getElementById('pdf-download')
+    const pdfOptions = {
+      filename: 'testing.pdf',
+      image: { type: 'jpeg', quality: '0.98' },
+      html2canvas: { scale: 2 },
+      margin: 0.2
+    }
+    html2pdf(pdfArea, pdfOptions)
+  }
+  
 const isEssaySelected = (essay) => {
   for (let i = 0; i < showEssay.value.length; i++) {
     if (showEssay.value[i].essayId === essay.essayId) {
@@ -179,20 +175,27 @@ onMounted(async () => {
   width: 100%;
 }
 
-.essay-item {
-  display: flex;
-  gap: 50px;
-  border: 1px solid black;
-  background-color: rgb(237, 237, 237);
-}
+  .essay-item {
+    display: flex;
+    gap: 50px;
+    border: 1px solid rgba(0, 0, 0, 0.419);
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer; /* Indicates the item is clickable */
+  }
 
-.essay-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 10px;
-  box-sizing: border-box;
-}
+  .selected {
+    background-color: #e5e5e559; /* Different background for selected items */
+  }
+  
+  .essay-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    
+  }
 
 .essay-space {
   margin: 0%;

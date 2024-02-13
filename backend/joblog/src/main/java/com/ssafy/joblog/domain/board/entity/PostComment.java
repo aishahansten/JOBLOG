@@ -40,6 +40,7 @@ public class PostComment extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(length = 10000)
     private String content;
 
     //cascade를 하면 postcomment만 persist하면됨

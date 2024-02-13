@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class ReviewPrivateResponseDto {
+    private int id;
     private String myRecruitTitle;
     private LocalDateTime progressDate;
     private String title;
@@ -30,6 +31,7 @@ public class ReviewPrivateResponseDto {
 
     public static ReviewPrivateResponseDto fromEntity(Selection selection) {
         return ReviewPrivateResponseDto.builder()
+                .id(selection.getId())
                 .myRecruitTitle(selection.getMyRecruit().getTitle())
                 .progressDate(selection.getProgressDate())
                 .title(selection.getTitle())

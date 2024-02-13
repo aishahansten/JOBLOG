@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class ReviewPublicResponseDto {
+    private int id;
     private String nickname;
     private boolean userIsDelete;
     private String myRecruitTitle;
@@ -28,8 +29,10 @@ public class ReviewPublicResponseDto {
     private int difficulty;
     private int atmosphere;
     private String comment;
+
     public static ReviewPublicResponseDto fromEntity(User user, Selection selection) {
         return ReviewPublicResponseDto.builder()
+                .id(selection.getId())
                 .nickname(user.getNickname())
                 .userIsDelete(user.isDelete())
                 .myRecruitTitle(selection.getMyRecruit().getTitle())

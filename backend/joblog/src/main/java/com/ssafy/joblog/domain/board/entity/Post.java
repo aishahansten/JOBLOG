@@ -37,6 +37,8 @@ public class Post extends BaseEntity {
     private PostCategory category; //게시판 종류 [WORKER, APPLICANT, QNA]
 
     private String title;
+
+    @Column(length = 10000)
     private String content;
 
     @ColumnDefault("0")

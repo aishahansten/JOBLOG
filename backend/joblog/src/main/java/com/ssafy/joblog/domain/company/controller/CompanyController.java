@@ -2,6 +2,7 @@ package com.ssafy.joblog.domain.company.controller;
 
 import com.ssafy.joblog.domain.company.dto.responseDto.CompanyResponseDto;
 import com.ssafy.joblog.domain.company.dto.responseDto.CompanyReviewListResponseDto;
+import com.ssafy.joblog.domain.company.dto.responseDto.PageCompanyResponseDto;
 import com.ssafy.joblog.domain.company.service.CompanyService;
 import com.ssafy.joblog.domain.myRecruit.dto.response.ReviewPublicResponseDto;
 import com.ssafy.joblog.domain.recruit.dto.responseDto.RecruitListResponseDto;
@@ -23,7 +24,7 @@ public class CompanyController {
     private final CompanyService companyService;
 
     @GetMapping("") //모든 회사 리스트 조회
-    public ResponseEntity<List<CompanyResponseDto>> findAllCompany(@PageableDefault(size = 20) Pageable pageable) {
+    public ResponseEntity<PageCompanyResponseDto> findAllCompany(@PageableDefault(size = 20) Pageable pageable) {
         return ResponseEntity.ok(companyService.findAllCompany(pageable));
     }
 

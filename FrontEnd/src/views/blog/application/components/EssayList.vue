@@ -1,9 +1,13 @@
 <template>
       <div class="essay-list">
         <div v-if="essayList.length > 0">
-          <div v-for="essay in essayList" :key="essay.id" class="resume-item">
-            <h3>{{ essay.question }}</h3>
-            <p>{{ essay.answer }}</p>
+          <div v-for="essay in essayList" :key="essay.id" class="essay-item">
+            <RouterLink :to="{ name: 'EssayDetail', params: { id: essay.essayId } }">
+              <div>
+                <h3>{{ essay.question }}</h3>
+                <p>{{ essay.answer }}</p>
+             </div>
+            </RouterLink>
           </div>
         </div>
         <div v-else class="empty-essay"> 
@@ -28,12 +32,7 @@
     showModal.value = !showModal.value;
   };
   
-  const addDummyEssay = () => {
-    // Add dummy essay logic here
-    // ...
-  };
-  
-  // Include other reactive properties or methods as needed
+
   </script>
   
   <style scoped>
@@ -54,7 +53,7 @@
   }
 
   /* Style the scrollbar itself (background) */
-.essay-list::-webkit-scrollbar {
+  .essay-list::-webkit-scrollbar {
     width: 10px; /* width of the entire scrollbar */
   }
 
@@ -69,10 +68,9 @@
     background: #ffb565; /* color when hovering over the thumb */
   }
 
-  .resume-item {
-    border: 1px solid rgb(255, 207, 173);
+  .essay-item {
+    border: 1px solid rgba(184, 184, 184, 0.527);
     border-radius: 8px;
-    background-color: rgb(245, 233, 220);
     box-sizing: border-box;
     margin: 2px;
     width: 550px;
