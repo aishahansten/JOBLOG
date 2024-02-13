@@ -32,7 +32,7 @@ public class CompanyReview extends BaseEntity {
     private int culture;
     private int promotionOpportunity;
     private int management;
-    @Column(length = 1000)
+    @Column(length = 10000)
     private String content;
 
     @Builder
