@@ -6,6 +6,7 @@ export const useJobPostStore = defineStore('jobPost', {
   state: () => ({
     jobPosts: [],
     currentJob: {},
+    companyReview: [],
   }),
   actions: {
     async getJobPost(search) {
@@ -28,6 +29,16 @@ export const useJobPostStore = defineStore('jobPost', {
         console.error(err)
       }
     },
+
+    async getCompanyReveiw(id) {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/company/${id}/selectionReview`)
+        this.companyReview.value = res.data
+        console.log(res.data)
+      } catch (err) {
+        console.error(err)  
+      }
+    }
 
 
   },

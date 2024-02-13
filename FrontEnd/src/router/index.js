@@ -38,6 +38,7 @@ import ReviewCreate from "@/views/blog/review/ReviewCreateView.vue";
 import Application from "@/views/blog/application/ApplicationView.vue";
 import ResumeDetail from "@/views/blog/application/resume/ResumeDetailView.vue";
 import ResumeUpdate from "@/views/blog/application/resume/ResumeUpdateView.vue";
+import EssayDetail from "@/views/blog/application/essay/EssayDetailView.vue"
 
 //프로필 세팅 페이지
 import ProfileSetting from "@/views/setting/SettingView.vue";
@@ -194,6 +195,11 @@ const router = createRouter({
       path: "/blog=applicatoin/resume/update/:id",
       name: "ResumeUpdate",
       component: ResumeUpdate
+    },
+    {
+      path: "/blog-application/essay/:id",
+      name: "EssayDetail",
+      component: EssayDetail
     },
 
 

@@ -13,7 +13,6 @@ const createPost = async () => {
   try {
     authStore.updateUserInfoFromToken();
     newQuestion.value.userId = authStore.userInfo.sub;
-    // Set the Authorization header for this specific request
     const config = {
       headers: {
         Authorization: `${authStore.accessToken}`,
@@ -25,8 +24,6 @@ const createPost = async () => {
       newQuestion.value,
       config
     );
-    console.log(response.data);
-    // Resetting the newQuestion value after successful request
     newQuestion.value = {
       userId: authStore.userInfo.sub,
       category: "QNA",
@@ -61,13 +58,13 @@ function toBoard() {
         게시판으로 돌아가기
       </a>
       <h3>질문 작성하기</h3>
-      <a
+      <button
         @click="createPost"
         :disabled="!isTitleValid"
         class="btn lined-bg f-color-c h-lined-c a-solid-c"
       >
         작성 완료
-      </a>
+    </button>
     </div>
 
     <div class="content">

@@ -1,11 +1,13 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
 import { useAuthStore } from '@/stores/auth'; // Adjust the path to your auth store
+import { useAttrs } from 'vue';
 
 export const useEssayResumeStore = defineStore('essayResume', {
   state: () => ({
     currentResume: [],
     resume: [],
+    currentEssay: [],
     essayList: [],
     categoryList: [],
   }),
@@ -59,6 +61,22 @@ export const useEssayResumeStore = defineStore('essayResume', {
       }
     },
 
+    async getEssayDetail(id) {
+      const authStore = useAuthStore()
+      await authStore.updateUserInfoFromToken()
+      const config = {
+        headers: {
+          'Authorization': `${authStore.accessToken}`,
+        },
+      }
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/essay/detail/${id}`, config)
+        this.currentEssay = res.data
+      } catch(err) {
+        console.error(err)
+      }
+    },
+
     async deleteEssay(id) {
       const authStore = useAuthStore()
       await authStore.updateUserInfoFromToken()
@@ -68,7 +86,27 @@ export const useEssayResumeStore = defineStore('essayResume', {
         },
       }
       try {
-        const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/essay/delete/${id}`, config)
+        const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/essay/delete/${id}`, config)
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/essay/${authStore.userInfo.sub}`, config)
+        this.essayList = response.data
+      } catch(err) {
+        console.error(err)
+      }
+    },
+
+    async updateEssay(essay) {
+      const authStore = useAuthStore()
+      await authStore.updateUserInfoFromToken()
+      // delete essay.categoryName
+      const config = {
+        headers: {
+          'Authorization': `${authStore.accessToken}`,
+        },
+      }
+      try {
+        const res = await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/essay/update`, essay.value, config)
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/essay/${authStore.userInfo.sub}`, config)
+        this.essayList = response.data
       } catch(err) {
         console.error(err)
       }
