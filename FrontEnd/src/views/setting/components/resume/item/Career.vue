@@ -1,69 +1,91 @@
 <template>
-  <div class="component">
-    <div class="description">
-      <p class="title">경력사항 등록</p>
-      <p>이력서에 등록할 수 있는 경력사항입니다.</p>
-    </div>
-    <div>
-      <table>
-        <tr>
-          <th>회사명</th>
-          <th>직무</th>
-          <th>시작 일자</th>
-          <th>종료 일자</th>
-        </tr>
-        <tr>
-          <td>
-            <input type="text" v-model="career.institutionName" placeholder="회사명을 입력해주세요" required />
-          </td>
-          <td>
-            <input type="text" v-model="career.title" placeholder="직무를 입력해주세요" required/>
-          </td>
-          <td>
-            <input type="date" v-model="career.startDate" required />
-          </td>
-          <td>
-            <input type="date" v-model="career.endDate" required />
-          </td>
-        </tr>
-        </table>
-    </div>
-    <div>
-      <button @click="createInfo(career)">추가하기</button>
+  <div class="add">
+    <div class="info-input" id="career-input">
+      <input
+        type="text"
+        v-model="career.institutionName"
+        placeholder="예) 삼성 멀티캠퍼스"
+        required
+        class="input focus-lined-c"
+      />
+      <input
+        type="text"
+        v-model="career.title"
+        placeholder="관리/감독"
+        required
+        class="input focus-lined-c"
+      />
+      <input
+        type="date"
+        class="input focus-lined-c"
+        v-model="career.startDate"
+        required
+      />
+      <input
+        type="date"
+        class="input focus-lined-c"
+        v-model="career.endDate"
+        required
+      />
+
+      <a @click="createInfo(career)" class="btn-s solid-c h-bright a-dark"
+        >저장</a
+      >
     </div>
   </div>
 </template>
 
 <script setup>
 import { useSettingResumeStore } from "@/stores/settingResume";
-import { ref, onMounted } from 'vue'
-const emit = defineEmits(['refresh'])
+import { ref, onMounted } from "vue";
+const emit = defineEmits(["refresh"]);
 
-const settingResumeStore = useSettingResumeStore()
-const createInfo = async(info) => {
+const settingResumeStore = useSettingResumeStore();
+const createInfo = async (info) => {
   await settingResumeStore.createInfo(info);
 
   career.value = {
     userId: "",
-    infoCategory: 'CAREER',
+    infoCategory: "CAREER",
     title: "",
     institutionName: "",
     startDate: "",
     endDate: "",
-  }
-  emit('refresh') 
-}
+  };
+  emit("refresh");
+};
 
 const career = ref({
   userId: "",
-  infoCategory: 'CAREER',
+  infoCategory: "CAREER",
   title: "",
   institutionName: "",
   startDate: "",
   endDate: "",
-})
+});
 </script>
 
 <style scoped>
+.add {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.add * {
+  font-size: 16px;
+}
 
+#career-input {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 0.3fr;
+  grid-gap: 5px;
+  width: 100%;
+}
+
+#career-input input,
+#career-input select {
+  width: 100%;
+  text-align: baseline;
+  padding: 10px;
+}
 </style>

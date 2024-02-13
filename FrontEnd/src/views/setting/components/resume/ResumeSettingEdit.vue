@@ -83,11 +83,12 @@ const deleteInfo = async (id) => {
         >
       </div>
     </div>
+
     <div class="resume-content">
       <div class="component" id="half">
-        <div class="description">
-          <p class="title">취업사진 등록</p>
-          <p>이력서에 사용될 증명사진입니다.</p>
+        <div class="title">
+          <h2>취업사진 등록</h2>
+          <p class="f-weight-l">이력서에 사용될 증명사진을 등록해주세요.</p>
         </div>
         <div class="identify-pic-space">
           <div class="input-pic-guide">
@@ -106,29 +107,32 @@ const deleteInfo = async (id) => {
           </div>
         </div>
       </div>
+
       <div class="component">
-        <div class="description">
-          <p class="title">인적사항 등록</p>
-          <p>이력서에 사용될 성명, 주소, 연락처입니다.</p>
+        <div class="title">
+          <h2>인적사항 등록</h2>
+          <p class="f-weight-l">
+            성명, 주소, 연락처 등의 인적사항을 등록해주세요.
+          </p>
         </div>
         <div class="info-space">
           <div>
             <div class="user-info">
-              <span class="tag">성명(한글)</span>
+              <span class="f-color-g f-weight-b">성명(한글)</span>
               <input type="text" v-model="userInfo.realName" required />
             </div>
             <div class="user-info">
-              <span class="tag">성명(영문)</span>
+              <span class="f-color-g f-weight-b">성명(영문)</span>
               <input type="text" v-model="userInfo.englishName" required />
             </div>
           </div>
           <div>
             <div class="user-info">
-              <span class="tag">생년월일</span>
+              <span class="f-color-g f-weight-b">생년월일</span>
               <input type="date" v-model="userInfo.birthDate" required />
             </div>
             <div class="user-info">
-              <span class="tag">희망 직군/직무</span>
+              <span class="f-color-g f-weight-b">희망 직군/직무</span>
               <select v-model="userInfo.objective">
                 <option
                   v-for="item in category"
@@ -158,99 +162,220 @@ const deleteInfo = async (id) => {
           </div>
         </div>
       </div>
+
       <div class="component">
-        <div class="description">
-          <h2 class="title">학적사항 등록</h2>
-          <p>고등학교, 대학원, 대학원 등의 학적입니다.</p>
+        <div class="title">
+          <h2>학적사항 등록</h2>
+          <p class="f-weight-l">고등, 대학, 대학원 등의 학적을 등록해주세요.</p>
         </div>
-        <div class="info-space">
-          <div class="classfy">
-            <span>학교명</span>
-            <span>전공 및 학위</span>
-            <span>입학 일자</span>
-            <span>졸업 일자</span>
-            <span>졸업 여부</span>
-            <span>편입 여부</span>
-            <span>야간 여부</span>
+        <div class="infos">
+          <div class="classfy" id="educate-info">
+            <p class="f-color-g f-weight-b" id="institute">학교명</p>
+            <p class="f-color-g f-weight-b" id="major">전공 및 학위</p>
+            <p class="f-color-g f-weight-b" id="admission">입학 일자</p>
+            <p class="f-color-g f-weight-b" id="graduate">졸업 일자</p>
+            <p class="f-color-g f-weight-b" id="is-graduate">졸업 여부</p>
+            <p class="f-color-g f-weight-b" id="is-transfer">편입 여부</p>
+            <p class="f-color-g f-weight-b" id="is-night">야간 여부</p>
+            <p class="f-color-g f-weight-b">　</p>
           </div>
-        </div>
-      </div>
-      <div>
-        <div v-for="info in filteredInfo('EDUCATION')" :key="info.id">
-          {{ info.title }}
-          {{ info.institutionName }}
-          {{ info.startDate }}
-          {{ info.endDate }}
-          {{ info.graduationStatus }}
-          {{ info.yesOrNot }}
-          {{ info.dayOrNight }}
-          <div>
-            <button @click="deleteInfo(info.id)">삭제</button>
+          <div
+            class="classfy info"
+            v-for="info in filteredInfo('EDUCATION')"
+            :key="info.id"
+          >
+            <p>{{ info.title }}</p>
+            <p>{{ info.institutionName }}</p>
+            <p>{{ info.startDate }}</p>
+            <p>{{ info.endDate }}</p>
+            <p>
+              {{
+                info.graduationStatus === 0
+                  ? "재학 중"
+                  : info.graduationStatus === 1
+                  ? "졸업 예정"
+                  : "졸업"
+              }}
+            </p>
+            <p>{{ info.yesOrNot === 1 ? "O" : "X" }}</p>
+            <p>{{ info.dayOrNight === 1 ? "O" : "X" }}</p>
+            <a
+              @click="deleteInfo(info.id)"
+              class="btn-s solid-g h-bright a-dark"
+              >삭제</a
+            >
           </div>
+          <Education @refresh="handleRefresh" />
         </div>
-        <Education @refresh="handleRefresh" />
       </div>
-      <div>
-        <div v-for="info in filteredInfo('CAREER')" :key="info.id">
-          {{ info.institutionName }}
-          {{ info.title }}
-          {{ info.startDate }}
-          {{ info.endDate }}
-          <div>
-            <button @click="deleteInfo(info.id)">삭제</button>
+
+      <div class="component">
+        <div class="title">
+          <h2>경력사항 등록</h2>
+          <p class="f-weight-l">회사 재직 등의 경력사항을 등록해주세요.</p>
+        </div>
+        <div class="infos">
+          <div class="classfy" id="career-info">
+            <p class="f-color-g f-weight-b">회사명</p>
+            <p class="f-color-g f-weight-b">직무</p>
+            <p class="f-color-g f-weight-b">시작 일자</p>
+            <p class="f-color-g f-weight-b">종료 일자</p>
           </div>
-        </div>
-        <Career @refresh="handleRefresh" />
-      </div>
-      <div>
-        <div v-for="info in filteredInfo('ACTIVITY')" :key="info.id">
-          {{ info.title }}
-          {{ info.institutionName }}
-          {{ info.description }}
-          {{ info.startDate }}
-          {{ info.endDate }}
-          <div>
-            <button @click="deleteInfo(info.id)">삭제</button>
+          <div
+            class="classfy info"
+            id="career-info"
+            v-for="info in filteredInfo('CAREER')"
+            :key="info.id"
+          >
+            <p>{{ info.institutionName }}</p>
+            <p>{{ info.title }}</p>
+            <p>{{ info.startDate }}</p>
+            <p>{{ info.endDate }}</p>
+            <a
+              @click="deleteInfo(info.id)"
+              class="btn-s solid-g h-bright a-dark"
+              >삭제</a
+            >
           </div>
+          <Career @refresh="handleRefresh" />
         </div>
-        <Activity @refresh="handleRefresh" />
       </div>
-      <div>
-        <div v-for="info in filteredInfo('CERTIFICATE')" :key="info.id">
-          {{ info.title }}
-          {{ info.institutionName }}
-          {{ info.description }}
-          {{ info.startDate }}
-          {{ info.endDate }}
-          {{ info.level }}
-          <div>
-            <button @click="deleteInfo(info.id)">삭제</button>
+
+      <div class="component">
+        <div class="title">
+          <h2>교육 및 활동사항 등록</h2>
+          <p class="f-weight-l">외부교육, 대외활동 등의 사항을 등록해주세요.</p>
+        </div>
+        <div class="infos">
+          <div class="classfy" id="activity-info">
+            <p class="f-color-g f-weight-b">활동/교육명</p>
+            <p class="f-color-g f-weight-b">기관명</p>
+            <p class="f-color-g f-weight-b">시작 일자</p>
+            <p class="f-color-g f-weight-b">종료 일자</p>
+            <p class="f-color-g f-weight-b">상세 내용</p>
           </div>
-        </div>
-        <Certificate @refresh="handleRefresh" />
-      </div>
-      <div v-for="info in filteredInfo('AWARD')" :key="info.id">
-        {{ info.title }}
-        {{ info.institutionName }}
-        {{ info.startDate }}
-        {{ info.description }}
-        <div>
-          <button @click="deleteInfo(info.id)">삭제</button>
-        </div>
-      </div>
-      <Award @refresh="handleRefresh" />
-    </div>
-    <div>
-      <div v-for="info in filteredInfo('SKILL')" :key="info.id">
-        {{ info.title }}
-        {{ info.institutionName }}
-        {{ info.description }}
-        {{ info.skillLevel }}
-        <div>
-          <button @click="deleteInfo(info.id)">삭제</button>
+          <div
+            class="classfy info"
+            id="activity-info"
+            v-for="info in filteredInfo('ACTIVITY')"
+            :key="info.id"
+          >
+            <p>{{ info.title }}</p>
+            <p>{{ info.institutionName }}</p>
+            <p>{{ info.startDate }}</p>
+            <p>{{ info.endDate }}</p>
+            <p>{{ info.description }}</p>
+            <a
+              @click="deleteInfo(info.id)"
+              class="btn-s solid-g h-bright a-dark"
+              >삭제</a
+            >
+          </div>
+          <Activity @refresh="handleRefresh" />
         </div>
       </div>
-      <Skill @refresh="handleRefresh" />
+
+      <div class="component">
+        <div class="title">
+          <h2>어학 및 자격사항 등록</h2>
+          <p class="f-weight-l">어학성적, 공인자격 등의 사항을 등록해주세요.</p>
+        </div>
+        <div class="infos">
+          <div class="classfy" id="cert-info">
+            <p class="f-color-g f-weight-b">자격명</p>
+            <p class="f-color-g f-weight-b">기관명</p>
+            <p class="f-color-g f-weight-b">응시/발급 일자</p>
+            <p class="f-color-g f-weight-b">만료 일자</p>
+            <p class="f-color-g f-weight-b">자격/언어 종류</p>
+            <p class="f-color-g f-weight-b">자격/어학 등급</p>
+          </div>
+          <div
+            class="classfy info"
+            id="cert-info"
+            v-for="info in filteredInfo('CERTIFICATE')"
+            :key="info.id"
+          >
+            <p>{{ info.title }}</p>
+            <p>{{ info.institutionName }}</p>
+            <p>{{ info.startDate }}</p>
+            <p>{{ info.endDate }}</p>
+            <p>{{ info.description }}</p>
+            <p>{{ info.level }}</p>
+            <a
+              @click="deleteInfo(info.id)"
+              class="btn-s solid-g h-bright a-dark"
+              >삭제</a
+            >
+          </div>
+          <Certificate @refresh="handleRefresh" />
+        </div>
+      </div>
+
+      <div class="component">
+        <div class="title">
+          <h2>수상 이력 등록</h2>
+          <p class="f-weight-l">공모전, 대회 등의 수상 이력을 등록해주세요.</p>
+        </div>
+        <div class="infos">
+          <div class="classfy" id="award-info">
+            <p class="f-color-g f-weight-b">수상명</p>
+            <p class="f-color-g f-weight-b">기관명</p>
+            <p class="f-color-g f-weight-b">수상 일자</p>
+            <p class="f-color-g f-weight-b">상세 내용</p>
+          </div>
+          <div
+            class="classfy info"
+            id="award-info"
+            v-for="info in filteredInfo('AWARD')"
+            :key="info.id"
+          >
+            <p>{{ info.title }}</p>
+            <p>{{ info.institutionName }}</p>
+            <p>{{ info.startDate }}</p>
+            <p>{{ info.description }}</p>
+            <a
+              @click="deleteInfo(info.id)"
+              class="btn-s solid-g h-bright a-dark"
+              >삭제</a
+            >
+          </div>
+          <Award @refresh="handleRefresh" />
+        </div>
+      </div>
+
+      <div class="component">
+        <div class="title">
+          <h2>사용 기술 등록</h2>
+          <p class="f-weight-l">
+            직무에 도움이 되는 각종 기술에 대한 사용 경험을 등록해주세요.
+          </p>
+        </div>
+        <div class="infos">
+          <div class="classfy" id="skill-info">
+            <p class="f-color-g f-weight-b">기술명</p>
+            <p class="f-color-g f-weight-b">분야</p>
+            <p class="f-color-g f-weight-b">상세 내용</p>
+            <p class="f-color-g f-weight-b">숙련도</p>
+          </div>
+          <div
+            class="classfy info"
+            id="skill-info"
+            v-for="info in filteredInfo('SKILL')"
+            :key="info.id"
+          >
+            <p>{{ info.title }}</p>
+            <p>{{ info.institutionName }}</p>
+            <p>{{ info.description }}</p>
+            <p>{{ info.skillLevel }}</p>
+            <a
+              @click="deleteInfo(info.id)"
+              class="btn-s solid-g h-bright a-dark"
+              >삭제</a
+            >
+          </div>
+          <Skill @refresh="handleRefresh" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -272,34 +397,13 @@ const deleteInfo = async (id) => {
   flex-direction: column;
   gap: 30px;
 }
-
-.description {
+.title {
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
 
-.description .title {
-  font-size: 24px;
-  font-weight: 600;
-}
-.description p {
-  font-size: 16px;
-  font-weight: 200;
-}
-
-.tag {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--gray);
-}
-.data {
-  font-size: 20px;
-  font-weight: 500;
-}
-
 /* 취업사진 등록 */
-
 #half {
   display: flex;
   flex-direction: row;
@@ -334,7 +438,6 @@ const deleteInfo = async (id) => {
 }
 
 /* 인적사항 등록 */
-
 .info-space {
   display: flex;
   width: 100%;
@@ -377,44 +480,43 @@ input#user-radio {
   border-radius: 10px;
 }
 
-/* 기타 등록 */
-
-table {
+/* 학력 등록 */
+.infos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.classfy {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr 1fr 0.8fr 0.5fr 0.5fr 0.4fr;
+  grid-gap: 5px;
+  align-items: center;
   width: 100%;
-  table-layout: fixed;
-  border-spacing: 0 10px;
 }
-th {
-  text-align: left;
-  padding: 10px 0;
+.classfy p {
+  width: 100%;
+  padding: 0 10px;
 }
-
-td div {
-  display: flex;
-  gap: 5px;
-}
-tr input {
-  width: 95%;
-  padding: 10px;
-  font-size: 20px;
-  border: 1px solid var(--border-gray);
-  border-radius: 10px;
+.info p {
+  font-size: 18px;
 }
 
-.add-btn {
-  display: flex;
-  width: 98.5%;
-  justify-content: center;
-  padding: 10px;
-  background-color: var(--border-gray);
-  border-radius: 10px;
-  color: white;
-  font-size: 20px;
-  font-weight: 800;
+#educate-info {
+  grid-template-columns: 1fr 1.2fr 1fr 1fr 0.8fr 0.5fr 0.5fr 0.4fr;
 }
-
-.click:hover {
-  filter: brightness(107%);
-  transition: 0.1s;
+#activity-info {
+  grid-template-columns: 1fr 1fr 1fr 1fr 1.5fr 0.4fr;
+}
+#career-info {
+  grid-template-columns: 1fr 1fr 1fr 1fr 0.3fr;
+}
+#cert-info {
+  grid-template-columns: 1fr 0.7fr 1fr 1fr 0.7fr 0.7fr 0.4fr;
+}
+#award-info {
+  grid-template-columns: 1fr 1fr 0.8fr 1.5fr 0.3fr;
+}
+#skill-info {
+  grid-template-columns: 1fr 0.5fr 1.5fr 0.5fr 0.3fr;
 }
 </style>

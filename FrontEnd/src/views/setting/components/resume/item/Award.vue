@@ -1,69 +1,95 @@
 <template>
-  <div class="component">
-    <div class="description">
-      <p class="title">수상이력 등록</p>
-      <p>이력서에 등록할 수 있는 공모전, 대회 등의 수상이력입니다.</p>
-    </div>
-    <div>
-      <table>
-        <tr>
-          <th>수상명</th>
-          <th>기관명</th>
-          <th>수상 일자</th>
-          <th>수상 상세 내용</th>
-        </tr>
-        <tr>
-          <td>
-            <input type="text" v-model="award.title" placeholder="수상명을 입력해주세요" required />
-          </td>
-          <td>
-            <input type="text" v-model="award.institutionName" placeholder="기관명을 입력해주세요" required/>
-          </td>
-          <td>
-            <input type="date" v-model="award.startDate" placeholder="YYYY-MM-DD" required/>
-          </td>
-          <td>
-            <textarea v-model="award.description" placeholder="수상 상세 내용을 입력해주세요" required></textarea>
-          </td>
-        </tr>
-      </table>
-    </div>
-    <div>
-      <button @click="createInfo(award)">추가하기</button>
+  <div class="add">
+    <div class="info-input" id="award-input">
+      <input
+        type="text"
+        v-model="award.title"
+        placeholder="예) 한국해커톤 11회 은상"
+        required
+        class="input focus-lined-c"
+      />
+      <input
+        type="text"
+        v-model="award.institutionName"
+        placeholder="예) 한국기업"
+        required
+        class="input focus-lined-c"
+      />
+      <input
+        type="date"
+        class="input focus-lined-c"
+        v-model="award.startDate"
+        required
+      />
+      <textarea
+        class="input focus-lined-c"
+        v-model="award.description"
+        placeholder="수상 내용을 입력해주세요"
+        required
+        rows="1"
+      ></textarea>
+
+      <a @click="createInfo(award)" class="btn-s solid-c h-bright a-dark"
+        >저장</a
+      >
     </div>
   </div>
 </template>
 
-
 <script setup>
 import { useSettingResumeStore } from "@/stores/settingResume";
-import { ref, onMounted } from 'vue'
-const emit = defineEmits(['refresh'])
+import { ref, onMounted } from "vue";
+const emit = defineEmits(["refresh"]);
 
-const settingResumeStore = useSettingResumeStore()
-const createInfo = async(info) =>{
-    await settingResumeStore.createInfo(info)
-    award.value = {
-      userId: "",
-      infoCategory: 'AWARD',
-      title: "",
-      institutionName: "",
-      startDate: "",
-      description: "",
-    }
-    emit('refresh') 
-  }
+const settingResumeStore = useSettingResumeStore();
+const createInfo = async (info) => {
+  await settingResumeStore.createInfo(info);
+  award.value = {
+    userId: "",
+    infoCategory: "AWARD",
+    title: "",
+    institutionName: "",
+    startDate: "",
+    description: "",
+  };
+  emit("refresh");
+};
 
-const award = ref ({
+const award = ref({
   userId: "",
-  infoCategory: 'AWARD',
+  infoCategory: "AWARD",
   title: "",
   institutionName: "",
   startDate: "",
   description: "",
-})
+});
 </script>
 
 <style scoped>
+.add {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.add * {
+  font-size: 16px;
+}
 
+#award-input {
+  display: grid;
+  grid-template-columns: 1fr 1fr 0.8fr 1.5fr 0.3fr;
+  grid-gap: 5px;
+  width: 100%;
+}
+
+#award-input input,
+#award-input select {
+  width: 100%;
+  text-align: baseline;
+  padding: 10px;
+}
+
+textarea {
+  resize: none;
+}
 </style>
