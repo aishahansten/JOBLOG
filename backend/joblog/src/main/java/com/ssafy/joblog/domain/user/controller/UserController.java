@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URL;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,27 +24,19 @@ public class UserController {
     private final UserService userService;
     private final AmazonS3Client amazonS3Client;
 
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
-
-    @PostMapping("/upload/{userId}")
-    public ResponseEntity<String> uploadFile(
+    @PostMapping("/profile/{userId}")
+    public ResponseEntity<Void> uploadFile(
             @PathVariable(value = "userId") int userId,
-            @RequestParam("file") MultipartFile file) {
-        try {
-            String fileName = file.getOriginalFilename();
-            String fileUrl = "https://" + bucket + "/test" + fileName;
-            ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setContentType(file.getContentType());
-            metadata.setContentLength(file.getSize());
-            amazonS3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
-            return ResponseEntity.ok(fileUrl);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+            @RequestParam(value = "file") MultipartFile file) {
+        userService.deleteFile(userId);
+        userService.uploadFile(file, userId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @GetMapping("/profile/{userId}")
+    public String getFile(@PathVariable(value = "userId") int userId) {
+        return userService.getFile(userId);
+    }
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponseDto> findUser(@PathVariable(value = "userId") int userId) {
