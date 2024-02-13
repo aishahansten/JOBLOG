@@ -68,7 +68,7 @@
     <div class="search-filter-main">
       <div class="sidebar">
         <div
-          class="category clickable-txt"
+          class="category h-txt"
           v-for="category in jobCategories"
           :key="category.jobCode"
           @click="selectCategory(category)"
@@ -100,7 +100,7 @@
       </div>
       <div
         v-if="clickedCategory.length"
-        class="empty-filter clickable-txt"
+        class="empty-filter h-txt"
         @click="emptyCategory"
       >
         필터 초기화

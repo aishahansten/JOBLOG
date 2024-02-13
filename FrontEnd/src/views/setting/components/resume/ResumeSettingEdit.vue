@@ -1,86 +1,86 @@
 <script setup>
-import Education from "./item/Education.vue"
-import Career from "./item/Career.vue"
-import Activity from "./item/Activity.vue"
-import Award from "./item/Award.vue"
-import Skill from "./item/Skill.vue"
-import Certificate from "./item/Certificate.vue"
+import Education from "./item/Education.vue";
+import Career from "./item/Career.vue";
+import Activity from "./item/Activity.vue";
+import Award from "./item/Award.vue";
+import Skill from "./item/Skill.vue";
+import Certificate from "./item/Certificate.vue";
 
-import "@/assets/css/setting/setting-header.css"
-import "@/assets/css/setting/menu/resume-setting.css"
-import { ref, onMounted } from 'vue'
-import { useSettingResumeStore } from "@/stores/settingResume"
-import { useAuthStore } from "@/stores/auth"
-import axios from "axios"
+import "@/assets/css/setting/setting-header.css";
+import "@/assets/css/setting/menu/resume-setting.css";
+import { ref, onMounted } from "vue";
+import { useSettingResumeStore } from "@/stores/settingResume";
+import { useAuthStore } from "@/stores/auth";
+import axios from "axios";
 
-import CategoryData from '@/assets/data/jobcategory.json'
+import CategoryData from "@/assets/data/jobcategory.json";
 
-const category = ref([])
+const category = ref([]);
 category.value = CategoryData.map(({ jobCode, jobName }) => ({
   jobCode,
-  jobName
+  jobName,
 }));
 
-console.log(category)
-const authStore = useAuthStore()
-const settingResumeStore = useSettingResumeStore()
+console.log(category);
+const authStore = useAuthStore();
+const settingResumeStore = useSettingResumeStore();
 
-const loading = ref(true)
+const loading = ref(true);
 
-
-const informations = ref([])
-const userInfo = ref(null)
+const informations = ref([]);
+const userInfo = ref(null);
 
 const handleRefresh = async () => {
   try {
     loading.value = true;
     await settingResumeStore.getInfo();
   } catch (error) {
-    console.error('Error refreshing data:', error);
+    console.error("Error refreshing data:", error);
   } finally {
     informations.value = settingResumeStore.informations;
     loading.value = false;
   }
 };
 
+onMounted(async () => {
+  await settingResumeStore.getInfo();
+  await settingResumeStore.getUserInfo();
+  userInfo.value = settingResumeStore.userInfo;
+  informations.value = settingResumeStore.informations;
+  authStore.updateUserInfoFromToken();
+  loading.value = false;
+});
 
-onMounted(async() => {
-  await settingResumeStore.getInfo()
-  await settingResumeStore.getUserInfo()
-  userInfo.value = settingResumeStore.userInfo
-  informations.value = settingResumeStore.informations
-  authStore.updateUserInfoFromToken()
-  loading.value = false
-})
+const filteredInfo = function (category) {
+  return this.informations.filter((info) => info.infoCategory === category);
+};
 
-const filteredInfo = function(category) {
-  return this.informations.filter(info => info.infoCategory === category)
-}
+const submitUserInfo = function (userInfo) {
+  console.log(userInfo);
+  settingResumeStore.updateUserInfo(userInfo);
+};
 
-const submitUserInfo = function(userInfo) {
-  console.log(userInfo)
-  settingResumeStore.updateUserInfo(userInfo)
-}
-
-const deleteInfo = async(id) => {
-  await settingResumeStore.deleteInfo(id)
-  await handleRefresh()
-}
-
+const deleteInfo = async (id) => {
+  await settingResumeStore.deleteInfo(id);
+  await handleRefresh();
+};
 </script>
 
 <template>
-  <div v-if="loading"> </div>
+  <div v-if="loading"></div>
 
   <div class="content-container" v-else>
     <div class="content-info-space">
-      <button @click="submitUserInfo(userInfo)">유저 정보 업데이트 하는 버튼</button>
       <div class="content-info">
         <p class="content-title">이력 정보 설정</p>
         <p>이력서 작성에 사용될 개인 이력 정보를 변경합니다.</p>
       </div>
       <div class="content-function">
-        <a href="" class="update-btn clickable">변경 완료</a>
+        <a
+          @click="submitUserInfo(userInfo)"
+          class="btn lined-c f-color-c h-solid-c a-bright"
+          >저장</a
+        >
       </div>
     </div>
     <div class="resume-content">
@@ -130,7 +130,11 @@ const deleteInfo = async(id) => {
             <div class="user-info">
               <span class="tag">희망 직군/직무</span>
               <select v-model="userInfo.objective">
-                <option v-for="item in category" :key="item.jobCode" :value="item.jobCode">
+                <option
+                  v-for="item in category"
+                  :key="item.jobCode"
+                  :value="item.jobCode"
+                >
                   {{ item.jobName }}
                 </option>
               </select>
@@ -139,80 +143,92 @@ const deleteInfo = async(id) => {
           <div>
             <div class="user-info">
               <span class="tag">전화번호</span>
-              <input type="tel" v-model="userInfo.phoneNumber"/>
+              <input type="tel" v-model="userInfo.phoneNumber" />
             </div>
             <div class="user-info">
               <span class="tag">이메일 주소</span>
-              <input type="email" v-model="userInfo.userEmail"/>
+              <input type="email" v-model="userInfo.userEmail" />
             </div>
           </div>
           <div>
             <div class="user-info">
               <span class="tag">현주소(실거주지)</span>
-              <input
-                type="text"
-                placeholder="대전광역시 유성구 유성동 유성빌라 010호"
-                id="long"
-                v-model="userInfo.address"
-              />
+              <input type="text" id="long" v-model="userInfo.address" />
             </div>
           </div>
         </div>
       </div>
-    <div>
-      <div v-for="info in filteredInfo('EDUCATION')" :key="info.id">
-        {{ info.title }}
-        {{ info.institutionName }}
-        {{ info.startDate }}
-        {{ info.endDate }}
-        {{ info.graduationStatus }}
-        {{ info.yesOrNot }}
-        {{ info.dayOrNight }}
-        <div>
-          <button @click="deleteInfo(info.id)">삭제</button>
+      <div class="component">
+        <div class="description">
+          <h2 class="title">학적사항 등록</h2>
+          <p>고등학교, 대학원, 대학원 등의 학적입니다.</p>
+        </div>
+        <div class="info-space">
+          <div class="classfy">
+            <span>학교명</span>
+            <span>전공 및 학위</span>
+            <span>입학 일자</span>
+            <span>졸업 일자</span>
+            <span>졸업 여부</span>
+            <span>편입 여부</span>
+            <span>야간 여부</span>
+          </div>
         </div>
       </div>
-      <Education @refresh="handleRefresh"/>
-    </div>
-    <div>
-      <div v-for="info in filteredInfo('CAREER')" :key="info.id">
-        {{ info.institutionName }}
-        {{ info.title }}
-        {{ info.startDate }}
-        {{ info.endDate }}
-        <div>
-          <button @click="deleteInfo(info.id)">삭제</button>
+      <div>
+        <div v-for="info in filteredInfo('EDUCATION')" :key="info.id">
+          {{ info.title }}
+          {{ info.institutionName }}
+          {{ info.startDate }}
+          {{ info.endDate }}
+          {{ info.graduationStatus }}
+          {{ info.yesOrNot }}
+          {{ info.dayOrNight }}
+          <div>
+            <button @click="deleteInfo(info.id)">삭제</button>
+          </div>
         </div>
+        <Education @refresh="handleRefresh" />
       </div>
-      <Career @refresh="handleRefresh"/>
-    </div>
-    <div>
-      <div v-for="info in filteredInfo('ACTIVITY')" :key="info.id">
-        {{ info.title }}
-        {{ info.institutionName }}
-        {{ info.description }}
-        {{ info.startDate }}
-        {{ info.endDate }}
-        <div>
-          <button @click="deleteInfo(info.id)">삭제</button>
+      <div>
+        <div v-for="info in filteredInfo('CAREER')" :key="info.id">
+          {{ info.institutionName }}
+          {{ info.title }}
+          {{ info.startDate }}
+          {{ info.endDate }}
+          <div>
+            <button @click="deleteInfo(info.id)">삭제</button>
+          </div>
         </div>
+        <Career @refresh="handleRefresh" />
       </div>
-      <Activity @refresh="handleRefresh"/>
-    </div>
-    <div>
-      <div v-for="info in filteredInfo('CERTIFICATE')" :key="info.id">
-        {{ info.title }}
-        {{ info.institutionName }}
-        {{ info.description }}
-        {{ info.startDate }}
-        {{ info.endDate }}
-        {{ info.level }}
-        <div>
-          <button @click="deleteInfo(info.id)">삭제</button>
+      <div>
+        <div v-for="info in filteredInfo('ACTIVITY')" :key="info.id">
+          {{ info.title }}
+          {{ info.institutionName }}
+          {{ info.description }}
+          {{ info.startDate }}
+          {{ info.endDate }}
+          <div>
+            <button @click="deleteInfo(info.id)">삭제</button>
+          </div>
         </div>
+        <Activity @refresh="handleRefresh" />
       </div>
-      <Certificate @refresh="handleRefresh"/>
-    </div>
+      <div>
+        <div v-for="info in filteredInfo('CERTIFICATE')" :key="info.id">
+          {{ info.title }}
+          {{ info.institutionName }}
+          {{ info.description }}
+          {{ info.startDate }}
+          {{ info.endDate }}
+          {{ info.level }}
+          <div>
+            <button @click="deleteInfo(info.id)">삭제</button>
+          </div>
+        </div>
+        <Certificate @refresh="handleRefresh" />
+      </div>
       <div v-for="info in filteredInfo('AWARD')" :key="info.id">
         {{ info.title }}
         {{ info.institutionName }}
@@ -221,8 +237,8 @@ const deleteInfo = async(id) => {
         <div>
           <button @click="deleteInfo(info.id)">삭제</button>
         </div>
-      </div>    
-      <Award @refresh="handleRefresh"/>
+      </div>
+      <Award @refresh="handleRefresh" />
     </div>
     <div>
       <div v-for="info in filteredInfo('SKILL')" :key="info.id">
@@ -234,20 +250,21 @@ const deleteInfo = async(id) => {
           <button @click="deleteInfo(info.id)">삭제</button>
         </div>
       </div>
-      <Skill @refresh="handleRefresh"/>
+      <Skill @refresh="handleRefresh" />
     </div>
   </div>
 </template>
 
 <style scoped>
 /* 공통 */
-
 .resume-content {
   display: flex;
   flex-direction: column;
   align-items: baseline;
-  padding: 70px 50px;
   gap: 100px;
+
+  width: 100%;
+  padding: 70px 50px;
 }
 .component {
   display: flex;
@@ -350,6 +367,14 @@ input#long {
 }
 input#user-radio {
   font-size: 20px;
+}
+
+.user-info select {
+  text-align: baseline;
+  padding: 10px;
+  font-size: 20px;
+  border: 1px solid var(--border-gray);
+  border-radius: 10px;
 }
 
 /* 기타 등록 */
