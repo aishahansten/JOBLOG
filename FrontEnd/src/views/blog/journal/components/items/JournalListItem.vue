@@ -1,8 +1,10 @@
 <template>
   <div class="review">
-    <div class="image-placeholder"></div>
-    <h3>{{ title }}</h3>
-    <p>{{ dateCreated }}</p>
+    <RouterLink :to="{ name: 'JournalDetail', params: { id: diaryId } }">
+      <p>{{ createdDate }} 나의 복기</p>
+      <div class="image-placeholder"></div>
+      <h3>{{ content }}</h3>
+    </RouterLink>
   </div>
 </template>
 
@@ -10,8 +12,10 @@
 import { defineProps } from 'vue'
 
 const props = defineProps({
-  title: String,
-  dateCreated: String
+  diaryId: Number,
+  content: String,
+  createdDate : String,
+  modifiedDate: String,
 })
 </script>
 

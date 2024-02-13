@@ -11,7 +11,7 @@ onMounted(async () => {
   // Use an immediately-invoked async function
   await communityStore.getPosts(router);
 });
-</script>
+</script> 
 
 <template>
   <div class="container">

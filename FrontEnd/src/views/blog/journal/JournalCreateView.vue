@@ -48,7 +48,7 @@ const createJournal = async () => {
 
     const config = {
       headers: {
-        Authorization: `${authStore.accessToken}`,
+        'Authorization': `${authStore.accessToken}`,
       },
     };
 
@@ -70,9 +70,16 @@ const createJournal = async () => {
 };
 
 const newJournal = ref({
-  userId: "",
-  content: "",
+  userId: '',
+  content: '',
 });
+
+// 되돌아가기
+// function toDiary() {
+//   router.push('/blog-journal')
+// }
+
+
 </script>
 
 <style scoped>
