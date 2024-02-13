@@ -5,6 +5,7 @@ import com.ssafy.joblog.domain.company.entity.CompanyReview;
 import com.ssafy.joblog.domain.myRecruit.dto.request.MyRecruitRequestDto;
 import com.ssafy.joblog.domain.myRecruit.dto.request.RecruitScrapRequestDto;
 import com.ssafy.joblog.domain.myRecruit.dto.response.MyRecruitResponseDto;
+import com.ssafy.joblog.domain.myRecruit.dto.response.ReviewPrivateResponseDto;
 import com.ssafy.joblog.domain.myRecruit.dto.response.SelectionListResponseDto;
 import com.ssafy.joblog.domain.myRecruit.entity.MyRecruit;
 import com.ssafy.joblog.domain.myRecruit.entity.Selection;
@@ -51,17 +52,17 @@ public class MyRecruitService {
         }
     }
 
-    public List<MyRecruitResponseDto> findAllMyRecruit(int userId){
+    public List<MyRecruitResponseDto> findAllMyRecruit(int userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(()-> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
         List<MyRecruit> myRecruits = myRecruitRepository.findAllMyRecruitByUserIdAndIsDeleteIsFalseOrderByCreatedDateDesc(user.getId());
 
         List<MyRecruitResponseDto> myRecruitResponseDto = new ArrayList<>();
         for (MyRecruit myRecruit : myRecruits) {
             List<Selection> selections = selectionRepository.findAllSelectionByMyRecruitIdAndIsDeleteIsFalseOrderByStep(myRecruit.getId());
             List<SelectionListResponseDto> selectionListResponseDto = new ArrayList<>();
-            for(Selection selection: selections){
-                selectionListResponseDto.add(SelectionListResponseDto.fromEntity(selection));
+            for (Selection selection : selections) {
+                selectionListResponseDto.add(SelectionListResponseDto.fromEntity(selection, ReviewPrivateResponseDto.fromEntity(selection)));
             }
             myRecruitResponseDto.add(MyRecruitResponseDto.fromEntityList(myRecruit, selectionListResponseDto));
         }
@@ -70,33 +71,32 @@ public class MyRecruitService {
 
     public MyRecruitResponseDto findMyRecruit(int myRecruitId) {
         MyRecruit myRecruit = myRecruitRepository.findByIdAndIsDeleteIsFalse(myRecruitId)
-                .orElseThrow(()-> new IllegalArgumentException("해당 마이채용 정보가 존재하지 않습니다"));
+                .orElseThrow(() -> new IllegalArgumentException("해당 마이채용 정보가 존재하지 않습니다"));
         return MyRecruitResponseDto.fromEntity(myRecruit);
     }
 
     public void create(MyRecruitRequestDto myRecruitRequestDto) {
         User user = userRepository.findById(myRecruitRequestDto.getUserId())
-                .orElseThrow(()-> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
         MyRecruit myRecruit = myRecruitRequestDto.createMyRecruit(user);
         myRecruitRepository.save(myRecruit);
     }
 
     public void update(MyRecruitRequestDto myRecruitRequestDto) {
         User user = userRepository.findById(myRecruitRequestDto.getUserId())
-                .orElseThrow(()-> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
         MyRecruit myRecruit = myRecruitRepository.findByIdAndIsDeleteIsFalse(myRecruitRequestDto.getId())
-                .orElseThrow(()-> new IllegalArgumentException("해당 마이채용 정보가 존재하지 않습니다"));
-        if(myRecruit.getCompanyCode() != null) {
+                .orElseThrow(() -> new IllegalArgumentException("해당 마이채용 정보가 존재하지 않습니다"));
+        if (myRecruit.getCompanyCode() != null) {
             myRecruit.updateMyRecruitScrap(myRecruitRequestDto);
-        }
-        else{
+        } else {
             myRecruit.updateMyRecruitNonScrap(myRecruitRequestDto);
         }
     }
 
-    public void delete(int myRecruitId){
+    public void delete(int myRecruitId) {
         MyRecruit myRecruit = myRecruitRepository.findByIdAndIsDeleteIsFalse(myRecruitId)
-                .orElseThrow(()-> new IllegalArgumentException("해당 마이채용 정보가 존재하지 않습니다"));
+                .orElseThrow(() -> new IllegalArgumentException("해당 마이채용 정보가 존재하지 않습니다"));
         myRecruit.deleteMyRecruit();
     }
 

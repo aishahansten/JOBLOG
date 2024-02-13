@@ -21,7 +21,9 @@ public class SelectionListResponseDto {
     private int step;
     private String status;
     private Boolean reviewOrNot;
-    public static SelectionListResponseDto fromEntity(Selection selection) {
+    private ReviewPrivateResponseDto reviewPrivateResponseDto;
+
+    public static SelectionListResponseDto fromEntity(Selection selection, ReviewPrivateResponseDto reviewPrivateResponseDto) {
         return SelectionListResponseDto.builder()
                 .id(selection.getId())
                 .myRecruitId(selection.getMyRecruit().getId())
@@ -31,6 +33,7 @@ public class SelectionListResponseDto {
                 .step(selection.getStep())
                 .status(selection.getStatus())
                 .reviewOrNot(selection.getReviewOrNot())
+                .reviewPrivateResponseDto(reviewPrivateResponseDto)
                 .build();
     }
 }
