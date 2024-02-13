@@ -36,7 +36,6 @@ import JournalCreate from "@/views/blog/journal/JournalCreateView.vue";
 import Review from "@/views/blog/review/ReviewView.vue";
 import ReviewCreate from "@/views/blog/review/ReviewCreateView.vue";
 import Application from "@/views/blog/application/ApplicationView.vue";
-import EssayCreate from "@/views/blog/application/essay/EssayCreateView.vue";
 import ResumeDetail from "@/views/blog/application/resume/ResumeDetailView.vue";
 import ResumeUpdate from "@/views/blog/application/resume/ResumeUpdateView.vue";
 
@@ -182,11 +181,6 @@ const router = createRouter({
       component: Application,
     },
     {
-      path: "/blog-application/essay-create",
-      name: "EssayCreate",
-      component: EssayCreate,
-    },
-    {
       path: "/blog-application/resume-create",
       name: "ResumeCreate",
       component: ResumeCreate,
@@ -244,5 +238,45 @@ const router = createRouter({
     },
   ],
 });
+
+function checkAuthentication(cookieName) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${cookieName}=`)
+  if (parts.length === 2) {
+    return true
+  }
+  return false
+}
+
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = checkAuthentication('accessToken')
+
+  const publicRoutes = [
+    'Login', 
+    'Login2',
+    'SignIn',
+    'Jobs', 
+    'Home',
+    'JobDetail',
+    'QnABoard',
+    'QnADetail',
+    'Coffee',
+    'DeleteUserHandle'
+  ];
+
+  if (!isAuthenticated && !publicRoutes.includes(to.name)) {
+    alert('로그인이 필요합니다'); // Notify the user
+    next({ name: 'Login2' });
+  } else if (isAuthenticated && to.name === 'Login2') {
+    alert('이미 로그인되어 있습니다.')
+    next({ name: 'Home' })
+  } else {
+    // In all other cases, proceed as normal
+    next(); // Proceed to the route
+  }
+});
+
+
 
 export default router;

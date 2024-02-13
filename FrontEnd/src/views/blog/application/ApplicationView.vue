@@ -31,13 +31,27 @@
       <div>
         <label for="job-post">채용공고:</label>
         <input type="text" class="job-post-dropdown">
-        <label for="category">카테고리:</label>
-        <input type="text" class="category-dropdown" v-model="essays.category">
+        <div v-if="categoryLoaded"></div>
+        <div class="dropdown" v-else>
+          <div class="dropdown-button" @click="toggleDropdown" v-if="essays.categoryId === null">
+            카테고리를 선택해주세요!
+          </div>
+          <div class="dropdown-button" @click="toggleDropdown" v-else>
+            {{ selectedCategoryName }}
+          </div>
+          <div class="dropdown-content" v-if="showDropdown">
+            <div v-for="category in categoryList" :key="category.categoryId" class="dropdown-item">
+              <div @click="checkCategory(category.categoryId)" class="category">{{ category.categoryName }}</div>
+              <button @click="deleteCategory(category.categoryId)">Delete</button>
+            </div>
+          </div>
+        </div>
         <button v-if="!showAdd" @click="toggleShowAdd" class="w-btn w-btn-indigo" type="button">추가</button>
         <button v-if="showAdd" @click="toggleShowAdd" class="w-btn w-btn-indigo" type="button">취소</button>
 
         <div v-if="showAdd" class="add-category">
-          <input type="text" placeholder="카테고리를 추가하세요">
+          <input type="text" v-model="category.categoryName" placeholder="카테고리를 추가하세요">
+          <button @click="addCategory()">카테고리 추가하기</button>
         </div>
       </div>
       <label for="question">질문:</label>
@@ -57,42 +71,99 @@
 
 <script setup>
 import axios from 'axios';
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 
 import SubNav from '../_component/SubNav.vue';
 import EssayList from '@/views/blog/application/components/EssayList.vue'
-import DummyUser from './resume/dummyuser.json'
 import ResumeListView from './resume/ResumeListView.vue';
 import { useEssayResumeStore } from '@/stores/essayResume';
+import { useAuthStore } from '@/stores/auth';
 
+const authStore = useAuthStore()
 const essayResumeStore = useEssayResumeStore()
 
 const essays = ref({
     userId: '',
-    recruitId: 1,
     categoryId: null,
-    question: '',
-    answer: '',
+    question: '답변을 입력해주세요',
+    answer: '문항을 입력해주세요',
   });
 
+// const essayCategory
+
 const submitEssay = async() => {
-  await essayResumeStore.createEssay(essays.value)
-  console.log(essays)
-  showModal.value = false
+  await authStore.updateUserInfoFromToken()
+  essays.value.userId = authStore.userInfo.sub
+  const config = {
+    headers: {
+      'Authorization': `${authStore.accessToken}`,
+    },
+  }
+  try {
+    const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/essay/register`, essays.value, config)
+  } catch(err) {
+    console.error(err)
+  }
   essays.value = {
     userId: '',
-    recruitId: 1,
-    categoryId: null,
     question: '',
     answer: '',
   }
+  showModal.value = !showModal.value
+  essayList.value = essayResumeStore.essayList
 }
+
 const essayList = ref([])
+const categoryList = ref([])
+
+const category = ref({
+  userId: '',
+  categoryName: ''
+})
+
+const categoryLoaded = ref(false)
+
+const addCategory = async() =>{ 
+  categoryLoaded.value = true
+  await essayResumeStore.createCategory(category)
+  category.value = {
+    userId: '',
+    categoryName: ''
+  }
+  showAdd.value = !showAdd.value
+  categoryList.value = essayResumeStore.categoryList
+  categoryLoaded.value = false
+
+}
+
+const deleteCategory = async(id) => {
+  categoryLoaded.value = true
+  await essayResumeStore.deleteCategory(id)
+  categoryList.value = essayResumeStore.categoryList
+  categoryLoaded.value = false
+}
+
+const checkCategory = function(id) {
+  essays.value.categoryId = id
+  showDropdown.value = !showDropdown.value
+}
+
+const selectedCategoryName = computed(() => {
+  const category = categoryList.value.find(c => c.categoryId === essays.value.categoryId)
+  return category ? category.categoryName : '카테고리를 선택해주세요!'
+})
+
+watch(() => essayResumeStore.essayList, (newVal) => {
+  essayList.value = newVal;
+}, { deep: true })
+
+watch(() => essayResumeStore.categoryList, (newVal) => {
+  categoryList.value = newVal;
+}, { deep: true })
 
 const showModal = ref(false);
 const toggleModal = function() {
   showModal.value = !showModal.value
-  console.log(showModal.value)
 }
 
 const showAdd = ref(false)
@@ -100,6 +171,17 @@ const toggleShowAdd = function() {
   showAdd.value = !showAdd.value
 }
 
+const showDropdown = ref(false)
+const toggleDropdown = function() {
+  showDropdown.value = !showDropdown.value
+}
+
+onMounted(async() => {
+  await essayResumeStore.getEssay()
+  essayList.value = essayResumeStore.essayList
+  await essayResumeStore.getCategory()
+  categoryList.value = essayResumeStore.categoryList
+})
 
 </script>
 
@@ -205,5 +287,13 @@ const toggleShowAdd = function() {
   input {
     font-size: 24px;
     margin-right: 30px;
+  }
+
+  .dropdown-button {
+    cursor: pointer;
+  }
+
+  .category {
+    cursor: pointer;
   }
 </style>

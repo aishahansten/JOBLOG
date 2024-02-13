@@ -22,12 +22,9 @@
     <div class="selection-container">
       <div v-if="essayList.length > 0">
         <div v-for="essay in essayList" :key="essay.id" class="essay-item" draggable="true" @dragstart="handleDragStart(essay)">
-          <div>
-          <h3>{{ essay.question }}</h3>
-          <p>{{ essay.answer }}</p>
-          </div>
-          <div>
-            <input type="checkbox" @change="toggleShowEssay(essay)">
+          <div @click="toggleShowEssay(essay)" :class="{ 'selected': isEssaySelected(essay) }">
+            <h3>{{ essay.question }}</h3>
+            <p>{{ essay.answer }}</p>
           </div>
         </div>
       </div>
@@ -64,119 +61,108 @@
     console.log('됨?')
   }
   
-  
-    //자소서 리스트를 위함
-    const essayList = ref([
-      {
-        essayId: 1,
-        categoryId: 1,
-        userId: 1,
-        recruitId: 1,
-        question: `Dummy essay Title 1`,
-        answer: `Dummy essay content for item 1`
-      },
-      {
-        essayId: 2,
-        categoryId: 2,
-        userId: 2,
-        recruitId: 2,
-        question: `Dummy essay Title 2`,
-        answer: `Dummy essay content for item 2`
-      },
-      {
-        essayId: 3,
-        categoryId: 3,
-        userId: 3,
-        recruitId: 3,
-        question: `Dummy essay Title 3`,
-        answer: `Dummy essay content for item 3`
-      },
-    ])
-  
-  
-    // 여기에 기존 에세이 정보를 담기
-    const showEssay = ref([])
-  
-    const toggleShowEssay = (selectedEssay) => {
-      const index = showEssay.value.findIndex((essay) => essay.essayId === selectedEssay.essayId);
-      if (index === -1) {
-        showEssay.value.push(selectedEssay);
-      } else {
-        showEssay.value.splice(index, 1);
-      }
-    };
-  
-    const currentDrag = ref(null)
-    const handleDragStart = (essay) => {
-      currentDrag.value = essay;
-    };
-  
-    const handleDrop = () => {
-      if (currentDrag.value) {
-        const index = showEssay.value.findIndex((essay) => essay.essayId === currentDrag.value.essayId);
-        if (index === -1) {
-          showEssay.value.push(currentDrag.value);
-        }
-        currentDrag.value = null;
+const isEssaySelected = (essay) => {
+  for (let i = 0; i < showEssay.value.length; i++) {
+    if (showEssay.value[i].essayId === essay.essayId) {
+      return true;
     }
-    };
+  }
+  return false;
+};
+
+
+
+const essayList = ref([])
+const showEssay = ref([])
+
+const toggleShowEssay = (selectedEssay) => {
+  const index = showEssay.value.findIndex((essay) => essay.essayId === selectedEssay.essayId);
+  if (index === -1) {
+    showEssay.value.push(selectedEssay);
+  } else {
+    showEssay.value.splice(index, 1);
+  }
+};
+
+const currentDrag = ref(null)
+const handleDragStart = (essay) => {
+  currentDrag.value = essay;
+};
+
+const handleDrop = () => {
+  if (currentDrag.value) {
+    const index = showEssay.value.findIndex((essay) => essay.essayId === currentDrag.value.essayId);
+    if (index === -1) {
+      showEssay.value.push(currentDrag.value);
+    }
+    currentDrag.value = null;
+}
+};
 
 onMounted(async() => {
   await settingResumeStore.getInfo()
   await essayResumeStore.getResume(route.params.id)
+  await essayResumeStore.getEssay()
+  essayList.value = essayResumeStore.essayList
   })
 </script>
 
 <style scoped>
-    .main {
-      margin: 0%;
-      padding: 0%;
-      display: grid;
-      grid-template-columns: 210mm auto;
-    }
-    .pdf-container {
-      width: 210mm;
-      border: 1px solid black;
-      padding: 0%;
-    }
+  .main {
+    margin: 0%;
+    padding: 0%;
+    display: grid;
+    grid-template-columns: 210mm auto;
+  }
+  .pdf-container {
+    width: 210mm;
+    border: 1px solid black;
+    padding: 0%;
+  }
+
+  .resume-container {
+    margin: 0%;
+    padding: 0%;
+  }
+
+  .essay-item {
+    display: flex;
+    gap: 50px;
+    border: 1px solid black;
+    background-color: rgb(237, 237, 237);
+    padding: 10px;
+    cursor: pointer; /* Indicates the item is clickable */
+  }
+
+  .selected {
+    background-color: #ffffff; /* Different background for selected items */
+  }
   
-    .resume-container {
-      margin: 0%;
-      padding: 0%;
-    }
-  
-    .essay-item {
-      display: flex;
-      gap: 50px;
-      border: 1px solid black;
-      background-color: rgb(237, 237, 237);
-    }
+  .essay-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    box-sizing: border-box;
     
-    .essay-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding: 10px;
-      box-sizing: border-box;
-      
-    }
-  
-    .essay-container {
-      margin: 0%;
-      padding: 0%;
-    }
-  
-    .essay-question {
-      font-size: 20px;
-    }
-  
-    .essay-answer {
-      font-size: 18px;
-    }
-  
-    .selection-container {
-      border:  1px solid black;
-      padding: 20px;
-      box-sizing: border-box;
-    }
+  }
+
+  .essay-container {
+    margin: 0%;
+    padding: 0%;
+  }
+
+  .essay-question {
+    font-size: 20px;
+  }
+
+  .essay-answer {
+    font-size: 18px;
+  }
+
+  .selection-container {
+    border:  1px solid black;
+    padding: 20px;
+    box-sizing: border-box;
+  }
 </style>

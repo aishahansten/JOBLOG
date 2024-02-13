@@ -174,7 +174,7 @@ const submitReview = function() {
     console.log(formData.value)
     return;
   }
-  blogReviewStore.createStep(formData)
+  blogReviewStore.createStepReview(formData)
   console.log('submit',formData.value)
 }
 </script>

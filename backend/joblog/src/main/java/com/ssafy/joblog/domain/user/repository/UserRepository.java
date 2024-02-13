@@ -1,6 +1,7 @@
 package com.ssafy.joblog.domain.user.repository;
 
 import com.ssafy.joblog.domain.user.entity.User;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,6 +16,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     void markDeletedUser(@Param("userId") int userId);
 
     @Modifying
+    @Transactional
     @Query("UPDATE User user SET user.isDelete = false WHERE user.id = :userId")
     void markUndeletedUser(@Param("userId") int userId);
 
