@@ -1,12 +1,10 @@
 <template>
   <div class="review">
-    <p>{{ diaryId }}번째 나의 복기</p>
-    <h3>복기 내용</h3>
-    
-    <div class="image-placeholder"><h3>{{ content }}</h3></div>
-    
-    <p>작성일자 : {{ createdDate }}</p>
-    <p>수정일자 : {{ modifiedDate }}</p>
+    <RouterLink :to="{ name: 'JournalDetail', params: { id: diaryId } }">
+      <p>{{ createdDate }} 나의 복기</p>
+      <div class="image-placeholder"></div>
+      <h3>{{ content }}</h3>
+    </RouterLink>
   </div>
 </template>
 

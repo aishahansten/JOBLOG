@@ -33,6 +33,8 @@ import QnAUpdate from "@/views/community/qna_board/QnAUpdateView.vue";
 import Schedule from "@/views/blog/schedule/ScheduleView.vue";
 import Journal from "@/views/blog/journal/JournalView.vue";
 import JournalCreate from "@/views/blog/journal/JournalCreateView.vue";
+import JournalDetail from "@/views/blog/journal/JournalDetailView.vue";
+import JournalUpdate from "@/views/blog/journal/JournalUpdateView.vue";
 import Review from "@/views/blog/review/ReviewView.vue";
 import ReviewCreate from "@/views/blog/review/ReviewCreateView.vue";
 import Application from "@/views/blog/application/ApplicationView.vue";
@@ -161,6 +163,16 @@ const router = createRouter({
       path: "/journal-create",
       name: "JournalCreate",
       component: JournalCreate,
+    },
+    {
+      path: "/journal/detail/:id",
+      name: "JournalDetail",
+      component: JournalDetail,
+    },
+    {
+      path: "/journal/update/:id",
+      name: "JournalUpdate",
+      component: JournalUpdate,
     },
 
     // 전형리뷰

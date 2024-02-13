@@ -17,8 +17,6 @@ public class DiaryResponseDto {
     private int diaryId;
     private int userId;
     private String content;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "MM월 dd일")
     private LocalDateTime createdDate;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime modifiedDate;
 }

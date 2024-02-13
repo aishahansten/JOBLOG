@@ -51,7 +51,6 @@ public class Diary extends BaseEntity {
                 .userId(user.getId())
                 .content(content)
                 .createdDate(getCreatedDate())
-                .modifiedDate(getModifiedDate())
                 .build();
     }
 }
