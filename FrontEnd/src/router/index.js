@@ -201,7 +201,7 @@ const router = createRouter({
     {
       path: "/setting",
       name: "ProfileSetting",
-      redirect: "/setting/account",
+      redirect: "/setting/resume",
       component: ProfileSetting,
       children: [
         {

@@ -17,11 +17,11 @@ function logout() {
     <div class="menu-profile">
       <p>프로필 정보</p>
       <div>
-        <RouterLink :to="{ name: 'AccountSetting' }"
+        <!-- <RouterLink :to="{ name: 'AccountSetting' }"
           ><a id="account-setting" class="clickable-txt"
             >계정 정보 설정</a
           ></RouterLink
-        >
+        > -->
         <RouterLink :to="{ name: 'ResumeSetting' }">
           <a id="resume-setting" href="" class="clickable-txt"
             >이력 정보 설정</a

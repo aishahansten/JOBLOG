@@ -61,6 +61,7 @@
       ><button>수정하기</button></RouterLink
     >
   </div>
+  <div></div>
 </template>
 
 <script setup>
@@ -74,6 +75,9 @@ const settingResumeStore = useSettingResumeStore();
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 const route = useRoute();
+
+// here
+const resumeResponse = ref([]);
 
 const exportToPdf = function () {
   const pdfArea = document.getElementById("pdf-download");
@@ -129,9 +133,11 @@ const handleDrop = () => {
 
 onMounted(async () => {
   await settingResumeStore.getInfo();
-  await essayResumeStore.getResume(route.params.id);
+  // await essayResumeStore.getResume(route.params.id);
   await essayResumeStore.getEssay();
   essayList.value = essayResumeStore.essayList;
+  await essayResumeStore.getResumeDetail(route.params.id);
+  resumeResponse.value = essayResumeStore.currentResume.resumeResponseDto;
 });
 </script>
 
