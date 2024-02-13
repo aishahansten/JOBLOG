@@ -58,11 +58,14 @@
         </div>
       </div>
     </div>
-    <div class="content">
-      <ScreenReview />
+    <div>
+      <ScreenReview 
+      :currentJob="currentJob"
+      />
     </div>
-    <div class="content">
-      <CompanyReview />
+    <div>
+      <CompanyReview 
+      />
     </div>
   </div>
 </template>

@@ -21,8 +21,14 @@
     </div>
     <div class="selection-container">
       <div v-if="essayList.length > 0">
-        <div v-for="essay in essayList" :key="essay.id" class="essay-item" draggable="true" @dragstart="handleDragStart(essay)">
-          <div @click="toggleShowEssay(essay)" :class="{ 'selected': isEssaySelected(essay) }">
+        <div v-for="essay in essayList"
+          :key="essay.id" 
+          class="essay-item" 
+          draggable="true" 
+          @dragstart="handleDragStart(essay)"
+          :class="{ 'selected': isEssaySelected(essay) }"
+          >
+          <div @click="toggleShowEssay(essay)">
             <h3>{{ essay.question }}</h3>
             <p>{{ essay.answer }}</p>
           </div>
@@ -58,7 +64,6 @@
       margin: 0.2
     }
     html2pdf(pdfArea, pdfOptions)
-    console.log('됨?')
   }
   
 const isEssaySelected = (essay) => {
@@ -128,14 +133,14 @@ onMounted(async() => {
   .essay-item {
     display: flex;
     gap: 50px;
-    border: 1px solid black;
-    background-color: rgb(237, 237, 237);
+    border: 1px solid rgba(0, 0, 0, 0.419);
+    border-radius: 8px;
     padding: 10px;
     cursor: pointer; /* Indicates the item is clickable */
   }
 
   .selected {
-    background-color: #ffffff; /* Different background for selected items */
+    background-color: #e5e5e559; /* Different background for selected items */
   }
   
   .essay-list {

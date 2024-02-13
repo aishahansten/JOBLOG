@@ -85,33 +85,45 @@ const essayResumeStore = useEssayResumeStore()
 const essays = ref({
     userId: '',
     categoryId: null,
-    question: '답변을 입력해주세요',
-    answer: '문항을 입력해주세요',
+    question: '문항을 입력해주세요',
+    answer: '답변을 입력해주세요',
   });
 
-// const essayCategory
+const submitEssay = async () => {
+    await authStore.updateUserInfoFromToken();
+    essays.value.userId = authStore.userInfo.sub;
 
-const submitEssay = async() => {
-  await authStore.updateUserInfoFromToken()
-  essays.value.userId = authStore.userInfo.sub
-  const config = {
-    headers: {
-      'Authorization': `${authStore.accessToken}`,
-    },
-  }
-  try {
-    const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/essay/register`, essays.value, config)
-  } catch(err) {
-    console.error(err)
-  }
-  essays.value = {
-    userId: '',
-    question: '',
-    answer: '',
-  }
-  showModal.value = !showModal.value
-  essayList.value = essayResumeStore.essayList
-}
+    const dataToSubmit = {
+        ...essays.value,
+        userId: authStore.userInfo.sub,
+    }
+
+    if (dataToSubmit.categoryId === null) {
+        delete dataToSubmit.categoryId;
+    }
+
+    const config = {
+        headers: {
+            'Authorization': `${authStore.accessToken}`,
+        },
+    };
+    try {
+        const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/essay/register`, dataToSubmit, config);
+        essayList.value = essayResumeStore.essayList
+    } catch (err) {
+        console.error(err);
+    }
+
+    essays.value = {
+      userId: '',
+      categoryId: null, 
+      question: '문항을 입력해주세요',
+      answer: '답변을 입력해주세요',
+    };
+
+    showModal.value = !showModal.value;
+    essayList.value = essayResumeStore.essayList; 
+};
 
 const essayList = ref([])
 const categoryList = ref([])

@@ -32,15 +32,14 @@
           <div>{{ step.step }}단계</div>
           <div>{{ step.status }}</div>
         </div>
-        <button @click="toggleModal2">리뷰 작성하기</button>
+        <button @click="toggleModalState(step.id)">리뷰 작성하기</button>
 
-        <div v-if="showModal2">
+        <div v-if="modalState[step.id]">
           <RegisterReview
-          :step="step"
-          @close2="showModal2 = false"
+            :step="step"
+            @close="() => modalState[step.id] = false"
           />
           리뷰 작성하기
-          
         </div>
       </div>
     </div>
@@ -48,14 +47,15 @@
 </template>
 
 <script setup>
-import { ref }  from 'vue'
+import { ref, reactive }  from 'vue'
 import ReviewCreate from '../ReviewCreateView.vue';
 import RegisterReview from '../component/item/RegisterReview.vue'
 const props = defineProps({
   data: Object,
-  showModal: Boolean,
-  toggleModal: Function,
+
 });
+
+console.log('item', props.data)
 
 // 드랍다운
 const showDropDown = ref(false)
@@ -69,6 +69,17 @@ const showModal = ref(false)
 
 const toggleModal = function() {
   showModal.value = !showModal.value
+}
+
+
+const modalState = reactive({})
+
+const toggleModalState = (itemId) => {
+  if (modalState[itemId] === undefined) {
+    modalState[itemId] = true;
+  } else {
+    modalState[itemId] = !modalState[itemId];
+  }
 }
 
 const showModal2 = ref(false)

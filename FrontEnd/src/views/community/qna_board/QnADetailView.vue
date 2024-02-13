@@ -1,12 +1,14 @@
 <script setup>
 import axios from "axios";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
+import { useCommunityStore } from "@/stores/community"
 import ReplyList from "./components/ReplyList.vue";
 import QnACommentCreate from "@/views/community/qna_board/components/QnACommentCreate.vue";
 
 const authStore = useAuthStore();
+const communityStore = useCommunityStore()
 const route = useRoute();
 const router = useRouter();
 
@@ -14,38 +16,20 @@ const loading = ref(false);
 const post = ref(null);
 const comments = ref([]);
 
-async function fetchPostAndComments() {
-  try {
-    await authStore.updateUserInfoFromToken();
-    const response = await axios.get(
-      `${authStore.API_URL}/community/detail/${route.params.id}`
-    );
-
-    return {
-      post: response.data.postResponseDto,
-      comments: response.data.comments,
-    };
-  } catch (error) {
-    console.error("불러오기 실패: ", error);
-    return { post: null, comments: null }; // Return nulls or defaults on error
-  }
-}
 
 const handleRefresh = async () => {
   loading.value = false;
-  const { post: fetchedPost, comments: fetchedComments } =
-    await fetchPostAndComments();
-  post.value = fetchedPost;
-  comments.value = fetchedComments;
+  await communityStore.getPost(route.params.id)
+  post.value = communityStore.post.postResponseDto
+  comments.value = communityStore.post.comments
   showModal.value = false;
   loading.value = true;
 };
 
 onMounted(async () => {
-  const { post: fetchedPost, comments: fetchedComments } =
-    await fetchPostAndComments();
-  post.value = fetchedPost;
-  comments.value = fetchedComments;
+  await communityStore.getPost(route.params.id)
+  post.value = communityStore.post.postResponseDto
+  comments.value = communityStore.post.comments
   loading.value = true;
   authStore.updateUserInfoFromToken();
 });
@@ -70,18 +54,28 @@ const deletePost = async () => {
         `${authStore.API_URL}/community/delete/${post.value.postId}`,
         config
       );
-      console.log(post.value.postId, "번글이 삭제되었습니다.");
-      console.log(res.data);
-      router.push({ name: "QnABoard" });
+      router.push({ name: "QnABoard" })
 
-      // Optionally, emit an event to inform the parent component to update the comment list
     } catch (error) {
-      console.error("삭제 실패: ", error);
+      console.error("삭제 실패: ", error)
     }
-  } else {
-    console.log("삭제하지 않음.");
   }
-};
+}
+
+const isWriter = computed(() => {
+  if (!post.value || !authStore.userInfo) {
+    return false;
+  }
+  return post.value.userId == authStore.userInfo.sub;
+});
+
+const isLoggedIn = computed(() => {
+  if (!authStore.userInfo) {
+    return false
+  }
+  return authStore.userInfo != null
+})
+
 </script>
 
 <template>
@@ -108,15 +102,15 @@ const deletePost = async () => {
             <div>
               <span>{{ post.createdDate }}</span>
               ·
-              <span>50 views</span>
+              <span>{{ post.hit }} views</span>
             </div>
           </div>
           <div class="right">
             <div class="like pointer h-txt">
               <i class="fa-regular fa-thumbs-up"></i>
-              <span class="f-size-14">18</span>
+              <span class="f-size-14">{{ post.totalLike }}</span>
             </div>
-            <div>
+            <div v-if="isWriter">
               <RouterLink
                 class="f-size-14 h-txt f-color-g"
                 :to="{ name: 'QnAUpdate', params: { id: post.postId } }"
@@ -134,7 +128,7 @@ const deletePost = async () => {
         </div>
       </div>
 
-      <div class="write">
+      <div class="write" v-if="isLoggedIn">
         <div class="intro">
           <h2>답변을 작성하고 질문자의 궁금증을 해결해주세요!</h2>
           <a
@@ -149,6 +143,11 @@ const deletePost = async () => {
             <QnACommentCreate :postId="post.postId" @refresh="handleRefresh" />
           </div>
         </transition>
+      </div>
+      <div class="write">
+        <div class="intro">
+          <h2> 답변을 작성하기 위해선 로그인이 필요합니다!</h2>
+        </div>
       </div>
 
       <ReplyList :comments="comments" />

@@ -16,14 +16,12 @@ export const useBlogReviewStore = defineStore("blogReview", {
         },
       }
       try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/myRecruit/${authStore.userInfo.sub}`, config);
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/myRecruit/${authStore.userInfo.sub}`, config);
         this.myJobs = res.data
       } catch (err) {
         console.error(err)
       }
     },
-
 
     async createStep(recruitStep) {
       const authStore = useAuthStore()
@@ -36,8 +34,9 @@ export const useBlogReviewStore = defineStore("blogReview", {
         },
       }
       try {
-        const res = await axios.post(
-          `${import.meta.env.VITE_API_BASE_URL}/selection/register`, recruitStep.value, config);
+        const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/selection/register`, recruitStep.value, config);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/myRecruit/${authStore.userInfo.sub}`, config);
+        this.myJobs = response.data
         console.log(res.data)
       } catch (err) {
         console.error(err)
@@ -53,8 +52,9 @@ export const useBlogReviewStore = defineStore("blogReview", {
         },
       }
       try {
-        const res = await axios.post(
-          `${import.meta.env.VITE_API_BASE_URL}/selectionReview/register`, stepReview.value, config);
+        const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/selectionReview/register`, stepReview.value, config);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/myRecruit/${authStore.userInfo.sub}`, config);
+        this.myJobs = response.data
         console.log(res.data)
       } catch (err) {
         console.error('createStepErr',err)

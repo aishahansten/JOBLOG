@@ -5,6 +5,7 @@ import { useAuthStore } from "./auth";
 export const useCommunityStore = defineStore("community", {
   state: () => ({
     posts: [],
+    post: [],
     API_URL: import.meta.env.VITE_API_BASE_URL,
   }),
   actions: {
@@ -27,11 +28,18 @@ export const useCommunityStore = defineStore("community", {
         if (err.response && err.response.status === 500) {
           router.push("/login2");
         } else {
-          // Handle other errors or a case where the error does not have a response object
-          console.log("token", token); // Logging the token for debugging purposes
         }
         this.posts = [];
       }
     },
+
+    async getPost(id) {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/community/detail/${id}`)
+        this.post = res.data
+      } catch (err) {
+        console.error(err)
+      }
+    }
   },
 });
