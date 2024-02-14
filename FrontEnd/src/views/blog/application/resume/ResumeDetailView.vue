@@ -4,11 +4,18 @@
       <h1>맞춤 입사지원서 작성</h1>
       <div class="info">
         <div class="left">
-          <span
-            ><b>{{ resumeResponse.job }}</b> 직무</span
-          >·
-          <span
-            ><b>{{ resumeResponse.title }}</b></span
+          <div class="title">
+            <span
+              ><h3>{{ resumeResponse.title }}　</h3></span
+            >
+            <span
+              ><b>{{ resumeResponse.job }}</b> 직무</span
+            >
+          </div>
+          <RouterLink
+            :to="{ name: 'ResumeUpdate', params: { id: route.params.id } }"
+            class="btn lined-c h-solid-c a-bright"
+            >수정하기</RouterLink
           >
         </div>
         <div class="right">
@@ -36,29 +43,30 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="selection-container">
-      <div v-if="essayList.length > 0">
-        <div v-for="essay in essayList"
-          :key="essay.id" 
-          class="essay-item" 
-          draggable="true" 
-          @dragstart="handleDragStart(essay)"
-          :class="{ 'selected': isEssaySelected(essay) }"
+      <div class="selection-container">
+        <div v-if="essayList.length > 0" class="list">
+          <div
+            v-for="essay in essayList"
+            :key="essay.id"
+            class="essay-item"
+            draggable="true"
+            @dragstart="handleDragStart(essay)"
+            :class="{ selected: isEssaySelected(essay) }"
           >
-          <div @click="toggleShowEssay(essay)">
-            <h3>{{ essay.question }}</h3>
-            <p>{{ essay.answer }}</p>
+            <div @click="toggleShowEssay(essay)">
+              <h3>{{ essay.question }}</h3>
+              <p>{{ essay.answer }}</p>
+            </div>
           </div>
         </div>
+        <div v-else>작성한 자기소개서 문항이 없습니다!</div>
       </div>
     </div>
-    <button @click="exportToPdf">해주세요</button>
-    <RouterLink :to="{ name: 'ResumeUpdate', params: { id: route.params.id } }"
-      ><button>수정하기</button></RouterLink
+
+    <a @click="exportToPdf" class="btn solid-c h-bright a-dark" id="export-btn"
+      >입사지원서 제작하기 !</a
     >
   </div>
-  <div></div>
 </template>
 
 <script setup>
@@ -76,17 +84,17 @@ const route = useRoute();
 // here
 const resumeResponse = ref([]);
 
-  const exportToPdf = function () {
-    const pdfArea = document.getElementById('pdf-download')
-    const pdfOptions = {
-      filename: 'testing.pdf',
-      image: { type: 'jpeg', quality: '0.98' },
-      html2canvas: { scale: 2 },
-      margin: 0.2
-    }
-    html2pdf(pdfArea, pdfOptions)
-  }
-  
+const exportToPdf = function () {
+  const pdfArea = document.getElementById("pdf-download");
+  const pdfOptions = {
+    filename: "testing.pdf",
+    image: { type: "jpeg", quality: "0.98" },
+    html2canvas: { scale: 2 },
+    margin: 0.2,
+  };
+  html2pdf(pdfArea, pdfOptions);
+};
+
 const isEssaySelected = (essay) => {
   for (let i = 0; i < showEssay.value.length; i++) {
     if (showEssay.value[i].essayId === essay.essayId) {
@@ -155,11 +163,16 @@ onMounted(async () => {
   grid-gap: 20px;
   padding: 30px 0 10px 0;
 }
-.info div {
+.left {
+  display: flex;
+  justify-content: space-between;
+}
+.right {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .content {
   display: grid;
   grid-template-columns: 210mm auto;
@@ -175,27 +188,26 @@ onMounted(async () => {
   width: 100%;
 }
 
-  .essay-item {
-    display: flex;
-    gap: 50px;
-    border: 1px solid rgba(0, 0, 0, 0.419);
-    border-radius: 8px;
-    padding: 10px;
-    cursor: pointer; /* Indicates the item is clickable */
-  }
+.essay-item {
+  display: flex;
+  gap: 50px;
+  border: 1px solid rgba(0, 0, 0, 0.419);
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer; /* Indicates the item is clickable */
+}
 
-  .selected {
-    background-color: #e5e5e559; /* Different background for selected items */
-  }
-  
-  .essay-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 10px;
-    box-sizing: border-box;
-    
-  }
+.selected {
+  background-color: #e5e5e559; /* Different background for selected items */
+}
+
+.essay-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+}
 
 .essay-space {
   margin: 0%;
@@ -235,15 +247,15 @@ onMounted(async () => {
 
 .essay-item {
   display: flex;
-  gap: 50px;
-  border: 1px solid black;
-  background-color: rgb(237, 237, 237);
-  padding: 10px;
+
+  border: 1px solid var(--border-gray);
+  background-color: var(--light-gray);
+  padding: 20px;
   cursor: pointer; /* Indicates the item is clickable */
 }
 
 .selected {
-  background-color: #ffffff; /* Different background for selected items */
+  background-color: var(--light-main)
 }
 
 .essay-list {
@@ -268,8 +280,19 @@ onMounted(async () => {
 }
 
 .selection-container {
-  border: 1px solid black;
+  border: 1px solid var(--border-gray);
   padding: 20px;
   box-sizing: border-box;
+}
+.selection-container .list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#export-btn {
+  padding: 20px;
+  font-size: 20px;
+  margin: 30px 0;
 }
 </style>
