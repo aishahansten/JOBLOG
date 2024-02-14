@@ -50,6 +50,7 @@ public class Diary extends BaseEntity {
                 .diaryId(id)
                 .userId(user.getId())
                 .content(content)
+                .createdDate(getCreatedDate())
                 .build();
     }
 }

@@ -27,8 +27,9 @@ public class UserResponseDto {
     private String phoneNumber;
     private LocalDate birthDate;
     private String role;
+    private String amazonS3FileUrl;
 
-    public static UserResponseDto fromEntity(User user){
+    public static UserResponseDto fromEntity(User user, String amazonS3FileUrl){
         return UserResponseDto.builder()
                 .id(user.getId())
                 .companyCode(user.getCompanyCode())
@@ -44,6 +45,7 @@ public class UserResponseDto {
                 .phoneNumber(user.getPhoneNumber())
                 .birthDate(user.getBirthDate())
                 .role(user.getRole().name())
+                .amazonS3FileUrl(amazonS3FileUrl)
                 .build();
     }
 }

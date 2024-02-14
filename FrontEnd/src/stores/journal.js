@@ -16,13 +16,16 @@ export const useJournalStore = defineStore('journal', {
     },
 
     async getJournals(router) {
+      const authStore = useAuthStore();
+      await authStore.updateUserInfoFromToken();
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/diary`, {
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/diary/${authStore.userInfo.sub}`, {
           headers: {
             Authorization: `${this.getCookie('accessToken')}`,
           },
         });
         this.journals = response.data;
+        console.log(response.data);
       } catch(err) {
         if (err.response && err.response.status === 500) {
           router.push('/login2');
