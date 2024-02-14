@@ -4,12 +4,14 @@ import AuthStatus from "./AuthStatus.vue";
 import "@/assets/css/setting/setting-header.css";
 import "@/assets/css/setting/menu/employee-auth.css";
 import { useAuthStore } from "@/stores/auth";
+import { useRouter } from "vue-router";
 
 const isEdit = ref(false);
 const toggleEdit = async () => {
   const authStore = useAuthStore();
-  console.log("시발");
-  await authStore.changeUserRole();
+  try {
+    await authStore.changeUserRole();
+  } catch {}
 };
 </script>
 

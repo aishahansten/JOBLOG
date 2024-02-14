@@ -1,25 +1,22 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useJobPostStore } from '@/stores/jobPosts';
-import ScreenReviewItem from '../items/ScreenReviewItem.vue';
-const jobPostStore = useJobPostStore()
+import { ref, onMounted } from "vue";
+import { useJobPostStore } from "@/stores/jobPosts";
+import ScreenReviewItem from "../items/ScreenReviewItem.vue";
+const jobPostStore = useJobPostStore();
 
 const props = defineProps({
-  currentJob: Object
-})
+  currentJob: Object,
+});
 
-const isLoaded = ref(false)
+const isLoaded = ref(false);
 
-const companyReview = ref([])
+const companyReview = ref([]);
 
-onMounted(async() => {
-  await jobPostStore.getCompanyReveiw(props.currentJob.value.companyCode)
-  companyReview.value = jobPostStore.companyReview.value
-  console.log('현영아', companyReview.value)
-  isLoaded.value = true
-})
-
-
+onMounted(async () => {
+  await jobPostStore.getCompanyReveiw(props.currentJob.value.companyCode);
+  companyReview.value = jobPostStore.companyReview.value;
+  isLoaded.value = true;
+});
 </script>
 
 <template>
@@ -29,7 +26,6 @@ onMounted(async() => {
         <h2>'{{ currentJob.value.companyName }}' 의 전형 리뷰</h2>
         <p>해당 회사의 여러 채용 전형에 대한 사람들의 리뷰입니다.</p>
       </div>
-      <div class="link">전형리뷰 쓰러가기</div>
     </div>
     <div class="list">
       <article>
@@ -37,22 +33,25 @@ onMounted(async() => {
       </article>
     </div>
   </div>
-  <div>
-    <ScreenReviewItem
-      v-for="review in companyReview"
-      :key="review.id"
-      :review="review"
-    />
+  <hr />
+
+  <div v-if="companyReview.length > 0">
+    <ScreenReviewItem v-for="review in companyReview" :key="review.id" :review="review" />
   </div>
+  <div v-else>아직 작성된 리뷰가 없습니다</div>
 </template>
 
 <style scoped>
-  .review-container {
-    display: flex;
-    justify-content: space-between;
-  }
+.review-container {
+  display: flex;
+  justify-content: space-between;
+}
 
-  section {
-    margin-right: 10px;
-  }
+section {
+  margin-right: 10px;
+}
+
+hr {
+  margin-bottom: 20px;
+}
 </style>

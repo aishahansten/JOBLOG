@@ -104,10 +104,12 @@ export const useAuthStore = defineStore("auth", {
       };
       try {
         const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/users/role/${this.userInfo.sub}`, config);
-        this.logout2();
-        console.log(res.data);
+        alert("다시 로그인 해주세요");
+        await this.logout2();
       } catch (err) {
         console.error(err);
+      } finally {
+        router.push("/login2");
       }
     },
   },

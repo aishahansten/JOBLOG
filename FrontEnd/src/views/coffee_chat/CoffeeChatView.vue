@@ -9,7 +9,9 @@
             언제 어디서나<br />
             빠르고 간편하게, <b>커피챗</b>.
           </p>
-          <a class="btn solid-g h-solid-c a-bright">채터로 등록하기 위해선 현직자 인증을 해야합니다</a>
+          <RouterLink :to="{ name: 'AuthStatus' }">
+            <a class="btn solid-g h-solid-c a-bright">채터로 등록하기 위해선 현직자 인증을 해야합니다</a>
+          </RouterLink>
         </div>
         <img src="@/assets/img/coffee-chat/banner.jpg" alt="" class="banner-img" />
       </div>

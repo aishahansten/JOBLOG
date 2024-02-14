@@ -200,9 +200,10 @@ const router = createRouter({
       component: Application,
     },
     {
-      path: "/blog-application/resume-create",
+      path: "/blog-application/resume-create/:title?/:job?",
       name: "ResumeCreate",
       component: ResumeCreate,
+      props: true,
     },
     {
       path: "/blog-application/resume/:id",

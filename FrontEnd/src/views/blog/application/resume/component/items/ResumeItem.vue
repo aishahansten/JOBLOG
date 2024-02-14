@@ -9,16 +9,15 @@ const props = defineProps({
 <template>
   <div class="resume">
     <div class="resume-title">
-      <h3>{{ resu.title }}</h3>
-      <p>
-        <b class="f-color-g">{{ resu.job }}</b> 직무
-      </p>
+      <div class="ellipsis">
+        <h3>{{ resu.title }}</h3>
+        <p>
+          <b class="f-color-g">{{ resu.job }}</b>
+        </p>
+      </div>
     </div>
     <div class="resume-go">
-      <RouterLink
-        :to="{ name: 'ResumeDetail', params: { id: resu.id } }"
-        class="btn solid-g h-solid-c a-bright"
-      >
+      <RouterLink :to="{ name: 'ResumeDetail', params: { id: resu.id } }" class="btn solid-g h-solid-c a-bright">
         입사지원서 작성　<i class="fa-solid fa-pen-nib"></i>
       </RouterLink>
     </div>
@@ -36,5 +35,13 @@ const props = defineProps({
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 350px; /* or a specific px value */
+  display: block; /* ensures the behavior applies correctly */
 }
 </style>

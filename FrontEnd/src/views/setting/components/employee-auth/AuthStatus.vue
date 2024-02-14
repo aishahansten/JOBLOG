@@ -1,13 +1,21 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import AuthProceed from "./AuthProceed.vue";
 import "@/assets/css/setting/setting-header.css";
 import "@/assets/css/setting/menu/employee-auth.css";
+import { useAuthStore } from "@/stores/auth";
 
+const authStore = useAuthStore();
+const userInfo = ref({});
 const isEdit = ref(false);
 function toggleEdit() {
   isEdit.value = !isEdit.value;
 }
+
+onMounted(async () => {
+  await authStore.updateUserInfoFromToken();
+  userInfo.value = authStore.userInfo;
+});
 </script>
 
 <template>
@@ -21,13 +29,15 @@ function toggleEdit() {
 
     <div class="auth-content">
       <div class="status">
-        <p><b>{000}</b>님의 현재 현직자 인증 상태는<br /></p>
-        <p><b>{미완료}</b>입니다.</p>
+        <p><b>회원</b>님의 현재 현직자 인증 상태는<br /></p>
+        <p>
+          <b v-if="userInfo.role == 'ROLE_APPLICANT'">{미완료}</b>
+          <b v-else>완료</b>
+          입니다.
+        </p>
       </div>
-      <div class="content-function">
-        <a @click="toggleEdit" class="edit-btn clickable-btn" id="go-auth-btn"
-          >인증하러 가기</a
-        >
+      <div class="content-function" v-if="userInfo.role == 'ROLE_APPLICANT'">
+        <a @click="toggleEdit" class="edit-btn clickable-btn" id="go-auth-btn">인증하러 가기</a>
       </div>
     </div>
   </div>

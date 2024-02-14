@@ -5,12 +5,13 @@
       <div class="info">
         <div class="left">
           <div class="title">
-            <span
-              ><h3>{{ resumeResponse.title }}　</h3></span
-            >
-            <span
-              ><b>{{ resumeResponse.job }}</b> 직무</span
-            >
+            <span>
+              <h3>{{ resumeResponse.title }}</h3>
+            </span>
+            <span>
+              직무:
+              <b>{{ resumeResponse.job }}</b>
+            </span>
           </div>
           <RouterLink
             :to="{ name: 'ResumeUpdate', params: { id: route.params.id } }"
@@ -63,9 +64,7 @@
       </div>
     </div>
 
-    <a @click="exportToPdf" class="btn solid-c h-bright a-dark" id="export-btn"
-      >입사지원서 제작하기 !</a
-    >
+    <a @click="exportToPdf" class="btn solid-c h-bright a-dark" id="export-btn">입사지원서 제작하기 !</a>
   </div>
 </template>
 
@@ -108,9 +107,7 @@ const essayList = ref([]);
 const showEssay = ref([]);
 
 const toggleShowEssay = (selectedEssay) => {
-  const index = showEssay.value.findIndex(
-    (essay) => essay.essayId === selectedEssay.essayId
-  );
+  const index = showEssay.value.findIndex((essay) => essay.essayId === selectedEssay.essayId);
   if (index === -1) {
     showEssay.value.push(selectedEssay);
   } else {
@@ -125,9 +122,7 @@ const handleDragStart = (essay) => {
 
 const handleDrop = () => {
   if (currentDrag.value) {
-    const index = showEssay.value.findIndex(
-      (essay) => essay.essayId === currentDrag.value.essayId
-    );
+    const index = showEssay.value.findIndex((essay) => essay.essayId === currentDrag.value.essayId);
     if (index === -1) {
       showEssay.value.push(currentDrag.value);
     }
@@ -255,7 +250,7 @@ onMounted(async () => {
 }
 
 .selected {
-  background-color: var(--light-main)
+  background-color: var(--light-main);
 }
 
 .essay-list {
@@ -294,5 +289,13 @@ onMounted(async () => {
   padding: 20px;
   font-size: 20px;
   margin: 30px 0;
+}
+
+.title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 650px; /* or a specific px value */
+  display: block; /* ensures the behavior applies correctly */
 }
 </style>
