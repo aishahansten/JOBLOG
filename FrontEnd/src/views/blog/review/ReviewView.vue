@@ -1,7 +1,15 @@
 <template>
   <div v-if="isLoaded"></div>
-  <div class="scrap-container">
-    <ReviewItem v-for="data in myJobs" :key="data.id" :data="data" />
+  <div class="container">
+    <div class="header">
+      <div class="title">
+        <h1>전형 리뷰 리스트</h1>
+        <p>내 등록/스크랩 공고의 전형 리뷰 리스트입니다.</p>
+      </div>
+    </div>
+    <div class="content">
+      <ReviewItem v-for="data in myJobs" :key="data.id" :data="data" />
+    </div>
   </div>
 </template>
 
@@ -36,46 +44,20 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.item-container {
+.container {
+  padding: 20px 0;
+}
+.title {
   display: flex;
   flex-direction: column;
-  margin-bottom: 5px;
+  gap: 5px;
+  padding: 30px 0;
+  border-bottom: 1px solid var(--border-gray);
 }
-.scrap-item {
-  display: grid;
-  grid-template-columns: 1fr 5fr 1fr 0.1fr;
-  font-size: 20px;
-  border: 1px solid black;
-  height: 80px;
-}
-
-.title {
-  font-weight: bold;
-}
-
-.main {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-}
-
-.date-time {
+.content {
   display: flex;
-}
-
-.status-yet-opened {
-  background-color: rgba(0, 0, 255, 0.159); /* Color for yet opened */
-}
-
-.status-ongoing {
-  background-color: rgba(0, 128, 0, 0.175); /* Color for ongoing */
-}
-
-.status-expired {
-  background-color: rgba(255, 0, 0, 0.148); /* Color for expired */
-}
-
-.review {
-  height: 80px;
-  border: 1px solid black;
+  flex-direction: column;
+  gap: 20px;
+  padding: 30px 0;
 }
 </style>
