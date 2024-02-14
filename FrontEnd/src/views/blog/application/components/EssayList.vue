@@ -6,17 +6,16 @@
           :to="{ name: 'EssayDetail', params: { id: essay.essayId } }"
           class="essay-item h-transparent-c a-dark"
         >
-          <h3>{{ essay.question }}</h3>
-          <p>{{ essay.answer }}</p>
+          <div class="ellipsis">
+            <h3>{{ essay.question }} - {{ essay.categoryName }}</h3>
+            <p>{{ essay.answer }}</p>
+          </div>
         </RouterLink>
       </div>
     </div>
     <div v-else class="empty-essay">
       <i class="fa-regular fa-folder-open fa-2xl"></i>
-      <p>
-        아직 자기소개서를 작성하지 않으신 것 같아요!<br />자기소개서 문항을 하나
-        작성해볼까요?
-      </p>
+      <p>아직 자기소개서를 작성하지 않으신 것 같아요!<br />자기소개서 문항을 하나 작성해볼까요?</p>
     </div>
   </div>
 </template>
@@ -28,11 +27,8 @@ const props = defineProps({
   essayList: Array,
 });
 
+console.log(props.essayList);
 const showModal = ref(false);
-
-const toggleModal = () => {
-  showModal.value = !showModal.value;
-};
 </script>
 
 <style scoped>
@@ -56,20 +52,17 @@ const toggleModal = () => {
   overflow-y: scroll;
 }
 
-/* Style the scrollbar itself (background) */
 .essay-list::-webkit-scrollbar {
-  width: 10px; /* width of the entire scrollbar */
+  width: 10px;
 }
 
-/* Style the scrollbar thumb (the part you drag) */
 .essay-list::-webkit-scrollbar-thumb {
-  background: #ffe2a5; /* thumb color */
+  background: #ffe2a5;
   border-radius: 10px;
 }
 
-/* Handle the hover effect */
 .essay-list::-webkit-scrollbar-thumb:hover {
-  background: #ffb565; /* color when hovering over the thumb */
+  background: #ffb565;
 }
 
 .essay-item {
@@ -88,5 +81,12 @@ const toggleModal = () => {
   text-overflow: ellipsis;
   max-width: fit-content;
   color: var(--gray);
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 550px; /* or a specific px value */
+  display: block; /* ensures the behavior applies correctly */
 }
 </style>

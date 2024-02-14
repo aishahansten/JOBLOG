@@ -2,12 +2,12 @@
   <div class="container">
     <div class="header">
       <div>
-        <h1 class="f-weight-t">나의 이력서·자소서 관리</h1>
+        <RouterLink :to="{ name: 'BlogApplication' }"> <h1 class="f-weight-t">나의 이력서·자소서 관리</h1> </RouterLink>
         <i class="fa-solid fa-angle-right fa-xl"></i>
       </div>
     </div>
 
-    <div class="content">
+    <div class="content" v-if="resume.length > 0 || essay.length > 0">
       <div class="applications">
         <div v-for="resume in resume" :key="resume.id" class="application">
           <div class="info">
@@ -27,23 +27,37 @@
         </div>
       </div>
     </div>
+    <div class="resume-essay" v-else>
+      <div>
+        <RouterLink :to="{ name: 'BlogApplication' }">
+          <div class="empty-essay">
+            <i class="fa-regular fa-folder-open fa-2xl"></i>
+            <p>아직 작성하신 이력서나 자소서가 없는 것 같아요!</p>
+            <br />
+            <p>이력서를 하나 작성해볼까요?</p>
+            <br />
+            <p style="font-size: 30pt">+</p>
+          </div>
+        </RouterLink>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useEssayResumeStore } from '@/stores/essayResume'
+import { ref, onMounted } from "vue";
+import { useEssayResumeStore } from "@/stores/essayResume";
 
-const essayResumeStore = useEssayResumeStore()
-const resume = ref([])
-const essay = ref([])
+const essayResumeStore = useEssayResumeStore();
+const resume = ref([]);
+const essay = ref([]);
 
-onMounted(async() => {
-  await essayResumeStore.getResume()
-  resume.value = essayResumeStore.resume.slice(0, 3)
-  await essayResumeStore.getEssay()
-  essay.value = essayResumeStore.essayList.slice(0, 3)
-})
+onMounted(async () => {
+  await essayResumeStore.getResume();
+  resume.value = essayResumeStore.resume.slice(0, 3);
+  await essayResumeStore.getEssay();
+  essay.value = essayResumeStore.essayList.slice(0, 3);
+});
 </script>
 
 <style scoped>
@@ -87,5 +101,19 @@ onMounted(async() => {
   display: flex;
   flex-direction: column;
   gap: 5px;
+}
+.resume-essay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.empty-essay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  font-size: 24px;
+  gap: 30px;
 }
 </style>

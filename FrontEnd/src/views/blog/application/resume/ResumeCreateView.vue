@@ -1,14 +1,14 @@
 <template>
   <div class="create-container">
     <div class="header">
-      <a class="btn f-color-w h-solid-g">
-        <i class="fa-solid fa-caret-left"></i>
-        목록으로 돌아가기
-      </a>
+      <RouterLink :to="{ name: 'BlogApplication' }">
+        <a class="btn f-color-w h-solid-g">
+          <i class="fa-solid fa-caret-left"></i>
+          목록으로 돌아가기
+        </a>
+      </RouterLink>
       <h3>이력서 생성하기</h3>
-      <a @click="createResume" class="btn lined-c h-solid-c a-bright">
-        이력서 작성 완료 !
-      </a>
+      <a @click="createResume" class="btn lined-c h-solid-c a-bright"> 이력서 작성 완료 ! </a>
     </div>
 
     <div class="title">
@@ -16,9 +16,7 @@
         제목:
         <input type="text" class="input" v-model="resume.title" required />
       </div>
-      <div>
-        직무: <input type="text" class="input" v-model="resume.job" required />
-      </div>
+      <div>직무: <input type="text" class="input" v-model="resume.job" required /></div>
     </div>
 
     <div class="resume">
@@ -46,13 +44,7 @@
           <p>{{ info.startDate }}</p>
           <p>{{ info.endDate }}</p>
           <p>
-            {{
-              info.graduationStatus === 0
-                ? "재학 중"
-                : info.graduationStatus === 1
-                ? "졸업 예정"
-                : "졸업"
-            }}
+            {{ info.graduationStatus === 0 ? "재학 중" : info.graduationStatus === 1 ? "졸업 예정" : "졸업" }}
           </p>
           <p>{{ info.yesOrNot === 0 ? "X" : "O" }}</p>
           <p>{{ info.dayOrNight === 0 ? "X" : "O" }}</p>
@@ -178,14 +170,16 @@ import { ref, onMounted } from "vue";
 import { useSettingResumeStore } from "@/stores/settingResume";
 import { useAuthStore } from "@/stores/auth";
 import axios from "axios";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
+const route = useRoute();
 const router = useRouter();
 const settingResumeStore = useSettingResumeStore();
+
 const resume = ref({
   userId: "",
-  title: "",
-  job: "",
+  title: route.params.title || "",
+  job: route.params.job || "",
   infoList: [],
 });
 
@@ -232,11 +226,7 @@ const createResume = async () => {
     },
   };
   try {
-    const res = await axios.post(
-      `${import.meta.env.VITE_API_BASE_URL}/resume/register`,
-      resume.value,
-      config
-    );
+    const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/resume/register`, resume.value, config);
     console.log(res.data);
     router.push("/blog-application");
   } catch (err) {

@@ -15,8 +15,12 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="resume-list">
+  <div class="resume-list" v-if="resume.length > 0">
     <ResumeItem class="resume" v-for="resu in resume" :key="resu.id" :resu="resu" />
+  </div>
+  <div v-else class="empty-essay">
+    <i class="fa-regular fa-folder-open fa-2xl"></i>
+    <p>아직 이력서를 작성하지 않으신 것 같아요!<br />이력서를 하나 작성해볼까요?</p>
   </div>
 </template>
 
@@ -32,5 +36,14 @@ onMounted(async () => {
   border: 1px solid var(--border-gray);
   border-radius: 10px;
   background-color: var(--light-gray);
+}
+
+.empty-essay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  font-size: 24px;
 }
 </style>

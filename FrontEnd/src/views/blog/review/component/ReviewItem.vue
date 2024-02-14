@@ -43,8 +43,11 @@
       <div class="right-container">
         <div class="right">
           <a class="btn h-bright a-dark" @click="deleteSelection(data.id)"
-            >삭제　<i class="fa-solid fa-square-minus"></i
+            >공고 삭제　<i class="fa-solid fa-square-minus"></i
           ></a>
+          <RouterLink :to="{ name: 'ResumeCreate', params: { title: data.companyName, job: data.title } }">
+            <div class="btn h-bright a-dark">이력서 쓰기</div>
+          </RouterLink>
         </div>
         <div class="right">
           <a class="btn solid-c h-bright a-dark" @click="toggleModal"

@@ -3,25 +3,21 @@
   <div v-else>
     <div class="container">
       <div class="header">
-        <a class="btn f-color-w h-solid-g">
-          <i class="fa-solid fa-caret-left"></i>
-          목록으로 돌아가기
-        </a>
+        <RouterLink :to="{ name: 'BlogApplication' }">
+          <a class="btn f-color-w h-solid-g">
+            <i class="fa-solid fa-caret-left"></i>
+            목록으로 돌아가기
+          </a>
+        </RouterLink>
         <h3>문항 수정하기</h3>
-        <a
-          @click="submitEssay()"
-          class="btn lined-bg f-color-c h-lined-c a-solid-c"
-        >
-          수정 완료
-        </a>
+        <a @click="submitEssay()" class="btn lined-bg f-color-c h-lined-c a-solid-c"> 수정 완료 </a>
       </div>
       <div class="content">
         <p class="f-weight-b f-color-g">카테고리 | {{ essay.categoryName }}</p>
         <input class="question input" type="text" v-model="essay.question" />
         <textarea class="answer input" type="text" v-model="essay.answer" />
-        <a @click="submitEssay()" class="btn solid-c h-bright a-dark"
-          >저장하기</a
-        >
+        <p>{{ essay.answer.length }}자</p>
+        <a @click="submitEssay()" class="btn solid-c h-bright a-dark">저장하기</a>
         <a @click="deleteEssay()" class="btn h-solid-g a-dark">삭제하기</a>
       </div>
     </div>

@@ -5,83 +5,86 @@
       <div class="job-detail">
         <div class="job-title">
           <h1>{{ currentJob.value.title }}</h1>
-          <RouterLink :to="{ name: 'CompanyDetail', params: { id:currentJob.value.companyCode } }">
+          <RouterLink :to="{ name: 'CompanyDetail', params: { id: currentJob.value.companyCode } }">
             <h3>{{ currentJob.value.companyName }}</h3>
           </RouterLink>
         </div>
-        <div class="job-info">
+        <div class="job-info-header">
           <div>
-            <div>
-              <span>업종</span>
-              <p>{{ currentJob.value.jobCategoryDesc }}</p>
-            </div>
-            <div>
-              <span>지역</span>
-              <p>{{ currentJob.value.locationDesc }}</p>
-            </div>
-            <div>
-              <span>근무 형태</span>
-              <p>{{ currentJob.value.jotTypeDesc }}</p>
-            </div>
-            <div>
-              <span>급여</span>
-              <p>{{ currentJob.value.salary }}</p>
-            </div>
+            <p>{{ currentJob.value.jobCategoryDesc }}</p>
           </div>
-          <div>
-            <div>
-              <span>접수 기간</span>
-              <p>
-                {{ currentJob.value.openingDate }} ~
-                {{ currentJob.value.expirationDate }}
-              </p>
+          <div class="job-info">
+            <div class="job-info-item">
+              <div>
+                <span>지역</span>
+                <p>{{ currentJob.value.locationDesc }}</p>
+              </div>
+              <div>
+                <span>근무 형태</span>
+                <p>{{ currentJob.value.jotTypeDesc }}</p>
+              </div>
+              <div>
+                <span>급여</span>
+                <p>{{ currentJob.value.salary }}</p>
+              </div>
             </div>
             <div>
-              <span>학력</span>
-              <p>{{ currentJob.value.requiredEducationLevel }}</p>
-            </div>
-            <div>
-              <span>경력</span>
-              <p>{{ currentJob.value.experienceLevel }}</p>
+              <div>
+                <span>접수 기간</span>
+                <p>
+                  {{ formatISODate(currentJob.value.openingDate) }} ~
+                  {{ formatISODate(currentJob.value.expirationDate) }}
+                </p>
+              </div>
+              <div>
+                <span>학력</span>
+                <p>{{ currentJob.value.requiredEducationLevel }}</p>
+              </div>
+              <div>
+                <span>경력</span>
+                <p>{{ currentJob.value.experienceLevel }}</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div class="job-interaction">
         <div class="job-check">
-          <h3>마감 00일 전</h3>
+          <h3>{{ expirationMessage(currentJob.value.expirationDate) }}</h3>
           <a class="job-scrap-info" @click="scrapJobPost">
             <i class="fa-regular fa-star fa-xl"></i>
             <span>스크랩</span>
           </a>
         </div>
         <div class="job-apply">
-          <div class="btn solid-c h-bright a-dark f-size-20">이력서  쓰기</div>
+          <RouterLink
+            :to="{ name: 'ResumeCreate', params: { title: currentJob.value.companyName, job: currentJob.value.title } }"
+          >
+            <div class="btn solid-c h-bright a-dark f-size-20">이력서 쓰기</div>
+          </RouterLink>
           <div class="btn solid-c h-bright a-dark f-size-20">자소서 쓰기</div>
+          <div>
+            <RouterLink :to="{ name: 'CompanyDetail', params: { id: currentJob.value.companyCode } }">
+              <div class="btn solid-c h-bright a-dark">회사의 다른 공고 보기</div>
+            </RouterLink>
+          </div>
         </div>
       </div>
     </div>
     <div>
-      <ScreenReview 
-      :currentJob="currentJob"
-      />
-    </div>
-    <div>
-      <RouterLink :to="{ name: 'CompanyDetail', params: { id:currentJob.value.companyCode } }">
-      회사 페이지 보기
-      </RouterLink>
+      <ScreenReview :currentJob="currentJob" />
     </div>
   </div>
 </template>
 
 <script setup>
 import ScreenReview from "./components/detail/ScreenReview.vue";
-import CompanyReview from "./components/detail/CompanyReview.vue";
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useJobPostStore } from "@/stores/jobPosts";
 import { useAuthStore } from "@/stores/auth";
 import axios from "axios";
+import { formatISODate, expirationMessage } from "@/utils/utility";
 
 const jobPostStore = useJobPostStore();
 const route = useRoute();
@@ -114,11 +117,7 @@ const scrapJobPost = async () => {
     },
   };
   try {
-    const res = await axios.post(
-      `${import.meta.env.VITE_API_BASE_URL}/recruit/scrap`,
-      scrap,
-      config
-    );
+    const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/recruit/scrap`, scrap, config);
     console.log("스크랩");
   } catch (err) {
     console.error(err);
@@ -142,6 +141,16 @@ const scrapJobPost = async () => {
   border: 1px solid var(--border-gray);
   border-radius: 10px;
 }
+
+.company-job {
+  display: flex;
+  border: 1px solid rgba(0, 0, 0, 0.321);
+  border-radius: 8px;
+  padding: 5px;
+  width: 200px;
+  align-items: center;
+  justify-content: center;
+}
 .content#job-post {
   gap: 40px;
   background-color: rgb(104, 128, 255, 0.2);
@@ -157,13 +166,18 @@ const scrapJobPost = async () => {
 }
 .job-info {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
   padding: 20px 0;
+  font-size: 13pt;
 }
 .job-info div div {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
   align-items: center;
+}
+
+.job-info div div span {
+  font-weight: bold;
 }
 
 .job-interaction {

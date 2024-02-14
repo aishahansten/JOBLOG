@@ -46,12 +46,7 @@
       </div>
 
       <div class="resume-pic" @click="triggerFileInput">
-        <img
-          v-if="imageUrl"
-          :src="imageUrl"
-          alt="Profile Picture Preview"
-          class="profileImage"
-        />
+        <img v-if="imageUrl" :src="imageUrl" alt="Profile Picture Preview" class="profileImage" />
       </div>
     </section>
 
@@ -67,17 +62,9 @@
           <p class="info-title">주간/야간</p>
         </div>
         <div class="info-item" v-for="info in education" :key="info.id">
-          <input
-            type="text"
-            v-model="info.institutionName"
-            placeholder="Institution Name"
-          />
+          <input type="text" v-model="info.institutionName" placeholder="Institution Name" />
           <input type="text" v-model="info.title" placeholder="Major" />
-          <input
-            type="date"
-            v-model="info.startDate"
-            placeholder="Start Date"
-          />
+          <input type="date" v-model="info.startDate" placeholder="Start Date" />
           <input type="date" v-model="info.endDate" placeholder="End Date" />
           <select v-model="info.graduationStatus">
             <option value="0">재학 중</option>
@@ -108,11 +95,7 @@
 
           <input type="text" placeholder="Title" v-model="info.title" />
 
-          <input
-            type="date"
-            placeholder="Start Date"
-            v-model="info.startDate"
-          />
+          <input type="date" placeholder="Start Date" v-model="info.startDate" />
 
           <input type="date" placeholder="End Date" v-model="info.endDate" />
         </div>
@@ -133,11 +116,7 @@
 
           <input type="text" v-model="info.description" />
 
-          <input
-            type="date"
-            placeholder="Start Date"
-            v-model="info.startDate"
-          />
+          <input type="date" placeholder="Start Date" v-model="info.startDate" />
 
           <input type="date" placeholder="End Date" v-model="info.endDate" />
         </div>
@@ -159,11 +138,7 @@
 
           <input type="text" v-model="info.description" />
 
-          <input
-            type="date"
-            placeholder="Start Date"
-            v-model="info.startDate"
-          />
+          <input type="date" placeholder="Start Date" v-model="info.startDate" />
 
           <input type="date" placeholder="End Date" v-model="info.endDate" />
 
@@ -183,11 +158,7 @@
 
           <input type="text" v-model="info.institutionName" />
 
-          <input
-            type="date"
-            placeholder="Start Date"
-            v-model="info.startDate"
-          />
+          <input type="date" placeholder="Start Date" v-model="info.startDate" />
 
           <input type="text" v-model="info.description" />
         </div>
@@ -258,10 +229,11 @@ const skill = ref([]);
 const award = ref([]);
 const activity = ref([]);
 const certificate = ref([]);
-
 onMounted(async () => {
   await essayResumeStore.getResumeDetail(route.params.id);
   userData.value = essayResumeStore.currentResume;
+  console.log(essayResumeStore.currentResume);
+
   info.value = essayResumeStore.currentResume.infoResponseDtos;
   resumeResponse.value = essayResumeStore.currentResume.resumeResponseDto;
   const filteredInfo = (category) => {

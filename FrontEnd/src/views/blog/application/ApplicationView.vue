@@ -35,47 +35,9 @@
   </div>
 
   <div v-if="showModal" class="modal">
-    <a @click="toggleModal" class="exit-btn"
-      ><i class="fa-solid fa-xmark fa-xl"></i
-    ></a>
+    <a @click="toggleModal" class="exit-btn"><i class="fa-solid fa-xmark fa-xl"></i></a>
     <h1 class="title">자기소개서 문항 작성</h1>
     <div class="content">
-      <div>
-        <label for="job-post"><i class="fa-solid fa-scroll"></i>　공고명</label>
-        <input type="text" class="job-post-dropdown input" />
-      </div>
-
-      <div class="category-add">
-        <div class="toggle">
-          <a
-            v-if="!showAdd"
-            @click="toggleShowAdd"
-            class="btn lined-bg f-color-g h-solid-g a-bright"
-            type="button"
-          >
-            새 카테고리 추가　<i class="fa-solid fa-square-plus"></i>
-          </a>
-          <a
-            v-if="showAdd"
-            @click="toggleShowAdd"
-            class="btn lined-bg f-color-g h-solid-g a-bright"
-            type="button"
-          >
-            취소
-          </a>
-        </div>
-        <div v-if="showAdd" class="add-category">
-          <input
-            type="text"
-            class="input"
-            v-model="category.categoryName"
-            placeholder="카테고리를 추가하세요"
-          />
-          <a @click="addCategory()" class="btn solid-c h-bright a-dark"
-            >카테고리 추가하기</a
-          >
-        </div>
-      </div>
       <div v-if="categoryLoaded"></div>
       <div class="dropdown" v-else>
         <a
@@ -86,40 +48,41 @@
           카테고리를 선택해주세요!　
           <i class="fa-solid fa-square-caret-down"></i>
         </a>
-        <div class="dropdown-button" @click="toggleDropdown" v-else>
-          {{ selectedCategoryName }}
+        <div class="dropdown-button" v-else>
+          <div class="btn lined-c h-solid-c a-bright" @click="toggleDropdown">{{ selectedCategoryName }}</div>
+          <button @click="categoryEmpty" class="dropdown-item dropdown-button2">선택 취소</button>
         </div>
+
         <div class="dropdown-content" v-if="showDropdown">
-          <div
-            v-for="category in categoryList"
-            :key="category.categoryId"
-            class="dropdown-item"
-          >
+          <div v-for="category in categoryList" :key="category.categoryId" class="dropdown-item">
             <div @click="checkCategory(category.categoryId)" class="category">
               {{ category.categoryName }}
             </div>
-            <button @click="deleteCategory(category.categoryId)">Delete</button>
+            <button @click="deleteCategory(category.categoryId)">삭제</button>
           </div>
+        </div>
+      </div>
+      <div class="category-add">
+        <div class="toggle">
+          <a v-if="!showAdd" @click="toggleShowAdd" class="btn lined-bg f-color-g h-solid-g a-bright" type="button">
+            새 카테고리 추가　<i class="fa-solid fa-square-plus"></i>
+          </a>
+          <a v-if="showAdd" @click="toggleShowAdd" class="btn lined-bg f-color-g h-solid-g a-bright" type="button">
+            취소
+          </a>
+        </div>
+        <div v-if="showAdd" class="add-category">
+          <input type="text" class="input" v-model="category.categoryName" placeholder="카테고리를 추가하세요" />
+          <a @click="addCategory()" class="btn solid-c h-bright a-dark">카테고리 추가하기</a>
         </div>
       </div>
 
       <div class="write">
-        <input
-          type="text"
-          class="input"
-          id="question"
-          v-model="essays.question"
-        />
+        <input type="text" class="input" id="question" v-model="essays.question" />
         <textarea class="input" id="answer" v-model="essays.answer"></textarea>
       </div>
       <div>{{ essays.answer.length }}자</div>
-      <a
-        @click="submitEssay"
-        class="btn lined-c h-solid-c a-bright"
-        type="button"
-      >
-        제출
-      </a>
+      <a @click="submitEssay" class="btn lined-c h-solid-c a-bright" type="button"> 제출 </a>
     </div>
   </div>
 </template>
@@ -143,6 +106,10 @@ const essays = ref({
   answer: "내용을 입력해주세요",
 });
 
+const categoryEmpty = function () {
+  essays.value.categoryId = null;
+};
+
 const submitEssay = async () => {
   await authStore.updateUserInfoFromToken();
   essays.value.userId = authStore.userInfo.sub;
@@ -162,11 +129,7 @@ const submitEssay = async () => {
     },
   };
   try {
-    const res = await axios.post(
-      `${import.meta.env.VITE_API_BASE_URL}/essay/register`,
-      dataToSubmit,
-      config
-    );
+    const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/essay/register`, dataToSubmit, config);
     essayList.value = essayResumeStore.essayList;
   } catch (err) {
     console.error(err);
@@ -218,9 +181,7 @@ const checkCategory = function (id) {
 };
 
 const selectedCategoryName = computed(() => {
-  const category = categoryList.value.find(
-    (c) => c.categoryId === essays.value.categoryId
-  );
+  const category = categoryList.value.find((c) => c.categoryId === essays.value.categoryId);
   return category ? category.categoryName : "카테고리를 선택해주세요!";
 });
 
@@ -399,7 +360,24 @@ input {
   cursor: pointer;
 }
 
+.dropdown-button2 {
+  margin-left: auto;
+}
+.dropdown-content {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
+.dropdown-item {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid rgba(0, 0, 0, 0.089);
+  border-radius: 10px;
+  padding: 5px;
+  font-size: 14pt;
+}
+
 .category {
   cursor: pointer;
+  width: 100px;
 }
 </style>

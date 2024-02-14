@@ -3,12 +3,12 @@ import axios from "axios";
 import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
-import { useCommunityStore } from "@/stores/community"
+import { useCommunityStore } from "@/stores/community";
 import ReplyList from "./components/ReplyList.vue";
 import QnACommentCreate from "@/views/community/qna_board/components/QnACommentCreate.vue";
 
 const authStore = useAuthStore();
-const communityStore = useCommunityStore()
+const communityStore = useCommunityStore();
 const route = useRoute();
 const router = useRouter();
 
@@ -16,22 +16,21 @@ const loading = ref(false);
 const post = ref(null);
 const comments = ref([]);
 
-
 const handleRefresh = async () => {
   loading.value = false;
-  await communityStore.getPost(route.params.id)
-  post.value = communityStore.post.postResponseDto
-  comments.value = communityStore.post.comments
+  await communityStore.getPost(route.params.id);
+  post.value = communityStore.post.postResponseDto;
+  comments.value = communityStore.post.comments;
   showModal.value = false;
   loading.value = true;
 };
 
 onMounted(async () => {
-  await communityStore.getPost(route.params.id)
-  post.value = communityStore.post.postResponseDto
-  comments.value = communityStore.post.comments
-  loading.value = true;
+  await communityStore.getPost(route.params.id);
+  post.value = communityStore.post.postResponseDto;
+  comments.value = communityStore.post.comments;
   authStore.updateUserInfoFromToken();
+  loading.value = true;
 });
 
 //-----------
@@ -50,17 +49,13 @@ const deletePost = async () => {
           Authorization: `${authStore.accessToken}`,
         },
       };
-      const res = await axios.delete(
-        `${authStore.API_URL}/community/delete/${post.value.postId}`,
-        config
-      );
-      router.push({ name: "QnABoard" })
-
+      const res = await axios.delete(`${authStore.API_URL}/community/delete/${post.value.postId}`, config);
+      router.push({ name: "QnABoard" });
     } catch (error) {
-      console.error("삭제 실패: ", error)
+      console.error("삭제 실패: ", error);
     }
   }
-}
+};
 
 const isWriter = computed(() => {
   if (!post.value || !authStore.userInfo) {
@@ -71,11 +66,10 @@ const isWriter = computed(() => {
 
 const isLoggedIn = computed(() => {
   if (!authStore.userInfo) {
-    return false
+    return false;
   }
-  return authStore.userInfo != null
-})
-
+  return authStore.userInfo != null;
+});
 </script>
 
 <template>
@@ -111,10 +105,7 @@ const isLoggedIn = computed(() => {
               <span class="f-size-14">{{ post.totalLike }}</span>
             </div>
             <div v-if="isWriter">
-              <RouterLink
-                class="f-size-14 h-txt f-color-g"
-                :to="{ name: 'QnAUpdate', params: { id: post.postId } }"
-              >
+              <RouterLink class="f-size-14 h-txt f-color-g" :to="{ name: 'QnAUpdate', params: { id: post.postId } }">
                 수정
               </RouterLink>
               ·
@@ -128,15 +119,10 @@ const isLoggedIn = computed(() => {
         </div>
       </div>
 
-      <div class="write" v-if="isLoggedIn">
+      <div class="write" v-if="isLoggedIn && authStore.userInfo.role == 'ROLE_JUNIOR'">
         <div class="intro">
           <h2>답변을 작성하고 질문자의 궁금증을 해결해주세요!</h2>
-          <a
-            @click="toggleModal"
-            class="btn lined-c f-color-c h-solid-c a-bright"
-          >
-            답변 작성하기
-          </a>
+          <a @click="toggleModal" class="btn lined-c f-color-c h-solid-c a-bright"> 답변 작성하기 </a>
         </div>
         <transition name="slide">
           <div v-if="showModal">
@@ -144,9 +130,9 @@ const isLoggedIn = computed(() => {
           </div>
         </transition>
       </div>
-      <div class="write">
+      <div class="write" v-else>
         <div class="intro">
-          <h2> 답변을 작성하기 위해선 로그인이 필요합니다!</h2>
+          <h2>답변을 작성하기 위해선 현직자 인증이 필요합니다!</h2>
         </div>
       </div>
 
