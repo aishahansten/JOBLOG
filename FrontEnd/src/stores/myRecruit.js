@@ -25,6 +25,26 @@ export const useMyRecruitStore = defineStore("myRecruit", {
         console.error(error);
       }
     },
+    async deleteMyRecruit(id) {
+      const isConfirmed = confirm("삭제하시겠습니까?");
+      const authStore = useAuthStore();
+      await authStore.updateUserInfoFromToken();
+      if (isConfirmed) {
+        try {
+          const config = {
+            headers: {
+              Authorization: `${authStore.accessToken}`,
+            },
+          };
+          const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/myRecruit/delete/${id}`, config);
+          console.log(res.data);
+        } catch (error) {
+          console.error("삭제 실패: ", error);
+        }
+      } else {
+        console.log("삭제하지 않음.");
+      }
+    },
   },
 });
 

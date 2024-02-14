@@ -3,12 +3,19 @@
   <div class="container">
     <div class="header">
       <div class="title">
-        <h1>전형 리뷰 리스트</h1>
-        <p>내 등록/스크랩 공고의 전형 리뷰 리스트입니다.</p>
+        <div>
+          <h1>전형 리뷰 리스트</h1>
+          <p>내 등록/스크랩 공고의 전형 리뷰 리스트입니다.</p>
+        </div>
+        <div>
+          <RouterLink :to="{ name: 'CustomJobCreate' }">
+            <a class="btn solid-c h-bright a-dark">공고 만들기</a>
+          </RouterLink>
+        </div>
       </div>
     </div>
     <div class="content">
-      <ReviewItem v-for="data in myJobs" :key="data.id" :data="data" />
+      <ReviewItem v-for="data in myJobs" :key="data.id" :data="data" @close="reloadData" />
     </div>
   </div>
 </template>
@@ -16,29 +23,24 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import ReviewItem from "./component/ReviewItem.vue";
-
-const processedData = computed(() => {
-  return myJobs.value.map((item) => {
-    return {
-      ...item,
-      openingDate: new Date(item.openingDate),
-      expirationDate: new Date(item.expirationDate),
-      showReviews: false, // Initially, reviews are not shown
-    };
-  });
-});
-
-console.log(processedData);
-
 import { useBlogReviewStore } from "@/stores/blogReview";
+
 const blogReviewStore = useBlogReviewStore();
 const myJobs = ref([]);
 const isLoaded = ref(false);
 
-onMounted(async () => {
+const reloadData = async () => {
+  isLoaded.value = false;
   await blogReviewStore.getMyJobs();
   myJobs.value = blogReviewStore.myJobs;
-  console.log(myJobs.value);
+  console.log(myJobs);
+  isLoaded.value = true;
+};
+
+onMounted(async () => {
+  await blogReviewStore.getMyJobs();
+  console.log(myJobs);
+  myJobs.value = blogReviewStore.myJobs;
   isLoaded.value = true;
 });
 </script>
@@ -49,8 +51,7 @@ onMounted(async () => {
 }
 .title {
   display: flex;
-  flex-direction: column;
-  gap: 5px;
+  justify-content: space-between;
   padding: 30px 0;
   border-bottom: 1px solid var(--border-gray);
 }
