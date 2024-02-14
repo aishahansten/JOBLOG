@@ -11,7 +11,7 @@ onMounted(async () => {
   // Use an immediately-invoked async function
   await communityStore.getPosts(router);
 });
-</script> 
+</script>
 
 <template>
   <div class="container">
@@ -22,14 +22,15 @@ onMounted(async () => {
       </div>
       <div class="create">
         <RouterLink :to="{ name: 'QnACreate' }">
-          <a class="btn lined-c f-weight-b f-color-c h-solid-c a-bright"
-            >질문 등록하기</a
-          >
+          <a class="btn lined-c f-weight-b f-color-c h-solid-c a-bright">질문 등록하기</a>
         </RouterLink>
       </div>
     </div>
-    <div class="content">
+    <div class="content" v-if="communityStore.posts.length > 0">
       <QnAList :posts="communityStore.posts" />
+    </div>
+    <div v-else class="empty">
+      <img src="@/assets/img/community/community_empty.jpg" />
     </div>
   </div>
 </template>
@@ -49,5 +50,11 @@ onMounted(async () => {
   flex-direction: column;
   justify-content: baseline;
   gap: 5px;
+}
+
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

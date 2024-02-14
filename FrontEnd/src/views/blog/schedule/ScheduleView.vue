@@ -7,9 +7,6 @@ import Calendar from "./components/Calendar.vue";
   <div class="container">
     <Calendar />
   </div>
-  <div>
-    <RouterLink :to="{ name: 'CustomJobCreate' }"> 공고 만들기 </RouterLink>
-  </div>
 </template>
 
 <style scoped>

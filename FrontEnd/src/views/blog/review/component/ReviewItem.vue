@@ -17,33 +17,49 @@
           </div>
         </div>
         <div class="info">
-          <h3>{{ data.title }}</h3>
-          <p>{{ data.companyName }}</p>
+          <h3>{{ data.title }} <span v-if="!data.scrapOrNot" class="customJob">(직접 작성한 공고입니다)</span></h3>
+          <p v-if="data.companyCode">
+            <RouterLink :to="{ name: 'CompanyDetail', params: { id: data.companyCode } }" class="hyperLink">
+              {{ data.companyName }}
+            </RouterLink>
+          </p>
+          <p v-else>
+            {{ data.companyName }}
+          </p>
           <div class="date">
             <div>
               <b class="f-color-g">공고 시작일</b> |
-              {{ formatDate(data.openingDate) }}
+              <span v-if="data.openingDate">{{ formatDate(data.openingDate) }}</span>
+              <span v-else>시작일 미정</span>
             </div>
             <div class="date">
               <b class="f-color-g">공고 마감일</b> |
-              {{ formatDate(data.expirationDate) }}
+              <span v-if="data.expirationDate">{{ formatDate(data.expirationDate) }}</span>
+              <span v-else>마감일 미정</span>
             </div>
           </div>
         </div>
       </div>
-      <div class="right">
-        <a class="btn solid-c h-bright a-dark" @click="toggleModal"
-          >전형 등록　<i class="fa-solid fa-square-plus"></i
-        ></a>
-        <a class="btn solid-g h-bright a-dark" @click="toggleDropDown"
-          >전형 목록　<i class="fa-solid fa-square-caret-down"></i
-        ></a>
+      <div class="right-container">
+        <div class="right">
+          <a class="btn h-bright a-dark" @click="deleteSelection(data.id)"
+            >삭제　<i class="fa-solid fa-square-minus"></i
+          ></a>
+        </div>
+        <div class="right">
+          <a class="btn solid-c h-bright a-dark" @click="toggleModal"
+            >전형 등록　<i class="fa-solid fa-square-plus"></i
+          ></a>
+          <a class="btn solid-g h-bright a-dark" @click="toggleDropDown"
+            >전형 목록　<i class="fa-solid fa-square-caret-down"></i
+          ></a>
+        </div>
       </div>
     </div>
 
     <div v-if="showModal" class="create-modal">
       <div class="create-content">
-        <ReviewCreate :data="data" @close="showModal = false" />
+        <ReviewCreate :data="data" @close="closeModal()" />
       </div>
     </div>
 
@@ -57,9 +73,14 @@
               <p class="f-color-g f-weight-b">{{ step.status }}</p>
             </div>
           </div>
-          <a @click="toggleModalState(step.id)" class="btn solid-c h-bright a-dark"
-            >리뷰 작성하기　<i class="fa-solid fa-square-pen"></i
-          ></a>
+          <div>
+            <a @click="deleteStep(step.id)" class="btn solid-a h-bright a-dark"
+              >전형 삭제하기　<i class="fa-solid fa-square-pen"></i
+            ></a>
+            <a @click="toggleModalState(step.id)" class="btn solid-c h-bright a-dark"
+              >리뷰 작성하기　<i class="fa-solid fa-square-pen"></i
+            ></a>
+          </div>
         </div>
         <div v-if="modalState[step.id]">
           <RegisterReview :step="step" @close="() => (modalState[step.id] = false)" />
@@ -74,9 +95,38 @@
 import { ref, reactive } from "vue";
 import ReviewCreate from "../ReviewCreateView.vue";
 import RegisterReview from "../component/item/RegisterReview.vue";
+import { useBlogReviewStore } from "@/stores/blogReview";
+
+const blogReviewStore = useBlogReviewStore();
+
+const deleteStep = async (id) => {
+  const isConfirmed = confirm("삭제하시겠습니까?");
+  if (isConfirmed) {
+    await blogReviewStore.deleteStep(id);
+    alert("삭제되었습니다.");
+    emit("close");
+  } else {
+  }
+};
+
+const deleteSelection = async (id) => {
+  const isConfirmed = confirm("삭제하시겠습니까?");
+  if (isConfirmed) {
+    await blogReviewStore.deleteSelection(id);
+    alert("삭제되었습니다.");
+    emit("close");
+  }
+};
 const props = defineProps({
   data: Object,
 });
+
+const emit = defineEmits(["close"]);
+
+const closeModal = () => {
+  showModal.value = false;
+  emit("close");
+};
 
 console.log("item", props.data);
 
@@ -140,6 +190,11 @@ function getStatusClass(openingDate, expirationDate) {
 .left {
   display: flex;
   gap: 20px;
+}
+
+.right-container {
+  display: flex;
+  gap: 10px;
 }
 .right {
   display: flex;
@@ -235,5 +290,14 @@ function getStatusClass(openingDate, expirationDate) {
   display: flex;
   flex-direction: column;
   gap: 5px;
+}
+
+.hyperLink {
+  color: rgba(3, 110, 171, 0.57);
+}
+
+.customJob {
+  font-size: 12px;
+  font-style: italic;
 }
 </style>

@@ -29,7 +29,7 @@ public class SelectionRequestDto extends BaseEntity {
                 .user(user)
                 .myRecruit(myRecruit)
                 .progressDate(this.progressDate)
-                .companyCode(myRecruit.getCompanyCode())
+                .companyCode(myRecruit.getCompanyCode() != null ? myRecruit.getCompanyCode(): 0)
                 .title(this.title)
                 .step(this.step)
                 .status(this.status)
