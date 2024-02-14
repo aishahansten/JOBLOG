@@ -18,8 +18,11 @@ export const useBlogReviewStore = defineStore("blogReview", {
       try {
         const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/myRecruit/${authStore.userInfo.sub}`, config);
         this.myJobs = res.data
-      } catch (err) {
-        console.error(err)
+      } catch (err) {        
+        if (err.response && err.response.status === 500) {
+          router.push("/login2");
+        } 
+          console.error(err)
       }
     },
 
@@ -39,6 +42,7 @@ export const useBlogReviewStore = defineStore("blogReview", {
         this.myJobs = response.data
         console.log(res.data)
       } catch (err) {
+        
         console.error(err)
       }
     },

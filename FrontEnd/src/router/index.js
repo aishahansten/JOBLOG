@@ -8,9 +8,9 @@ import HomeView from "../views/home/HomeView.vue";
 
 // 로그인 페이지
 import LoginView from "../views/home/LoginView.vue";
-import LoginLocalView from '@/views/home/LoginViewLocal.vue'
-import SignIn from "../views/home/components/login/SignIn.vue"
-import DeleteUser from "@/views/home/DeleteUserView.vue"
+import LoginLocalView from "@/views/home/LoginViewLocal.vue";
+import SignIn from "../views/home/components/login/SignIn.vue";
+import DeleteUser from "@/views/home/DeleteUserView.vue";
 
 //취준토크 페이지
 import CoffeeChat from "@/views/coffee_chat/CoffeeChatView.vue";
@@ -19,7 +19,8 @@ import ChatterSign from "@/views/coffee_chat/ChatterSign.vue";
 //채용공고 페이지
 import JobPost from "@/views/job_post/JobPostView.vue";
 import JobDetail from "@/views/job_post/JobDetailView.vue";
-import JobScrap from "@/views/job_post/ScrapJobView.vue";
+import CompanyDetail from "@/views/job_post/CompanyDetailView.vue";
+import CustomJobCreate from "@/views/job_post/CustomJobCreateView.vue";
 
 //커뮤니티 페이지
 import QnABoard from "@/views/community/qna_board/QnABoardView.vue";
@@ -38,7 +39,7 @@ import ReviewCreate from "@/views/blog/review/ReviewCreateView.vue";
 import Application from "@/views/blog/application/ApplicationView.vue";
 import ResumeDetail from "@/views/blog/application/resume/ResumeDetailView.vue";
 import ResumeUpdate from "@/views/blog/application/resume/ResumeUpdateView.vue";
-import EssayDetail from "@/views/blog/application/essay/EssayDetailView.vue"
+import EssayDetail from "@/views/blog/application/essay/EssayDetailView.vue";
 
 //프로필 세팅 페이지
 import ProfileSetting from "@/views/setting/SettingView.vue";
@@ -69,7 +70,7 @@ const router = createRouter({
       path: "/login",
       name: "Login",
       component: LoginView,
-    },    
+    },
     {
       path: "/login2",
       name: "Login2",
@@ -98,9 +99,14 @@ const router = createRouter({
       component: JobDetail,
     },
     {
-      path: "/job-scrap",
-      name: "JobScrap",
-      component: JobScrap,
+      path: "/company/:id",
+      name: "CompanyDetail",
+      component: CompanyDetail,
+    },
+    {
+      path: "/custom-jobcreate",
+      name: "CustomJobCreate",
+      component: CustomJobCreate,
     },
 
     // 커피챗
@@ -194,14 +200,13 @@ const router = createRouter({
     {
       path: "/blog=applicatoin/resume/update/:id",
       name: "ResumeUpdate",
-      component: ResumeUpdate
+      component: ResumeUpdate,
     },
     {
       path: "/blog-application/essay/:id",
       name: "EssayDetail",
-      component: EssayDetail
+      component: EssayDetail,
     },
-
 
     // 설정
     {
@@ -246,43 +251,40 @@ const router = createRouter({
 });
 
 function checkAuthentication(cookieName) {
-  const value = `; ${document.cookie}`
-  const parts = value.split(`; ${cookieName}=`)
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${cookieName}=`);
   if (parts.length === 2) {
-    return true
+    return true;
   }
-  return false
+  return false;
 }
 
-
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = checkAuthentication('accessToken')
+  const isAuthenticated = checkAuthentication("accessToken");
 
   const publicRoutes = [
-    'Login', 
-    'Login2',
-    'SignIn',
-    'Jobs', 
-    'Home',
-    'JobDetail',
-    'QnABoard',
-    'QnADetail',
-    'Coffee',
-    'DeleteUserHandle'
+    "Login",
+    "Login2",
+    "SignIn",
+    "Jobs",
+    "Home",
+    "JobDetail",
+    "QnABoard",
+    "QnADetail",
+    "Coffee",
+    "DeleteUserHandle",
   ];
 
   if (!isAuthenticated && !publicRoutes.includes(to.name)) {
-    alert('로그인이 필요합니다'); // Notify the user
-    next({ name: 'Login2' });
-  } else if (isAuthenticated && to.name === 'Login2') {
-    alert('이미 로그인되어 있습니다.')
-    next({ name: 'Home' })
+    alert("로그인이 필요합니다"); // Notify the user
+    next({ name: "Login2" });
+  } else if (isAuthenticated && to.name === "Login2") {
+    alert("이미 로그인되어 있습니다.");
+    next({ name: "Home" });
   } else {
     // In all other cases, proceed as normal
     next(); // Proceed to the route
   }
 });
-
-
 
 export default router;

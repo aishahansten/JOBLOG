@@ -1,17 +1,14 @@
 <template>
   <div class="form-container">
     <form @submit.prevent="submitForm">
-      <!-- Company Name -->
       <div>
         <label for="companyName">회사 이름</label>
         <input type="text" id="companyName" v-model="data.companyName" :readonly="true">
       </div>
-      <!-- Apply Job -->
       <div>
         <label for="applyJob">지원 단계(면접, 코딩테스트...)</label>
         <input type="text" id="applyJob" v-model="recruitStep.title">
       </div>
-      <!-- Step -->
       <div>
         <label for="step">단계</label>
         <select id="step" v-model="recruitStep.step">
@@ -24,8 +21,6 @@
           <option :value="6">최종단계</option>
         </select>
       </div>
-
-      <!-- Status -->
       <div class="status radio-box">
         <label class="status-label">상태</label>
         <div class="radio-group">
@@ -42,15 +37,11 @@
           <label for="status4">불합격</label>
         </div>
       </div>
-
-      <!-- Date -->
       <div>
         <label for="progressDate">날짜</label>
         <input type="datetime-local" id="progressDate" v-model="recruitStep.progressDate">
       </div>
       <button>전형 저장하기</button>
-
-      <!-- Buttons -->
       <div>
         <button type="button" @click="closeModal">닫기</button>
       </div>
