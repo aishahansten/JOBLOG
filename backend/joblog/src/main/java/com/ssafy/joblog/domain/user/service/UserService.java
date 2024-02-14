@@ -83,4 +83,10 @@ public class UserService {
         }
         return urltext;
     }
+
+    public void changeRole(int userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다"));
+        user.changeRole();
+    }
 }

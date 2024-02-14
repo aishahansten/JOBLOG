@@ -9,48 +9,19 @@
 
     <div class="content">
       <div class="applications">
-        <div class="application">
+        <div v-for="resume in resume" :key="resume.id" class="application">
           <div class="info">
-            <h2>신한은행 지원 이력서</h2>
-            <p>2024.02.04</p>
-          </div>
-          <img src="@/assets/img/icon/resume.svg" alt="" />
-        </div>
-        <div class="application">
-          <div class="info">
-            <h2>삼성SDS 지원 이력서</h2>
-            <p>2024.02.02</p>
-          </div>
-          <img src="@/assets/img/icon/resume.svg" alt="" />
-        </div>
-        <div class="application">
-          <div class="info">
-            <h2>국민은행 지원 이력서</h2>
-            <p>2024.01.20</p>
+            <h2>{{ resume.title }}</h2>
+            <p>{{ resume.createDate }}</p>
           </div>
           <img src="@/assets/img/icon/resume.svg" alt="" />
         </div>
       </div>
-
       <div class="applications">
-        <div class="application">
+        <div v-for="essay in essay" :key="essay.essayId" class="application">
           <div class="info">
-            <h2>신한은행 지원 자소서</h2>
-            <p>2024.02.04</p>
-          </div>
-          <img src="@/assets/img/icon/essay.svg" alt="" />
-        </div>
-        <div class="application">
-          <div class="info">
-            <h2>삼성SDS 지원 자소서</h2>
-            <p>2024.02.02</p>
-          </div>
-          <img src="@/assets/img/icon/essay.svg" alt="" />
-        </div>
-        <div class="application">
-          <div class="info">
-            <h2>삼성SDS 지원 자소서 v2</h2>
-            <p>2024.02.03</p>
+            <h2>{{ essay.question }}</h2>
+            <p>{{ essay.answer }}</p>
           </div>
           <img src="@/assets/img/icon/essay.svg" alt="" />
         </div>
@@ -59,7 +30,21 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useEssayResumeStore } from '@/stores/essayResume'
+
+const essayResumeStore = useEssayResumeStore()
+const resume = ref([])
+const essay = ref([])
+
+onMounted(async() => {
+  await essayResumeStore.getResume()
+  resume.value = essayResumeStore.resume.slice(0, 3)
+  await essayResumeStore.getEssay()
+  essay.value = essayResumeStore.essayList.slice(0, 3)
+})
+</script>
 
 <style scoped>
 .container {

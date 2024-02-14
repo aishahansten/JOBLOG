@@ -14,12 +14,11 @@ const companyReview = ref([])
 
 onMounted(async() => {
   await jobPostStore.getCompanyReveiw(props.currentJob.value.companyCode)
-  companyReview.value = jobPostStore.companyReview
-  console.log(companyReview.value)
+  companyReview.value = jobPostStore.companyReview.value
+  console.log('현영아', companyReview.value)
   isLoaded.value = true
-}),
+})
 
-console.log('리뷰', props.currentJob.value.companyCode)
 
 </script>
 
@@ -34,15 +33,15 @@ console.log('리뷰', props.currentJob.value.companyCode)
     </div>
     <div class="list">
       <article>
-        <section>유형 : 면접</section>
-        <section>진행방식 : 1대1</section>
+        <section>리뷰 개수 : {{ companyReview.length }}</section>
       </article>
     </div>
   </div>
-  <div v-if="!isLoaded">
+  <div>
     <ScreenReviewItem
       v-for="review in companyReview"
-      
+      :key="review.id"
+      :review="review"
     />
   </div>
 </template>
@@ -53,7 +52,7 @@ console.log('리뷰', props.currentJob.value.companyCode)
     justify-content: space-between;
   }
 
-  .list {
-    /* margin-left: auto; */
+  section {
+    margin-right: 10px;
   }
 </style>

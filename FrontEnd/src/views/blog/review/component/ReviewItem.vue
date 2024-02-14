@@ -3,30 +3,15 @@
     <div class="post">
       <div class="left">
         <div :class="getStatusClass(data.openingDate, data.expirationDate)">
-          <div
-            v-if="
-              getStatusClass(data.openingDate, data.expirationDate) ===
-              'status-yet-opened'
-            "
-          >
+          <div v-if="getStatusClass(data.openingDate, data.expirationDate) === 'status-yet-opened'">
             <i class="fa-solid fa-hourglass-start fa-2xl"></i>
             <span>예정 공고</span>
           </div>
-          <div
-            v-if="
-              getStatusClass(data.openingDate, data.expirationDate) ===
-              'status-ongoing'
-            "
-          >
+          <div v-if="getStatusClass(data.openingDate, data.expirationDate) === 'status-ongoing'">
             <i class="fa-solid fa-hourglass-half fa-2xl"></i>
             <span>진행중 공고</span>
           </div>
-          <div
-            v-if="
-              getStatusClass(data.openingDate, data.expirationDate) ===
-              'status-expired'
-            "
-          >
+          <div v-if="getStatusClass(data.openingDate, data.expirationDate) === 'status-expired'">
             <i class="fa-solid fa-hourglass-end fa-2xl"></i>
             <span>마감된 공고</span>
           </div>
@@ -63,11 +48,7 @@
     </div>
 
     <div v-if="showDropDown">
-      <div
-        v-for="step in data.selectionListResponseDto"
-        :key="step.id"
-        class="step"
-      >
+      <div v-for="step in data.selectionListResponseDto" :key="step.id" class="step">
         <div class="header">
           <div class="left-info">
             <h3 class="f-color-g">{{ step.step }}단계</h3>
@@ -76,17 +57,12 @@
               <p class="f-color-g f-weight-b">{{ step.status }}</p>
             </div>
           </div>
-          <a
-            @click="toggleModalState(step.id)"
-            class="btn solid-c h-bright a-dark"
+          <a @click="toggleModalState(step.id)" class="btn solid-c h-bright a-dark"
             >리뷰 작성하기　<i class="fa-solid fa-square-pen"></i
           ></a>
         </div>
         <div v-if="modalState[step.id]">
-          <RegisterReview
-            :step="step"
-            @close="() => (modalState[step.id] = false)"
-          />
+          <RegisterReview :step="step" @close="() => (modalState[step.id] = false)" />
           리뷰 작성하기
         </div>
       </div>
@@ -126,12 +102,6 @@ const toggleModalState = (itemId) => {
   } else {
     modalState[itemId] = !modalState[itemId];
   }
-};
-
-const showModal2 = ref(false);
-
-const toggleModal2 = function () {
-  showModal2.value = !showModal2.value;
 };
 
 function formatDate(dateString) {

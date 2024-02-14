@@ -5,7 +5,9 @@
       <div class="job-detail">
         <div class="job-title">
           <h1>{{ currentJob.value.title }}</h1>
-          <h3>{{ currentJob.value.companyName }}</h3>
+          <RouterLink :to="{ name: 'CompanyDetail', params: { id:currentJob.value.companyCode } }">
+            <h3>{{ currentJob.value.companyName }}</h3>
+          </RouterLink>
         </div>
         <div class="job-info">
           <div>
@@ -48,15 +50,13 @@
       <div class="job-interaction">
         <div class="job-check">
           <h3>마감 00일 전</h3>
-          <!-- <h3>마감</h3> -->
-          <!-- <h3>접수 00일 전</h3> -->
           <a class="job-scrap-info" @click="scrapJobPost">
             <i class="fa-regular fa-star fa-xl"></i>
-            <span>178</span>
+            <span>스크랩</span>
           </a>
         </div>
         <div class="job-apply">
-          <div class="btn solid-c h-bright a-dark f-size-20">이력서 쓰기</div>
+          <div class="btn solid-c h-bright a-dark f-size-20">이력서  쓰기</div>
           <div class="btn solid-c h-bright a-dark f-size-20">자소서 쓰기</div>
         </div>
       </div>
@@ -67,8 +67,9 @@
       />
     </div>
     <div>
-      <CompanyReview 
-      />
+      <RouterLink :to="{ name: 'CompanyDetail', params: { id:currentJob.value.companyCode } }">
+      회사 페이지 보기
+      </RouterLink>
     </div>
   </div>
 </template>

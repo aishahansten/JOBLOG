@@ -1,49 +1,71 @@
 <script setup>
+import { ref, onMounted, computed } from 'vue';
 import JobList from "./components/JobList.vue";
 import SearchFilter from "./components/SearchFilter.vue";
 import { useJobPostStore } from "@/stores/jobPosts";
 
-const jobPostStore = useJobPostStore();
-
-import { ref, onMounted } from "vue";
-
+const jobPostStore = useJobPostStore()
 const search = ref({
   jobCategory: null,
   expLv: null,
   keyword: null,
   page: 0,
   size: 30,
-});
+})
 
-const jobPosts = ref([]);
+const jobPosts = ref({})
+
+const totalPages = computed(() => jobPosts.value.totalPages || 0);
 
 onMounted(async () => {
-  await jobPostStore.getJobPost(search.value); // Pass the reactive search object's value
-  try {
-    jobPosts.value = jobPostStore.jobPosts;
-    console.log(jobPosts);
-  } catch (err) {
-    console.error(err);
-  }
+  await fetchJobPosts()
 });
 
+const fetchJobPosts = async () => {
+  await jobPostStore.getJobPost(search.value)
+  jobPosts.value = jobPostStore.jobPosts
+}
+
+const changePage = async (page) => {
+  search.value.page = page
+  await fetchJobPosts();
+}
+
 const handleSearch = async (searchCrit) => {
-  // Iterate over each property in searchCrit.searchConditions
-  for (const key in searchCrit.searchConditions) {
-    if (Object.hasOwnProperty.call(searchCrit.searchConditions, key)) {
-      // If the property's value is an empty string, change it to null
-      if (searchCrit.searchConditions[key] === "") {
-        searchCrit.searchConditions[key] = null;
-      }
-    }
+  Object.entries(searchCrit.searchConditions).forEach(([key, value]) => {
+    search.value[key] = value || null
+  })
+
+  search.value.page = 0
+  await fetchJobPosts()
+}
+
+const maxVisiblePages = 5;
+const currentPageRange = computed(() => {
+  let start = search.value.page - Math.floor(maxVisiblePages / 2)
+  start = Math.max(start, 0);
+  start = Math.min(start, Math.max(totalPages.value - maxVisiblePages, 0))
+
+  const end = Math.min(start + maxVisiblePages, totalPages.value)
+
+  return Array.from({ length: end - start }, (_, i) => start + i + 1)
+})
+
+const canGoBack = computed(() => search.value.page > 0)
+const canGoForward = computed(() => search.value.page < totalPages.value - 1)
+
+const goToNextSet = () => {
+  if (canGoForward.value) {
+    changePage(Math.min(search.value.page + maxVisiblePages, totalPages.value - 1))
   }
+}
 
-  await jobPostStore.getJobPost(searchCrit.searchConditions);
-  jobPosts.value = jobPostStore.jobPosts;
+const goToPrevSet = () => {
+  if (canGoBack.value) {
+    changePage(Math.max(search.value.page - maxVisiblePages, 0))
+  }
+}
 
-  console.log("검색하면", searchCrit.searchConditions);
-  console.log("검색 이후 리스트", jobPostStore.jobPosts);
-};
 </script>
 
 <template>
@@ -56,7 +78,7 @@ const handleSearch = async (searchCrit) => {
           <a href="http://www.saramin.co.kr" target="_blank">취업 사람인</a>
         </div>
         <RouterLink
-          :to="{ name: 'JobScrap' }"
+          :to="{ name: 'BlogReview' }"
           id="job-scrap-link"
           class="h-transparent-c"
         >
@@ -65,72 +87,105 @@ const handleSearch = async (searchCrit) => {
           <i class="fa-solid fa-chevron-right"></i>
         </RouterLink>
       </div>
+      <div>
+        검색 결과 : {{ jobPosts.totalElements }} 개
+      </div>
     </div>
     <div class="list">
       <div class="recommend">
         <div class="title">
           <h2>{000}님 맞춤 추천 채용 공고!</h2>
         </div>
-        <JobList :jobPosts="jobPosts" />
+        <JobList :jobPosts="jobPosts.recruitListResponseDtos" />
       </div>
-      <!-- 검색 시 추천 공고 div가 사라지고 나타날 div -->
-      <!-- <div class="job-search-result">
-        <div class="title">
-          <h2>검색 결과</h2>
-        </div>
-        <JobList />
-      </div> -->
     </div>
+  </div>
+  <div class="pagination">
+    <button
+      v-if="canGoBack"
+      @click="goToPrevSet"
+      class="pagination-button">
+      «
+    </button>
+
+    <button
+      v-for="pageNum in currentPageRange"
+      :key="pageNum"
+      :class="{ active: pageNum === search.page + 1 }"
+      @click="changePage(pageNum - 1)"
+      class="pagination-button">
+      {{ pageNum }}
+    </button>
+
+    <button
+      v-if="canGoForward"
+      @click="goToNextSet"
+      class="pagination-button">
+      »
+    </button>
   </div>
 </template>
 
 <style scoped>
-.container {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 0;
-}
+  .container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+  }
 
-.saramin {
-  padding: 10px;
-}
-.search {
-  width: 1420px;
-}
-.bottom {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-}
-.saramin a {
-  font-weight: bold;
-  color: rgba(61, 28, 205, 0.784);
-}
-#job-scrap-link {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 10px;
-  font-weight: 700;
-  border-radius: 10px;
-}
+  .saramin {
+    padding: 10px;
+  }
+  .search {
+    width: 1420px;
+  }
+  .bottom {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+  }
+  .saramin a {
+    font-weight: bold;
+    color: rgba(61, 28, 205, 0.784);
+  }
+  #job-scrap-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 10px;
+    font-weight: 700;
+    border-radius: 10px;
+  }
 
-.list {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-}
-.recommend {
-  display: flex;
-  flex-direction: column;
-}
-.recommend .title {
-  padding: 30px 0;
-  border-top: 1px solid var(--border-gray);
-}
+  .list {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+  .recommend {
+    display: flex;
+    flex-direction: column;
+  }
+  .recommend .title {
+    padding: 30px 0;
+    border-top: 1px solid var(--border-gray);
+  }
+
+  .pagination {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .pagination-button {
+    background-color: white;
+    border: 1px solid rgba(255, 255, 255, 0.626);
+    width: 20px;
+    font-size: 16px;
+  }
 </style>

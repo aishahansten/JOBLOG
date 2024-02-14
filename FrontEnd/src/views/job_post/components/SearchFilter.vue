@@ -159,6 +159,7 @@ const performSearch = () => {
     expLv: selectedExperience.value,
     keyword: searchTerm.value.trim(),
     page: 0,
+    size: 30,
   };
   emits('search', {
     searchConditions: searchConditions

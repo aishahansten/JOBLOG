@@ -118,4 +118,9 @@ public class User extends BaseEntity {
     public void deleteUser() {
         this.isDelete = true;
     }
+
+
+    public void changeRole() {
+        this.role = UserRole.ROLE_JUNIOR;
+    }
 }

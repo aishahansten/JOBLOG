@@ -80,7 +80,8 @@ public class AlarmService {
         producerService.chatRejectAlarm(userId, "커피챗 거절");
     }
 
-    @Scheduled(cron = "0 0 0 * * *")
+//    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0/10 * * * * *")
     public void sendScheduleAlarm() {
         LocalDateTime today = LocalDateTime.now();
         LocalDateTime tomorrow = today.plusDays(1);
