@@ -7,6 +7,8 @@ export const useJobPostStore = defineStore('jobPost', {
     jobPosts: [],
     currentJob: {},
     companyReview: [],
+    companyDetail: {},
+    companyRecruit: [],
   }),
   actions: {
     async getJobPost(search) {
@@ -38,8 +40,24 @@ export const useJobPostStore = defineStore('jobPost', {
       } catch (err) {
         console.error(err)  
       }
-    }
+    },
 
-
+    async getCompanyDetail(id) {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/company/${id}`)
+        this.companyDetail.value = res.data
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    async getCompanyRecruit(id) {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/company/${id}/recruit`)
+        this.companyRecruit.value = res.data
+        console.log('.js 데이터 확인', this.companyRecruit.value)
+      } catch (err) {
+        console.error(err)
+      }
+    },
   },
 });

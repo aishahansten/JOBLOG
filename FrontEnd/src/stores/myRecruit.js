@@ -1,53 +1,32 @@
-//myRecruit 생성
-// import axios from "axios";
-// import { ref, computed } from "vue";
-// import { useAuthStore } from "@/stores/auth";
-// import router from "@/router";
+import { defineStore } from "pinia";
+import axios from "axios";
+import { useAuthStore } from "./auth";
 
-// const authStore = useAuthStore();
-
-// const createMyRecruit = async () => {
-//   try {
-//       authStore.updateUserInfoFromToken();
-//       newMyRecruit.value.userId = authStore.userInfo.sub;
-//       const config = {
-//           headers: {
-//               Authoriation :`${authStore.accessToken}`,
-//           },
-//       };
-
-//       const response = await axios.post(
-//           `${import.meta.env.VITE_API_BASE_URL}/myRecruit/register`,
-//           newMyRecruit.value,
-//           config
-//       );
-//       console.log(response.data);
-//       newMyRecruit.value = {
-//         userId: authStore.userInfo.sub,
-//         companyName: "test company",
-//         companyCODE: "test code",
-//         job: "test job",
-//         openingDate: new Date("2024-02-08T00:00:00"),
-//         expirationDate: new Date("2024-02-08T00:00:00"),
-//         description: "test description",
-//       };
-//       // router.push();
-//   } catch (error) {
-//       console.error(error);
-//   }
-// };
-
-// const newMyRecruit = ref({
-//   userId: authStore.userInfo.sub,
-//   companyName: "test company",
-//   companyCODE: "test code",
-//   job: "test job",
-//   openingDate: new Date("2024-02-08T00:00:00"),
-//   expirationDate: new Date("2024-02-08T00:00:00"),
-//   description: "test description",
-// });
-
-
+export const useMyRecruitStore = defineStore("myRecruit", {
+  state: () => ({
+    newMyRecruit: {},
+  }),
+  actions: {
+    async createMyRecruit(newMyRecruit) {
+      const authStore = useAuthStore();
+      authStore.updateUserInfoFromToken();
+      newMyRecruit.value.userId = authStore.userInfo.sub;
+      const config = {
+        headers: { Authoriation: `${authStore.accessToken}` },
+      };
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_BASE_URL}/myRecruit/register`,
+          newMyRecruit.value,
+          config
+        );
+        console.log("만들기", response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
+});
 
 //======================================================
 //myRecruit 전체 조회
@@ -126,9 +105,6 @@
 //   }
 // }
 
-
-
-
 //======================================================
 //myRecruit 수정
 // import axios from "axios";
@@ -168,8 +144,6 @@
 //       console.error(error);
 //   }
 // };
-
-
 
 //======================================================
 //myRecruit 삭제

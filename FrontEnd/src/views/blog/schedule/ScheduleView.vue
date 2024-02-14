@@ -7,6 +7,9 @@ import Calendar from "./components/Calendar.vue";
   <div class="container">
     <Calendar />
   </div>
+  <div>
+    <RouterLink :to="{ name: 'CustomJobCreate' }"> 공고 만들기 </RouterLink>
+  </div>
 </template>
 
 <style scoped>
@@ -30,5 +33,10 @@ import Calendar from "./components/Calendar.vue";
 .calendar-space {
   border: 1px solid black;
   border-radius: 8px;
+}
+
+input[type="datetime-local"]:focus {
+  font-size: 20px; /* Adjust this value as needed */
+  padding: 10px; /* Larger padding for a larger click area */
 }
 </style>
