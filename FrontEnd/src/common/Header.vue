@@ -11,51 +11,6 @@ const authStore = useAuthStore();
 const loggedIn = computed(() => !!authStore.userInfo);
 
 authStore.updateUserInfoFromToken();
-
-<<<<<<< HEAD
-=======
-const retryCount = ref(0);
-const hasAlarm = ref(false);
-let sse;
-
-const startSSE = () => {
-  if (retryCount.value >= 3) {
-    return;
-  }
-
-  sse = new EventSource("/api/connect");
-
-  sse.onmessage = (event) => {
-    if (event.data !== "connected!") {
-      hasAlarm.value = true;
-    }
-  };
-
-  sse.onerror = (event) => {
-    if (event.target.readyState === EventSource.CLOSED) {
-      retryCount.value++;
-      setTimeout(startSSE, 5000); // 5초후 SSE 재연결
-    }
-  };
-};
-
-function checkAuthentication(cookieName) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${cookieName}=`);
-  if (parts.length === 2) {
-    return true;
-  }
-  return false;
-}
-
-const isAuthenticated = checkAuthentication("accessToken");
-
-// onMounted(async () => {
-//   if (isAuthenticated) {
-//     startSSE();
-//   }
-// });
->>>>>>> feature/hwiwon
 </script>
 
 <template>

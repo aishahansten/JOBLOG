@@ -3,11 +3,14 @@ import { ref } from "vue";
 import AuthStatus from "./AuthStatus.vue";
 import "@/assets/css/setting/setting-header.css";
 import "@/assets/css/setting/menu/employee-auth.css";
+import { useAuthStore } from "@/stores/auth";
 
 const isEdit = ref(false);
-function toggleEdit() {
-  isEdit.value = !isEdit.value;
-}
+const toggleEdit = async () => {
+  const authStore = useAuthStore();
+  console.log("시발");
+  await authStore.changeUserRole();
+};
 </script>
 
 <template>
@@ -25,11 +28,7 @@ function toggleEdit() {
         <div class="lines">
           <span>회사 이메일 주소</span>
           <div>
-            <input
-              type="text"
-              placeholder="회사 이메일을 입력하세요"
-              id="email-input"
-            />
+            <input type="text" placeholder="회사 이메일을 입력하세요" id="email-input" />
             <a class="edit-btn clickable-btn">인증메일 전송</a>
           </div>
         </div>
@@ -40,9 +39,7 @@ function toggleEdit() {
           </div>
         </div>
       </div>
-      <a @click="toggleEdit" class="update-btn clickable" id="go-auth-btn">
-        인증 완료
-      </a>
+      <a @click="toggleEdit" class="update-btn clickable" id="go-auth-btn"> 인증 완료 </a>
     </div>
   </div>
 
