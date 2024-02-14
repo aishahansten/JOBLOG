@@ -7,7 +7,15 @@
       <div class="title">
         <a class="btn f-color-w h-solid-g">
           <i class="fa-solid fa-caret-left"></i>
-          목록으로 돌아가기
+          수정 취소
+        </a>
+        <h3>수정하기</h3>
+        <a
+          @click="saveJournal"
+          class="btn lined-bg f-color-c h-lined-c a-solid-c"
+        >
+          <i class='fa fa-floppy-o'></i>
+          수정 완료
         </a>
         <h3>00월 00일의 일기</h3>
         <a class="btn lined-bg f-color-c h-lined-c a-solid-c"> 작성 완료 </a>
@@ -15,12 +23,25 @@
     </div>
 
     <div class="content">
+      <div class="title" v-if="journal">
+        <i class="fa-solid fa fa-pencil fa-2xl"></i>
+        <input
+          type="text"
+          class="input-simple focus-lined-c"
+          placeholder="글을 작성해주세요"
+          v-model="journal.content"
+          required
+        />
+      </div>
       <textarea
         class="input focus-lined-c"
-        placeholder="일기 내용을 입력해주세요"
+        placeholder="미리보기"
+        v-model="journal.content"
         required
       ></textarea>
     </div>
+
+
   </div>
 </template>
 
