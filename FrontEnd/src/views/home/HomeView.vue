@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import Calendar from "./components/Calendar.vue";
 import ResumeEssay from "./components/ResumeEssay.vue";
 import Chatter from "./components/Chatter.vue";
@@ -11,6 +11,38 @@ const authStore = useAuthStore();
 const loggedIn = computed(() => !!authStore.userInfo);
 
 authStore.updateUserInfoFromToken();
+
+const retryCount = ref(0);
+const hasAlarm = ref(false);
+let sse;
+
+
+const startSSE = async() => {
+  sse = new EventSource(`${import.meta.env.VITE_API_BASE_URL}/connect/${authStore.userInfo.sub}`);
+
+  sse.onmessage = (event) => {
+    if (event.data !== "connected") {
+      hasAlarm.value = true;
+      console.log("이벤트 발생");
+    }
+  };
+
+  sse.onerror = (event) => {
+    if (event.target.readyState === EventSource.CLOSED) {
+      retryCount.value++;
+      setTimeout(startSSE, 5000); // 5초후 SSE 재연결
+    }
+  };
+};
+
+onMounted(async () => {
+  if (loggedIn) {
+    console.log("ASDFADFS");
+    startSSE();
+  } else {
+    console.log('로그인 안됨')
+  }
+});
 </script>
 
 <template>
