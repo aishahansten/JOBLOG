@@ -94,7 +94,9 @@ const prevPage = () => {
     display: grid;
     grid-template-rows: 3.5fr 1fr;
     grid-gap: 20px;
-    margin: 20px 10px;
+    margin: 5px 10px;
+    height: 20px;
+
   }
   .diary .img {
     height: 200px;
