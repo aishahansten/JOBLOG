@@ -4,7 +4,6 @@ import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { INITIAL_EVENTS, createEventId } from "@/event-utils";
 import "@/assets/css/home/todo.css";
 
 import axios from "axios";
@@ -12,7 +11,29 @@ import { useAuthStore } from "@/stores/auth";
 import router from "@/router";
 
 const authStore = useAuthStore();
+const currentEvents = ref([]);
 
+////////////////////////////////////// onMounted ////////////////
+onMounted(async () => {
+  await Promise.all([getSchedules(), getSelections(), getMyRecruits()]);
+  // 이제 schedules, selections, myRecruits가 각각의 API 호출을 통해 채워졌다고 가정합니다.
+
+  // 변환된 이벤트 데이터를 currentEvents에 추가
+  const convertedEvents = [
+    ...convertToCalendarEvents(schedules),
+    ...convertToCalendarEvents(selections),
+    ...convertToCalendarEvents(myRecruits),
+  ];
+
+  // FullCalendar 이벤트로 설정
+  currentEvents.value = [...convertedEvents];
+
+  // FullCalendar 갱신을 위해 eventsSet 함수 호출 (필요한 경우)
+  // 주의: FullCalendar Vue 컴포넌트가 이 방식으로 동적 업데이트를 지원하지 않을 수 있습니다.
+  // eventsSet 메서드 대신, initialEvents prop을 업데이트하는 방식을 고려해야 할 수도 있습니다.
+});
+
+////////////////////////////////////// calendarOptions ////////////////
 const calendarOptions = ref({
   plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
   headerToolbar: {
@@ -21,7 +42,8 @@ const calendarOptions = ref({
     right: "dayGridMonth,timeGridWeek,timeGridDay",
   },
   initialView: "dayGridMonth",
-  initialEvents: INITIAL_EVENTS,
+  initialEvents: currentEvents.value,
+  // initialEvents: INITIAL_EVENTS,
   editable: true,
   selectable: true,
   selectMirror: true,
@@ -31,8 +53,6 @@ const calendarOptions = ref({
   eventClick: handleEventClick,
   eventsSet: handleEvents,
 });
-
-const currentEvents = ref([]);
 
 function handleWeekendsToggle() {
   calendarOptions.value.weekends = !calendarOptions.value.weekends;
@@ -70,8 +90,7 @@ function formatTime(isoString) {
   });
 }
 
-// 여기서부터 편집된 코드
-
+////////////////////////////////////// 날짜별 필터링 /////////////
 const selectedDateEvents = ref([]);
 
 // 오늘의 이벤트를 필터링하여 selectedDateEvents에 설정하는 함수
@@ -86,14 +105,7 @@ function filterTodayEvents() {
   });
 }
 
-// 컴포넌트가 마운트될 때 오늘의 이벤트를 필터링하여 표시
-onMounted(() => {
-  filterTodayEvents(); // 초기 로딩 시 오늘의 이벤트를 필터링하여 selectedDateEvents에 할당
-  getSchedules();
-});
-
-// schedule 전체 조회
-
+////////////////////////////////////// schedule 전체 조회 /////
 let schedules = [];
 
 const getSchedules = async () => {
@@ -114,19 +126,87 @@ const getSchedules = async () => {
     if (err.response && err.response.status === 500) {
       router.push("/login2");
     } else {
+      console.log("token", token);
+    }
+  }
+};
+////////////////////////////////////// selected 전체 조회 /////
+let selections = [];
+
+const getSelections = async () => {
+  try {
+    authStore.updateUserInfoFromToken();
+    const config = {
+      headers: {
+        Authoriation: `${authStore.accessToken}`,
+      },
+    };
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_BASE_URL}/selection/${
+        authStore.userInfo.sub
+      }`,
+      config
+    );
+    selections = response.data;
+    console.log(selections);
+  } catch (err) {
+    if (err.response && err.response.status === 500) {
+      router.push("/login2");
+    } else {
+      // Handle other errors or a case where the error does not have a response object
+      // console.log("token", token); // Logging the token for debugging purposes
+    }
+  }
+};
+
+////////////////////////////////////// myRecruit 전체 조회 /////
+let myRecruits = [];
+
+const getMyRecruits = async () => {
+  try {
+    authStore.updateUserInfoFromToken();
+    const config = {
+      headers: {
+        Authoriation: `${authStore.accessToken}`,
+      },
+    };
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_BASE_URL}/myRecruit/${
+        authStore.userInfo.sub
+      }`,
+      config
+    );
+    myRecruits = response.data;
+    console.log(myRecruits);
+  } catch (err) {
+    if (err.response && err.response.status === 500) {
+      router.push("/login2");
+    } else {
       // Handle other errors or a case where the error does not have a response object
       console.log("token", token); // Logging the token for debugging purposes
     }
   }
 };
 
-// schedule 생성
+////////////////////////////////////// fullCal 형식으로 변환 /////////////
+function convertToCalendarEvents(data) {
+  return data.map((item) => ({
+    id: item.id, // 고유 ID
+    title: item.title, // 이벤트 제목
+    start: item.startDate, // 시작 날짜
+    end: item.endDate, // 종료 날짜 (선택 사항)
+    // 다른 필요한 속성들을 여기에 추가할 수 있습니다
+  }));
+}
+
+////////////////////////////////////// schedule 생성 /////////
 const createSchedule = async () => {
   try {
     authStore.updateUserInfoFromToken();
+    newSchedule.value.userId = authStore.userInfo.sub;
     const config = {
       headers: {
-        Authorization: `${authStore.accessToken}`, // 오타 수정: 'Authoriation' -> 'Authorization'
+        Authoriation: `${authStore.accessToken}`,
       },
     };
 
@@ -135,29 +215,32 @@ const createSchedule = async () => {
       newSchedule.value,
       config
     );
-
-    // 캘린더에 스케줄 추가
-    const createdSchedule = response.data;
-    calendarOptions.value.getApi().addEvent({
-      id: createdSchedule.id, // 또는 createEventId() 사용
-      title: createdSchedule.title,
-      start: createdSchedule.startDate,
-      end: createdSchedule.endDate,
-      allDay: true,
-    });
-
-    console.log("스케줄 생성:", response.data);
+    console.log(response.data);
+    newSchedule.value = {
+      userId: authStore.userInfo.sub,
+      title: "일정 제목을 입력하세요",
+      content: "일정 설명",
+      startDate: new Date("2024-02-08T00:00:00"),
+      endDate: new Date("2024-02-08T00:00:00"),
+    };
   } catch (error) {
-    console.error("스케줄 생성 실패:", error);
+    console.error(error);
   }
 };
 
-// myRecruit 생성
+const newSchedule = ref({
+  userId: authStore.userInfo.sub,
+  title: "일정 제목을 입력하세요",
+  content: "일정 설명",
+  startDate: new Date("2024-02-08T00:00:00"),
+  endDate: new Date("2024-02-08T00:00:00"),
+});
 
-const createMyRecruit = async () => {
+////////////////////////////////////// selection 생성 /////////
+const createSelection = async () => {
   try {
     authStore.updateUserInfoFromToken();
-    newMyRecruit.value.userId = authStore.userInfo.sub;
+    newSelection.value.userId = authStore.userInfo.sub;
     const config = {
       headers: {
         Authoriation: `${authStore.accessToken}`,
@@ -165,19 +248,19 @@ const createMyRecruit = async () => {
     };
 
     const response = await axios.post(
-      `${import.meta.env.VITE_API_BASE_URL}/myRecruit/register`,
-      newMyRecruit.value,
+      `${import.meta.env.VITE_API_BASE_URL}/selection/register`,
+      newSelection.value,
       config
     );
     console.log(response.data);
-    newMyRecruit.value = {
+    newSelection.value = {
       userId: authStore.userInfo.sub,
-      companyName: "test company",
-      companyCODE: "test code",
-      job: "test job",
-      openingDate: new Date("2024-02-08T00:00:00"),
-      expirationDate: new Date("2024-02-08T00:00:00"),
-      description: "test description",
+      myRecruitId: 1,
+      companyName: "test title",
+      companyCode: "test content",
+      step: 1,
+      state: "test state",
+      date: new Date("2024-02-08T00:00:00"),
     };
     // router.push();
   } catch (error) {
@@ -185,25 +268,50 @@ const createMyRecruit = async () => {
   }
 };
 
-const newMyRecruit = ref({
+const newSelection = ref({
   userId: authStore.userInfo.sub,
-  companyName: "test company",
-  companyCODE: "test code",
-  job: "test job",
-  openingDate: new Date("2024-02-08T00:00:00"),
-  expirationDate: new Date("2024-02-08T00:00:00"),
-  description: "test description",
+  myRecruitId: 1,
+  companyName: "test title",
+  companyCode: "test content",
+  step: 1,
+  state: "test state",
+  date: new Date("2024-02-08T00:00:00"),
 });
+
+////////////////////////////////////// schedule 선택 ////////
+const selectedEvent = ref(null);
+function selectEvent(event) {
+  selectedEvent.value = event;
+  toggleModal3();
+}
+
+////////////////////////////////////// modal ////////////////
+const isModalOpen = ref(false); // 모달 상태를 관리하는 변수
+function toggleModal() {
+  isModalOpen.value = !isModalOpen.value;
+}
+
+const isModalOpen2 = ref(false); // 모달 상태를 관리하는 변수
+function toggleModal2() {
+  isModalOpen2.value = !isModalOpen2.value;
+}
+
+const isModalOpen3 = ref(false); // 모달 상태를 관리하는 변수
+function toggleModal3() {
+  if (!isModalOpen3.value) {
+    selectedEvent.value = null; // 모달을 열 때가 아닌 닫을 때 상태를 초기화
+  }
+  isModalOpen3.value = !isModalOpen3.value;
+}
 </script>
 
 <template>
   <div class="container">
     <div class="full-cal">
       <div class="calendar">
-        <FullCalendar class="demo-app-calendar" :options="calendarOptions">
+        <FullCalendar class="app-calendar" :options="calendarOptions">
           <template v-slot:eventContent="arg">
             <b>{{ arg.event.title }}</b>
-            {{ arg.timeText }}
           </template>
         </FullCalendar>
       </div>
@@ -212,35 +320,154 @@ const newMyRecruit = ref({
         <div class="header">
           <h2 class="f-weight-t">나의 일정 목록</h2>
           <div class="btns">
-            <a class="btn-s solid-c h-bright a-dark">외부공고 등록</a>
-            <a class="btn-s solid-c h-bright a-dark">전형일정 등록</a>
-            <a class="btn-s solid-c h-bright a-dark" @click="createSchedule"
+            <!-- <RouterLink
+              :to="{ name: 'CustomJobCreate' }"
+              class="btn-s solid-c h-bright a-dark"
+              >외부공고 등록</RouterLink
+            > -->
+            <a class="btn-s solid-c h-bright a-dark" @click="toggleModal2"
+              >전형일정 등록</a
+            >
+            <a class="btn-s solid-c h-bright a-dark" @click="toggleModal"
               >기타일정 등록</a
             >
           </div>
         </div>
-        <div class="tasks">
-          <div v-for="event in selectedDateEvents" :key="event.id" class="task">
+        <div class="tasks" v-if="selectedDateEvents.length > 0">
+          <div
+            v-for="event in selectedDateEvents"
+            :key="event.id"
+            class="task"
+            @click="
+              () => {
+                selectEvent(event);
+                toggleModal3();
+              }
+            "
+          >
             <div class="coloring"></div>
             <div class="task-info">
               <b class="f-size-20">{{ event.title }}</b>
-              {{ formatTime(event.startStr) }}
+              {{ formatTime(event.startStr) }} ~ {{ formatTime(event.endStr) }}
             </div>
           </div>
         </div>
+        <div class="tasks" v-else>
+          <h3 class="f-color-g">일정을 등록해보세요!</h3>
+        </div>
       </div>
+    </div>
+  </div>
+
+  <div v-if="isModalOpen" class="modal">
+    <a @click="toggleModal" class="exit-btn"
+      ><i class="fa-solid fa-xmark fa-xl"></i
+    ></a>
+    <h1 class="title">일정 추가하기</h1>
+    <div class="content">
+      <div class="detail">
+        <input
+          type="text"
+          v-model="newSchedule.title"
+          class="input"
+          placeholder="일정 제목"
+        />
+        <input
+          type="datetime-local"
+          v-model="newSchedule.startDate"
+          class="input"
+        />
+        ~
+        <input
+          type="datetime-local"
+          v-model="newSchedule.endDate"
+          class="input"
+        />
+        <textarea v-model="newSchedule.content" class="input" />
+      </div>
+      <a class="btn solid-c h-bright a-dark" @click="createSchedule"
+        >저장하기</a
+      >
+    </div>
+  </div>
+
+  <div v-if="isModalOpen2" class="modal">
+    <a @click="toggleModal2" class="exit-btn"
+      ><i class="fa-solid fa-xmark fa-xl"></i
+    ></a>
+    <h1 class="title">전형일정 추가하기</h1>
+    <div class="content">
+      <div class="detail">
+        <input
+          type="text"
+          v-model="newSchedule.title"
+          class="input"
+          placeholder="일정 제목"
+        />
+        <input
+          type="datetime-local"
+          v-model="newSchedule.startDate"
+          class="input"
+        />
+        ~
+        <input
+          type="datetime-local"
+          v-model="newSchedule.endDate"
+          class="input"
+        />
+        <textarea v-model="newSchedule.content" class="input" />
+      </div>
+      <a class="btn solid-c h-bright a-dark" @click="createSelection"
+        >저장하기</a
+      >
+    </div>
+  </div>
+
+  <div v-if="isModalOpen3" class="modal">
+    <a @click="toggleModal3" class="exit-btn"
+      ><i class="fa-solid fa-xmark fa-xl"></i
+    ></a>
+    <h1 class="title">일정 조회하기</h1>
+    <div class="content">
+      <div class="detail">
+        <p>일정 제목 | {{ selectedEvent.value?.title }}</p>
+        <p>일정 시작 | {{ selectedEvent.value?.start }}</p>
+        <p>일정 마감 | {{ selectedEvent.value?.end }}</p>
+        <p>일정 내용 | {{ selectedEvent.value?.content }}</p>
+        <input
+          type="text"
+          v-model="newSchedule.title"
+          class="input"
+          placeholder="일정 제목"
+        />
+        <input
+          type="datetime-local"
+          v-model="newSchedule.startDate"
+          class="input"
+        />
+        ~
+        <input
+          type="datetime-local"
+          v-model="newSchedule.endDate"
+          class="input"
+        />
+        <textarea v-model="newSchedule.content" class="input" />
+      </div>
+      <a class="btn solid-c h-bright a-dark" @click="createSelection"
+        >저장하기</a
+      >
     </div>
   </div>
 </template>
 
 <style scoped>
 .container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  padding: 30px 0;
 }
 
 .header {
+  display: flex;
+  justify-content: space-between;
   padding: 10px 0;
   border-bottom: 1px solid var(--border-gray);
 }
@@ -269,9 +496,10 @@ const newMyRecruit = ref({
   display: flex;
   flex-direction: column;
   gap: 20px;
+  margin-left: 20px;
 }
 .task-space h2 {
-  padding: 10px 0;
+  padding: 8px 0;
   text-align: end;
 }
 .tasks {
@@ -298,5 +526,56 @@ const newMyRecruit = ref({
   justify-content: center;
   gap: 10px;
   height: 100%;
+}
+
+/* modal */
+.modal {
+  display: flex;
+  flex-direction: column;
+
+  width: 600px;
+  height: 600px;
+  padding: 50px;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+
+  border: 1px solid var(--border-gray);
+  border-radius: 20px;
+  background-color: white;
+}
+.exit-btn {
+  position: absolute;
+  top: 60px;
+  right: 60px;
+}
+
+.modal .title {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-gray);
+}
+.modal .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  height: 100%;
+  padding: 40px 0;
+}
+
+.modal .detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.modal .detail * {
+  width: 100%;
+}
+.modal .detail textarea {
+  height: 100px;
 }
 </style>
