@@ -52,7 +52,7 @@ public class Selection extends BaseEntity {
     @Column(length = 2000)
     private String comment;
 
-    @Column(length = 10000)
+    @Column(length = 5000)
     private String review; //private
 
     @Builder
