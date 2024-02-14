@@ -20,6 +20,7 @@
 /*! lined */
 .lined-c {
   border: 1px solid var(--main-blue);
+  color: var(--main-blue);
 }
 .lined-bg {
   border: 1px solid var(--border-gray);
@@ -38,6 +39,18 @@
   background-color: var(--gray);
   color: white;
 }
+
+.solid-c,
+.solid-dg,
+.solid-g {
+  color: white;
+}
+.solid-c *,
+.solid-dg *,
+.solid-g * {
+  color: white;
+}
+
 .solid-bg {
   background-color: var(--border-gray);
 }

@@ -1,104 +1,125 @@
 <template>
-  <div class="application-container">
-    <div class="application-left">
-      <div class="application-header">
-        <div>
-          <h1>이력서</h1>
-        </div>
-        <div class="header-right">
-          <RouterLink :to="{ name: 'ResumeCreate' }"> <h1>+</h1></RouterLink>
-        </div>
-      </div>
-      <div class="application-list">
-        <ResumeListView />
-      </div>
+  <div class="container">
+    <div class="header">
+      <h1>입사지원서 관리</h1>
+      <p>
+        직무에 따라 자유롭게 제작 가능한 이력서와<br />
+        문항별로 작성한 자기소개서를 조합하여<br />
+        입사지원서를 간편하게 제작합니다.
+      </p>
     </div>
-    <div class="application-right">
-      <div class="application-header">
-        <h1>자기소개서</h1>
-        <div class="header-right">
-          <button @click="toggleModal" class="w-btn w-btn-indigo">
-            + 추가하기
-          </button>
+    <div class="content">
+      <div class="left">
+        <div class="title">
+          <h1>이력서</h1>
+          <RouterLink :to="{ name: 'ResumeCreate' }" class="pointer"
+            ><i class="fa-solid fa-square-plus fa-xl"></i
+          ></RouterLink>
+        </div>
+        <div class="list">
+          <ResumeListView />
         </div>
       </div>
-      <EssayList :essayList="essayList" />
+      <div class="right">
+        <div class="title">
+          <h1>자기소개서</h1>
+          <a @click="toggleModal" class="pointer">
+            <i class="fa-solid fa-square-plus fa-xl"></i>
+          </a>
+        </div>
+        <div class="list">
+          <EssayList :essayList="essayList" />
+        </div>
+      </div>
     </div>
   </div>
-  <div v-if="showModal" class="modal">
-    <div class="modal-content">
-      <h2>새 항목 작성</h2>
-      <div>
-        <label for="job-post">채용공고:</label>
-        <input type="text" class="job-post-dropdown" />
-        <div v-if="categoryLoaded"></div>
-        <div class="dropdown" v-else>
-          <div
-            class="dropdown-button"
-            @click="toggleDropdown"
-            v-if="essays.categoryId === null"
-          >
-            카테고리를 선택해주세요!
-          </div>
-          <div class="dropdown-button" @click="toggleDropdown" v-else>
-            {{ selectedCategoryName }}
-          </div>
-          <div class="dropdown-content" v-if="showDropdown">
-            <div
-              v-for="category in categoryList"
-              :key="category.categoryId"
-              class="dropdown-item"
-            >
-              <div @click="checkCategory(category.categoryId)" class="category">
-                {{ category.categoryName }}
-              </div>
-              <button @click="deleteCategory(category.categoryId)">
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-        <button
-          v-if="!showAdd"
-          @click="toggleShowAdd"
-          class="w-btn w-btn-indigo"
-          type="button"
-        >
-          추가
-        </button>
-        <button
-          v-if="showAdd"
-          @click="toggleShowAdd"
-          class="w-btn w-btn-indigo"
-          type="button"
-        >
-          취소
-        </button>
 
+  <div v-if="showModal" class="modal">
+    <a @click="toggleModal" class="exit-btn"
+      ><i class="fa-solid fa-xmark fa-xl"></i
+    ></a>
+    <h1 class="title">자기소개서 문항 작성</h1>
+    <div class="content">
+      <div>
+        <label for="job-post"><i class="fa-solid fa-scroll"></i>　공고명</label>
+        <input type="text" class="job-post-dropdown input" />
+      </div>
+
+      <div class="category-add">
+        <div class="toggle">
+          <a
+            v-if="!showAdd"
+            @click="toggleShowAdd"
+            class="btn lined-bg f-color-g h-solid-g a-bright"
+            type="button"
+          >
+            새 카테고리 추가　<i class="fa-solid fa-square-plus"></i>
+          </a>
+          <a
+            v-if="showAdd"
+            @click="toggleShowAdd"
+            class="btn lined-bg f-color-g h-solid-g a-bright"
+            type="button"
+          >
+            취소
+          </a>
+        </div>
         <div v-if="showAdd" class="add-category">
           <input
             type="text"
+            class="input"
             v-model="category.categoryName"
             placeholder="카테고리를 추가하세요"
           />
-          <button @click="addCategory()">카테고리 추가하기</button>
+          <a @click="addCategory()" class="btn solid-c h-bright a-dark"
+            >카테고리 추가하기</a
+          >
         </div>
       </div>
-      <label for="question">질문:</label>
-      <input type="text" id="question" v-model="essays.question" />
-
-      <label for="answer">답변:</label>
-      <textarea id="answer" v-model="essays.answer"></textarea>
-      <div>{{ essays.answer.length }}자</div>
-      <div class="modal-buttons">
-        <button @click="submitEssay" class="w-btn w-btn-indigo" type="button">
-          제출
-        </button>
-
-        <button @click="toggleModal" class="w-btn w-btn-indigo" type="button">
-          닫기
-        </button>
+      <div v-if="categoryLoaded"></div>
+      <div class="dropdown" v-else>
+        <a
+          class="dropdown-button btn lined-c h-solid-c a-bright"
+          @click="toggleDropdown"
+          v-if="essays.categoryId === null"
+        >
+          카테고리를 선택해주세요!　
+          <i class="fa-solid fa-square-caret-down"></i>
+        </a>
+        <div class="dropdown-button" @click="toggleDropdown" v-else>
+          {{ selectedCategoryName }}
+        </div>
+        <div class="dropdown-content" v-if="showDropdown">
+          <div
+            v-for="category in categoryList"
+            :key="category.categoryId"
+            class="dropdown-item"
+          >
+            <div @click="checkCategory(category.categoryId)" class="category">
+              {{ category.categoryName }}
+            </div>
+            <button @click="deleteCategory(category.categoryId)">Delete</button>
+          </div>
+        </div>
       </div>
+
+      <div class="write">
+        <input
+          type="text"
+          class="input"
+          id="question"
+          v-model="essays.question"
+        />
+        <textarea class="input" id="answer" v-model="essays.answer"></textarea>
+      </div>
+      <div>{{ essays.answer.length }}자</div>
+      <a
+        @click="submitEssay"
+        class="btn lined-c h-solid-c a-bright"
+        type="button"
+      >
+        제출
+      </a>
     </div>
   </div>
 </template>
@@ -116,46 +137,50 @@ const authStore = useAuthStore();
 const essayResumeStore = useEssayResumeStore();
 
 const essays = ref({
-    userId: '',
-    categoryId: null,
-    question: '문항을 입력해주세요',
-    answer: '답변을 입력해주세요',
-  });
+  userId: "",
+  categoryId: null,
+  question: "문항 제목을 입력해주세요",
+  answer: "내용을 입력해주세요",
+});
 
 const submitEssay = async () => {
-    await authStore.updateUserInfoFromToken();
-    essays.value.userId = authStore.userInfo.sub;
+  await authStore.updateUserInfoFromToken();
+  essays.value.userId = authStore.userInfo.sub;
 
-    const dataToSubmit = {
-        ...essays.value,
-        userId: authStore.userInfo.sub,
-    }
+  const dataToSubmit = {
+    ...essays.value,
+    userId: authStore.userInfo.sub,
+  };
 
-    if (dataToSubmit.categoryId === null) {
-        delete dataToSubmit.categoryId;
-    }
+  if (dataToSubmit.categoryId === null) {
+    delete dataToSubmit.categoryId;
+  }
 
-    const config = {
-        headers: {
-            'Authorization': `${authStore.accessToken}`,
-        },
-    };
-    try {
-        const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/essay/register`, dataToSubmit, config);
-        essayList.value = essayResumeStore.essayList
-    } catch (err) {
-        console.error(err);
-    }
+  const config = {
+    headers: {
+      Authorization: `${authStore.accessToken}`,
+    },
+  };
+  try {
+    const res = await axios.post(
+      `${import.meta.env.VITE_API_BASE_URL}/essay/register`,
+      dataToSubmit,
+      config
+    );
+    essayList.value = essayResumeStore.essayList;
+  } catch (err) {
+    console.error(err);
+  }
 
-    essays.value = {
-      userId: '',
-      categoryId: null, 
-      question: '문항을 입력해주세요',
-      answer: '답변을 입력해주세요',
-    };
+  essays.value = {
+    userId: "",
+    categoryId: null,
+    question: "문항을 입력해주세요",
+    answer: "답변을 입력해주세요",
+  };
 
-    showModal.value = !showModal.value;
-    essayList.value = essayResumeStore.essayList; 
+  showModal.value = !showModal.value;
+  essayList.value = essayResumeStore.essayList;
 };
 
 const essayList = ref([]);
@@ -239,82 +264,110 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.application-container {
+/* 기본 화면 */
+.container {
+  padding: 30px 0;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 20px 0;
+}
+.header p {
+  text-align: end;
+  line-height: 130%;
+}
+.content {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  width: 1344px;
-  box-sizing: border-box;
-  padding: 20px;
-  border: 1px solid black;
-  border-radius: 8px;
-  margin-top: 20px;
+  gap: 20px;
+  padding: 20px 0;
 }
 
-.application-left,
-.application-right {
+.left,
+.right {
   display: grid;
   grid-template-rows: 1fr 9fr;
-  border: 1px solid black;
-  border-radius: 8px;
-  box-sizing: border-box;
-  padding: 40px;
   max-height: 900px;
+  padding: 40px;
+
+  border: 1px solid var(--border-gray);
+  border-radius: 10px;
+  background-color: var(--light-gray);
 }
 
-.application-header {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-.header-right {
+.title {
   display: flex;
-  margin-left: auto;
-  justify-content: center;
-}
-
-.application-list,
-.essay-list {
-  border: 1px solid black;
-  border-radius: 8px;
-}
-
-.empty-essay {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  height: 500px;
-  font-size: 24px;
 }
 
-.modal {
-  position: fixed;
-  top: 10%;
-  width: 1100px;
-  height: 700px;
-  background-color: rgba(0, 0, 0, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-}
-
-.modal-content {
+.list {
+  border: 1px solid var(--border-gray);
+  border-radius: 10px;
   background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  width: 1000px;
-  height: 600px;
 }
 
-.modal-content textarea {
+/* modal */
+.modal {
+  display: flex;
+  flex-direction: column;
+
+  width: 1000px;
+  height: 1000px;
+  padding: 50px;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+
+  border: 1px solid var(--border-gray);
+  border-radius: 20px;
+  background-color: white;
+}
+.exit-btn {
+  position: absolute;
+  top: 60px;
+  right: 60px;
+}
+
+.modal .title {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-gray);
+}
+.modal .content {
+  display: flex;
+  flex-direction: column;
+  justify-content: baseline;
+
+  padding: 40px 0;
+}
+
+.write {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.write input {
+  width: 100%;
+  font-size: 20px;
+}
+.write textarea {
+  height: 400px;
   resize: none;
-  width: 994px;
-  height: 200px;
+  font-size: 16px;
+}
+
+.add-category {
+  display: flex;
+  justify-content: space-between;
+}
+.add-category input {
+  width: 70%;
 }
 
 .modal-buttons {

@@ -170,13 +170,13 @@ const deleteInfo = async (id) => {
         </div>
         <div class="infos">
           <div class="classfy" id="educate-info">
-            <p class="f-color-g f-weight-b" id="institute">학교명</p>
-            <p class="f-color-g f-weight-b" id="major">전공 및 학위</p>
-            <p class="f-color-g f-weight-b" id="admission">입학 일자</p>
-            <p class="f-color-g f-weight-b" id="graduate">졸업 일자</p>
-            <p class="f-color-g f-weight-b" id="is-graduate">졸업 여부</p>
-            <p class="f-color-g f-weight-b" id="is-transfer">편입 여부</p>
-            <p class="f-color-g f-weight-b" id="is-night">야간 여부</p>
+            <p class="f-color-g f-weight-b">학교명</p>
+            <p class="f-color-g f-weight-b">전공 및 학위</p>
+            <p class="f-color-g f-weight-b">입학 일자</p>
+            <p class="f-color-g f-weight-b">졸업 일자</p>
+            <p class="f-color-g f-weight-b">졸업 여부</p>
+            <p class="f-color-g f-weight-b">편입 여부</p>
+            <p class="f-color-g f-weight-b">야간 여부</p>
             <p class="f-color-g f-weight-b">　</p>
           </div>
           <div
@@ -184,8 +184,8 @@ const deleteInfo = async (id) => {
             v-for="info in filteredInfo('EDUCATION')"
             :key="info.id"
           >
-            <p>{{ info.title }}</p>
             <p>{{ info.institutionName }}</p>
+            <p>{{ info.title }}</p>
             <p>{{ info.startDate }}</p>
             <p>{{ info.endDate }}</p>
             <p>
