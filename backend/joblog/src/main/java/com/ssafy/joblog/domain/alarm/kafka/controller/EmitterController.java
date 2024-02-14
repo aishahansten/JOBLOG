@@ -18,7 +18,7 @@ public class EmitterController {
     private final ConsumerService consumerService;
     public static final Long DEFAULT_TIMEOUT = 3600L * 1000;
 
-    @GetMapping(value = "/connect", produces = "text/event-stream")
+    @GetMapping(value = "/api/connect", produces = "text/event-stream")
     public SseEmitter stream(Authentication authentication, @RequestHeader(value = "Last-Event-Id", required = false, defaultValue = "") String lastEventId) throws IOException {
         User user = (User) authentication.getPrincipal();
         return consumerService.addEmitter(String.valueOf(user.getId()), lastEventId);
