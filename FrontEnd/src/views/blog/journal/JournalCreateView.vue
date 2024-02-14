@@ -2,9 +2,9 @@
   <div class="container">
     <div class="header">
       
-      <div class="img">
+      <!-- <div class="img">
         <img src="@/assets/img/blog/diary-img.jpg" alt="" />
-      </div>
+      </div> -->
       <div class="title">
         <a 
           @click="toDiary" 
