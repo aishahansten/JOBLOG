@@ -2,6 +2,7 @@ package com.ssafy.joblog.domain.user.controller;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.ssafy.joblog.domain.user.dto.request.FollowRequestDto;
 import com.ssafy.joblog.domain.user.dto.request.UserUpdateRequestDto;
 import com.ssafy.joblog.domain.user.dto.response.UserResponseDto;
 import com.ssafy.joblog.domain.user.service.UserService;
@@ -33,11 +34,6 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-//    @GetMapping("/profile/{userId}")
-//    public String getFile(@PathVariable(value = "userId") int userId) {
-//        return userService.getFile(userId);
-//    }
-
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponseDto> findUser(@PathVariable(value = "userId") int userId) {
         return ResponseEntity.ok(userService.findUser(userId));
@@ -52,6 +48,12 @@ public class UserController {
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<Void> delete(@PathVariable(value = "userId") int userId) {
         userService.delete(userId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PostMapping("/role/{userId}")
+    public ResponseEntity<Void> changeRole(@PathVariable(value = "userId") int userId) {
+        userService.changeRole(userId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
