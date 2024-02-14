@@ -33,10 +33,10 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/profile/{userId}")
-    public String getFile(@PathVariable(value = "userId") int userId) {
-        return userService.getFile(userId);
-    }
+//    @GetMapping("/profile/{userId}")
+//    public String getFile(@PathVariable(value = "userId") int userId) {
+//        return userService.getFile(userId);
+//    }
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponseDto> findUser(@PathVariable(value = "userId") int userId) {

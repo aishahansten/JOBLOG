@@ -34,7 +34,7 @@ public class UserService {
     public UserResponseDto findUser(int userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다"));
-        return UserResponseDto.fromEntity(user);
+        return UserResponseDto.fromEntity(user, getFile(userId));
     }
 
     public void update(UserUpdateRequestDto userUpdateRequestDto) {
@@ -76,8 +76,11 @@ public class UserService {
     }
 
     public String getFile(int userId) {
-        URL url = amazonS3Client.getUrl(bucket, String.valueOf(userId));
-        String urltext = ""+url;
+        String urltext = "";
+        if(amazonS3Client.doesObjectExist(bucket, String.valueOf(userId))){
+            URL url = amazonS3Client.getUrl(bucket, String.valueOf(userId));
+            urltext += url;
+        }
         return urltext;
     }
 }
