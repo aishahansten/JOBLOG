@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { RouterLink } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 const logout = function () {
@@ -11,6 +11,7 @@ const authStore = useAuthStore();
 const loggedIn = computed(() => !!authStore.userInfo);
 
 authStore.updateUserInfoFromToken();
+
 </script>
 
 <template>

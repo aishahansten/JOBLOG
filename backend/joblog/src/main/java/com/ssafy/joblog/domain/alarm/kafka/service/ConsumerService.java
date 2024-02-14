@@ -73,6 +73,7 @@ public class ConsumerService {
         String userId = alarm.getUserId();
         Map<String, SseEmitter> sseEmitters = emitterRepository.findAllEmitterStartWithById(userId);
         sseEmitters.forEach((key, emitter) -> {
+            System.out.println("찾은 emitter : " + emitter);
             emitterRepository.saveEventCache(key, alarm);
             sendToClient(emitter, key, alarm);
         });
