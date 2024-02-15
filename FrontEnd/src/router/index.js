@@ -52,6 +52,9 @@ import NotificationSetting from "@/views/setting/components/notification/Notific
 import WithdrawSetting from "@/views/setting/components/withdrawal/WithdrawSetting.vue";
 import WithdrawCompleteView from "@/views/setting/WithdrawCompleteView.vue";
 
+//알람 페이지
+import AlarmView from "@/views/alarm/AlarmView.vue";
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -66,7 +69,11 @@ const router = createRouter({
       name: "Home",
       component: HomeView,
     },
-
+    {
+      path: "/alarm",
+      name: "Alarm",
+      component: AlarmView,
+    },
     // 로그인
     {
       path: "/login",
