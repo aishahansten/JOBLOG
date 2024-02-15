@@ -34,7 +34,7 @@ import Calendar from "./components/Calendar.vue";
 }
 
 input[type="datetime-local"]:focus {
-  font-size: 20px; /* Adjust this value as needed */
-  padding: 10px; /* Larger padding for a larger click area */
+  font-size: 20px;
+  padding: 10px;
 }
 </style>

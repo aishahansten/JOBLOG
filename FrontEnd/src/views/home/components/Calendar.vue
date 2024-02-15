@@ -62,29 +62,23 @@ function formatTime(isoString) {
   });
 }
 
-// 여기서부터 편집된 코드
-
 const selectedDateEvents = ref([]);
 
-// 오늘의 이벤트를 필터링하여 selectedDateEvents에 설정하는 함수
 function filterTodayEvents() {
   const today = new Date();
-  today.setHours(0, 0, 0, 0); // 시간을 00:00:00으로 설정하여 오늘 날짜만 비교
+  today.setHours(0, 0, 0, 0);
 
   selectedDateEvents.value = currentEvents.value.filter((event) => {
     const eventStart = new Date(event.start);
-    eventStart.setHours(0, 0, 0, 0); // 이벤트 시작 날짜의 시간도 00:00:00으로 설정
+    eventStart.setHours(0, 0, 0, 0);
     return eventStart.getTime() === today.getTime();
   });
 }
 
-// 컴포넌트가 마운트될 때 오늘의 이벤트를 필터링하여 표시
 onMounted(() => {
-  filterTodayEvents(); // 초기 로딩 시 오늘의 이벤트를 필터링하여 selectedDateEvents에 할당
+  filterTodayEvents();
   getSchedules();
 });
-
-// schedule 전체 조회
 
 let schedules = [];
 
@@ -96,26 +90,22 @@ const getSchedules = async () => {
         Authoriation: `${authStore.accessToken}`,
       },
     };
-    const response = await axios.get(
-      `${import.meta.env.VITE_API_BASE_URL}/schedule/${authStore.userInfo.sub}`,
-      config
-    );
+    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/schedule/${authStore.userInfo.sub}`, config);
     schedules = response.data;
     console.log(schedules);
   } catch (err) {
     if (err.response && err.response.status === 500) {
-      router.push("/login2");
+      router.push("/login");
     } else {
-      // Handle other errors or a case where the error does not have a response object
-      console.log("token", token); // Logging the token for debugging purposes
+      console.log("token", token);
     }
   }
 };
 
 // test
 function check(a) {
-  console.log('arg : ', a);
-  console.log('arg.event : ', a.event);
+  console.log("arg : ", a);
+  console.log("arg.event : ", a.event);
 }
 </script>
 
@@ -179,7 +169,6 @@ function check(a) {
   justify-content: end;
 }
 
-/* calendar */
 .calendar {
   margin-right: 20px;
 }
@@ -189,7 +178,6 @@ function check(a) {
   width: 100px;
 }
 
-/* tasks */
 .task-space {
   display: flex;
   flex-direction: column;

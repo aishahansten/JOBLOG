@@ -1,14 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-//FE 테스트 전용
-import Test from "../views/test.vue";
-
 //홈페이지 링크
 import HomeView from "../views/home/HomeView.vue";
 
 // 로그인 페이지
 import LoginView from "../views/home/LoginView.vue";
-import LoginLocalView from "@/views/home/LoginViewLocal.vue";
 import SignIn from "../views/home/components/login/SignIn.vue";
 import DeleteUser from "@/views/home/DeleteUserView.vue";
 
@@ -59,11 +55,6 @@ import AlarmView from "@/views/alarm/AlarmView.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: "/test",
-      name: "test",
-      component: Test,
-    },
     // 메인
     {
       path: "/",
@@ -81,11 +72,7 @@ const router = createRouter({
       name: "Login",
       component: LoginView,
     },
-    {
-      path: "/login2",
-      name: "Login2",
-      component: LoginLocalView,
-    },
+
     {
       path: "/sign-in",
       name: "SignIn",

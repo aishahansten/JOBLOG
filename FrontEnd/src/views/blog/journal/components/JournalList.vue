@@ -2,17 +2,11 @@
   <div class="container">
     <div class="left h-transparent-c" @click="prevPage">
       <div class="diary pointer h-bright" v-for="(diary, index) in paginatedDiaries.left" :key="index">
-        <!-- <div class="img">
-                <img src="@/assets/img/blog/diary-img.jpg" alt="" />
-              </div> -->
         <JournalListItem :diaryId="diary.diaryId" :content="diary.content" :createdDate="diary.createdDate" />
       </div>
     </div>
     <div class="right h-transparent-c" @click="nextPage">
       <div class="diary pointer h-bright" v-for="(diary, index) in paginatedDiaries.right" :key="index">
-        <!-- <div class="img">
-                  <img src="@/assets/img/blog/diary-img.jpg" alt="" />
-                </div> -->
         <JournalListItem :diaryId="diary.diaryId" :content="diary.content" :createdDate="diary.createdDate" />
       </div>
     </div>

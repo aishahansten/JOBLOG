@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { useAuthStore } from "@/stores/auth"; // Adjust the path to your auth store
+import { useAuthStore } from "@/stores/auth";
 
 export const useAlarmStore = defineStore("alarm", {
   state: () => ({

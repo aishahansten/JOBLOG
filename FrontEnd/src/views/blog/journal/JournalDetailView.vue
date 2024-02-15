@@ -2,24 +2,18 @@
   <div v-if="!loading"></div>
   <div v-else>
     <div class="container">
-
       <div class="header">
         <div class="img">
           <img src="@/assets/img/blog/diary-img.jpg" alt="" />
         </div>
 
         <div class="title">
-          <a 
-            @click="toDiary" 
-            class="btn f-color-w h-solid-g"
-          >
+          <a @click="toDiary" class="btn f-color-w h-solid-g">
             <i class="fa-solid fa-caret-left"></i>
             목록으로 돌아가기
           </a>
           <h3>{{ journal.createdDate }}의 일기</h3>
-          <a 
-            class="btn lined-bg f-color-c h-lined-c a-solid-c"
-          > 
+          <a class="btn lined-bg f-color-c h-lined-c a-solid-c">
             <RouterLink
               class="f-size-23 h-txt f-color-g"
               :to="{ name: 'JournalUpdate', params: { id: journal.diaryId } }"
@@ -30,20 +24,19 @@
           </a>
         </div>
       </div>
-       
-      <div class="body">
 
+      <div class="body">
         <div class="left">
           <div>
             <i class="fas fa fa-align-left fa-2xl" aria-hidden="true"></i>
           </div>
-          <br>
+          <br />
           <div>
             <p class="f-size-24 f-weight-b" v-if="journal">
               {{ journal.content }}
             </p>
           </div>
-          <br>
+          <br />
           <div>
             <span>{{ journal.createdDate }} 작성된 일기</span>
           </div>
@@ -55,19 +48,16 @@
             삭제
           </a>
         </div>
-
       </div>
-
     </div>
   </div>
 </template>
 
 <script setup>
-import axios from 'axios';
-import {ref, onMounted} from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import { useAuthStore } from '@/stores/auth';
-
+import axios from "axios";
+import { ref, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
 
 const router = useRouter();
 const route = useRoute();
@@ -79,30 +69,23 @@ const loading = ref(false);
 async function fetchJournal() {
   try {
     await authStore.updateUserInfoFromToken();
-    const response = await axios.get(
-      `${authStore.API_URL}/diary/detail/${route.params.id}`
-    );
-    console.log(response.data)
+    const response = await axios.get(`${authStore.API_URL}/diary/detail/${route.params.id}`);
 
     return {
-      journal: response.data
+      journal: response.data,
     };
-    
   } catch (error) {
     console.error("불러오기 실패: ", error);
-    return { journal: null};
+    return { journal: null };
   }
 }
 
 onMounted(async () => {
-  const { journal: fetchedJournal } =
-    await fetchJournal();
+  const { journal: fetchedJournal } = await fetchJournal();
   journal.value = fetchedJournal;
   loading.value = true;
   authStore.updateUserInfoFromToken();
 });
-
-const showModal = ref(false);
 
 const deleteJournal = async () => {
   const isConfirmed = confirm("삭제하시겠습니까?");
@@ -114,26 +97,18 @@ const deleteJournal = async () => {
           Authorization: `${authStore.accessToken}`,
         },
       };
-      const res = await axios.delete(
-        `${authStore.API_URL}/diary/delete/${journal.value.diaryId}`,
-        config
-      );
-      console.log(journal.value.diaryId, "번글이 삭제되었습니다.");
-      console.log(res.data);
+      const res = await axios.delete(`${authStore.API_URL}/diary/delete/${journal.value.diaryId}`, config);
       router.push({ name: "BlogJournal" });
-
     } catch (error) {
       console.error("삭제 실패: ", error);
     }
   } else {
-    console.log("삭제하지 않음.");
   }
 };
 
 function toDiary() {
-  router.push('/blog-journal')
+  router.push("/blog-journal");
 }
-
 </script>
 
 <style scoped>
@@ -185,5 +160,4 @@ function toDiary() {
   align-items: end;
   gap: 15px;
 }
-
 </style>

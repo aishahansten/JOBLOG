@@ -8,7 +8,6 @@ const communityStore = useCommunityStore();
 const router = useRouter();
 
 onMounted(async () => {
-  // Use an immediately-invoked async function
   await communityStore.getPosts(router);
 });
 </script>

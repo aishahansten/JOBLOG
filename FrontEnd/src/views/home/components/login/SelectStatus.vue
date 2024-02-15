@@ -26,10 +26,7 @@ const showEmployeeAuth = () => {
           <h2>신입</h2>
           <p>취업준비생</p>
         </a>
-        <a
-          class="select-btn btn lined-c h-solid-c a-dark"
-          @click="showEmployeeAuth"
-        >
+        <a class="select-btn btn lined-c h-solid-c a-dark" @click="showEmployeeAuth">
           <h2>경력</h2>
           <p>현직자 및 이직준비생</p>
         </a>
@@ -60,7 +57,6 @@ const showEmployeeAuth = () => {
   gap: 5px;
 }
 
-/* 현직자 여부 질문 페이지 */
 .form {
   display: flex;
   width: 700px;

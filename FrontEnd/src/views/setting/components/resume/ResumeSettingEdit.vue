@@ -21,7 +21,6 @@ category.value = CategoryData.map(({ jobCode, jobName }) => ({
   jobName,
 }));
 
-console.log(category);
 const authStore = useAuthStore();
 const settingResumeStore = useSettingResumeStore();
 
@@ -51,15 +50,13 @@ onMounted(async () => {
   loading.value = false;
 });
 
-console.log(userInfo);
-
 const filteredInfo = function (category) {
   return this.informations.filter((info) => info.infoCategory === category);
 };
 
 const submitUserInfo = function (userInfo) {
-  console.log(userInfo);
   settingResumeStore.updateUserInfo(userInfo);
+  alert("저장되었습니다.");
 };
 
 const deleteInfo = async (id) => {
@@ -88,10 +85,13 @@ const uploadFile = async (event) => {
     );
     await settingResumeStore.getUserInfo();
     userInfo.value = settingResumeStore.userInfo;
-    console.log("업로드성공", res.data);
   } catch (err) {
     console.log(err);
   }
+};
+const fileInput = ref(null);
+const triggerFileInput = () => {
+  fileInput.value.click();
 };
 </script>
 
@@ -121,7 +121,16 @@ const uploadFile = async (event) => {
               <li>얼굴이 뚜렷하게 드러난 사진 파일</li>
               <li>배경이 없는 png 등이 아닌 사진 파일</li>
             </ul>
-            <input type="file" class="file-input" accept="image/jpg, image/jpeg" @change="uploadFile" />
+
+            <input
+              type="file"
+              ref="fileInput"
+              class="file-input"
+              accept="image/jpg, image/jpeg"
+              style="display: none"
+              @change="uploadFile"
+            />
+            <button @click="triggerFileInput" class="btn lined-c f-color-c h-solid-c a-bright">Upload File</button>
           </div>
           <div class="identify-pic">
             <img src="@/assets/img/profile/default-user-pic.jpg" v-if="!userInfo.amazonS3FileUrl" />

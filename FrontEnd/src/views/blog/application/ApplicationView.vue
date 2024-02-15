@@ -216,7 +216,6 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-/* 기본 화면 */
 .container {
   padding: 30px 0;
 }
@@ -262,7 +261,6 @@ onMounted(async () => {
   background-color: white;
 }
 
-/* modal */
 .modal {
   display: flex;
   flex-direction: column;

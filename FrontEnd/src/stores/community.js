@@ -18,15 +18,12 @@ export const useCommunityStore = defineStore("community", {
 
     async getPosts(router) {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/community`,
-          {}
-        );
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/community`, {});
 
         this.posts = response.data;
       } catch (err) {
         if (err.response && err.response.status === 500) {
-          router.push("/login2");
+          router.push("/login");
         } else {
         }
         this.posts = [];
@@ -35,11 +32,11 @@ export const useCommunityStore = defineStore("community", {
 
     async getPost(id) {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/community/detail/${id}`)
-        this.post = res.data
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/community/detail/${id}`);
+        this.post = res.data;
       } catch (err) {
-        console.error(err)
+        console.error(err);
       }
-    }
+    },
   },
 });

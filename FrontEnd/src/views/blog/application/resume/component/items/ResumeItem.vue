@@ -1,6 +1,4 @@
 <script setup>
-import { ref, onMounted } from "vue";
-
 const props = defineProps({
   resu: Object,
 });
@@ -41,7 +39,7 @@ const props = defineProps({
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 350px; /* or a specific px value */
-  display: block; /* ensures the behavior applies correctly */
+  max-width: 350px;
+  display: block;
 }
 </style>

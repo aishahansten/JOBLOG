@@ -55,13 +55,6 @@ export const useAuthStore = defineStore("auth", {
       this.userInfo = null;
       this.accessToken = null;
       document.cookie = "accessToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-      router.push("/");
-    },
-
-    logout2() {
-      this.userInfo = null;
-      this.accessToken = null;
-      document.cookie = "accessToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     },
 
     async deleteUser() {
@@ -123,7 +116,7 @@ export const useAuthStore = defineStore("auth", {
       } catch (err) {
         console.error(err);
       } finally {
-        router.push("/login2");
+        router.push("/login");
       }
     },
 

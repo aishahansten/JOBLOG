@@ -85,7 +85,6 @@ const recruitStep = ref({
 .actual-review {
   margin-top: 10px;
 }
-/* Styles for the form container */
 .form-container {
   display: grid;
   grid-template-columns: 1fr;
@@ -94,33 +93,30 @@ const recruitStep = ref({
   margin: auto;
 }
 
-/* Styles for form elements */
 input[type="text"],
 input[type="date"],
 select,
 textarea {
   width: 100%;
   padding: 8px;
-  box-sizing: border-box; /* Ensures padding does not increase the size */
-  margin: 5px 0; /* Adds a little space above and below */
+  box-sizing: border-box;
+  margin: 5px 0;
 }
 
-/* Fixed size for input boxes and textareas */
 input[type="text"],
 input[type="date"],
 select {
-  height: 40px; /* Fixed height for input and select */
+  height: 40px;
 }
 
 textarea {
-  height: 100px; /* Fixed height for textarea */
-  resize: none; /* Disables resizing */
+  height: 100px;
+  resize: none;
 }
 
-/* Styles for the radio buttons and their labels */
 .radio-box {
   display: flex;
-  flex-direction: column; /* Stack vertically */
+  flex-direction: column;
   margin-bottom: 10px;
   margin-top: 10px;
   padding-bottom: 10px;
@@ -129,11 +125,10 @@ textarea {
 
 .radio-group {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Creates a responsive layout for radio buttons */
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 10px;
 }
 
-/* Ensuring radio buttons and labels are neatly organized */
 input[type="radio"] {
   margin-right: 5px;
   cursor: pointer;
@@ -143,16 +138,14 @@ label {
   cursor: pointer;
 }
 
-/* Button styles */
 button {
   width: 100%;
   padding: 10px;
-  margin-top: 10px; /* Adds space above the buttons */
+  margin-top: 10px;
   cursor: pointer;
 }
 
-/* Second button to align with the first */
 button[type="button"] {
-  margin-top: 5px; /* Adjust if necessary to align with the submit button */
+  margin-top: 5px;
 }
 </style>

@@ -110,8 +110,8 @@ onMounted(async () => {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 500px; /* or a specific px value */
-  display: block; /* ensures the behavior applies correctly */
+  max-width: 500px;
+  display: block;
 }
 .resume-essay {
   display: flex;

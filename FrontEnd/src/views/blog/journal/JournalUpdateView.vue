@@ -4,7 +4,6 @@ import { useRoute } from "vue-router";
 import axios from "axios";
 import { useAuthStore } from "@/stores/auth";
 import { useRouter } from "vue-router";
-import { formatISODate } from "@/utils/utility";
 
 const authStore = useAuthStore();
 const route = useRoute();
@@ -12,7 +11,6 @@ const router = useRouter();
 
 const loading = ref(false);
 const journal = ref(null);
-console.log(journal);
 
 async function fetchJournal() {
   try {
@@ -41,9 +39,7 @@ const saveJournal = async () => {
       userId: authStore.userInfo.sub,
       content: journal.value.content,
     };
-    console.log(journal.value.diaryId);
     const res = await axios.patch(`${authStore.API_URL}/diary/update`, editContent, config);
-    console.log(res.data);
     router.push({ name: "JournalDetail", params: { id: journal.value.diaryId } });
   } catch (error) {
     console.error("업데이트 실패: ", error);
@@ -138,7 +134,7 @@ function toBack() {
   width: 100%;
   height: 500px;
   padding: 20px;
-  resize: none; /* Prevents resizing */
+  resize: none;
   font-size: 16px;
 }
 

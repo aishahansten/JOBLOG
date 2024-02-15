@@ -1,17 +1,17 @@
-import { defineStore } from 'pinia';
-import axios from 'axios';
-import { useAuthStore } from './auth';
+import { defineStore } from "pinia";
+import axios from "axios";
+import { useAuthStore } from "./auth";
 
-export const useJournalStore = defineStore('journal', {
+export const useJournalStore = defineStore("journal", {
   state: () => ({
     journals: [],
-    API_URL: import.meta.env.VITE_API_BASE_URL
+    API_URL: import.meta.env.VITE_API_BASE_URL,
   }),
   actions: {
     getCookie(name) {
       const value = `; ${document.cookie}`;
       const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
+      if (parts.length === 2) return parts.pop().split(";").shift();
       return null;
     },
 
@@ -21,20 +21,19 @@ export const useJournalStore = defineStore('journal', {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/diary/${authStore.userInfo.sub}`, {
           headers: {
-            Authorization: `${this.getCookie('accessToken')}`,
+            Authorization: `${this.getCookie("accessToken")}`,
           },
         });
         this.journals = response.data;
         console.log(response.data);
-      } catch(err) {
+      } catch (err) {
         if (err.response && err.response.status === 500) {
-          router.push('/login2');
+          router.push("/login");
         } else {
-          console.log('token', token);
+          console.log("token", token);
         }
         this.journals = [];
       }
     },
-  }
-
-})
+  },
+});

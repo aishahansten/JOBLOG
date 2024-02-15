@@ -1,6 +1,12 @@
 <script setup>
 import { ref } from "vue";
 import SelectStatus from "./components/login/SelectStatus.vue";
+import { useAuthStore } from "@/stores/auth";
+const authStore = useAuthStore();
+
+onMounted(async () => {
+  await authStore.logout();
+});
 
 const isEdit = ref(false);
 function toggleEdit() {
@@ -26,41 +32,16 @@ function callNaver() {
       <h1 class="f-weight-l">간편하게 시작하세요.</h1>
     </div>
     <div class="login-btn-space">
-      <a
-        @click="callGoogle"
-        id="google-login-btn"
-        class="social-login-btn btn lined-bg h-solid-c a-dark"
-      >
-        <img
-          src="@/assets/img/login/icon/logo-google.svg"
-          id="google-login-icon"
-          class="login-icon"
-          alt=""
-        />
+      <a @click="callGoogle" id="google-login-btn" class="social-login-btn btn lined-bg h-solid-c a-dark">
+        <img src="@/assets/img/login/icon/logo-google.svg" id="google-login-icon" class="login-icon" alt="" />
         <span>Google 로그인</span>
       </a>
-      <a
-        @click="callKakao"
-        id="kakao-login-btn"
-        class="social-login-btn btn h-bright a-dark"
-      >
-        <img
-          src="@/assets/img/login/icon/logo-kakao.png"
-          class="login-icon"
-          alt=""
-        />
+      <a @click="callKakao" id="kakao-login-btn" class="social-login-btn btn h-bright a-dark">
+        <img src="@/assets/img/login/icon/logo-kakao.png" class="login-icon" alt="" />
         <span>Kakao 로그인</span>
       </a>
-      <a
-        @click="callNaver"
-        id="naver-login-btn"
-        class="social-login-btn btn h-bright a-dark"
-      >
-        <img
-          src="@/assets/img/login/icon/logo-naver.png"
-          class="login-icon"
-          alt=""
-        />
+      <a @click="callNaver" id="naver-login-btn" class="social-login-btn btn h-bright a-dark">
+        <img src="@/assets/img/login/icon/logo-naver.png" class="login-icon" alt="" />
         <span>Naver 로그인</span>
       </a>
     </div>

@@ -19,17 +19,14 @@ const editableComment = ref({
 });
 
 onMounted(() => {
-  // Set the initial content of the editableComment
   editableComment.value.content = props.comment.content;
   authStore.updateUserInfoFromToken();
 });
 
 const toggleEdit = () => {
   if (isEditing.value) {
-    console.log(editableComment);
     saveComment();
   }
-  // Toggle the edit state
   isEditing.value = !isEditing.value;
 };
 
@@ -41,13 +38,8 @@ const saveComment = async () => {
       },
     };
 
-    const res = await axios.patch(
-      `${authStore.API_URL}/comment/update`,
-      editableComment.value,
-      config
-    );
+    const res = await axios.patch(`${authStore.API_URL}/comment/update`, editableComment.value, config);
     props.comment.modifiedDate = res.data.modifiedDate;
-    console.log(res.data);
   } catch (error) {
     console.error("업뎃 실패: ", error);
   }
@@ -70,15 +62,8 @@ const deleteComment = async () => {
           Authorization: `${authStore.accessToken}`,
         },
       };
-      const res = await axios.delete(
-        `${authStore.API_URL}/comment/delete/${props.comment.commentId}`,
-        config
-      );
-      console.log(props.comment.commentId, "번글이 삭제되었습니다.");
-      console.log(res.data);
+      const res = await axios.delete(`${authStore.API_URL}/comment/delete/${props.comment.commentId}`, config);
       location.reload();
-
-      // Optionally, emit an event to inform the parent component to update the comment list
     } catch (error) {
       console.error("삭제 실패: ", error);
     }
@@ -105,17 +90,10 @@ const deleteComment = async () => {
         </div>
       </div>
       <div class="right" v-if="comment.userId == authStore.userInfo.sub">
-        <a
-          @click="toggleEdit"
-          class="btn-s lined-bg h-solid-bg a-dark f-size-14"
-        >
+        <a @click="toggleEdit" class="btn-s lined-bg h-solid-bg a-dark f-size-14">
           {{ isEditing ? "저장" : "수정" }}
         </a>
-        <a
-          @click="deleteComment"
-          class="btn-s lined-bg h-solid-bg a-dark f-size-14"
-          >삭제</a
-        >
+        <a @click="deleteComment" class="btn-s lined-bg h-solid-bg a-dark f-size-14">삭제</a>
       </div>
     </div>
 
@@ -123,12 +101,7 @@ const deleteComment = async () => {
       {{ editableComment.content }}
     </div>
     <div class="content" v-else>
-      <textarea
-        v-model="editableComment.content"
-        cols="30"
-        rows="10"
-        class="comment-textarea"
-      ></textarea>
+      <textarea v-model="editableComment.content" cols="30" rows="10" class="comment-textarea"></textarea>
     </div>
   </div>
 </template>

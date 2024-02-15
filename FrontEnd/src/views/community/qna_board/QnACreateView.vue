@@ -19,11 +19,7 @@ const createPost = async () => {
       },
     };
 
-    const response = await axios.post(
-      `${communityStore.API_URL}/community/register`,
-      newQuestion.value,
-      config
-    );
+    const response = await axios.post(`${communityStore.API_URL}/community/register`, newQuestion.value, config);
     newQuestion.value = {
       userId: authStore.userInfo.sub,
       category: "QNA",
@@ -58,13 +54,9 @@ function toBoard() {
         게시판으로 돌아가기
       </a>
       <h3>질문 작성하기</h3>
-      <button
-        @click="createPost"
-        :disabled="!isTitleValid"
-        class="btn lined-bg f-color-c h-lined-c a-solid-c"
-      >
+      <button @click="createPost" :disabled="!isTitleValid" class="btn lined-bg f-color-c h-lined-c a-solid-c">
         작성 완료
-    </button>
+      </button>
     </div>
 
     <div class="content">
@@ -127,7 +119,7 @@ function toBoard() {
   width: 100%;
   height: 500px;
   padding: 20px;
-  resize: none; /* Prevents resizing */
+  resize: none;
   font-size: 16px;
 }
 
