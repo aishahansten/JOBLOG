@@ -1,10 +1,12 @@
 <template>
   <div class="container">
     <div class="header">
-      <a class="btn f-color-w h-solid-g">
-        <i class="fa-solid fa-caret-left"></i>
-        이전으로
-      </a>
+      <RouterView :to="{ name: 'Coffee' }">
+        <a class="btn f-color-w h-solid-g">
+          <i class="fa-solid fa-caret-left"></i>
+          이전으로
+        </a>
+      </RouterView>
       <h3>커피챗 프로필 설정</h3>
       <a class="btn lined-bg f-color-c h-lined-c a-solid-c"> 편집 </a>
     </div>
@@ -26,8 +28,7 @@
         <div class="info">
           <i class="fa-solid fa-bullhorn"></i>
           <div class="description">
-            평일 오후 8시부터 프리합니다! 개발직군 FE쪽 종사하고 있어요, 관련
-            분야에 관심있다면 언제든 이야기 나눠요~
+            평일 오후 8시부터 프리합니다! 개발직군 FE쪽 종사하고 있어요, 관련 분야에 관심있다면 언제든 이야기 나눠요~
           </div>
         </div>
       </div>
@@ -46,8 +47,7 @@
             <div class="info">
               <h3>닉네임</h3>
               <p>
-                신청 메시지 예를 들면 안녕하세요! FE 분야 취준 시 포폴 유의점에
-                대해 알고싶어서 신청합니다..! 부디ㅠ
+                신청 메시지 예를 들면 안녕하세요! FE 분야 취준 시 포폴 유의점에 대해 알고싶어서 신청합니다..! 부디ㅠ
               </p>
             </div>
           </div>
@@ -70,8 +70,7 @@
             <div class="info">
               <h3>닉네임</h3>
               <p>
-                신청 메시지 예를 들면 안녕하세요! FE 분야 취준 시 포폴 유의점에
-                대해 알고싶어서 신청합니다..! 부디ㅠ
+                신청 메시지 예를 들면 안녕하세요! FE 분야 취준 시 포폴 유의점에 대해 알고싶어서 신청합니다..! 부디ㅠ
               </p>
             </div>
           </div>
