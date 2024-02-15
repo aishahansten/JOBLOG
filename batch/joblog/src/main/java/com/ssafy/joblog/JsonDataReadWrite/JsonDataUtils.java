@@ -6,6 +6,7 @@ import com.ssafy.joblog.JsonDataReadWrite.repository.RecruitRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
@@ -22,7 +23,9 @@ import java.util.Optional;
 public class JsonDataUtils {
     @Autowired
     private RecruitRepository recruitRepository;
-    private String accesskey = "3arT09ZHgyNKWYkriX0I60XPns9zQoVtXKmgUSbSpkKWym7Lb6";
+
+    @Value("${spring.batch.access-key.access-key}")
+    private String accesskey;
     WebClient webClient;
 
     //client(RESTAPI)로부터 Json data 받아오기 + jsonNode로 변환
