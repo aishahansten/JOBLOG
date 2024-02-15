@@ -17,9 +17,7 @@ public class LoginController {
 
     @GetMapping("/test/oauth")
     public @ResponseBody String testLogin(Authentication authentication) {
-        System.out.println("/test/oauth=================");
         User oAuth2User = (User) authentication.getPrincipal();
-        System.out.println("oauth2User : " + oAuth2User.getUsername());
         return "OAuth 세션 정보 확인하기";
     }
 

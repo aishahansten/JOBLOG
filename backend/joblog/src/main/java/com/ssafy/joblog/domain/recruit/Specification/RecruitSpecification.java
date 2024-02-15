@@ -27,7 +27,6 @@ public class RecruitSpecification {
                     }
 
                 } else {
-                    System.out.println(root.get(key));
                     predicates.add(criteriaBuilder.equal(root.get(key), keyData));
                 }
             }

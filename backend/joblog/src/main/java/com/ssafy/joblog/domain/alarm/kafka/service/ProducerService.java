@@ -19,7 +19,6 @@ public class ProducerService {
     }
 
     public String createMessage(int userId, String msg) {
-        System.out.println("producer service가 알림 만드는 중 : " + userId + " " + msg);
         AlarmVo alarm = new AlarmVo(String.valueOf(userId), msg);
         ObjectMapper mapper = new ObjectMapper();
         String message = "";

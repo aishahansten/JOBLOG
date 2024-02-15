@@ -22,27 +22,22 @@ public class ConsumerService {
 
     private void sendToClient(SseEmitter emitter, String emitterId, Object data) {
         try {
-            System.out.println("메시지 보내는 중 : " + emitterId + " " + data);
             emitter.send(SseEmitter.event()
                     .id(emitterId)
                     .data(data));
         } catch (IOException e) {
             emitterRepository.deleteById(emitterId);
-            System.out.println("메시지 전송 실패 : " + e);
         }
     }
 
     public SseEmitter addEmitter(String userId, String lastEventId) {
         String emitterId = userId + "_" + System.currentTimeMillis();
         SseEmitter emitter = emitterRepository.save(emitterId, new SseEmitter(DEFAULT_TIMEOUT));
-        System.out.println("새로 sse 연결된 사용자 : " + emitterId);
 
         emitter.onCompletion(() -> {
-            System.out.println("onCompletion callback");
             emitterRepository.deleteById(emitterId);
         });
         emitter.onTimeout(() -> {
-            System.out.println("onTimeout callback");
             emitterRepository.deleteById(emitterId);
         });
 
@@ -57,7 +52,6 @@ public class ConsumerService {
     }
 
     public AlarmVo createAlarmVo(String message) {
-        System.out.println("consumer service가 chat alarm 받음 : " + message);
         ObjectMapper mapper = new ObjectMapper();
         AlarmVo alarm = null;
         try {
@@ -73,7 +67,6 @@ public class ConsumerService {
         String userId = alarm.getUserId();
         Map<String, SseEmitter> sseEmitters = emitterRepository.findAllEmitterStartWithById(userId);
         sseEmitters.forEach((key, emitter) -> {
-            System.out.println("찾은 emitter : " + emitter);
             emitterRepository.saveEventCache(key, alarm);
             sendToClient(emitter, key, alarm);
         });
