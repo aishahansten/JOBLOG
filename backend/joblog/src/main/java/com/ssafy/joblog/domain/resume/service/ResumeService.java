@@ -12,6 +12,7 @@ import com.ssafy.joblog.domain.resume.repository.InfoRepository;
 import com.ssafy.joblog.domain.resume.repository.ResumeRepository;
 import com.ssafy.joblog.domain.user.entity.User;
 import com.ssafy.joblog.domain.user.repository.UserRepository;
+import com.ssafy.joblog.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,7 @@ public class ResumeService {
     private final UserRepository userRepository;
     private final ResumeRepository resumeRepository;
     private final InfoRepository infoRepository;
-
+    private final UserService userService;
 
     public List<ResumeListResponseDto> findAllResume(int userId) {
         List<Resume> allResume = resumeRepository.findAllResumeByUserIdAndIsDeleteIsFalse(userId);
@@ -48,7 +49,7 @@ public class ResumeService {
         for (Info info : infoList) {
             allInfoDto.add(InfoResponseDto.fromEntity(info));
         }
-        return new ResumeWithInfoResponseDto(resume.getUser(), resumeResponseDto, allInfoDto);
+        return new ResumeWithInfoResponseDto(resume.getUser(), resumeResponseDto, userService.getFile(resume.getUser().getId()), allInfoDto);
     }
 
     public void create(ResumeCreateRequestDto resumeCreateRequestDto) {
