@@ -14,7 +14,6 @@ public class InterviewController {
 
     @PostMapping("/prompt")
     public ResponseEntity<String> createPrompt(@RequestBody EssayListRequestDto essayListRequestDto){
-        System.out.println(essayListRequestDto.toString());
         return ResponseEntity.ok(interviewService.createPrompt(essayListRequestDto));
     }
 

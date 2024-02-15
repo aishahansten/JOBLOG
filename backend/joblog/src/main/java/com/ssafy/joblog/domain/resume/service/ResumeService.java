@@ -84,8 +84,6 @@ public class ResumeService {
         for (int infoIdx: infoList){
             Info info = infoRepository.findById(infoIdx)
                     .orElseThrow(()-> new IllegalArgumentException("해당 정보가 존재하지 않습니다"));
-            System.out.println(user.getId());
-            System.out.println(info.getUser().getId());
             if(user.getId() != info.getUser().getId()) throw new IllegalArgumentException("해당 정보의 권한이 없습니다");
             Info resumeInfo = info.createResumeInfo(user, resumeId);
             infoRepository.save(resumeInfo);

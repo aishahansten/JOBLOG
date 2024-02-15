@@ -26,21 +26,15 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        System.out.println("loadUser method 시작============");
-        System.out.println("1. " + super.loadUser(userRequest).getAttributes());
         OAuth2User oAuth2User = super.loadUser(userRequest);
         OAuth2UserInfo oAuth2UserInfo = null;
         if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
-            System.out.println("구글 로그인 요청");
             oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
         } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
-            System.out.println("네이버 로그인 요청");
             oAuth2UserInfo = new NaverUserInfo((Map) oAuth2User.getAttributes().get("response"));
         } else if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
-            System.out.println("카카오 로그인 요청");
             oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
         } else {
-            System.out.println("지원하지 않는 로그인 요청");
         }
 
         String provider = oAuth2UserInfo.getProvider();
@@ -48,7 +42,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String username = provider + "_" + providerId;
         String email = oAuth2UserInfo.getEmail();
         UserRole role = UserRole.valueOf("ROLE_APPLICANT");
-        System.out.println("2. " + provider + " " + email);
 
         User user = userRepository.findByUsername(username);
         if (user == null) {

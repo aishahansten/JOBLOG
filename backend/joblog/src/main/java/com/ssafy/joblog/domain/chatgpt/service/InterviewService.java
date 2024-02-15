@@ -62,7 +62,6 @@ public class InterviewService {
         String result = "";
         List<Integer> essayList = essayListRequestDto.getEssayList();
         int size = essayList.size();
-        System.out.println(size);
         for (int i = 1; i <= size; i++) {
             int idx = essayList.get(i - 1);
             Essay essay = essayRepository.findByIdAndIsDeleteIsFalse(idx)

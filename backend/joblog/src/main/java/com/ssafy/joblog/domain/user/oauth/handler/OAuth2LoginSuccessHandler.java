@@ -46,7 +46,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         String role = oAuth2User.getAuthorities().stream().findFirst().orElseThrow(IllegalAccessError::new).getAuthority();
 
         Token token = jwtUtil.generateToken(user.getId(), role);
-        System.out.println("JWT : " + token.getAccessToken());
         String url = "";
         if (user.isDelete()) {
             userRepository.markUndeletedUser(user.getId());
@@ -59,7 +58,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
                 .build()
                 .encode(StandardCharsets.UTF_8)
                 .toUriString();
-        System.out.println("targetUrl : " + targetUrl);
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 
