@@ -35,7 +35,7 @@ public class SpellCheckController {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
 
-        return new ResponseEntity<>(spellCheckService.fixSpell(responseEntity.getBody()), HttpStatus.OK);
+        return new ResponseEntity<>(spellCheckService.fixSpell(responseEntity.getBody(), text.getText()), HttpStatus.OK);
     }
 
 }
