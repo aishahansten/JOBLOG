@@ -1,7 +1,12 @@
 <template>
   <div class="review">
     <RouterLink :to="{ name: 'JournalDetail', params: { id: diaryId } }">
-      <div class="image-placeholder"></div>
+      <img
+        :src="catImageUrl"
+        alt="Cat Profile Image"
+        class="profile-image"
+        :style="{ width: size + 'px', height: size + 'px' }"
+      />
       <h3 class="preview">{{ content }}</h3>
       <p>{{ createdDate }}</p>
     </RouterLink>
@@ -9,13 +14,35 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+import { ref, onMounted, defineProps } from "vue";
+import axios from "axios";
 
 const props = defineProps({
   diaryId: Number,
   content: String,
-  createdDate : String,
-})
+  createdDate: String,
+  size: {
+    type: Number,
+    default: 200, // 기본 크기는 200px
+  },
+});
+
+const catImageUrl = ref("");
+
+onMounted(() => {
+  fetchCatImage();
+});
+
+const fetchCatImage = async () => {
+  try {
+    const response = await axios.get(
+      "https://api.thecatapi.com/v1/images/search"
+    );
+    catImageUrl.value = response.data[0].url;
+  } catch (error) {
+    console.error("Error fetching cat image:", error);
+  }
+};
 </script>
 
 <style>
