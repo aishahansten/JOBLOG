@@ -1,15 +1,13 @@
 package com.ssafy.joblog.domain.spellCheck.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.configurationprocessor.json.JSONArray;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class SpellCheckService {
     public String fixSpell(String body, String original) throws JSONException {
