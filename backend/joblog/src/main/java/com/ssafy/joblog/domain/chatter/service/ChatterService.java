@@ -40,7 +40,7 @@ public class ChatterService {
     @Transactional(readOnly = true)
     // 2. 커피 채터 조회하기 (최신순, 삭제되지 않은 프로필만 조회)
     public List<ChatterResponseDto> getChatters() {
-        List<ChatterProfile> chatters = chatterRepository.findAllByIsDeleteIsFalseOrderByModifiedDateDesc();
+        List<ChatterProfile> chatters = chatterRepository.findAllByIsDeleteIsTrueOrderByModifiedDateDesc();
         List<ChatterResponseDto> getChattersList = new ArrayList<>();
         chatters.forEach(chatter -> getChattersList.add(ChatterResponseDto.builder()
                 .id(chatter.getId())
@@ -57,8 +57,7 @@ public class ChatterService {
     // 3. 커피 채터 상세 조회하기
     @Transactional(readOnly = true)
     public ChatterResponseDto getChatter(Integer userId) {
-        Optional<ChatterProfile> optionalChatter = chatterRepository.findByUserIdAndIsDeleteIsFalse(userId);
-        ChatterProfile chatter = optionalChatter.orElseThrow(()->new NotFoundException("커피챗을 찾을 수 없습니다"));
+        ChatterProfile chatter = chatterRepository.findByUserId(userId);
         ChatterResponseDto chatterResponseDto = ChatterResponseDto.builder()
                 .id(chatter.getId())
                 .userId(chatter.getUser().getId())

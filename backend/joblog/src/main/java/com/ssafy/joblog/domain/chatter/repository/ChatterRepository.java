@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface ChatterRepository extends JpaRepository<ChatterProfile, Integer> {
     // 전체조회
-    List<ChatterProfile> findAllByIsDeleteIsFalseOrderByModifiedDateDesc();
+    List<ChatterProfile> findAllByIsDeleteIsTrueOrderByModifiedDateDesc();
     //상세조회, 수정
     Optional<ChatterProfile> findByUserIdAndIsDeleteIsFalse(Integer userId);
 
