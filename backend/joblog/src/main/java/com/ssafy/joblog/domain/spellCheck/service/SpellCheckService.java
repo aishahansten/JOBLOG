@@ -43,7 +43,7 @@ public class SpellCheckService {
                 String candWord = errorObj.getString("candWord");
 
                 // orgStr을 candWord로 대체
-                originalText = originalText.substring(0, start) + "<u>" + candWord + "</u>" + originalText.substring(end);
+                originalText = originalText.substring(0, start) + "<b><i>" + candWord + "</i></b>" + originalText.substring(end);
             }
         }
         return originalText;
