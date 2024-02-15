@@ -1,13 +1,7 @@
 <script setup>
-import { ref } from "vue";
 import ResumeSettingEdit from "./ResumeSettingEdit.vue";
 import "@/assets/css/setting/setting-header.css";
 import "@/assets/css/setting/menu/resume-setting.css";
-
-const isEdit = ref(false);
-function toggleEdit() {
-  isEdit.value = !isEdit.value;
-}
 </script>
 
 <template>

@@ -8,7 +8,6 @@ const isOtherAlertOn = ref(false);
 const isCoffeeReserveAlertOn = ref(true);
 const isCoffeeStartAlertOn = ref(false);
 
-// 함수 1개로 처리하고 싶으나 지역 변수 문제로 해결 못함 왕 지저분..
 function toggleScrapAlert() {
   isScrapAlertOn.value = !isScrapAlertOn.value;
 }

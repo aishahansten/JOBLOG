@@ -44,7 +44,6 @@ function toggleEdit() {
 </template>
 
 <style scoped>
-/* 공통 */
 .account-content {
   display: flex;
   width: 100%;
@@ -68,8 +67,6 @@ form {
   border: 1px solid var(--border-gray);
   border-radius: 10px;
 }
-
-/* 프로필 사진 */
 
 .profile-pic {
   width: 300px;
@@ -95,8 +92,6 @@ form {
 .profile-pic:hover .hover-edit-img {
   opacity: 1;
 }
-
-/* 프로필 정보 */
 
 .account-info {
   display: flex;

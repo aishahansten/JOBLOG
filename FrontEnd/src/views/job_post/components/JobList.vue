@@ -5,7 +5,6 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
 import JobListItem from "./items/JobListItem.vue";
 
 const props = defineProps({

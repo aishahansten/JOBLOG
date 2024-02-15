@@ -1,12 +1,6 @@
 <script setup>
-import { ref } from "vue";
 import { RouterView, RouterLink } from "vue-router";
 import SettingNav from "@/views/setting/components/SettingNav.vue";
-
-const isEdit = ref(false);
-function toggleEdit() {
-  isEdit.value = !isEdit.value;
-}
 </script>
 
 <template>

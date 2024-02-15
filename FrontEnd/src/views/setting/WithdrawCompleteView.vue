@@ -36,7 +36,6 @@ onMounted(async() => {
 </template>
 
 <style scoped>
-/* 회원 기능 (탈퇴 1단계) */
 
 .withdraw-content {
   display: flex;
@@ -63,8 +62,6 @@ onMounted(async() => {
   border: 1px solid var(--border-gray);
   border-radius: 10px;
 }
-
-/* 회원 탈퇴 안내 (탈퇴 2단계) */
 
 .withdraw-confirm-content {
   display: flex;
@@ -111,8 +108,6 @@ onMounted(async() => {
   font-size: 20px;
   color: white;
 }
-
-/* 회원 탈퇴 완료 (탈퇴 3단계) */
 
 #withdraw-complete-view {
   border-left: 1px solid var(--border-gray);

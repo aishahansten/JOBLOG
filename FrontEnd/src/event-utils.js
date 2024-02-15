@@ -1,5 +1,5 @@
 let eventGuid = 0;
-let todayStr = new Date().toISOString().replace(/T.*$/, ""); // YYYY-MM-DD of today
+let todayStr = new Date().toISOString().replace(/T.*$/, "");
 let today = new Date();
 
 function getOffsetDate(offset) {
@@ -22,17 +22,15 @@ export const INITIAL_EVENTS = [
     end: todayStr + "T13:00:00",
   },
   {
-    // todayStr보다 이틀 전 일정 추가
     id: createEventId(),
     title: "삼성SDS 코테",
-    start: getOffsetDate(-2), // 이틀 전
+    start: getOffsetDate(-2),
     end: todayStr + "T13:00:00",
   },
   {
-    // todayStr보다 이틀 후 일정 추가
     id: createEventId(),
     title: "소프티어 코테",
-    start: getOffsetDate(2), // 이틀 후
+    start: getOffsetDate(2),
     end: todayStr + "T13:00:00",
   },
 ];

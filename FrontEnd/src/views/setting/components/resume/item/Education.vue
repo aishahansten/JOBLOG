@@ -56,7 +56,7 @@
 
 <script setup>
 import { useSettingResumeStore } from "@/stores/settingResume";
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 
 const settingResumeStore = useSettingResumeStore();
 const createInfo = async (info) => {

@@ -37,12 +37,10 @@ const props = defineProps({
 const searchTerm = ref("");
 
 const filteredChildCategories = computed(() => {
-  // If there's no search term, return all child categories
   if (!searchTerm.value) {
     return props.category.child;
   }
 
-  // Filter child categories based on the search term
   return props.category.child.filter((child) =>
     child.jobName.toLowerCase().includes(searchTerm.value.toLowerCase())
   );
@@ -82,8 +80,6 @@ const clickedCategory = (childCategory) => {
   border-radius: 0px;
   text-align: right;
 }
-
-/* 세부 카테고리 그리드 목록 */
 
 .sub-grid-container {
   display: grid;
