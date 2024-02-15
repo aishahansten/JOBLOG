@@ -61,7 +61,7 @@ public class User extends BaseEntity {
     private String profileImageUrl;
     @ColumnDefault("'-'")
     private String phoneNumber;
-    @ColumnDefault("'1900-01-01'")
+    @ColumnDefault("'2000-01-01'")
     private LocalDate birthDate;
 
     //연관관계 주인x
