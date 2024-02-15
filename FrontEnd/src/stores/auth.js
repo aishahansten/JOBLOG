@@ -131,6 +131,7 @@ export const useAuthStore = defineStore("auth", {
       await this.updateUserInfoFromToken();
       try {
         const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/chat`);
+        console.log(res.data, "js");
         this.chatterList = res.data;
       } catch (err) {
         console.error(err);

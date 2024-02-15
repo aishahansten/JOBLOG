@@ -16,7 +16,8 @@
 
     <div class="profile">
       <div class="info-img">
-        <img src="@/assets/img/profile/default-user-pic.jpg" alt="" />
+        <img src="@/assets/img/profile/default-user-pic.jpg" alt="" v-if="!userInfo.amazonS3FileUrl" />
+        <img :src="userInfo.amazonS3FileUrl" v-else />
       </div>
       <div class="info-txt">
         <h1>닉네임</h1>
@@ -102,8 +103,12 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useAuthStore } from "@/stores/auth";
+const authStore = useAuthStore();
 
+import { useSettingResumeStore } from "@/stores/settingResume";
+const settingResumeStore = useSettingResumeStore();
 const userInfo = ref({});
+
 const currChat = ref({
   id: "",
   userId: "",
@@ -112,10 +117,9 @@ const currChat = ref({
   description: "",
 });
 
-const authStore = useAuthStore();
-
 const updateChatterProfile = async () => {
   await authStore.updateChatterProfile(currChat);
+  alert("변경되었습니다.");
 };
 
 const chatterStatus = async () => {
@@ -125,9 +129,10 @@ const chatterStatus = async () => {
 
 onMounted(async () => {
   await authStore.updateUserInfoFromToken();
-  userInfo.value = authStore.userInfo;
   await authStore.getChatter(authStore.userInfo.sub);
   currChat.value = authStore.chatter;
+  await settingResumeStore.getUserInfo();
+  userInfo.value = settingResumeStore.userInfo;
   console.log(currChat);
 });
 </script>
