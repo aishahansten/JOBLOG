@@ -22,7 +22,7 @@ export const useBlogReviewStore = defineStore("blogReview", {
         this.myJobs = res.data;
       } catch (err) {
         if (err.response && err.response.status === 500) {
-          router.push("/login2");
+          router.push("/login");
         }
         console.error(err);
       }

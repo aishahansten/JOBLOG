@@ -46,16 +46,13 @@ const isLoaded = ref(false);
 
 const checkedSpell = ref("");
 const spellCheck = async () => {
-  console.log("들어가는것", essay.value.answer);
   await essayResumeStore.spellCheck(essay.value.answer);
   checkedSpell.value = essayResumeStore.spellChecked;
-  console.log(checkedSpell.value);
 };
 
 const submitEssay = async () => {
   delete essay.value.categoryName;
   delete essay.value.recruitId;
-  console.log("수정", essay.value);
   await essayResumeStore.updateEssay(essay);
   alert("수정되었습니다.");
 };
@@ -69,7 +66,6 @@ const deleteEssay = async () => {
 onMounted(async () => {
   await essayResumeStore.getEssayDetail(route.params.id);
   essay.value = essayResumeStore.currentEssay;
-  console.log(essayResumeStore.currentEssay);
   isLoaded.value = true;
 });
 </script>

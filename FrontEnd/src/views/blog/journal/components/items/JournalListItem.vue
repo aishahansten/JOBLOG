@@ -1,22 +1,14 @@
 <template>
   <div class="review">
     <RouterLink :to="{ name: 'JournalDetail', params: { id: diaryId } }">
-      <img
-        :src="catImageUrl"
-        alt="Cat Profile Image"
-        class="profile-image"
-        :style="{ width: size + 'px', height: size + 'px' }"
-      />
+      <div class="profile-image">{{ createdDate }}</div>
       <h3 class="preview">{{ content }}</h3>
-      <p>{{ createdDate }}</p>
     </RouterLink>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, defineProps } from "vue";
-import axios from "axios";
-
+import { defineProps } from "vue";
 const props = defineProps({
   diaryId: Number,
   content: String,
@@ -26,23 +18,6 @@ const props = defineProps({
     default: 200, // 기본 크기는 200px
   },
 });
-
-const catImageUrl = ref("");
-
-onMounted(() => {
-  fetchCatImage();
-});
-
-const fetchCatImage = async () => {
-  try {
-    const response = await axios.get(
-      "https://api.thecatapi.com/v1/images/search"
-    );
-    catImageUrl.value = response.data[0].url;
-  } catch (error) {
-    console.error("Error fetching cat image:", error);
-  }
-};
 </script>
 
 <style>
@@ -50,6 +25,8 @@ const fetchCatImage = async () => {
   border: 1px solid #ccc;
   padding: 16px;
   text-align: center;
+  background-color: rgb(210, 172, 137);
+  border-radius: 10px;
 }
 .image-placeholder {
   background-color: #eaeaea;
@@ -68,5 +45,13 @@ const fetchCatImage = async () => {
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 14px;
+}
+.profile-image {
+  width: 300px;
+  height: 200px;
+  background-color: rgba(255, 255, 255, 0.373);
+  border-radius: 10px;
+  font-size: 18pt;
+  font-weight: bold;
 }
 </style>

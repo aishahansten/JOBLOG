@@ -33,13 +33,11 @@ const reloadData = async () => {
   isLoaded.value = false;
   await blogReviewStore.getMyJobs();
   myJobs.value = blogReviewStore.myJobs;
-  console.log(myJobs);
   isLoaded.value = true;
 };
 
 onMounted(async () => {
   await blogReviewStore.getMyJobs();
-  console.log(myJobs);
   myJobs.value = blogReviewStore.myJobs;
   isLoaded.value = true;
 });

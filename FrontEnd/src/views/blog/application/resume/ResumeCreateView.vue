@@ -22,7 +22,6 @@
     <div class="resume">
       사용 정보:
       <div class="info-container">
-        <!-- EDUCATION Section -->
         <div class="info-title">
           <p>학교명</p>
           <p>전공 및 학위</p>
@@ -50,7 +49,6 @@
           <p>{{ info.dayOrNight === 0 ? "X" : "O" }}</p>
         </div>
       </div>
-      <!-- CAREER Section -->
       <div class="info-container">
         <div class="info-title">
           <p>회사명</p>
@@ -71,7 +69,6 @@
           <p>{{ info.endDate }}</p>
         </div>
       </div>
-      <!-- ACTIVITY Section -->
       <div class="info-container">
         <div class="info-title">
           <p>활동/교육명</p>
@@ -94,7 +91,6 @@
           <p>{{ info.endDate }}</p>
         </div>
       </div>
-      <!-- CERTIFICATE Section -->
       <div class="info-container">
         <div class="info-title">
           <p>자격증/어학성적명</p>
@@ -119,7 +115,6 @@
           <p>{{ info.level }}</p>
         </div>
       </div>
-      <!-- AWARD Section -->
       <div class="info-container">
         <div class="info-title">
           <p>수상명</p>
@@ -140,7 +135,6 @@
           <p>{{ info.description }}</p>
         </div>
       </div>
-      <!-- SKILL Section -->
       <div class="info-container">
         <div class="info-title">
           <p>기술명</p>
@@ -227,7 +221,6 @@ const createResume = async () => {
   };
   try {
     const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/resume/register`, resume.value, config);
-    console.log(res.data);
     router.push("/blog-application");
   } catch (err) {
     console.error(err);
@@ -250,7 +243,6 @@ const createResume = async () => {
   gap: 5px;
 }
 
-/* title */
 .title {
   display: flex;
   justify-content: center;
@@ -261,8 +253,6 @@ const createResume = async () => {
 .title input {
   width: 300px;
 }
-
-/* content */
 
 .resume {
   display: flex;

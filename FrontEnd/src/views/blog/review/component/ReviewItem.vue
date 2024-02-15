@@ -128,11 +128,8 @@ const emit = defineEmits(["close"]);
 
 const closeModal = () => {
   showModal.value = false;
-  console.log("닫힘?", showModal.value);
   emit("close");
 };
-
-console.log("item", props.data);
 
 // 드랍다운
 const showDropDown = ref(false);

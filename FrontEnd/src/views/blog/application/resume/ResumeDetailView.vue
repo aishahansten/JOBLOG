@@ -64,9 +64,7 @@
       </div>
     </div>
 
-    <a @click="exportToPdf" class="btn solid-c h-bright a-dark" id="export-btn"
-      >입사지원서 제작하기 !</a
-    >
+    <a @click="exportToPdf" class="btn solid-c h-bright a-dark" id="export-btn">입사지원서 제작하기 !</a>
   </div>
 </template>
 
@@ -82,7 +80,6 @@ import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 const route = useRoute();
 
-// here
 const resumeResponse = ref([]);
 
 const exportToPdf = function () {
@@ -109,9 +106,7 @@ const essayList = ref([]);
 const showEssay = ref([]);
 
 const toggleShowEssay = (selectedEssay) => {
-  const index = showEssay.value.findIndex(
-    (essay) => essay.essayId === selectedEssay.essayId
-  );
+  const index = showEssay.value.findIndex((essay) => essay.essayId === selectedEssay.essayId);
   if (index === -1) {
     showEssay.value.push(selectedEssay);
   } else {
@@ -126,9 +121,7 @@ const handleDragStart = (essay) => {
 
 const handleDrop = () => {
   if (currentDrag.value) {
-    const index = showEssay.value.findIndex(
-      (essay) => essay.essayId === currentDrag.value.essayId
-    );
+    const index = showEssay.value.findIndex((essay) => essay.essayId === currentDrag.value.essayId);
     if (index === -1) {
       showEssay.value.push(currentDrag.value);
     }
@@ -138,7 +131,6 @@ const handleDrop = () => {
 
 onMounted(async () => {
   await settingResumeStore.getInfo();
-  // await essayResumeStore.getResume(route.params.id);
   await essayResumeStore.getEssay();
   essayList.value = essayResumeStore.essayList;
   await essayResumeStore.getResumeDetail(route.params.id);
@@ -195,11 +187,11 @@ onMounted(async () => {
   border: 1px solid rgba(0, 0, 0, 0.419);
   border-radius: 8px;
   padding: 10px;
-  cursor: pointer; /* Indicates the item is clickable */
+  cursor: pointer;
 }
 
 .selected {
-  background-color: #e5e5e559; /* Different background for selected items */
+  background-color: #e5e5e559;
 }
 
 .essay-list {
@@ -252,7 +244,7 @@ onMounted(async () => {
   border: 1px solid var(--border-gray);
   background-color: var(--light-gray);
   padding: 20px;
-  cursor: pointer; /* Indicates the item is clickable */
+  cursor: pointer;
 }
 
 .selected {
@@ -308,7 +300,7 @@ onMounted(async () => {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 650px; /* or a specific px value */
-  display: block; /* ensures the behavior applies correctly */
+  max-width: 650px;
+  display: block;
 }
 </style>

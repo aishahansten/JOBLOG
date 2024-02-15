@@ -58,7 +58,6 @@ onMounted(async () => {
   await authStore.getChatterList();
   userInfo.value = authStore.userInfo.role;
   chatterList.value = authStore.chatterList;
-  console.log(authStore.chatterList);
 });
 </script>
 

@@ -22,26 +22,23 @@ const startSSE = async () => {
   sse.onmessage = (event) => {
     if (event.data !== "connected") {
       hasAlarm.value = true;
-      console.log("이벤트 발생");
     }
   };
 
   sse.onerror = (event) => {
     if (event.target.readyState === EventSource.CLOSED) {
       retryCount.value++;
-      setTimeout(startSSE, 5000); // 5초후 SSE 재연결
+      setTimeout(startSSE, 5000);
     }
   };
 };
 
-// onMounted(async () => {
-//   if (loggedIn) {
-//     console.log("ASDFADFS");
-//     startSSE();
-//   } else {
-//     console.log('로그인 안됨')
-//   }
-// });
+onMounted(async () => {
+  if (loggedIn) {
+    startSSE();
+  } else {
+  }
+});
 </script>
 
 <template>
@@ -63,9 +60,6 @@ const startSSE = async () => {
       <RouterLink :to="{ name: 'Login' }">
         <a id="to-login" class="btn solid-c h-bright a-dark"> SNS 계정으로 시작하기 -> </a>
       </RouterLink>
-      <RouterLink :to="{ name: 'Login2' }">
-        <a class="login-btn-solid clickable"> 로컬테스트는 이거 누르세요 -> </a>
-      </RouterLink>
     </div>
   </div>
 
@@ -81,7 +75,6 @@ const startSSE = async () => {
   background-image: url("@/assets/img/home/background-img.png");
   background-position: center;
   background-repeat: no-repeat;
-  /* position: relative; */
   width: 100%;
   height: 880px;
   text-align: center;

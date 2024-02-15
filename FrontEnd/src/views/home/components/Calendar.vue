@@ -13,44 +13,34 @@ import router from "@/router";
 const authStore = useAuthStore();
 const currentEvents = ref([]);
 
-//
-//
-//
-////////////////////////////////////// 달력용 id increase //////////////
 const eventGuid = 0;
 function createEventId() {
   return String(eventGuid++);
 }
 
-//
-//
-//
-////////////////////////////////////// fullCal 형식으로 변환 /////////////
 function convertSchedule(data) {
   return data.map((item) => ({
-    id: item.scheduleId, // 고유 ID
-    title: item.title, // 이벤트 제목
-    start: item.startDate, // 시작 날짜
-    end: item.endDate, // 종료 날짜 (선택 사항)
+    id: item.scheduleId,
+    title: item.title,
+    start: item.startDate,
+    end: item.endDate,
     content: item.content,
-    type: "schedule", // 이벤트 유형 추가
-    // 다른 필요한 속성들을 여기에 추가할 수 있습니다
+    type: "schedule",
   }));
 }
 function convertSelection(data) {
   return data.map((item) => ({
-    id: item.applyStatusId, // 고유 ID
-    title: `${item.title} ${item.type}`, // item.title과 item.type을 이어붙임
-    start: item.date, // 시작 날짜
+    id: item.applyStatusId,
+    title: `${item.title} ${item.type}`,
+    start: item.date,
     step: item.step,
     type: "selection",
-    // 다른 필요한 속성들을 여기에 추가할 수 있습니다
   }));
 }
 function convertRecruit(data) {
   return data.map((item) => ({
-    id: item.myRecruitId, // 고유 ID
-    title: item.title, // 이벤트 제목
+    id: item.myRecruitId,
+    title: item.title,
     start: formatDate(item.openingDate), // 시작 날짜
     end: formatDate(item.expirationDate), // 종료 날짜 (선택 사항)
     company: item.companyName,
@@ -69,11 +59,7 @@ onMounted(async () => {
   // 이제 schedules, selections, myRecruits가 각각의 API 호출을 통해 채워졌다고 가정합니다.
 
   // FullCalendar 이벤트로 설정
-  currentEvents.value = [
-    ...convertSchedule(schedules),
-    ...convertSelection(selections),
-    ...convertRecruit(myRecruits),
-  ];
+  currentEvents.value = [...convertSchedule(schedules), ...convertSelection(selections), ...convertRecruit(myRecruits)];
 
   // FullCalendar 갱신을 위해 eventsSet 함수 호출 (필요한 경우)
   // 주의: FullCalendar Vue 컴포넌트가 이 방식으로 동적 업데이트를 지원하지 않을 수 있습니다.
@@ -120,11 +106,7 @@ function handleDateSelect(selectInfo) {
 }
 
 function handleEventClick(clickInfo) {
-  if (
-    confirm(
-      `Are you sure you want to delete the event '${clickInfo.event.title}'`
-    )
-  ) {
+  if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
     clickInfo.event.remove();
   }
 }
@@ -153,28 +135,29 @@ function formatDate(isoString) {
   return `${year}-${month}-${day} ${hours}:${minutes}`;
 }
 
-//
-//
-//
-////////////////////////////////////// 날짜별 필터링 /////////////
+// 여기서부터 편집된 코드
+
 const selectedDateEvents = ref([]);
 
-// 오늘의 이벤트를 필터링하여 selectedDateEvents에 설정하는 함수
 function filterTodayEvents() {
   const today = new Date();
-  today.setHours(0, 0, 0, 0); // 시간을 00:00:00으로 설정하여 오늘 날짜만 비교
+  today.setHours(0, 0, 0, 0);
 
   selectedDateEvents.value = currentEvents.value.filter((event) => {
     const eventStart = new Date(event.start);
-    eventStart.setHours(0, 0, 0, 0); // 이벤트 시작 날짜의 시간도 00:00:00으로 설정
+    eventStart.setHours(0, 0, 0, 0);
     return eventStart.getTime() === today.getTime();
   });
 }
 
-//
-//
-//
-////////////////////////////////////// schedule 전체 조회 /////
+// 컴포넌트가 마운트될 때 오늘의 이벤트를 필터링하여 표시
+onMounted(() => {
+  filterTodayEvents(); // 초기 로딩 시 오늘의 이벤트를 필터링하여 selectedDateEvents에 할당
+  getSchedules();
+});
+
+// schedule 전체 조회
+
 let schedules = [];
 
 const getSchedules = async () => {
@@ -185,10 +168,7 @@ const getSchedules = async () => {
         Authoriation: `${authStore.accessToken}`,
       },
     };
-    const response = await axios.get(
-      `${import.meta.env.VITE_API_BASE_URL}/schedule/${authStore.userInfo.sub}`,
-      config
-    );
+    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/schedule/${authStore.userInfo.sub}`, config);
     schedules = response.data;
     console.log(schedules);
   } catch (err) {
@@ -215,9 +195,7 @@ const getSelections = async () => {
       },
     };
     const response = await axios.get(
-      `${import.meta.env.VITE_API_BASE_URL}/selection/${
-        authStore.userInfo.sub
-      }`,
+      `${import.meta.env.VITE_API_BASE_URL}/selection/${authStore.userInfo.sub}`,
       config
     );
     selections = response.data;
@@ -247,186 +225,24 @@ const getMyRecruits = async () => {
       },
     };
     const response = await axios.get(
-      `${import.meta.env.VITE_API_BASE_URL}/myRecruit/${
-        authStore.userInfo.sub
-      }`,
+      `${import.meta.env.VITE_API_BASE_URL}/myRecruit/${authStore.userInfo.sub}`,
       config
     );
     myRecruits = response.data;
     console.log(myRecruits);
   } catch (err) {
     if (err.response && err.response.status === 500) {
-      router.push("/login2");
+      router.push("/login");
     } else {
-      // Handle other errors or a case where the error does not have a response object
-      console.log("token", token); // Logging the token for debugging purposes
+      console.log("token", token);
     }
   }
 };
 
-//
-//
-//
-////////////////////////////////////// schedule 생성 /////////
-const createSchedule = async () => {
-  try {
-    authStore.updateUserInfoFromToken();
-    newSchedule.value.userId = authStore.userInfo.sub;
-    const config = {
-      headers: {
-        Authoriation: `${authStore.accessToken}`,
-      },
-    };
-
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_BASE_URL}/schedule/register`,
-      newSchedule.value,
-      config
-    );
-    console.log(response.data);
-    newSchedule.value = {
-      userId: authStore.userInfo.sub,
-      title: "일정 제목을 입력하세요",
-      content: "일정 설명",
-      startDate: new Date("2024-02-08T00:00:00"),
-      endDate: new Date("2024-02-08T00:00:00"),
-    };
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-const newSchedule = ref({
-  userId: authStore.userInfo.sub,
-  title: "일정 제목을 입력하세요",
-  content: "일정 설명",
-  startDate: new Date("2024-02-08T00:00:00"),
-  endDate: new Date("2024-02-08T00:00:00"),
-});
-
-//
-//
-//
-////////////////////////////////////// schedule 수정 ////////
-const updateSchedule = async () => {
-  try {
-    authStore.updateUserInfoFromToken();
-    const config = {
-      headers: {
-        Authoriation: `${authStore.accessToken}`,
-      },
-    };
-
-    const newSchedule = {
-      scheduleId: 2,
-      userId: authStore.userInfo.sub,
-      title: "test title2222222",
-      content: "test content22222222",
-      startDate: new Date("2024-02-08T00:00:00"),
-      endDate: new Date("2024-02-08T00:00:00"),
-    };
-    const response = await axios.patch(
-      `${import.meta.env.VITE_API_BASE_URL}/schedule/update`,
-      newSchedule,
-      config
-    );
-    console.log(response.data);
-    // router.push();
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-//
-//
-//
-////////////////////////////////////// schedule 삭제 ////////
-const deleteSchedule = async () => {
-  const isConfirmed = confirm("삭제하시겠습니까?");
-
-  if (isConfirmed) {
-    try {
-      const config = {
-        headers: {
-          Authorization: `${authStore.accessToken}`,
-        },
-      };
-      const res = await axios.delete(
-        `${import.meta.env.VITE_API_BASE_URL}/schedule/delete/3`,
-        config
-      );
-      console.log(res.data);
-      // router.push();
-
-      // Optionally, emit an event to inform the parent component to update the comment list
-    } catch (error) {
-      console.error("삭제 실패: ", error);
-    }
-  } else {
-    console.log("삭제하지 않음.");
-  }
-};
-
-//
-//
-//
-////////////////////////////////////// schedule 선택 ////////
-const selectedEvent = ref("");
-function selectEvent(event) {
-  selectedEvent.value = event;
-  console.log("selectedEvent : ", selectedEvent.value);
-
-  if (event.type === "schedule") {
-    toggleSchedule();
-  } else if (event.type === "selection") {
-    toggleSelected();
-  } else if (event.type === "recruit") {
-    toggleRecruit();
-  }
-}
-
-//
-//
-//
-////////////////////////////////////// modal ////////////////
-const isCreateOpen = ref(false); // 모달 상태를 관리하는 변수
-function toggleCreate() {
-  isCreateOpen.value = !isCreateOpen.value;
-}
-
-const isScheduleOpen = ref(false); // 모달 상태를 관리하는 변수
-function toggleSchedule() {
-  isScheduleOpen.value = !isScheduleOpen.value;
-  if (!isScheduleOpen.value) {
-    selectedEvent.value = null; // 모달을 열 때가 아닌 닫을 때 상태를 초기화
-  }
-}
-const isSelectedOpen = ref(false); // 모달 상태를 관리하는 변수
-function toggleSelected() {
-  isSelectedOpen.value = !isSelectedOpen.value;
-}
-const isRecruitOpen = ref(false); // 모달 상태를 관리하는 변수
-function toggleRecruit() {
-  isRecruitOpen.value = !isRecruitOpen.value;
-}
-//
-//
-//
-////////////////////////////////////// 수정 ////////////////
-const isUpdateMode = ref(false); // 수정 모드의 활성화 여부를 추적
-function showUpdateForm() {
-  isUpdateMode.value = true;
-}
-function cancelUpdate() {
-  isUpdateMode.value = false;
-}
-
-//
-//
-//
-////////////////////////////////////// log ///////////////
-function check(item) {
-  console.log(item.event.title);
+// test
+function check(a) {
+  console.log("arg : ", a);
+  console.log("arg.event : ", a.event);
 }
 </script>
 
@@ -457,22 +273,13 @@ function check(item) {
           <h2 class="f-weight-t">나의 일정 목록</h2>
         </div>
         <div class="tasks" v-if="selectedDateEvents.length > 0">
-          <div
-            v-for="event in selectedDateEvents"
-            :key="event.id"
-            class="task"
-            @click="selectEvent(event)"
-          >
+          <div v-for="event in selectedDateEvents" :key="event.id" class="task" @click="selectEvent(event)">
             <div class="coloring"></div>
             <div class="task-info">
               <p class="f-size-20 f-weight-b">{{ event.title }}</p>
               <div style="display: flex; flex-direction: column; gap: 5px">
-                <span class="f-color-g f-size-14"
-                  >시작일　|　{{ formatTime(event.start) }}</span
-                >
-                <span class="f-color-g f-size-14"
-                  >마감일　|　{{ formatTime(event.end) }}</span
-                >
+                <span class="f-color-g f-size-14">시작일　|　{{ formatTime(event.start) }}</span>
+                <span class="f-color-g f-size-14">마감일　|　{{ formatTime(event.end) }}</span>
               </div>
             </div>
           </div>
@@ -512,7 +319,6 @@ function check(item) {
   justify-content: end;
 }
 
-/* calendar */
 .calendar {
   margin-right: 20px;
 }
@@ -522,7 +328,6 @@ function check(item) {
   width: 100px;
 }
 
-/* tasks */
 .task-space {
   display: flex;
   flex-direction: column;

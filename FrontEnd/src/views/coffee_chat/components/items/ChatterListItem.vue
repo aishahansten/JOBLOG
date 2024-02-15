@@ -153,7 +153,6 @@ onUnmounted(() => {
   color: var(--gray);
 }
 
-/* modal */
 .modal {
   display: flex;
   flex-direction: column;

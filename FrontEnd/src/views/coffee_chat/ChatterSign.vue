@@ -132,7 +132,6 @@ onMounted(async () => {
   await settingResumeStore.getUserInfo();
   userInfo.value = settingResumeStore.userInfo;
   await coffeeStore.getChat();
-  console.log(authStore.userInfo.sub);
   const allChatCalls = coffeeStore.chats.filter((chat) => chat.chatterId == authStore.userInfo.sub);
   chatCalls.value = allChatCalls;
 });

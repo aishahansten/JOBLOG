@@ -11,21 +11,18 @@ const router = useRouter();
 
 const loading = ref(false);
 const post = ref(null);
-console.log(post);
 
 async function fetchPostAndComments() {
   try {
     await authStore.updateUserInfoFromToken();
-    const response = await axios.get(
-      `${authStore.API_URL}/community/detail/${route.params.id}`
-    );
+    const response = await axios.get(`${authStore.API_URL}/community/detail/${route.params.id}`);
 
     return {
       post: response.data.postResponseDto,
     };
   } catch (error) {
     console.error("불러오기 실패: ", error);
-    return { post: null, comments: null }; // Return nulls or defaults on error
+    return { post: null, comments: null };
   }
 }
 
@@ -44,13 +41,7 @@ const savePost = async () => {
       content: post.value.content,
       category: "QNA",
     };
-    console.log(post.value.postId);
-    const res = await axios.patch(
-      `${authStore.API_URL}/community/update`,
-      editContent,
-      config
-    );
-    console.log(res.data);
+    const res = await axios.patch(`${authStore.API_URL}/community/update`, editContent, config);
     router.push({ name: "QnADetail", params: { id: post.value.postId } });
   } catch (error) {
     console.error("업데이트 실패: ", error);
@@ -79,11 +70,7 @@ function toBack() {
           수정 취소
         </a>
         <h3>질문 수정하기</h3>
-        <a
-          @click="savePost"
-          :disabled="!isTitleValid"
-          class="btn lined-bg f-color-c h-lined-c a-solid-c"
-        >
+        <a @click="savePost" :disabled="!isTitleValid" class="btn lined-bg f-color-c h-lined-c a-solid-c">
           수정 완료
         </a>
       </div>
@@ -91,18 +78,9 @@ function toBack() {
       <div class="content">
         <div class="title" v-if="post">
           <i class="fa-solid fa-q fa-2xl"></i>
-          <input
-            type="text"
-            class="input-simple focus-lined-c"
-            v-model="post.title"
-            required
-          />
+          <input type="text" class="input-simple focus-lined-c" v-model="post.title" required />
         </div>
-        <textarea
-          class="input focus-lined-c"
-          v-model="post.content"
-          required
-        ></textarea>
+        <textarea class="input focus-lined-c" v-model="post.content" required></textarea>
       </div>
     </div>
   </div>
@@ -147,7 +125,7 @@ function toBack() {
   width: 100%;
   height: 500px;
   padding: 20px;
-  resize: none; /* Prevents resizing */
+  resize: none;
   font-size: 16px;
 }
 

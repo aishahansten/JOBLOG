@@ -12,7 +12,6 @@
     <div class="resume">
       사용 정보:
       <div class="info-container">
-        <!-- EDUCATION Section -->
         <div class="info-title">
           <p>학교명</p>
           <p>전공 및 학위</p>
@@ -40,7 +39,6 @@
           <p>{{ info.dayOrNight === 0 ? "X" : "O" }}</p>
         </div>
       </div>
-      <!-- CAREER Section -->
       <div class="info-container">
         <div class="info-title">
           <p>회사명</p>
@@ -61,7 +59,6 @@
           <p>{{ info.endDate }}</p>
         </div>
       </div>
-      <!-- ACTIVITY Section -->
       <div class="info-container">
         <div class="info-title">
           <p>활동/교육명</p>
@@ -84,7 +81,6 @@
           <p>{{ info.endDate }}</p>
         </div>
       </div>
-      <!-- CERTIFICATE Section -->
       <div class="info-container">
         <div class="info-title">
           <p>자격증/어학성적명</p>
@@ -109,7 +105,6 @@
           <p>{{ info.level }}</p>
         </div>
       </div>
-      <!-- AWARD Section -->
       <div class="info-container">
         <div class="info-title">
           <p>수상명</p>
@@ -130,7 +125,6 @@
           <p>{{ info.description }}</p>
         </div>
       </div>
-      <!-- SKILL Section -->
       <div class="info-container">
         <div class="info-title">
           <p>기술명</p>
@@ -202,10 +196,7 @@ onMounted(async () => {
   resume.value.title = essayResumeStore.currentResume.resumeResponseDto.title;
   resume.value.job = essayResumeStore.currentResume.resumeResponseDto.job;
   resume.value.userId = essayResumeStore.currentResume.resumeResponseDto.userId;
-  console.log(essayResumeStore.currentResume);
 });
-
-console.log(resume);
 
 const updateResume = async () => {
   const authStore = useAuthStore();
@@ -226,7 +217,6 @@ const updateResume = async () => {
   };
   try {
     const res = await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/resume/update`, resume.value, config);
-    console.log(res.data);
     router.push("/blog-application");
   } catch (err) {
     console.error(err);
@@ -249,7 +239,6 @@ const updateResume = async () => {
   gap: 5px;
 }
 
-/* title */
 .title {
   display: flex;
   justify-content: center;
@@ -260,8 +249,6 @@ const updateResume = async () => {
 .title input {
   width: 300px;
 }
-
-/* content */
 
 .resume {
   display: flex;
