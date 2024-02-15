@@ -7,6 +7,8 @@ export const useAuthStore = defineStore("auth", {
     userInfo: null,
     accessToken: null,
     API_URL: import.meta.env.VITE_API_BASE_URL,
+    chatterList: [],
+    chatter: {},
   }),
   actions: {
     getCookie(name) {
@@ -102,14 +104,64 @@ export const useAuthStore = defineStore("auth", {
           Authorization: `${this.accessToken}`,
         },
       };
+      const chatterProfile = {
+        userId: this.userInfo.sub,
+        job: "",
+        career: "",
+        description: "",
+      };
       try {
         const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/users/role/${this.userInfo.sub}`, config);
+        const chatter = await axios.post(
+          `${import.meta.env.VITE_API_BASE_URL}/chat/profile/register`,
+          chatterProfile,
+          config
+        );
+        console.log(chatter.data);
         alert("다시 로그인 해주세요");
         await this.logout2();
       } catch (err) {
         console.error(err);
       } finally {
         router.push("/login2");
+      }
+    },
+
+    async getChatterList() {
+      await this.updateUserInfoFromToken();
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/chat`);
+        this.chatterList = res.data;
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    async getChatter() {
+      await this.updateUserInfoFromToken();
+      const config = {
+        headers: {
+          Authorization: `${this.accessToken}`,
+        },
+      };
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/chat/profile/${this.userInfo.sub}`, config);
+        this.chatter = res.data;
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    async updateChatterProfile() {
+      await this.updateUserInfoFromToken();
+      const config = {
+        headers: {
+          Authorization: `${this.accessToken}`,
+        },
+      };
+      try {
+        const res = await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/chat/profile/${this.userInfo.sub}`, config);
+        this.chatterList = res.data;
+      } catch (err) {
+        console.error(err);
       }
     },
   },

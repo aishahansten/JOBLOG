@@ -51,6 +51,8 @@ const authStore = useAuthStore();
 
 const userInfo = ref({});
 
+const chatterList = ref([]);
+
 onMounted(async () => {
   await authStore.updateUserInfoFromToken;
   userInfo.value = authStore.userInfo.role;
