@@ -20,9 +20,9 @@ onMounted(async () => {
 
   // 변환된 이벤트 데이터를 currentEvents에 추가
   const convertedEvents = [
-    ...convertToCalendarEvents(schedules),
-    ...convertToCalendarEvents(selections),
-    ...convertToCalendarEvents(myRecruits),
+    ...convertSchedule(schedules),
+    ...convertSelection(selections),
+    ...convertRecruit(myRecruits),
   ];
 
   // FullCalendar 이벤트로 설정
@@ -31,6 +31,9 @@ onMounted(async () => {
   // FullCalendar 갱신을 위해 eventsSet 함수 호출 (필요한 경우)
   // 주의: FullCalendar Vue 컴포넌트가 이 방식으로 동적 업데이트를 지원하지 않을 수 있습니다.
   // eventsSet 메서드 대신, initialEvents prop을 업데이트하는 방식을 고려해야 할 수도 있습니다.
+
+  filterTodayEvents(); // 초기 로딩 시 오늘의 이벤트를 필터링하여 selectedDateEvents에 할당
+  getSchedules();
 });
 
 ////////////////////////////////////// calendarOptions ////////////////
@@ -42,8 +45,7 @@ const calendarOptions = ref({
     right: "dayGridMonth,timeGridWeek,timeGridDay",
   },
   initialView: "dayGridMonth",
-  initialEvents: currentEvents.value,
-  // initialEvents: INITIAL_EVENTS,
+  initialEvents: currentEvents,
   editable: true,
   selectable: true,
   selectMirror: true,
@@ -83,11 +85,12 @@ function handleEvents(events) {
 
 function formatTime(isoString) {
   const date = new Date(isoString);
-  return date.toLocaleTimeString("ko-KR", {
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "Asia/Seoul",
-  });
+  const month = (date.getMonth() + 1).toString().padStart(2, "0"); // 월을 2자리 숫자로 변환
+  const day = date.getDate().toString().padStart(2, "0"); // 일을 2자리 숫자로 변환
+  const hours = date.getHours().toString().padStart(2, "0"); // 시를 2자리 숫자로 변환
+  const minutes = date.getMinutes().toString().padStart(2, "0"); // 분을 2자리 숫자로 변환
+
+  return `${month}/${day} ${hours}:${minutes}`; // 원하는 형식으로 문자열을 조합하여 반환
 }
 
 ////////////////////////////////////// 날짜별 필터링 /////////////
@@ -189,12 +192,29 @@ const getMyRecruits = async () => {
 };
 
 ////////////////////////////////////// fullCal 형식으로 변환 /////////////
-function convertToCalendarEvents(data) {
+function convertSchedule(data) {
   return data.map((item) => ({
     id: item.id, // 고유 ID
     title: item.title, // 이벤트 제목
     start: item.startDate, // 시작 날짜
     end: item.endDate, // 종료 날짜 (선택 사항)
+    // 다른 필요한 속성들을 여기에 추가할 수 있습니다
+  }));
+}
+function convertSelection(data) {
+  return data.map((item) => ({
+    id: item.id, // 고유 ID
+    title: item.title, // 이벤트 제목
+    start: item.date, // 시작 날짜
+    // 다른 필요한 속성들을 여기에 추가할 수 있습니다
+  }));
+}
+function convertRecruit(data) {
+  return data.map((item) => ({
+    id: item.id, // 고유 ID
+    title: item.title, // 이벤트 제목
+    start: item.openingDate, // 시작 날짜
+    end: item.expirationDate, // 종료 날짜 (선택 사항)
     // 다른 필요한 속성들을 여기에 추가할 수 있습니다
   }));
 }
@@ -236,52 +256,68 @@ const newSchedule = ref({
   endDate: new Date("2024-02-08T00:00:00"),
 });
 
-////////////////////////////////////// selection 생성 /////////
-const createSelection = async () => {
+////////////////////////////////////// schedule 수정 ////////
+const updateSchedule = async () => {
   try {
     authStore.updateUserInfoFromToken();
-    newSelection.value.userId = authStore.userInfo.sub;
     const config = {
       headers: {
         Authoriation: `${authStore.accessToken}`,
       },
     };
 
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_BASE_URL}/selection/register`,
-      newSelection.value,
+    const newSchedule = {
+      scheduleId: 2,
+      userId: authStore.userInfo.sub,
+      title: "test title2222222",
+      content: "test content22222222",
+      startDate: new Date("2024-02-08T00:00:00"),
+      endDate: new Date("2024-02-08T00:00:00"),
+    };
+    const response = await axios.patch(
+      `${import.meta.env.VITE_API_BASE_URL}/schedule/update`,
+      newSchedule,
       config
     );
     console.log(response.data);
-    newSelection.value = {
-      userId: authStore.userInfo.sub,
-      myRecruitId: 1,
-      companyName: "test title",
-      companyCode: "test content",
-      step: 1,
-      state: "test state",
-      date: new Date("2024-02-08T00:00:00"),
-    };
     // router.push();
   } catch (error) {
     console.error(error);
   }
 };
 
-const newSelection = ref({
-  userId: authStore.userInfo.sub,
-  myRecruitId: 1,
-  companyName: "test title",
-  companyCode: "test content",
-  step: 1,
-  state: "test state",
-  date: new Date("2024-02-08T00:00:00"),
-});
+////////////////////////////////////// schedule 삭제 ////////
+const deleteSchedule = async () => {
+  const isConfirmed = confirm("삭제하시겠습니까?");
+
+  if (isConfirmed) {
+    try {
+      const config = {
+        headers: {
+          Authorization: `${authStore.accessToken}`,
+        },
+      };
+      const res = await axios.delete(
+        `${import.meta.env.VITE_API_BASE_URL}/schedule/delete/3`,
+        config
+      );
+      console.log(res.data);
+      // router.push();
+
+      // Optionally, emit an event to inform the parent component to update the comment list
+    } catch (error) {
+      console.error("삭제 실패: ", error);
+    }
+  } else {
+    console.log("삭제하지 않음.");
+  }
+};
 
 ////////////////////////////////////// schedule 선택 ////////
-const selectedEvent = ref(null);
+const selectedEvent = ref("");
 function selectEvent(event) {
   selectedEvent.value = event;
+  console.log(selectedEvent.value);
   toggleModal3();
 }
 
@@ -298,10 +334,24 @@ function toggleModal2() {
 
 const isModalOpen3 = ref(false); // 모달 상태를 관리하는 변수
 function toggleModal3() {
+  isModalOpen3.value = !isModalOpen3.value;
   if (!isModalOpen3.value) {
     selectedEvent.value = null; // 모달을 열 때가 아닌 닫을 때 상태를 초기화
   }
-  isModalOpen3.value = !isModalOpen3.value;
+}
+
+////////////////////////////////////// 수정 ////////////////
+const isUpdateMode = ref(false); // 수정 모드의 활성화 여부를 추적
+function showUpdateForm() {
+  isUpdateMode.value = true;
+}
+function cancelUpdate() {
+  isUpdateMode.value = false;
+}
+
+////////////////////////////////////// log ///////////////
+function check(item) {
+  console.log(item.event.title);
 }
 </script>
 
@@ -320,16 +370,8 @@ function toggleModal3() {
         <div class="header">
           <h2 class="f-weight-t">나의 일정 목록</h2>
           <div class="btns">
-            <!-- <RouterLink
-              :to="{ name: 'CustomJobCreate' }"
-              class="btn-s solid-c h-bright a-dark"
-              >외부공고 등록</RouterLink
-            > -->
-            <a class="btn-s solid-c h-bright a-dark" @click="toggleModal2"
-              >전형일정 등록</a
-            >
-            <a class="btn-s solid-c h-bright a-dark" @click="toggleModal"
-              >기타일정 등록</a
+            <a class="btn solid-c h-bright a-dark" @click="toggleModal"
+              >일정 등록</a
             >
           </div>
         </div>
@@ -337,18 +379,20 @@ function toggleModal3() {
           <div
             v-for="event in selectedDateEvents"
             :key="event.id"
-            class="task"
-            @click="
-              () => {
-                selectEvent(event);
-                toggleModal3();
-              }
-            "
+            class="task pointer h-transparent-c"
+            @click="selectEvent(event)"
           >
             <div class="coloring"></div>
             <div class="task-info">
-              <b class="f-size-20">{{ event.title }}</b>
-              {{ formatTime(event.startStr) }} ~ {{ formatTime(event.endStr) }}
+              <p class="f-size-20 f-weight-b">{{ event.title }}</p>
+              <div style="display: flex; flex-direction: column; gap: 5px">
+                <span class="f-color-g f-size-14">시작일　|　{{
+                  formatTime(event.start)
+                }}</span>
+                <span class="f-color-g f-size-14">마감일　|　{{
+                  formatTime(event.end)
+                }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -391,55 +435,31 @@ function toggleModal3() {
     </div>
   </div>
 
-  <div v-if="isModalOpen2" class="modal">
-    <a @click="toggleModal2" class="exit-btn"
-      ><i class="fa-solid fa-xmark fa-xl"></i
-    ></a>
-    <h1 class="title">전형일정 추가하기</h1>
-    <div class="content">
-      <div class="detail">
-        <input
-          type="text"
-          v-model="newSchedule.title"
-          class="input"
-          placeholder="일정 제목"
-        />
-        <input
-          type="datetime-local"
-          v-model="newSchedule.startDate"
-          class="input"
-        />
-        ~
-        <input
-          type="datetime-local"
-          v-model="newSchedule.endDate"
-          class="input"
-        />
-        <textarea v-model="newSchedule.content" class="input" />
-      </div>
-      <a class="btn solid-c h-bright a-dark" @click="createSelection"
-        >저장하기</a
-      >
-    </div>
-  </div>
-
   <div v-if="isModalOpen3" class="modal">
     <a @click="toggleModal3" class="exit-btn"
       ><i class="fa-solid fa-xmark fa-xl"></i
     ></a>
-    <h1 class="title">일정 조회하기</h1>
-    <div class="content">
+    <h1 class="title">{{ selectedEvent.title }}</h1>
+    <div class="content" v-if="!isUpdateMode">
       <div class="detail">
-        <p>일정 제목 | {{ selectedEvent.value?.title }}</p>
-        <p>일정 시작 | {{ selectedEvent.value?.start }}</p>
-        <p>일정 마감 | {{ selectedEvent.value?.end }}</p>
-        <p>일정 내용 | {{ selectedEvent.value?.content }}</p>
-        <input
-          type="text"
-          v-model="newSchedule.title"
-          class="input"
-          placeholder="일정 제목"
-        />
+        <p>일정 시작　|　{{ selectedEvent.start }}</p>
+        <br />
+        <p>일정 마감　|　{{ selectedEvent.end }}</p>
+        <br />
+        <p>일정 상세　|　{{ selectedEvent.content }}</p>
+      </div>
+      <div>
+        <a class="btn solid-c h-bright a-dark" @click="showUpdateForm"
+          >수정하기</a
+        >
+        <a class="btn lined-bg h-solid-g a-dark" @click="deleteSchedule"
+          >삭제하기</a
+        >
+      </div>
+    </div>
+    <div class="content" v-if="isUpdateMode">
+      <div class="detail">
+        <input type="text" v-model="newSchedule.title" class="input" />
         <input
           type="datetime-local"
           v-model="newSchedule.startDate"
@@ -453,9 +473,12 @@ function toggleModal3() {
         />
         <textarea v-model="newSchedule.content" class="input" />
       </div>
-      <a class="btn solid-c h-bright a-dark" @click="createSelection"
-        >저장하기</a
-      >
+      <div>
+        <a class="btn solid-c h-bright a-dark" @click="updateSchedule"
+          >저장하기</a
+        >
+        <a class="btn lined-bg h-solid-g a-dark" @click="cancelUpdate">취소</a>
+      </div>
     </div>
   </div>
 </template>

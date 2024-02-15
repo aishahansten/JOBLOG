@@ -124,7 +124,6 @@ const getSchedules = async () => {
         <FullCalendar class="demo-app-calendar" :options="calendarOptions">
           <template v-slot:eventContent="arg">
             <b>{{ arg.event.title }}</b>
-            {{ arg.timeText }}
           </template>
         </FullCalendar>
       </div>
