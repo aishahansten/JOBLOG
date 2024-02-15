@@ -8,27 +8,37 @@
         </a>
       </RouterView>
       <h3>커피챗 프로필 설정</h3>
-      <a class="btn lined-bg f-color-c h-lined-c a-solid-c"> 편집 </a>
+      <div>
+        <a class="btn lined-bg f-color-c h-lined-c a-solid-c" @click="updateChatterProfile"> 편집 </a>
+        <a class="btn lined-bg f-color-c h-lined-c a-solid-c" @click="chatterStatus"> 활성화하기 </a>
+      </div>
     </div>
 
     <div class="profile">
       <div class="info-img">
-        <img src="@/assets/img/profile/default-user-pic.jpg" alt="" />
+        <img src="@/assets/img/profile/default-user-pic.jpg" alt="" v-if="!userInfo.amazonS3FileUrl" />
+        <img :src="userInfo.amazonS3FileUrl" v-else />
       </div>
       <div class="info-txt">
         <h1>닉네임</h1>
         <div class="info">
           <i class="fa-solid fa-briefcase"></i>
-          <span>직군</span>
+          <span
+            ><input class="input" type="text" v-model="currChat.job" placeholder="현재 직군을 입력해주세요" />
+          </span>
         </div>
         <div class="info">
           <i class="fa-solid fa-building-user"></i>
-          <span>경력 n년차</span>
+          <span><input class="input" type="text" v-model="currChat.career" placeholder="경력을 입력해주세요" /></span>
         </div>
         <div class="info">
           <i class="fa-solid fa-bullhorn"></i>
           <div class="description">
-            평일 오후 8시부터 프리합니다! 개발직군 FE쪽 종사하고 있어요, 관련 분야에 관심있다면 언제든 이야기 나눠요~
+            <textarea
+              class="textarea"
+              v-model="currChat.description"
+              placeholder="간단한 설명, 가능한 시간등을 입력해주세요"
+            ></textarea>
           </div>
         </div>
       </div>
@@ -38,51 +48,28 @@
       <div class="title">
         <h2>받은 신청 목록</h2>
       </div>
-      <div class="list">
+      <div class="list" v-for="chat in chatCalls" :key="chat.chatId">
         <div class="request">
           <div class="left">
             <div class="img">
               <img src="@/assets/img/profile/default-user-pic.jpg" alt="" />
             </div>
             <div class="info">
-              <h3>닉네임</h3>
               <p>
-                신청 메시지 예를 들면 안녕하세요! FE 분야 취준 시 포폴 유의점에 대해 알고싶어서 신청합니다..! 부디ㅠ
+                {{ chat.consultField }}
               </p>
             </div>
           </div>
           <div class="right">
             <div class="time">
               <i class="fa-regular fa-clock"></i>
-              <span>00:00</span>
+              <span>{{ chat.startDate }}</span>
             </div>
-            <div class="select">
-              <a class="btn-s lined-c h-solid-c a-bright">수락</a>
-              <a class="btn-s lined-bg h-solid-g a-dark">거절</a>
+            <div class="select" v-if="chat.acceptOrNot == false">
+              <a class="btn-s lined-c h-solid-c a-bright" @click="acceptChat(chat.chatId)">수락</a>
+              <a class="btn-s lined-bg h-solid-g a-dark" @click="declineChat(chat.chatId)">거절</a>
             </div>
-          </div>
-        </div>
-        <div class="request">
-          <div class="left">
-            <div class="img">
-              <img src="@/assets/img/profile/default-user-pic.jpg" alt="" />
-            </div>
-            <div class="info">
-              <h3>닉네임</h3>
-              <p>
-                신청 메시지 예를 들면 안녕하세요! FE 분야 취준 시 포폴 유의점에 대해 알고싶어서 신청합니다..! 부디ㅠ
-              </p>
-            </div>
-          </div>
-          <div class="right">
-            <div class="time">
-              <i class="fa-regular fa-clock"></i>
-              <span>00:00</span>
-            </div>
-            <div class="select">
-              <a class="btn-s lined-c h-solid-c a-bright">수락</a>
-              <a class="btn-s lined-bg h-solid-g a-dark">거절</a>
-            </div>
+            <div v-else>수락되었습니다</div>
           </div>
         </div>
       </div>
@@ -90,7 +77,65 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref, onMounted } from "vue";
+import { useAuthStore } from "@/stores/auth";
+const authStore = useAuthStore();
+import { useCoffeeStore } from "@/stores/coffeeChat";
+const coffeeStore = useCoffeeStore();
+import { useSettingResumeStore } from "@/stores/settingResume";
+const settingResumeStore = useSettingResumeStore();
+
+const userInfo = ref({});
+
+const currChat = ref({
+  id: "",
+  userId: "",
+  job: "",
+  career: "",
+  description: "",
+});
+
+const chatCalls = ref([]);
+
+const updateChatterProfile = async () => {
+  await authStore.updateChatterProfile(currChat);
+  alert("변경되었습니다.");
+};
+
+const chatterStatus = async () => {
+  await authStore.chatterStatus();
+  alert("변경되었습니다.");
+};
+
+const acceptChat = async (id) => {
+  const isConfirm = confirm("수락하시겠습니까?");
+  if (isConfirm) {
+    await coffeeStore.acceptChat(id);
+    alert("수락되었습니다.");
+  }
+  return;
+};
+const declineChat = async (id) => {
+  const isConfirm = confirm("거절하시겠습니까?");
+  if (isConfirm) {
+    await coffeeStore.declineChat(id);
+    alert("거절되었습니다..");
+  }
+  return;
+};
+
+onMounted(async () => {
+  await authStore.updateUserInfoFromToken();
+  await authStore.getChatter(authStore.userInfo.sub);
+  currChat.value = authStore.chatter;
+  await settingResumeStore.getUserInfo();
+  userInfo.value = settingResumeStore.userInfo;
+  await coffeeStore.getChat();
+  chatCalls.value = coffeeStore.chats;
+  console.log(currChat);
+});
+</script>
 
 <style scoped>
 .container {
@@ -211,5 +256,20 @@
 .right .select {
   display: flex;
   gap: 5px;
+}
+
+.input {
+  height: 30px;
+  width: 540px;
+}
+
+.textarea {
+  height: 200px;
+  width: 540px;
+  resize: none;
+  border: 1px solid rgba(0, 0, 0, 0.207);
+  border-radius: 8px;
+  padding: 10px;
+  box-sizing: border-box;
 }
 </style>

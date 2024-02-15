@@ -1,10 +1,6 @@
 <template>
   <div ref="chatterList" class="list">
-    <ChatterListItem
-      v-for="(item, index) in chatterItems"
-      :key="index"
-      :item="item"
-    />
+    <ChatterListItem v-for="item in chatterList" :key="item.id" :item="item" />
   </div>
 </template>
 
@@ -12,22 +8,9 @@
 import { ref } from "vue";
 import ChatterListItem from "./items/ChatterListItem.vue";
 
-const chatterList = ref(null);
-const chatterItems = [
-  { user_id: "홍길동", job: "개발자", career: "5년" },
-  { user_id: "김철수", job: "디자이너", career: "3년" },
-  { user_id: "이영희", job: "마케터", career: "2년" },
-  { user_id: "홍길동", job: "개발자", career: "5년" },
-  { user_id: "김철수", job: "디자이너", career: "3년" },
-  { user_id: "이영희", job: "마케터", career: "2년" },
-  { user_id: "홍길동", job: "개발자", career: "5년" },
-  { user_id: "김철수", job: "디자이너", career: "3년" },
-  { user_id: "이영희", job: "마케터", career: "2년" },
-  { user_id: "홍길동", job: "개발자", career: "5년" },
-  { user_id: "김철수", job: "디자이너", career: "3년" },
-  { user_id: "이영희", job: "마케터", career: "2년" },
-  // Add more items as needed
-];
+const props = defineProps({
+  chatterList: Array,
+});
 </script>
 
 <style scoped>

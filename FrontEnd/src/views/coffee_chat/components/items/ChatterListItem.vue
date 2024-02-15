@@ -1,52 +1,59 @@
 <template>
   <div class="chatter pointer h-solid-lg a-transparent-c" @click="toggleModal">
     <div class="chatter-img">
-      <img src="@/assets/img/profile/default-user-pic.jpg" alt="" />
+      <img src="@/assets/img/profile/default-user-pic.jpg" alt="" v-if="!item.amazonS3FileUrl" />
+      <img :src="item.amazonS3FileUrl" alt="" v-else />
     </div>
     <div class="chatter-info">
-      <h3>{{ item.user_id }}</h3>
-      <span>{{ item.job }}</span>
-      <span>{{ item.career }}차</span>
+      <h3>직군: {{ item.job }}</h3>
+      <span>경력: {{ item.career }}</span>
+      <span>{{ item.description }}</span>
     </div>
   </div>
 
   <div v-if="showModal" class="modal">
     <div class="profile">
-      <a @click="toggleModal" class="exit-btn"
-        ><i class="fa-solid fa-xmark fa-xl"></i
-      ></a>
+      <a @click="toggleModal" class="exit-btn"><i class="fa-solid fa-xmark fa-xl"></i></a>
       <div class="info">
         <h1 class="title">채터 정보</h1>
-        <div class="info-img">
-          <img src="@/assets/img/profile/default-user-pic.jpg" alt="" />
-        </div>
-        <div class="info-txt">
-          <h1>{{ item.user_id }}</h1>
-          <div>
-            <i class="fa-solid fa-briefcase"></i>
-            <span>{{ item.job }}</span>
+        <div class="info-division">
+          <div class="info-img">
+            <img src="@/assets/img/profile/default-user-pic.jpg" alt="" v-if="!item.amazonS3FileUrl" />
+            <img :src="item.amazonS3FileUrl" alt="" v-else />
           </div>
-          <div>
-            <i class="fa-solid fa-building-user"></i>
-            <span>경력 {{ item.career }}차</span>
-          </div>
-          <div>
-            <i class="fa-solid fa-bullhorn"></i>
-            <div>{{ item.description }}</div>
+          <div class="info-txt">
+            <h1>{{ item.job }}</h1>
+            <div>
+              <i class="fa-solid fa-building-user"></i>
+              <span>경력: {{ item.career }}</span>
+            </div>
+            <div>
+              <i class="fa-solid fa-bullhorn"></i>
+              <div class="info-description">
+                {{ item.description }}
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <div class="book" v-if="!showBook">
-        <a @click="toggleBook" class="btn lined-c f-color-c h-solid-c a-bright"
-          >커피챗 신청하기</a
-        >
+        <a @click="toggleBook" class="btn lined-c f-color-c h-solid-c a-bright">신청서 작성하기</a>
       </div>
       <div class="book" v-else>
-        <a @click="toggleBook" class="btn lined-bg h-solid-g a-bright">
-          돌아가기</a
-        >
+        <a @click="toggleBook" class="btn lined-bg h-solid-g a-bright"> 돌아가기</a>
 
-        <div>예약 신청 폼</div>
+        <div class="chatCall-item">
+          <div>상담 시간 신청</div>
+          <div>
+            <input type="datetime-local" class="datetime-input" v-model="chatCall.startDate" />
+          </div>
+          <div>상담 받고 싶은 내용/분야</div>
+          <div>
+            <textarea v-model="chatCall.consultField" maxlength="250" class="textarea"></textarea>
+          </div>
+        </div>
+        <div>{{ chatCall.consultField.length }}자 / 250자</div>
+        <a @click="callChat()" class="btn lined-c f-color-c h-solid-c a-bright">커피챗 신청하기</a>
       </div>
     </div>
   </div>
@@ -54,10 +61,29 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
+import { useCoffeeStore } from "@/stores/coffeeChat";
+const coffeeStore = useCoffeeStore();
+import { useAuthStore } from "@/stores/auth";
+const authStore = useAuthStore();
 
-defineProps({
+const props = defineProps({
   item: Object,
 });
+
+const chatCall = ref({
+  chatterId: props.item.userId,
+  chatteeId: authStore.userInfo.sub,
+  consultField: "",
+  startDate: "",
+});
+
+const callChat = async () => {
+  try {
+    await coffeeStore.createChat(chatCall.value);
+  } catch (error) {
+    console.error("Failed to create chat:", error);
+  }
+};
 
 // 모달을 보이는 함수
 const showModal = ref(false);
@@ -78,7 +104,9 @@ const handleEscapeKeyPress = (event) => {
   }
 };
 
-onMounted(() => {
+onMounted(async () => {
+  await authStore.updateUserInfoFromToken();
+
   window.addEventListener("keydown", handleEscapeKeyPress);
 });
 
@@ -90,13 +118,11 @@ onUnmounted(() => {
 
 <style scoped>
 .chatter {
-  display: flex;
-  justify-content: baseline;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 20px;
-
   padding: 20px;
-
   border-radius: 20px;
 }
 .chatter-img {
@@ -119,6 +145,9 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  max-height: 190px;
+  overflow-y: hidden;
+  text-overflow: ellipsis;
 }
 .chatter-info span {
   color: var(--gray);
@@ -171,6 +200,11 @@ onUnmounted(() => {
   padding: 30px 0;
 }
 
+.info-division {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+}
+
 .info .title {
   text-align: center;
 }
@@ -193,10 +227,10 @@ onUnmounted(() => {
   gap: 20px;
 }
 .info-txt div {
-  display: grid;
-  grid-template-columns: 1fr 20fr;
+  display: flex;
   align-items: center;
   font-size: 20px;
+  gap: 20px;
 }
 
 .book {
@@ -205,5 +239,38 @@ onUnmounted(() => {
   gap: 30px;
 
   width: 100%;
+}
+
+.textarea {
+  height: 200px;
+  width: 898px;
+  resize: none;
+  border: 1px solid rgba(0, 0, 0, 0.207);
+  border-radius: 8px;
+  padding: 10px;
+  box-sizing: border-box;
+  font-size: 18pt;
+}
+
+.chatCall-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.datetime-input {
+  width: 898px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 20px;
+  color: #333;
+  background-color: #fff;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+.datetime-input:focus {
+  border-color: #4a90e2;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(74, 144, 226, 0.6);
 }
 </style>
