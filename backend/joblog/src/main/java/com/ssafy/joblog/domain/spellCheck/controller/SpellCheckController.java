@@ -3,6 +3,7 @@ package com.ssafy.joblog.domain.spellCheck.controller;
 import com.ssafy.joblog.domain.spellCheck.dto.SpellCheckRequestDto;
 import com.ssafy.joblog.domain.spellCheck.service.SpellCheckService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
@@ -19,9 +20,11 @@ import org.springframework.web.client.RestTemplate;
 public class SpellCheckController {
 
     private final SpellCheckService spellCheckService;
+    @Value("${pnu.url}")
+    private String pnuUrl;
     @PostMapping
     public ResponseEntity<String> checkSpelling(@RequestBody SpellCheckRequestDto text) throws JSONException {
-        String url = "http://speller.cs.pusan.ac.kr/results";
+        String url = pnuUrl;
 
         // Form data
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
