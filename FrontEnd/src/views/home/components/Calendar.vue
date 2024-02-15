@@ -111,6 +111,12 @@ const getSchedules = async () => {
     }
   }
 };
+
+// test
+function check(a) {
+  console.log('arg : ', a);
+  console.log('arg.event : ', a.event);
+}
 </script>
 
 <template>
@@ -124,6 +130,7 @@ const getSchedules = async () => {
         <FullCalendar class="demo-app-calendar" :options="calendarOptions">
           <template v-slot:eventContent="arg">
             <b>{{ arg.event.title }}</b>
+            <button @click="check(arg)">sd</button>
           </template>
         </FullCalendar>
       </div>

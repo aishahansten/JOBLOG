@@ -13,12 +13,18 @@ import router from "@/router";
 const authStore = useAuthStore();
 const currentEvents = ref([]);
 
+//
+//
+//
 ////////////////////////////////////// 달력용 id increase //////////////
 const eventGuid = 0;
 function createEventId() {
   return String(eventGuid++);
 }
 
+//
+//
+//
 ////////////////////////////////////// fullCal 형식으로 변환 /////////////
 function convertSchedule(data) {
   return data.map((item) => ({
@@ -26,6 +32,7 @@ function convertSchedule(data) {
     title: item.title, // 이벤트 제목
     start: item.startDate, // 시작 날짜
     end: item.endDate, // 종료 날짜 (선택 사항)
+    content: item.content,
     type: "schedule", // 이벤트 유형 추가
     // 다른 필요한 속성들을 여기에 추가할 수 있습니다
   }));
@@ -53,6 +60,9 @@ function convertRecruit(data) {
   }));
 }
 
+//
+//
+//
 ////////////////////////////////////// onMounted ////////////////
 onMounted(async () => {
   await Promise.all([getSchedules(), getSelections(), getMyRecruits()]);
@@ -73,6 +83,9 @@ onMounted(async () => {
   getSchedules();
 });
 
+//
+//
+//
 ////////////////////////////////////// calendarOptions ////////////////
 const calendarOptions = ref({
   plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -140,6 +153,9 @@ function formatDate(isoString) {
   return `${year}-${month}-${day} ${hours}:${minutes}`;
 }
 
+//
+//
+//
 ////////////////////////////////////// 날짜별 필터링 /////////////
 const selectedDateEvents = ref([]);
 
@@ -155,6 +171,9 @@ function filterTodayEvents() {
   });
 }
 
+//
+//
+//
 ////////////////////////////////////// schedule 전체 조회 /////
 let schedules = [];
 
@@ -180,6 +199,10 @@ const getSchedules = async () => {
     }
   }
 };
+
+//
+//
+//
 ////////////////////////////////////// selected 전체 조회 /////
 let selections = [];
 
@@ -209,6 +232,9 @@ const getSelections = async () => {
   }
 };
 
+//
+//
+//
 ////////////////////////////////////// myRecruit 전체 조회 /////
 let myRecruits = [];
 
@@ -238,6 +264,9 @@ const getMyRecruits = async () => {
   }
 };
 
+//
+//
+//
 ////////////////////////////////////// schedule 생성 /////////
 const createSchedule = async () => {
   try {
@@ -275,6 +304,9 @@ const newSchedule = ref({
   endDate: new Date("2024-02-08T00:00:00"),
 });
 
+//
+//
+//
 ////////////////////////////////////// schedule 수정 ////////
 const updateSchedule = async () => {
   try {
@@ -305,6 +337,9 @@ const updateSchedule = async () => {
   }
 };
 
+//
+//
+//
 ////////////////////////////////////// schedule 삭제 ////////
 const deleteSchedule = async () => {
   const isConfirmed = confirm("삭제하시겠습니까?");
@@ -332,33 +367,51 @@ const deleteSchedule = async () => {
   }
 };
 
+//
+//
+//
 ////////////////////////////////////// schedule 선택 ////////
 const selectedEvent = ref("");
 function selectEvent(event) {
   selectedEvent.value = event;
   console.log(selectedEvent.value);
-  toggleModal3();
-}
 
-////////////////////////////////////// modal ////////////////
-const isModalOpen = ref(false); // 모달 상태를 관리하는 변수
-function toggleModal() {
-  isModalOpen.value = !isModalOpen.value;
-}
-
-const isModalOpen2 = ref(false); // 모달 상태를 관리하는 변수
-function toggleModal2() {
-  isModalOpen2.value = !isModalOpen2.value;
-}
-
-const isModalOpen3 = ref(false); // 모달 상태를 관리하는 변수
-function toggleModal3() {
-  isModalOpen3.value = !isModalOpen3.value;
-  if (!isModalOpen3.value) {
-    selectedEvent.value = null; // 모달을 열 때가 아닌 닫을 때 상태를 초기화
+  if (event.type === "schedule") {
+    toggleSchedule();
+  } else if (event.type === "selection") {
+    toggleSelected();
+  } else if (event.type === "recruit") {
+    toggleRecruit();
   }
 }
 
+//
+//
+//
+////////////////////////////////////// modal ////////////////
+const isCreateOpen = ref(false); // 모달 상태를 관리하는 변수
+function toggleCreate() {
+  isCreateOpen.value = !isCreateOpen.value;
+}
+
+const isScheduleOpen = ref(false); // 모달 상태를 관리하는 변수
+function toggleSchedule() {
+  isScheduleOpen.value = !isScheduleOpen.value;
+  if (!isScheduleOpen.value) {
+    selectedEvent.value = null; // 모달을 열 때가 아닌 닫을 때 상태를 초기화
+  }
+}
+const isSelectedOpen = ref(false); // 모달 상태를 관리하는 변수
+function toggleSelected() {
+  isSelectedOpen.value = !isSelectedOpen.value;
+}
+const isRecruitOpen = ref(false); // 모달 상태를 관리하는 변수
+function toggleRecruit() {
+  isRecruitOpen.value = !isRecruitOpen.value;
+}
+//
+//
+//
 ////////////////////////////////////// 수정 ////////////////
 const isUpdateMode = ref(false); // 수정 모드의 활성화 여부를 추적
 function showUpdateForm() {
@@ -368,17 +421,26 @@ function cancelUpdate() {
   isUpdateMode.value = false;
 }
 
+//
+//
+//
 ////////////////////////////////////// log ///////////////
 function check(item) {
   console.log(item.event.title);
 }
 </script>
 
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
+<!--  -->
 <template>
   <div class="container">
     <div class="full-cal">
       <div class="calendar">
-        <FullCalendar class="app-calendar" :options="calendarOptions">
+        <FullCalendar class="demo-app-calendar" :options="calendarOptions">
           <template v-slot:eventContent="arg">
             <b>{{ arg.event.title }}</b>
           </template>
@@ -389,7 +451,7 @@ function check(item) {
         <div class="header">
           <h2 class="f-weight-t">나의 일정 목록</h2>
           <div class="btns">
-            <a class="btn solid-c h-bright a-dark" @click="toggleModal"
+            <a class="btn solid-c h-bright a-dark" @click="toggleCreate"
               >일정 등록</a
             >
           </div>
@@ -422,8 +484,8 @@ function check(item) {
     </div>
   </div>
 
-  <div v-if="isModalOpen" class="modal">
-    <a @click="toggleModal" class="exit-btn"
+  <div v-if="isCreateOpen" class="modal">
+    <a @click="toggleCreate" class="exit-btn"
       ><i class="fa-solid fa-xmark fa-xl"></i
     ></a>
     <h1 class="title">일정 추가하기</h1>
@@ -440,7 +502,6 @@ function check(item) {
           v-model="newSchedule.startDate"
           class="input"
         />
-        ~
         <input
           type="datetime-local"
           v-model="newSchedule.endDate"
@@ -454,8 +515,8 @@ function check(item) {
     </div>
   </div>
 
-  <div v-if="isModalOpen3" class="modal">
-    <a @click="toggleModal3" class="exit-btn"
+  <div v-if="isScheduleOpen" class="modal">
+    <a @click="toggleSchedule" class="exit-btn"
       ><i class="fa-solid fa-xmark fa-xl"></i
     ></a>
     <h1 class="title">{{ selectedEvent.title }}</h1>
@@ -498,6 +559,49 @@ function check(item) {
         >
         <a class="btn lined-bg h-solid-g a-dark" @click="cancelUpdate">취소</a>
       </div>
+    </div>
+  </div>
+
+  <div v-if="isSelectedOpen" class="modal">
+    <a @click="toggleSelected" class="exit-btn"
+      ><i class="fa-solid fa-xmark fa-xl"></i
+    ></a>
+    <h1 class="title">{{ selectedEvent.title }}</h1>
+    <div class="content" v-if="!isUpdateMode">
+      <div class="detail">
+        <p>일정　|　{{ selectedEvent.start }}</p>
+        <br />
+        <p>단계　|　{{ selectedEvent.step }}</p>
+      </div>
+      <RouterLink
+        class="btn lined-c h-solid-c a-bright"
+        :to="{ name: 'BlogReview' }"
+        >전형 리뷰 바로가기</RouterLink
+      >
+    </div>
+  </div>
+
+  <div v-if="isRecruitOpen" class="modal">
+    <a @click="toggleRecruit" class="exit-btn"
+      ><i class="fa-solid fa-xmark fa-xl"></i
+    ></a>
+    <h1 class="title">{{ selectedEvent.title }}</h1>
+    <div class="content" v-if="!isUpdateMode">
+      <div class="detail">
+        <p>회사명　|　{{ selectedEvent.company }}</p>
+        <br />
+        <p>직무　|　{{ selectedEvent.job }}</p>
+        <br />
+        <p>일정 시작　|　{{ selectedEvent.start }}</p>
+        <br />
+        <p>일정 마감　|　{{ selectedEvent.end }}</p>
+      </div>
+      <RouterLink
+        v-if="selectedEvent && selectedEvent.id"
+        class="btn lined-c h-solid-c a-bright"
+        :to="{ name: 'JobDetail', params: { id: selectedEvent.id } }"
+        >공고 상세 바로가기</RouterLink
+      >
     </div>
   </div>
 </template>
@@ -619,5 +723,6 @@ function check(item) {
 }
 .modal .detail textarea {
   height: 100px;
+  resize: none;
 }
 </style>
