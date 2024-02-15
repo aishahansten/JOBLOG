@@ -10,19 +10,23 @@
     <div class="content" v-if="resume.length > 0 || essay.length > 0">
       <div class="applications">
         <div v-for="resume in resume" :key="resume.id" class="application">
-          <div class="info">
-            <h2>{{ resume.title }}</h2>
-            <p>{{ resume.createDate }}</p>
-          </div>
+          <RouterLink :to="{ name: 'ResumeDetail', params: { id: resume.id } }">
+            <div class="info">
+              <h2>{{ resume.title }}</h2>
+              <p>{{ formatISODate(resume.createDate) }} 작성</p>
+            </div>
+          </RouterLink>
           <img src="@/assets/img/icon/resume.svg" alt="" />
         </div>
       </div>
       <div class="applications">
         <div v-for="essay in essay" :key="essay.essayId" class="application">
-          <div class="info">
-            <h2>{{ essay.question }}</h2>
-            <p>{{ essay.answer }}</p>
-          </div>
+          <RouterLink :to="{ name: 'EssayDetail', params: { id: essay.essayId } }">
+            <div class="info">
+              <h2>{{ essay.question }}</h2>
+              <p>{{ essay.answer }}</p>
+            </div>
+          </RouterLink>
           <img src="@/assets/img/icon/essay.svg" alt="" />
         </div>
       </div>
@@ -47,6 +51,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useEssayResumeStore } from "@/stores/essayResume";
+import { formatISODate } from "@/utils/utility";
 
 const essayResumeStore = useEssayResumeStore();
 const resume = ref([]);
@@ -57,6 +62,7 @@ onMounted(async () => {
   resume.value = essayResumeStore.resume.slice(0, 3);
   await essayResumeStore.getEssay();
   essay.value = essayResumeStore.essayList.slice(0, 3);
+  console.log(resume, " ", essay);
 });
 </script>
 
@@ -101,6 +107,11 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 500px; /* or a specific px value */
+  display: block; /* ensures the behavior applies correctly */
 }
 .resume-essay {
   display: flex;
