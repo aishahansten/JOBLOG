@@ -20,9 +20,12 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class SpellCheckService {
-    public String fixSpell(String body) throws JSONException {
+    public String fixSpell(String body, String original) throws JSONException {
         // 추출된 JavaScript 데이터 처리
         int idx = body.indexOf("data =");
+        if(idx == -1){
+            return original;
+        }
         body = body.substring(idx + 7);
 
         idx = body.indexOf("}];");
