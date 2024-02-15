@@ -37,22 +37,19 @@ authStore.updateUserInfoFromToken();
             <div class="width550">
               <div class="sub-nav">
                 <RouterLink class="menu h-txt" :to="{ name: 'Jobs' }">공고 검색</RouterLink>
-                <a class="menu h-txt">스크랩 공고</a>
+                <RouterLink class="menu h-txt" :to="{ name: 'BlogReview' }">전형 리뷰</RouterLink>
               </div>
               <div class="sub-nav">
                 <RouterLink class="menu h-txt" :to="{ name: 'BlogSchedule' }">나의 일정 관리</RouterLink>
-                <RouterLink class="menu h-txt" :to="{ name: 'BlogReview' }">전형 리뷰</RouterLink>
                 <RouterLink class="menu h-txt" :to="{ name: 'BlogApplication' }">이력서·자소서</RouterLink>
                 <RouterLink class="menu h-txt" :to="{ name: 'BlogJournal' }">다이어리</RouterLink>
               </div>
               <div class="sub-nav">
                 <RouterLink class="menu h-txt" :to="{ name: 'QnABoard' }">Q&A 게시판</RouterLink>
-                <a class="menu h-txt">나의 Q&A</a>
               </div>
               <div class="sub-nav">
                 <RouterLink class="menu h-txt" :to="{ name: 'Coffee' }">채터 탐색하기</RouterLink>
-                <a class="menu h-txt">마이프로필</a>
-                <a class="menu h-txt">팔로잉 채터</a>
+                <RouterLink class="menu h-txt" :to="{ name: 'ChatterReg' }">마이프로필</RouterLink>
               </div>
             </div>
             <div class="width170">　</div>
@@ -66,17 +63,19 @@ authStore.updateUserInfoFromToken();
         </RouterLink>
       </div>
       <div class="right" v-else>
-        <div id="alert" class="pointer h-bright a-dark" :class="{ 'alert-highlighted': hasAlarm }">
-          <img src="@/assets/img/icon/non-alert-icon.svg" alt="" />
-        </div>
+        <RouterLink :to="{ name: 'Alarm' }">
+          <div id="alert" class="pointer h-bright a-dark" :class="{ 'alert-highlighted': hasAlarm }">
+            <img src="@/assets/img/icon/non-alert-icon.svg" alt="" />
+          </div>
+        </RouterLink>
         <RouterLink class="h-bright a-dark" :to="{ name: 'ProfileSetting' }">
           <div id="to-profile">
             <img src="@/assets/img/profile/default-user-pic.jpg" alt="" />
           </div>
         </RouterLink>
-        <!-- <div>
-          <button @click="logout">로그아웃</button>
-        </div> -->
+        <button class="btn-s lined-bg f-color-c h-solid-c h-lined-c a-bright logout-btn" @click="logout">
+          로그아웃
+        </button>
       </div>
     </nav>
   </header>
@@ -147,7 +146,7 @@ nav {
   height: 25px;
 }
 .alert-highlighted {
-  background-color: rgba(255, 255, 0, 0.295);
+  background-color: rgba(255, 122, 122, 0.295);
 }
 
 #to-profile {
@@ -210,5 +209,10 @@ nav {
   gap: 30px;
 
   font-size: 18px;
+}
+
+.logout-btn {
+  position: absolute;
+  left: 90%;
 }
 </style>

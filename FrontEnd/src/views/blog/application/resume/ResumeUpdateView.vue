@@ -1,5 +1,5 @@
 <template>
-  <button @click="updateResume">이력서 수정하기</button>
+  <a class="btn lined-c h-solid-c a-bright" @click="updateResume">이력서 수정하기</a>
   <div class="create-container">
     <div class="title">
       <div>
