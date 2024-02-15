@@ -16,6 +16,7 @@ public class ChatResponseDto {
     private int chatId;
     private int chatterId;
     private int chatteeId;
+    private String title;
     private String consultField;
     private boolean acceptOrNot;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")

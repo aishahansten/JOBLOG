@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class ChatCreateRequestDto {
     private int chatterId;
     private int chatteeId;
+    private String title;
     private String consultField;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime startDate;
@@ -23,6 +24,7 @@ public class ChatCreateRequestDto {
         return CoffeeChatRoom.builder()
                 .chatter(chatter)
                 .chattee(chattee)
+                .title(this.title)
                 .consultField(this.consultField)
                 .startDate(this.startDate)
                 .build();
