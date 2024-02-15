@@ -336,7 +336,6 @@ const uploadFile = async (event) => {
 </template>
 
 <style scoped>
-/* 공통 */
 .resume-content {
   display: flex;
   flex-direction: column;
@@ -358,7 +357,6 @@ const uploadFile = async (event) => {
   gap: 5px;
 }
 
-/* 취업사진 등록 */
 #half {
   display: flex;
   flex-direction: row;
@@ -391,8 +389,6 @@ const uploadFile = async (event) => {
   height: 200px;
   object-fit: cover;
 }
-
-/* 인적사항 등록 */
 .info-space {
   display: flex;
   width: 100%;
@@ -435,7 +431,6 @@ input#user-radio {
   border-radius: 10px;
 }
 
-/* 학력 등록 */
 .infos {
   display: flex;
   flex-direction: column;

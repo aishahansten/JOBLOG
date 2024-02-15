@@ -9,14 +9,11 @@
 </template>
   
 <script setup>
-  import { ref } from "vue";
   import CompanyJobItem from "./items/CompanyJobItem.vue";
   
   const props = defineProps({
     companyRecruit: Array
   })
-
-  console.log('여기선 뜸?',props.companyRecruit)
   </script>
   
   <style scoped>

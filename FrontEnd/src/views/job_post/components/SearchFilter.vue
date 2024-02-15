@@ -125,16 +125,13 @@ function selectCategory(category) {
 const clickedCategory = ref([]);
 
 const handleClicked = (selected) => {
-  // Find the index of the item in the array
   const index = clickedCategory.value.findIndex(
     (item) => item.jobCode === selected.jobCode
   );
 
-  // If the item is found, remove it from the array
   if (index > -1) {
     clickedCategory.value.splice(index, 1);
   } else {
-    // If the item is not found, add it to the array
     clickedCategory.value.push(selected);
   }
 };
@@ -172,8 +169,6 @@ const emits = defineEmits(['search'])
 </script>
 
 <style scoped>
-/* 검색 필터 */
-
 .search-filter-header {
   display: flex;
   width: 100%;
@@ -224,8 +219,6 @@ const emits = defineEmits(['search'])
   gap: 3px;
 }
 
-/* 카테고리 필터 */
-
 .search-filter-container {
   display: flex;
   flex-direction: column;
@@ -246,8 +239,8 @@ const emits = defineEmits(['search'])
   flex: 1;
   border-right: 1px solid var(--border-gray);
   max-width: 200px;
-  overflow-y: auto; /* Enables vertical scrolling */
-  overflow-x: hidden; /* Keeps the horizontal overflow hidden */
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .sidebar .category {
   padding: 10px;
@@ -265,8 +258,6 @@ const emits = defineEmits(['search'])
   overflow-y: auto;
   overflow-x: hidden;
 }
-
-/* 선택한 카테고리 표시 */
 
 .search-filter-footer {
   display: grid;

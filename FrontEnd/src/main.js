@@ -3,7 +3,6 @@ import { createPinia } from "pinia";
 
 import App from "./App.vue";
 import router from "./router";
-import GAuth from "vue-google-oauth2";
 import "@/common/css/font.css";
 import "@/common/css/base.css";
 import "@/common/css/arrange.css";

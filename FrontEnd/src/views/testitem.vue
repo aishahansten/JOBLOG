@@ -20,12 +20,10 @@
   const searchTerm = ref('');
   
   const filteredChildCategories = computed(() => {
-    // If there's no search term, return all child categories
     if (!searchTerm.value) {
       return props.category.child;
     }
   
-    // Filter child categories based on the search term
     return props.category.child.filter(child =>
       child.jobName.toLowerCase().includes(searchTerm.value.toLowerCase())
     );
@@ -38,7 +36,7 @@
     margin-bottom: 10px;
     padding: 8px;
     width: 100%;
-    box-sizing: border-box; /* Ensures the input does not overflow its container */
+    box-sizing: border-box;
   }
   
   .title {

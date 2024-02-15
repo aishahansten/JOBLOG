@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { useMyRecruitStore } from "@/stores/myRecruit";
 import { useRouter } from "vue-router";
 const router = useRouter();
