@@ -23,8 +23,6 @@ public class ChatterService {
 
     private final UserRepository userRepository;
     private final ChatterRepository chatterRepository;
-    private final UserService userService;
-
 
     // 1. 채터 프로필 등록하기
     public void createChatter(ChatterCreateRequestDto chatterCreateRequestDto) {
@@ -50,7 +48,7 @@ public class ChatterService {
                 .job(chatter.getJob())
                 .career(chatter.getCareer())
                 .description(chatter.getDescription())
-                .amazonS3FileUrl(userService.getFile(chatter.getUser().getId()))
+                .amazonS3FileUrl(chatter.getUser().getProfileImageUrl())
                 .isDelete(chatter.isDelete())
                 .build()));
         return getChattersList;
@@ -67,7 +65,7 @@ public class ChatterService {
                 .job(chatter.getJob())
                 .career(chatter.getCareer())
                 .description(chatter.getDescription())
-                .amazonS3FileUrl(userService.getFile(chatter.getUser().getId()))
+                .amazonS3FileUrl(chatter.getUser().getProfileImageUrl())
                 .isDelete(chatter.isDelete())
                 .build();
         return chatterResponseDto;

@@ -123,4 +123,9 @@ public class User extends BaseEntity {
     public void changeRole() {
         this.role = UserRole.ROLE_JUNIOR;
     }
+
+    public void updateFile(String newName, String newUrl){
+        this.profileImageName = newName;
+        this.profileImageUrl = newUrl;
+    }
 }

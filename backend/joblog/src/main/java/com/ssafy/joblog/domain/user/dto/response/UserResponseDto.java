@@ -29,7 +29,7 @@ public class UserResponseDto {
     private String role;
     private String amazonS3FileUrl;
 
-    public static UserResponseDto fromEntity(User user, String amazonS3FileUrl){
+    public static UserResponseDto fromEntity(User user){
         return UserResponseDto.builder()
                 .id(user.getId())
                 .companyCode(user.getCompanyCode())
@@ -45,7 +45,7 @@ public class UserResponseDto {
                 .phoneNumber(user.getPhoneNumber())
                 .birthDate(user.getBirthDate())
                 .role(user.getRole().name())
-                .amazonS3FileUrl(amazonS3FileUrl)
+                .amazonS3FileUrl(user.getProfileImageUrl())
                 .build();
     }
 }

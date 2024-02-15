@@ -29,7 +29,7 @@ public class UserController {
     public ResponseEntity<Void> uploadFile(
             @PathVariable(value = "userId") int userId,
             @RequestParam(value = "file") MultipartFile file) {
-        userService.deleteFile(userId);
+//        userService.deleteFile(userId);
         userService.uploadFile(file, userId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

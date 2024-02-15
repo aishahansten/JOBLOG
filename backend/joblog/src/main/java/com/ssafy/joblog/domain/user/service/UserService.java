@@ -1,8 +1,10 @@
 package com.ssafy.joblog.domain.user.service;
 
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectResult;
 import com.ssafy.joblog.domain.user.dto.request.UserUpdateRequestDto;
 import com.ssafy.joblog.domain.user.dto.response.UserResponseDto;
 import com.ssafy.joblog.domain.user.entity.User;
@@ -18,6 +20,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.UUID;
 
 import static org.hibernate.query.sqm.tree.SqmNode.log;
 
@@ -34,7 +37,7 @@ public class UserService {
     public UserResponseDto findUser(int userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("유저가 존재하지 않습니다"));
-        return UserResponseDto.fromEntity(user, getFile(userId));
+        return UserResponseDto.fromEntity(user);
     }
 
     public void update(UserUpdateRequestDto userUpdateRequestDto) {
@@ -54,15 +57,28 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    public void deleteFile(int userId) {
-        amazonS3Client.deleteObject(bucket, String.valueOf(userId));
+    public void deleteFile(String originalName) {
+        amazonS3Client.deleteObject(bucket, originalName);
     }
 
     public void uploadFile(MultipartFile file, int userId) {
         File fileObj = convertMultiPartFileToFile(file);
-        String fileName = String.valueOf(userId);
-        amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, fileObj));
-        fileObj.delete();
+        String originName = file.getOriginalFilename();
+        String changedName = changedImageName(originName);
+        amazonS3Client.putObject(new PutObjectRequest(bucket, changedName, fileObj));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
+        String originalName = user.getProfileImageName();
+        deleteFile(originalName); //기존 파일 존재시 삭제
+
+        String newUrl = amazonS3Client.getUrl(bucket, changedName).toString();
+        user.updateFile(changedName, newUrl); //새로운 이미지 등록
+    }
+
+    private String changedImageName(String originName) { //이미지 이름 중복 방지를 위해 랜덤으로 생성
+        String random = UUID.randomUUID().toString();
+        return random + originName;
     }
 
     private File convertMultiPartFileToFile(MultipartFile file) {
@@ -77,7 +93,7 @@ public class UserService {
 
     public String getFile(int userId) {
         String urltext = "";
-        if(amazonS3Client.doesObjectExist(bucket, String.valueOf(userId))){
+        if (amazonS3Client.doesObjectExist(bucket, String.valueOf(userId))) {
             URL url = amazonS3Client.getUrl(bucket, String.valueOf(userId));
             urltext += url;
         }
