@@ -7,6 +7,7 @@ import com.ssafy.joblog.domain.chatter.entity.ChatterProfile;
 import com.ssafy.joblog.domain.chatter.repository.ChatterRepository;
 import com.ssafy.joblog.domain.user.entity.User;
 import com.ssafy.joblog.domain.user.repository.UserRepository;
+import com.ssafy.joblog.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ public class ChatterService {
 
     private final UserRepository userRepository;
     private final ChatterRepository chatterRepository;
+    private final UserService userService;
 
 
     // 1. 채터 프로필 등록하기
@@ -48,6 +50,7 @@ public class ChatterService {
                 .job(chatter.getJob())
                 .career(chatter.getCareer())
                 .description(chatter.getDescription())
+                .amazonS3FileUrl(userService.getFile(chatter.getUser().getId()))
                 .isDelete(chatter.isDelete())
                 .build()));
         return getChattersList;
@@ -64,6 +67,7 @@ public class ChatterService {
                 .job(chatter.getJob())
                 .career(chatter.getCareer())
                 .description(chatter.getDescription())
+                .amazonS3FileUrl(userService.getFile(chatter.getUser().getId()))
                 .isDelete(chatter.isDelete())
                 .build();
         return chatterResponseDto;

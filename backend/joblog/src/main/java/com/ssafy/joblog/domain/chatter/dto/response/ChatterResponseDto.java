@@ -15,5 +15,6 @@ public class ChatterResponseDto {
     private String job;
     private String career;
     private String description;
+    private String amazonS3FileUrl;
     protected boolean isDelete;
 }
