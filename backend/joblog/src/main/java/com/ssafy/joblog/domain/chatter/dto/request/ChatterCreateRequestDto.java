@@ -11,17 +11,16 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @Data
 public class ChatterCreateRequestDto {
-
+    private int id;
     private int userId;
     private String job;
     private String career;
     private String description;
 
-
     // DTO to Entity
     public ChatterProfile createChatter(User user) {
         return ChatterProfile.builder()
-                .id(this.userId)
+                .id(this.id)
                 .user(user)
                 .job(this.job)
                 .career(this.career)

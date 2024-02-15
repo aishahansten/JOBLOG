@@ -16,9 +16,14 @@ public interface ChatterRepository extends JpaRepository<ChatterProfile, Integer
     Optional<ChatterProfile> findByUserIdAndIsDeleteIsFalse(Integer userId);
 
     @Modifying
-    @Query("UPDATE ChatterProfile chatter SET chatter.isDelete = true WHERE chatter.id = :id")
-    void markDeletedChatter(@Param("id") int id);
+    @Query("UPDATE ChatterProfile chatter SET chatter.isDelete = CASE WHEN chatter.isDelete = true THEN false ELSE true END WHERE chatter.id = :id")
+    void markToggledChatter(@Param("id") int id);
 
     // 채터 프로필 중복 생성 방지
     boolean existsByUserId(int userId);
+
+    // userId 로 is_delete 가 0, 1 상관없이 chatter profile 가져오기
+    @Query("SELECT cp FROM ChatterProfile cp WHERE cp.user.id = :userId")
+    ChatterProfile findByUserId(@Param("userId") int userId);
+
 }

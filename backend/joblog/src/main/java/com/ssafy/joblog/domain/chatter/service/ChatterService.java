@@ -43,10 +43,12 @@ public class ChatterService {
         List<ChatterProfile> chatters = chatterRepository.findAllByIsDeleteIsFalseOrderByModifiedDateDesc();
         List<ChatterResponseDto> getChattersList = new ArrayList<>();
         chatters.forEach(chatter -> getChattersList.add(ChatterResponseDto.builder()
-                .userId(chatter.getId())
+                .id(chatter.getId())
+                .userId(chatter.getUser().getId())
                 .job(chatter.getJob())
                 .career(chatter.getCareer())
                 .description(chatter.getDescription())
+                .isDelete(chatter.isDelete())
                 .build()));
         return getChattersList;
         // Entity to Dto
@@ -58,10 +60,12 @@ public class ChatterService {
         Optional<ChatterProfile> optionalChatter = chatterRepository.findByUserIdAndIsDeleteIsFalse(userId);
         ChatterProfile chatter = optionalChatter.orElseThrow(()->new NotFoundException("커피챗을 찾을 수 없습니다"));
         ChatterResponseDto chatterResponseDto = ChatterResponseDto.builder()
+                .id(chatter.getId())
                 .userId(chatter.getUser().getId())
                 .job(chatter.getJob())
                 .career(chatter.getCareer())
                 .description(chatter.getDescription())
+                .isDelete(chatter.isDelete())
                 .build();
         return chatterResponseDto;
     }
@@ -77,10 +81,8 @@ public class ChatterService {
     // 5. 커피 채터 삭제
     @Transactional
     public void markDeletedChatter(int userId) {
-        Optional<ChatterProfile> optionalChatter = chatterRepository.findByUserIdAndIsDeleteIsFalse(userId);
-        ChatterProfile chatter = optionalChatter
-                .orElseThrow(() -> new IllegalArgumentException("해당 채터를 찾을 수 없습니다"));
-        chatterRepository.markDeletedChatter(chatter.getId());
+        ChatterProfile chatterProfile = chatterRepository.findByUserId(userId);
+        chatterRepository.markToggledChatter(chatterProfile.getId());
     }
 
 
