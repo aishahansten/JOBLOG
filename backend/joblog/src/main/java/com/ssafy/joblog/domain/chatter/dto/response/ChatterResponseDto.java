@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ChatterResponseDto {
     private int userId;
+    private String job;
     private String career;
     private String description;
 }
