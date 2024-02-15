@@ -24,7 +24,7 @@ public class JsonDataUtils {
     @Autowired
     private RecruitRepository recruitRepository;
 
-    @Value("${spring.batch.access-key.access-key}")
+    @Value("${spring.batch.access-key}")
     private String accesskey;
     WebClient webClient;
 
