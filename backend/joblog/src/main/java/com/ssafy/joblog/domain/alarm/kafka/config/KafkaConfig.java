@@ -25,7 +25,6 @@ public class KafkaConfig {
     @Bean
     public ProducerFactory<String, Object> producerFactory() {
         Map<String, Object> producerConfig = new HashMap<>();
-//        producerConfig.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "http://i10b204.p.ssafy.io:9092");
         producerConfig.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         producerConfig.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         producerConfig.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -35,7 +34,6 @@ public class KafkaConfig {
     @Bean
     public ConsumerFactory<String, Object> consumerFactory() {
         Map<String, Object> consumerConfig = new HashMap<>();
-//        consumerConfig.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "http://i10b204.p.ssafy.io:9092");
         consumerConfig.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         consumerConfig.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         consumerConfig.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);

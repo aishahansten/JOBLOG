@@ -86,7 +86,7 @@
           </div>
         </div>
         <div v-if="modalState[step.id]">
-          <RegisterReview :step="step" @close="() => (modalState[step.id] = false)" />
+          <RegisterReview :step="step" @close2="() => (modalState[step.id] = false)" />
           리뷰 작성하기
         </div>
       </div>
@@ -128,6 +128,7 @@ const emit = defineEmits(["close"]);
 
 const closeModal = () => {
   showModal.value = false;
+  console.log("닫힘?", showModal.value);
   emit("close");
 };
 

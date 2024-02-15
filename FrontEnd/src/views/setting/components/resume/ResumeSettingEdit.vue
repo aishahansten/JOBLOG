@@ -86,6 +86,8 @@ const uploadFile = async (event) => {
         },
       }
     );
+    await settingResumeStore.getUserInfo();
+    userInfo.value = settingResumeStore.userInfo;
     console.log("업로드성공", res.data);
   } catch (err) {
     console.log(err);

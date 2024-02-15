@@ -23,7 +23,6 @@ import java.util.Date;
 public class JwtUtil {
 
     private final JwtProperties jwtProperties;
-    private final TokenRepository tokenRepository;
     private final UserRepository userRepository;
     private String secretKey;
 
@@ -36,10 +35,7 @@ public class JwtUtil {
         String refreshToken = generateRefreshToken(userId, role);
         String accessToken = generateAccessToken(userId, role);
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
-//        Token token = Token.create(user, accessToken, refreshToken);
         Token token = Token.builder().user(user).accessToken(accessToken).refreshToken(refreshToken).build();
-        //토큰을 DB에 저장
-//        tokenRepository.save(token);
         return token;
     }
 
@@ -75,8 +71,8 @@ public class JwtUtil {
     public boolean verifyToken(String token) {
         try {
             Jws<Claims> claims = Jwts.parser()
-                    .setSigningKey(secretKey) // 비밀키를 설정하여 파싱한다.
-                    .parseClaimsJws(token);  // 주어진 토큰을 파싱하여 Claims 객체를 얻는다.
+                    .setSigningKey(secretKey) // 비밀키를 설정하여 파싱
+                    .parseClaimsJws(token);  // 주어진 토큰을 파싱하여 Claims 객체를 얻음
             // 토큰의 만료 시간과 현재 시간비교
             return claims.getBody()
                     .getExpiration()
