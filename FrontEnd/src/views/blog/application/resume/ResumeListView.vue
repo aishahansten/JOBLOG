@@ -10,7 +10,6 @@ const resume = ref([]);
 onMounted(async () => {
   await essayResumeStore.getResume();
   resume.value = essayResumeStore.resume;
-  console.log(resume.value);
 });
 </script>
 

@@ -106,6 +106,15 @@ const essays = ref({
   answer: "내용을 입력해주세요",
 });
 
+const essayList = ref([]);
+const categoryList = ref([]);
+
+const category = ref({
+  userId: "",
+  categoryName: "",
+});
+
+const categoryLoaded = ref(false);
 const categoryEmpty = function () {
   essays.value.categoryId = null;
 };
@@ -130,7 +139,8 @@ const submitEssay = async () => {
   };
   try {
     const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/essay/register`, dataToSubmit, config);
-    essayList.value = essayResumeStore.essayList;
+    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/essay/${authStore.userInfo.sub}`, config);
+    essayList.value = response.data;
   } catch (err) {
     console.error(err);
   }
@@ -143,18 +153,7 @@ const submitEssay = async () => {
   };
 
   showModal.value = !showModal.value;
-  essayList.value = essayResumeStore.essayList;
 };
-
-const essayList = ref([]);
-const categoryList = ref([]);
-
-const category = ref({
-  userId: "",
-  categoryName: "",
-});
-
-const categoryLoaded = ref(false);
 
 const addCategory = async () => {
   categoryLoaded.value = true;
@@ -184,14 +183,6 @@ const selectedCategoryName = computed(() => {
   const category = categoryList.value.find((c) => c.categoryId === essays.value.categoryId);
   return category ? category.categoryName : "카테고리를 선택해주세요!";
 });
-
-watch(
-  () => essayResumeStore.essayList,
-  (newVal) => {
-    essayList.value = newVal;
-  },
-  { deep: true }
-);
 
 watch(
   () => essayResumeStore.categoryList,

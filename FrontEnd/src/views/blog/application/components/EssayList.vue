@@ -1,7 +1,7 @@
 <template>
   <div class="essay-list">
     <div v-if="essayList.length > 0" class="essay-list">
-      <div v-for="essay in essayList" :key="essay.id">
+      <div v-for="essay in essayList" :key="essay.essayId">
         <RouterLink
           :to="{ name: 'EssayDetail', params: { id: essay.essayId } }"
           class="essay-item h-transparent-c a-dark"
@@ -26,9 +26,6 @@ import { ref, defineProps } from "vue";
 const props = defineProps({
   essayList: Array,
 });
-
-console.log(props.essayList);
-const showModal = ref(false);
 </script>
 
 <style scoped>
