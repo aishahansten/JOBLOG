@@ -15,11 +15,11 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/check-spelling")
 public class SpellCheckController {
 
     private final SpellCheckService spellCheckService;
-    @PostMapping("/check-spelling")
+    @PostMapping
     public ResponseEntity<String> checkSpelling(@RequestBody SpellCheckRequestDto text) throws JSONException {
         String url = "http://speller.cs.pusan.ac.kr/results";
 
