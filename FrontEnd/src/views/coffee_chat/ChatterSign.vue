@@ -48,51 +48,28 @@
       <div class="title">
         <h2>받은 신청 목록</h2>
       </div>
-      <div class="list">
+      <div class="list" v-for="chat in chatCalls" :key="chat.chatId">
         <div class="request">
           <div class="left">
             <div class="img">
               <img src="@/assets/img/profile/default-user-pic.jpg" alt="" />
             </div>
             <div class="info">
-              <h3>닉네임</h3>
               <p>
-                신청 메시지 예를 들면 안녕하세요! FE 분야 취준 시 포폴 유의점에 대해 알고싶어서 신청합니다..! 부디ㅠ
+                {{ chat.consultField }}
               </p>
             </div>
           </div>
           <div class="right">
             <div class="time">
               <i class="fa-regular fa-clock"></i>
-              <span>00:00</span>
+              <span>{{ chat.startDate }}</span>
             </div>
-            <div class="select">
-              <a class="btn-s lined-c h-solid-c a-bright">수락</a>
-              <a class="btn-s lined-bg h-solid-g a-dark">거절</a>
+            <div class="select" v-if="chat.acceptOrNot == false">
+              <a class="btn-s lined-c h-solid-c a-bright" @click="acceptChat(chat.chatId)">수락</a>
+              <a class="btn-s lined-bg h-solid-g a-dark" @click="declineChat(chat.chatId)">거절</a>
             </div>
-          </div>
-        </div>
-        <div class="request">
-          <div class="left">
-            <div class="img">
-              <img src="@/assets/img/profile/default-user-pic.jpg" alt="" />
-            </div>
-            <div class="info">
-              <h3>닉네임</h3>
-              <p>
-                신청 메시지 예를 들면 안녕하세요! FE 분야 취준 시 포폴 유의점에 대해 알고싶어서 신청합니다..! 부디ㅠ
-              </p>
-            </div>
-          </div>
-          <div class="right">
-            <div class="time">
-              <i class="fa-regular fa-clock"></i>
-              <span>00:00</span>
-            </div>
-            <div class="select">
-              <a class="btn-s lined-c h-solid-c a-bright">수락</a>
-              <a class="btn-s lined-bg h-solid-g a-dark">거절</a>
-            </div>
+            <div v-else>수락되었습니다</div>
           </div>
         </div>
       </div>
@@ -104,9 +81,11 @@
 import { ref, onMounted } from "vue";
 import { useAuthStore } from "@/stores/auth";
 const authStore = useAuthStore();
-
+import { useCoffeeStore } from "@/stores/coffeeChat";
+const coffeeStore = useCoffeeStore();
 import { useSettingResumeStore } from "@/stores/settingResume";
 const settingResumeStore = useSettingResumeStore();
+
 const userInfo = ref({});
 
 const currChat = ref({
@@ -116,6 +95,8 @@ const currChat = ref({
   career: "",
   description: "",
 });
+
+const chatCalls = ref([]);
 
 const updateChatterProfile = async () => {
   await authStore.updateChatterProfile(currChat);
@@ -127,12 +108,31 @@ const chatterStatus = async () => {
   alert("변경되었습니다.");
 };
 
+const acceptChat = async (id) => {
+  const isConfirm = confirm("수락하시겠습니까?");
+  if (isConfirm) {
+    await coffeeStore.acceptChat(id);
+    alert("수락되었습니다.");
+  }
+  return;
+};
+const declineChat = async (id) => {
+  const isConfirm = confirm("거절하시겠습니까?");
+  if (isConfirm) {
+    await coffeeStore.declineChat(id);
+    alert("거절되었습니다..");
+  }
+  return;
+};
+
 onMounted(async () => {
   await authStore.updateUserInfoFromToken();
   await authStore.getChatter(authStore.userInfo.sub);
   currChat.value = authStore.chatter;
   await settingResumeStore.getUserInfo();
   userInfo.value = settingResumeStore.userInfo;
+  await coffeeStore.getChat();
+  chatCalls.value = coffeeStore.chats;
   console.log(currChat);
 });
 </script>
