@@ -72,8 +72,7 @@ public class ChatterService {
     // 4. 커피 채터 수정
     @Transactional
     public void updateChatter(ChatterUpdateRequestDto chatterUpdateRequestDto) {
-        Optional<ChatterProfile> optionalChatter = chatterRepository.findByUserIdAndIsDeleteIsFalse(chatterUpdateRequestDto.getUserId());
-        ChatterProfile chatter = optionalChatter.orElseThrow(()->new IllegalArgumentException("채터가 존재하지 않습니다"));
+        ChatterProfile chatter = chatterRepository.findByUserId(chatterUpdateRequestDto.getUserId());
         chatter.updateChatter(chatterUpdateRequestDto);
     }
 

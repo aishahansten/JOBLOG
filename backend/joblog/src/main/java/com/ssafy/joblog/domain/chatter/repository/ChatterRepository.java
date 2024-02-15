@@ -13,7 +13,7 @@ public interface ChatterRepository extends JpaRepository<ChatterProfile, Integer
     // 전체조회
     List<ChatterProfile> findAllByIsDeleteIsTrueOrderByModifiedDateDesc();
     //상세조회, 수정
-    Optional<ChatterProfile> findByUserIdAndIsDeleteIsFalse(Integer userId);
+//    Optional<ChatterProfile> findByUserIdAndIsDeleteIsFalse(Integer userId);
 
     @Modifying
     @Query("UPDATE ChatterProfile chatter SET chatter.isDelete = CASE WHEN chatter.isDelete = true THEN false ELSE true END WHERE chatter.id = :id")
