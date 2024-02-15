@@ -13,20 +13,57 @@ import router from "@/router";
 const authStore = useAuthStore();
 const currentEvents = ref([]);
 
+////////////////////////////////////// 달력용 id increase //////////////
+const eventGuid = 0;
+function createEventId() {
+  return String(eventGuid++);
+}
+
+////////////////////////////////////// fullCal 형식으로 변환 /////////////
+function convertSchedule(data) {
+  return data.map((item) => ({
+    id: item.scheduleId, // 고유 ID
+    title: item.title, // 이벤트 제목
+    start: item.startDate, // 시작 날짜
+    end: item.endDate, // 종료 날짜 (선택 사항)
+    type: "schedule", // 이벤트 유형 추가
+    // 다른 필요한 속성들을 여기에 추가할 수 있습니다
+  }));
+}
+function convertSelection(data) {
+  return data.map((item) => ({
+    id: item.applyStatusId, // 고유 ID
+    title: `${item.title} ${item.type}`, // item.title과 item.type을 이어붙임
+    start: item.date, // 시작 날짜
+    step: item.step,
+    type: "selection",
+    // 다른 필요한 속성들을 여기에 추가할 수 있습니다
+  }));
+}
+function convertRecruit(data) {
+  return data.map((item) => ({
+    id: item.myRecruitId, // 고유 ID
+    title: item.title, // 이벤트 제목
+    start: formatDate(item.openingDate), // 시작 날짜
+    end: formatDate(item.expirationDate), // 종료 날짜 (선택 사항)
+    company: item.companyName,
+    job: item.job,
+    type: "recruit", // 이벤트 유형 추가
+    // 다른 필요한 속성들을 여기에 추가할 수 있습니다
+  }));
+}
+
 ////////////////////////////////////// onMounted ////////////////
 onMounted(async () => {
   await Promise.all([getSchedules(), getSelections(), getMyRecruits()]);
   // 이제 schedules, selections, myRecruits가 각각의 API 호출을 통해 채워졌다고 가정합니다.
 
-  // 변환된 이벤트 데이터를 currentEvents에 추가
-  const convertedEvents = [
+  // FullCalendar 이벤트로 설정
+  currentEvents.value = [
     ...convertSchedule(schedules),
     ...convertSelection(selections),
     ...convertRecruit(myRecruits),
   ];
-
-  // FullCalendar 이벤트로 설정
-  currentEvents.value = [...convertedEvents];
 
   // FullCalendar 갱신을 위해 eventsSet 함수 호출 (필요한 경우)
   // 주의: FullCalendar Vue 컴포넌트가 이 방식으로 동적 업데이트를 지원하지 않을 수 있습니다.
@@ -91,6 +128,16 @@ function formatTime(isoString) {
   const minutes = date.getMinutes().toString().padStart(2, "0"); // 분을 2자리 숫자로 변환
 
   return `${month}/${day} ${hours}:${minutes}`; // 원하는 형식으로 문자열을 조합하여 반환
+}
+function formatDate(isoString) {
+  const date = new Date(isoString);
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+  const hours = date.getHours().toString().padStart(2, "0");
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+
+  return `${year}-${month}-${day} ${hours}:${minutes}`;
 }
 
 ////////////////////////////////////// 날짜별 필터링 /////////////
@@ -190,34 +237,6 @@ const getMyRecruits = async () => {
     }
   }
 };
-
-////////////////////////////////////// fullCal 형식으로 변환 /////////////
-function convertSchedule(data) {
-  return data.map((item) => ({
-    id: item.id, // 고유 ID
-    title: item.title, // 이벤트 제목
-    start: item.startDate, // 시작 날짜
-    end: item.endDate, // 종료 날짜 (선택 사항)
-    // 다른 필요한 속성들을 여기에 추가할 수 있습니다
-  }));
-}
-function convertSelection(data) {
-  return data.map((item) => ({
-    id: item.id, // 고유 ID
-    title: item.title, // 이벤트 제목
-    start: item.date, // 시작 날짜
-    // 다른 필요한 속성들을 여기에 추가할 수 있습니다
-  }));
-}
-function convertRecruit(data) {
-  return data.map((item) => ({
-    id: item.id, // 고유 ID
-    title: item.title, // 이벤트 제목
-    start: item.openingDate, // 시작 날짜
-    end: item.expirationDate, // 종료 날짜 (선택 사항)
-    // 다른 필요한 속성들을 여기에 추가할 수 있습니다
-  }));
-}
 
 ////////////////////////////////////// schedule 생성 /////////
 const createSchedule = async () => {
@@ -386,12 +405,12 @@ function check(item) {
             <div class="task-info">
               <p class="f-size-20 f-weight-b">{{ event.title }}</p>
               <div style="display: flex; flex-direction: column; gap: 5px">
-                <span class="f-color-g f-size-14">시작일　|　{{
-                  formatTime(event.start)
-                }}</span>
-                <span class="f-color-g f-size-14">마감일　|　{{
-                  formatTime(event.end)
-                }}</span>
+                <span class="f-color-g f-size-14"
+                  >시작일　|　{{ formatTime(event.start) }}</span
+                >
+                <span class="f-color-g f-size-14"
+                  >마감일　|　{{ formatTime(event.end) }}</span
+                >
               </div>
             </div>
           </div>
@@ -572,8 +591,8 @@ function check(item) {
 }
 .exit-btn {
   position: absolute;
-  top: 60px;
-  right: 60px;
+  top: 30px;
+  right: 30px;
 }
 
 .modal .title {
