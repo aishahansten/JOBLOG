@@ -3,13 +3,11 @@
     <div class="job-post">
       <div class="content">
         <div class="title">{{ data.title }}</div>
-        <div class="experience">
-          {{ data.experienceLevel }} | {{ data.industryDesc }}
-        </div>
+        <div class="experience">{{ data.experienceLevel }} | {{ data.industryDesc }}</div>
         <div class="company-name">{{ data.companyName }}</div>
       </div>
       <div class="etc">
-        <span>D-7</span>
+        <span>{{ expirationMessage(data.expirationDate) }}</span>
         <a class="scrap">
           <i class="fa-regular fa-star pointer" @click="scrapPost(scrap)"></i>
         </a>
@@ -21,6 +19,7 @@
 <script setup>
 import { ref } from "vue";
 import { useJobPostStore } from "@/stores/jobPosts";
+import { expirationMessage } from "@/utils/utility";
 
 const jobPostStore = useJobPostStore();
 const props = defineProps({

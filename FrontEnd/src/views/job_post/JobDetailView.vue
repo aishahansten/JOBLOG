@@ -62,7 +62,6 @@
           >
             <div class="btn solid-c h-bright a-dark f-size-20">이력서 쓰기</div>
           </RouterLink>
-          <div class="btn solid-c h-bright a-dark f-size-20">자소서 쓰기</div>
           <div>
             <RouterLink :to="{ name: 'CompanyDetail', params: { id: currentJob.value.companyCode } }">
               <div class="btn solid-c h-bright a-dark">회사의 다른 공고 보기</div>

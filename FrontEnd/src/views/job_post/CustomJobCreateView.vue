@@ -17,6 +17,8 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useMyRecruitStore } from "@/stores/myRecruit";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const myRecruitStore = useMyRecruitStore();
 
@@ -41,6 +43,7 @@ const createMyJob = async () => {
     description: "test description",
   };
   console.log();
+  router.push({ name: "BlogReview" });
 };
 </script>
 
