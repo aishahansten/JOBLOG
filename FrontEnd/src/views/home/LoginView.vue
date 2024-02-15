@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import SelectStatus from "./components/login/SelectStatus.vue";
 import { useAuthStore } from "@/stores/auth";
 const authStore = useAuthStore();

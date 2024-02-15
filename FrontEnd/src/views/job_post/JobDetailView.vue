@@ -95,7 +95,6 @@ onMounted(async () => {
   try {
     await jobPostStore.getJobPostDetail(route.params.id);
     currentJob.value = jobPostStore.currentJob;
-    console.log(currentJob.value);
   } catch (err) {
     console.error(err);
   } finally {
@@ -117,7 +116,7 @@ const scrapJobPost = async () => {
   };
   try {
     const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/recruit/scrap`, scrap, config);
-    console.log("스크랩");
+    alert("스크랩 되었습니다.");
   } catch (err) {
     console.error(err);
   }

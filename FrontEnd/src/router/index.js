@@ -272,7 +272,6 @@ router.beforeEach((to, from, next) => {
 
   const publicRoutes = [
     "Login",
-    "Login2",
     "SignIn",
     "Jobs",
     "Home",
@@ -281,17 +280,17 @@ router.beforeEach((to, from, next) => {
     "QnADetail",
     "Coffee",
     "DeleteUserHandle",
+    "CompanyDetail",
   ];
 
   if (!isAuthenticated && !publicRoutes.includes(to.name)) {
-    alert("로그인이 필요합니다"); // Notify the user
-    next({ name: "Login2" });
-  } else if (isAuthenticated && to.name === "Login2") {
+    alert("로그인이 필요합니다");
+    next({ name: "Login" });
+  } else if (isAuthenticated && to.name === "Login") {
     alert("이미 로그인되어 있습니다.");
     next({ name: "Home" });
   } else {
-    // In all other cases, proceed as normal
-    next(); // Proceed to the route
+    next();
   }
 });
 
