@@ -33,7 +33,7 @@ public class ChatService {
                 .orElseThrow(() -> new IllegalArgumentException("채티가 존재하지 않습니다"));
         CoffeeChatRoom coffeeChatRoom = chatCreateRequestDto.createRoom(chatter, chattee);
         int chatId = chatRepository.save(coffeeChatRoom).getId();
-        alarmService.sendChatCreateAlarm(chatter.getId(), chatId);
+        alarmService.sendChatCreateAlarm(chatter.getId(), chattee.getId(), chatId);
     }
 
     // 2. 커피챗 조회하기
@@ -46,6 +46,7 @@ public class ChatService {
                 .chatId(chat.getId())
                 .chatterId(chat.getChatter().getId())
                 .chatteeId(chat.getChattee().getId())
+                .title(chat.getTitle())
                 .consultField(chat.getConsultField())
                 .acceptOrNot(chat.isAcceptOrNot())
                 .startDate(chat.getStartDate())
@@ -60,6 +61,7 @@ public class ChatService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 커피챗이 존재하지 않습니다"));
         chatRepository.markAcceptChat(chatId);
         chatRepository.markShowChat(chatId);
+        alarmService.sendChatAcceptAlarm(coffeeChatRoom.getChattee().getId(), chatId);
     }
 
     // 4. 커피챗 거절하기
@@ -69,7 +71,7 @@ public class ChatService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 커피챗이 존재하지 않습니다"));
         chatRepository.markUnacceptChat(chatId);
         chatRepository.markNoshowChat(chatId);
-        alarmService.sendChatRejectAlarm(coffeeChatRoom.getChattee().getId(), coffeeChatRoom.getId());
+        alarmService.sendChatRejectAlarm(coffeeChatRoom.getChattee().getId(), chatId);
     }
 
 }

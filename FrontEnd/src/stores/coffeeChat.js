@@ -65,8 +65,8 @@ export const useCoffeeStore = defineStore("coffee", {
       };
       try {
         await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/chat/accept/${id}`, config);
-        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/chat/${authStore.userInfo.sub}`, config);
-        this.alarms = res.data;
+        // const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/chat/${authStore.userInfo.sub}`, config);
+        // this.alarms = res.data;
       } catch (err) {
         console.error(err);
       }

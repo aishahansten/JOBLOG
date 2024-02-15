@@ -17,31 +17,61 @@ public class AlarmResponseDto {
 
     private int alarmId;
     private int userId;
-    private int myRecruitId;
-    private String myRecruitTitle;
-    private String companyName;
-    private int scheduleId;
-    private String scheduleTitle;
-    private int chatRoomId;
-    private int chatteeId;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime startDate;
-    private int selectionId;
+    private boolean isChecked;
+    private int alarmType;
+    private String code;
+    private LocalDateTime alarmDate;
+    private int eventId;
+    private String title;
+    private String companyName;
 
     public static AlarmResponseDto fromEntity(Alarm alarm) {
-        return AlarmResponseDto.builder()
-                .alarmId(alarm.getId())
-                .userId(alarm.getUser().getId())
-                .myRecruitId(alarm.getMyRecruit().getId())
-                .myRecruitTitle(alarm.getMyRecruit().getTitle())
-                .companyName(alarm.getMyRecruit().getCompanyName())
-                .scheduleId(alarm.getSchedule().getId())
-                .scheduleTitle(alarm.getSchedule().getTitle())
-                .chatRoomId(alarm.getCoffeeChatRoom().getId())
-                .chatteeId(alarm.getCoffeeChatRoom().getChattee().getId())
-                .startDate(alarm.getCoffeeChatRoom().getStartDate())
-                .selectionId(alarm.getSelection().getId())
-                .build();
+        if (alarm.getMyRecruit() != null) {
+            return AlarmResponseDto.builder()
+                    .alarmId(alarm.getId())
+                    .userId(alarm.getUser().getId())
+                    .isChecked(alarm.isChecked())
+                    .alarmType(alarm.getType())
+                    .alarmDate(alarm.getMyRecruit().getExpirationDate())
+                    .eventId(alarm.getMyRecruit().getId())
+                    .title(alarm.getMyRecruit().getTitle())
+                    .companyName(alarm.getMyRecruit().getCompanyName())
+                    .build();
+        } else if (alarm.getSchedule() != null) {
+            return AlarmResponseDto.builder()
+                    .alarmId(alarm.getId())
+                    .userId(alarm.getUser().getId())
+                    .isChecked(alarm.isChecked())
+                    .alarmType(alarm.getType())
+                    .alarmDate(alarm.getSchedule().getEndDate())
+                    .eventId(alarm.getSchedule().getId())
+                    .title(alarm.getSchedule().getTitle())
+                    .build();
+        } else if (alarm.getCoffeeChatRoom() != null) {
+            return AlarmResponseDto.builder()
+                    .alarmId(alarm.getId())
+                    .userId(alarm.getUser().getId())
+                    .isChecked(alarm.isChecked())
+                    .alarmType(alarm.getType())
+                    .code(alarm.getCode())
+                    .alarmDate(alarm.getCoffeeChatRoom().getStartDate())
+                    .eventId(alarm.getCoffeeChatRoom().getId())
+                    .title(alarm.getCoffeeChatRoom().getTitle())
+                    .build();
+        } else if (alarm.getSelection() != null){
+            return AlarmResponseDto.builder()
+                    .alarmId(alarm.getId())
+                    .userId(alarm.getUser().getId())
+                    .isChecked(alarm.isChecked())
+                    .alarmType(alarm.getType())
+                    .alarmDate(alarm.getSelection().getProgressDate())
+                    .eventId(alarm.getSelection().getId())
+                    .title(alarm.getSelection().getTitle())
+                    .companyName(alarm.getSelection().getMyRecruit().getCompanyName())
+                    .build();
+        }
+        return null;
     }
 
 }

@@ -7,6 +7,7 @@ import com.ssafy.joblog.domain.schedule.entity.Schedule;
 import com.ssafy.joblog.domain.user.entity.User;
 import com.ssafy.joblog.global.entity.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,6 +25,9 @@ public class Alarm extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "alarm_id")
     private int id;
+    @NotNull
+    private int type;
+    private String code;
 
     //연관관계 주인(=외래키 갖고있음)
     @ManyToOne(fetch = LAZY)
@@ -54,8 +58,10 @@ public class Alarm extends BaseEntity {
     private boolean isChecked;
 
     @Builder
-    public Alarm(int id, User user, MyRecruit myRecruit, Schedule schedule, CoffeeChatRoom coffeeChatRoom, Selection selection) {
+    public Alarm(int id, int type, String code, User user, MyRecruit myRecruit, Schedule schedule, CoffeeChatRoom coffeeChatRoom, Selection selection) {
         this.id = id;
+        this.type = type;
+        this.code = code;
         this.user = user;
         this.myRecruit = myRecruit;
         this.schedule = schedule;

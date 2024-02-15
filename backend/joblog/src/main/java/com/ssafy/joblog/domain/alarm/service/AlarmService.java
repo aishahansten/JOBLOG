@@ -15,6 +15,7 @@ import com.ssafy.joblog.domain.schedule.repository.ScheduleRepository;
 import com.ssafy.joblog.domain.user.entity.User;
 import com.ssafy.joblog.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -58,15 +59,29 @@ public class AlarmService {
         alarmRepository.markDeletedAlarm(alarmId);
     }
 
-    public void sendChatCreateAlarm(int userId, int chatId) {
+    public void sendChatCreateAlarm(int chatterId, int chatteeId, int chatId) {
+        User chatter = userRepository.findById(chatterId).orElseThrow(() -> { return new IllegalArgumentException("해당 사용자를 찾을 수 없습니다"); });
+        User chattee = userRepository.findById(chatteeId).orElseThrow(() -> { return new IllegalArgumentException("해당 사용자를 찾을 수 없습니다"); });
+        CoffeeChatRoom coffeeChatRoom = chatRepository.findById(chatId).orElseThrow(() -> { return new IllegalArgumentException("커피챗이 존재하지 않습니다."); });
+        String code = RandomStringUtils.randomAlphanumeric(10);
+        Alarm chatterAlarm = Alarm.builder().user(chatter).type(4).code(code).coffeeChatRoom(coffeeChatRoom).build();
+        Alarm chatteeAlarm = Alarm.builder().user(chattee).type(4).code(code).coffeeChatRoom(coffeeChatRoom).build();
+        alarmRepository.save(chatterAlarm);
+        alarmRepository.save(chatteeAlarm);
+        producerService.chatCreateAlarm(chatterId, "커피챗 신청");
+        producerService.chatCreateAlarm(chatteeId, "커피챗 신청");
+    }
+
+    public void sendChatAcceptAlarm(int userId, int chatId) {
         User user = userRepository.findById(userId).orElseThrow(() -> { return new IllegalArgumentException("해당 사용자를 찾을 수 없습니다"); });
         CoffeeChatRoom coffeeChatRoom = chatRepository.findById(chatId).orElseThrow(() -> { return new IllegalArgumentException("커피챗이 존재하지 않습니다."); });
         Alarm alarm = Alarm.builder()
                 .user(user)
+                .type(5)
                 .coffeeChatRoom(coffeeChatRoom)
                 .build();
         alarmRepository.save(alarm);
-        producerService.chatCreateAlarm(userId, "커피챗 신청");
+        producerService.chatCreateAlarm(userId, "커피챗 수락");
     }
 
     public void sendChatRejectAlarm(int userId, int chatId) {
@@ -74,14 +89,14 @@ public class AlarmService {
         CoffeeChatRoom coffeeChatRoom = chatRepository.findById(chatId).orElseThrow(() -> { return new IllegalArgumentException("커피챗이 존재하지 않습니다."); });
         Alarm alarm = Alarm.builder()
                 .user(user)
+                .type(6)
                 .coffeeChatRoom(coffeeChatRoom)
                 .build();
         alarmRepository.save(alarm);
-        producerService.chatRejectAlarm(userId, "커피챗 거절");
+        producerService.chatCreateAlarm(userId, "커피챗 거절");
     }
 
-//    @Scheduled(cron = "0 0 0 * * *")
-    @Scheduled(cron = "0/10 * * * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void sendScheduleAlarm() {
         LocalDateTime today = LocalDateTime.now();
         LocalDateTime tomorrow = today.plusDays(1);
@@ -90,6 +105,7 @@ public class AlarmService {
             User user = userRepository.findById(schedule.getUser().getId()).orElseThrow(() -> { return new IllegalArgumentException("해당 사용자를 찾을 수 없습니다"); });
             Alarm alarm = Alarm.builder()
                     .user(user)
+                    .type(3)
                     .schedule(schedule)
                     .build();
             alarmRepository.save(alarm);
@@ -106,6 +122,7 @@ public class AlarmService {
             User user = userRepository.findById(myRecruit.getUser().getId()).orElseThrow(() -> { return new IllegalArgumentException("해당 사용자를 찾을 수 없습니다"); });
             Alarm alarm = Alarm.builder()
                     .user(user)
+                    .type(1)
                     .myRecruit(myRecruit)
                     .build();
             alarmRepository.save(alarm);
@@ -122,6 +139,7 @@ public class AlarmService {
             User user = userRepository.findById(myRecruit.getUser().getId()).orElseThrow(() -> { return new IllegalArgumentException("해당 사용자를 찾을 수 없습니다"); });
             Alarm alarm = Alarm.builder()
                     .user(user)
+                    .type(2)
                     .myRecruit(myRecruit)
                     .build();
             alarmRepository.save(alarm);
@@ -138,6 +156,7 @@ public class AlarmService {
             User user = userRepository.findById(selection.getUser().getId()).orElseThrow(() -> { return new IllegalArgumentException("해당 사용자를 찾을 수 없습니다"); });
             Alarm alarm = Alarm.builder()
                     .user(user)
+                    .type(1)
                     .selection(selection)
                     .build();
             alarmRepository.save(alarm);
@@ -154,6 +173,7 @@ public class AlarmService {
             User user = userRepository.findById(selection.getUser().getId()).orElseThrow(() -> { return new IllegalArgumentException("해당 사용자를 찾을 수 없습니다"); });
             Alarm alarm = Alarm.builder()
                     .user(user)
+                    .type(2)
                     .selection(selection)
                     .build();
             alarmRepository.save(alarm);

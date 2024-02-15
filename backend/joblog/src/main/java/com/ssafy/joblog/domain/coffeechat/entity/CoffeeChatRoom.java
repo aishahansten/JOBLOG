@@ -36,6 +36,9 @@ public class CoffeeChatRoom extends BaseEntity {
     @JoinColumn(name="chattee_id")
     private User chattee;
 
+
+    @Column(name = "title")
+    private String title;
     @Column(name = "consult_field")
     private String consultField;
 
@@ -50,10 +53,11 @@ public class CoffeeChatRoom extends BaseEntity {
 
     // 생성자
     @Builder
-    public CoffeeChatRoom(int id, User chatter, User chattee, String consultField, boolean acceptOrNot, LocalDateTime startDate) {
+    public CoffeeChatRoom(int id, User chatter, User chattee, String title, String consultField, boolean acceptOrNot, LocalDateTime startDate) {
         this.id = id;
         this.chatter = chatter;
         this.chattee = chattee;
+        this.title = title;
         this.consultField = consultField;
         this.acceptOrNot = acceptOrNot;
         this.startDate = startDate;
