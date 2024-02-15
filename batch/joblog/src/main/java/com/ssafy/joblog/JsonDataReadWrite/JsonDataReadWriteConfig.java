@@ -5,6 +5,7 @@ import com.ssafy.joblog.JsonDataReadWrite.entity.*;
 import com.ssafy.joblog.JsonDataReadWrite.repository.CompanyRepository;
 import com.ssafy.joblog.JsonDataReadWrite.repository.JobCategoryRepository;
 import com.ssafy.joblog.JsonDataReadWrite.repository.RecruitRepository;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -76,6 +77,7 @@ public class JsonDataReadWriteConfig {
     }
 
     static List<Long> companyCodes = new ArrayList<>();
+    private final EntityManager entityManager;
 
     @StepScope
     @Bean
@@ -85,14 +87,16 @@ public class JsonDataReadWriteConfig {
                 UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(item.getCompany().getDetail().getHref());
                 String companyCodeValue = builder.build().getQueryParams().get("csn").get(0);
                 Long companyCode = Long.parseLong(companyCodeValue);
-                if(!companyCodes.contains(companyCode)){
-                    companyCodes.add(companyCode);
-                    companyRepository.save(
+
+                Optional<Company> company = companyRepository.findById(companyCode);
+                if(!company.isPresent()){
+                    Company newCompany = companyRepository.save(
                             Company.builder()
                                     .companyCode(companyCode)
                                     .companyName(item.getCompany().getDetail().getName())
                                     .build()
                     );
+                    entityManager.persist(newCompany);
                 }
             }
 

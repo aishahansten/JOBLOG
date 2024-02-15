@@ -30,10 +30,6 @@ public class JsonDataUtils {
         DefaultUriBuilderFactory defaultUriBuilderFactory = new DefaultUriBuilderFactory();
         defaultUriBuilderFactory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
 
-
-//        System.out.println(now);
-//        System.out.println(result);
-
         //webclient 생성
         webClient = WebClient.builder().uriBuilderFactory(defaultUriBuilderFactory).build();
         //webclient를 통해 동기적으로 데이터 요청
@@ -45,8 +41,8 @@ public class JsonDataUtils {
                         .queryParam("access-key", accesskey) //.queryParam으로 추가 가능
                         .queryParam("count", 110)
                         .queryParam("start", start)
-                        .queryParam("published_min", published_min) //yyyy-mm-dd+"%20"+hh:mm:ss 형식
-                        .queryParam("published_max", published_max)
+                        .queryParam("published_min", "2024-02-13%2009:00:00") //yyyy-mm-dd+"%20"+hh:mm:ss 형식
+                        .queryParam("published_max", "2024-02-13%2015:00:00")
                         .queryParam("job_type", 1)
                         .build())
                 .retrieve()
