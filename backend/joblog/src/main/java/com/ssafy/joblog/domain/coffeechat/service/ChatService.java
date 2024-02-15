@@ -71,5 +71,4 @@ public class ChatService {
         chatRepository.markNoshowChat(chatId);
         alarmService.sendChatRejectAlarm(coffeeChatRoom.getChattee().getId(), coffeeChatRoom.getId());
     }
-
 }

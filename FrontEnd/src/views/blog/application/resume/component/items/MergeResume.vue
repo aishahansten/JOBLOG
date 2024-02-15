@@ -17,7 +17,7 @@
             <input type="text" v-model="userData.realName" />
           </div>
           <div>
-            <p class="info-title">영문</p>
+            <p class="info-title sec">영문</p>
             <input type="text" v-model="userData.englishName" />
           </div>
         </div>
@@ -27,21 +27,21 @@
             <input type="text" v-model="userData.birthDate" />
           </div>
           <div>
-            <p class="info-title">H.P</p>
+            <p class="info-title sec">H.P</p>
             <input type="text" v-model="userData.phoneNumber" />
           </div>
         </div>
         <div class="line">
           <div class="info-title">지원직무</div>
-          <input type="text" v-model="resumeResponse.job" />
+          <input class="input-one" type="text" v-model="resumeResponse.job" />
         </div>
         <div class="line">
           <p class="info-title">이메일</p>
-          <input type="text" v-model="userData.userEmail" />
+          <input class="input-one" type="text" v-model="userData.userEmail" />
         </div>
         <div class="line">
           <p class="info-title">주소</p>
-          <input type="text" v-model="userData.address" />
+          <input class="input-one" type="text" v-model="userData.address" />
         </div>
       </div>
 
@@ -104,10 +104,11 @@
       <div class="info-container">
         <div class="tag">
           <p class="info-title">활동/교육명</p>
-          <p class="info-title">활동/교육 주관 기관명</p>
+          <p class="info-title">활동/교육 주관 기관</p>
+          <p class="info-title">활동/교육 상세 내용</p>
           <p class="info-title">활동/교육 시작 일자</p>
           <p class="info-title">활동/교육 종료 일자</p>
-          <p class="info-title">활동/교육 상세 내용</p>
+          
         </div>
         <div class="info-item" v-for="info in activity" :key="info.id">
           <input type="text" placeholder="Title" v-model="info.title" />
@@ -123,60 +124,60 @@
       </div>
 
       <div class="info-container">
-        <div class="tag">
+        <div class="tag long-6">
           <p class="info-title">자격증/어학성적명</p>
           <p class="info-title">기관명</p>
+          <p class="info-title">자격번호/언어 종류</p>
           <p class="info-title">응시 일자/발급 일자</p>
           <p class="info-title">만료 일자</p>
-          <p class="info-title">자격번호/언어 종류</p>
           <p class="info-title">자격 등급/어학 등급</p>
         </div>
         <div class="info-item" v-for="info in certificate" :key="info.id">
-          <input type="text" placeholder="Title" v-model="info.title" />
+          <input class="long-input" type="text" placeholder="Title" v-model="info.title" />
 
-          <input type="text" v-model="info.institutionName" />
+          <input class="long-input" type="text" v-model="info.institutionName" />
 
-          <input type="text" v-model="info.description" />
+          <input class="long-input" type="text" v-model="info.description" />
 
-          <input type="date" placeholder="Start Date" v-model="info.startDate" />
+          <input class="long-input" type="date" placeholder="Start Date" v-model="info.startDate" />
 
-          <input type="date" placeholder="End Date" v-model="info.endDate" />
+          <input class="long-input" type="date" placeholder="End Date" v-model="info.endDate" />
 
-          <input type="date" placeholder="End Date" v-model="info.level" />
+          <input class="long-input" type="text" placeholder="Level" v-model="info.level" />
         </div>
       </div>
 
       <div class="info-container">
-        <div class="tag">
+        <div class="tag long-4">
           <p class="info-title">수상명</p>
           <p class="info-title">기관명</p>
           <p class="info-title">수상 일자</p>
           <p class="info-title">수상 상세 내용</p>
         </div>
         <div class="info-item" v-for="info in award" :key="info.id">
-          <input type="text" placeholder="Title" v-model="info.title" />
+          <input class="long-input" type="text" placeholder="Title" v-model="info.title" />
 
-          <input type="text" v-model="info.institutionName" />
+          <input class="long-input" type="text" v-model="info.institutionName" />
 
-          <input type="date" placeholder="Start Date" v-model="info.startDate" />
+          <input class="long-input" type="date" placeholder="Start Date" v-model="info.startDate" />
 
-          <input type="text" v-model="info.description" />
+          <input class="long-input" type="text" v-model="info.description" />
         </div>
       </div>
 
       <div class="info-container">
-        <div class="tag">
+        <div class="tag long">
           <p class="info-title">기술명</p>
           <p class="info-title">분야</p>
           <p class="info-title">상세 설명</p>
           <p class="info-title">숙련도</p>
         </div>
-        <div class="info-item" v-for="info in skill" :key="info.id">
-          <input type="text" placeholder="Title" v-model="info.title" />
+        <div class="info-item long" v-for="info in skill" :key="info.id">
+          <input class="long-input" type="text" placeholder="Title" v-model="info.title" />
 
-          <input type="text" v-model="info.institutionName" />
+          <input class="long-input" type="text" v-model="info.institutionName" />
 
-          <input type="text" v-model="info.description" />
+          <input class="long-input" type="text" v-model="info.description" />
 
           <select v-model="info.skillLevel">
             <option value="1">1</option>
@@ -253,7 +254,7 @@ onMounted(async () => {
   gap: 30px;
 }
 .resume-container h1 {
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   align-items: center;
   font-size: 28px;
@@ -264,8 +265,8 @@ onMounted(async () => {
   display: grid;
   grid-template-columns: 5fr 1fr;
   grid-gap: 20px;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center;
+  align-items: center; */
 
   padding: 10px 0;
   border-top: 2px solid var(--gray);
@@ -274,29 +275,43 @@ onMounted(async () => {
 .personal-info {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   height: 100%;
 }
+
+.input-one {
+  width: 100%;
+  height: 110%;
+
+}
+
 .line {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   border-bottom: 1px solid var(--border-gray);
-  padding: 10px;
+  padding: 5px;
+
 }
 .line:last-child {
   border: none;
 }
 .line div {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
 }
 .line input {
+
   background: none;
-  text-align: end;
+  text-align: start;
   font-weight: 500;
 }
+
+.sec {
+  padding-left: 40px;
+}
+
 .info-title {
   width: 100px;
   font-weight: 700;
@@ -321,16 +336,20 @@ onMounted(async () => {
 .info-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
 
-  padding: 10px 0;
+  padding: 0px;
   border-top: 2px solid var(--gray);
   border-bottom: 2px solid var(--gray);
 }
 .tag {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 0.3fr 0.3fr;
+  grid-template-columns: repeat(7, 1fr);
   grid-gap: 10px;
+  /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr 0.3fr 0.3fr;
+  grid-gap: 10px; */
+  /* display: flex;
+  justify-content: space-between; */
 
   width: 100%;
   padding: 10px 0;
@@ -338,8 +357,13 @@ onMounted(async () => {
 }
 .info-item {
   display: grid;
-  grid-template-columns: 0.7fr 0.7fr 1fr 1fr 1fr 0.5fr 0.3fr;
+  grid-template-columns: repeat(7, 1fr);
   grid-gap: 10px;
+  /* grid-template-columns: 0.7fr 0.7fr 1fr 1fr 1fr 0.5fr 0.3fr;
+  grid-gap: 15px; */
+  /* display: flex;
+  justify-content: space-between; */
+  
 
   padding-bottom: 10px;
   border-bottom: 1px solid var(--border-gray);
@@ -348,9 +372,28 @@ onMounted(async () => {
   border: none;
 }
 
+/* .long-6 {
+  display: grid;
+  grid-template-columns: 0.7fr 0.7fr 1fr 1fr 1fr 0.7fr;
+  grid-gap: 15px;
+} */
+
+.long-4 {
+  display: grid;
+  grid-template-columns: 0.7fr 0.7fr 1fr 0.7fr;
+  grid-gap: 15px;
+}
+
+.long-input {
+  width: 100%;
+}
+
 /* 공통 */
 input {
   border: 0px;
+  padding: 5px;
+  width: 100px;
+  height: 30px;
   background-color: rgb(240, 240, 240);
 }
 input:focus {
