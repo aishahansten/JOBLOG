@@ -11,7 +11,6 @@ const authStore = useAuthStore();
 const loggedIn = computed(() => !!authStore.userInfo);
 
 authStore.updateUserInfoFromToken();
-
 </script>
 
 <template>
@@ -21,23 +20,11 @@ authStore.updateUserInfoFromToken();
     </RouterLink>
 
     <nav>
-      <div
-        id="nav-menu"
-        @mouseover="showDropdown = true"
-        @mouseleave="showDropdown = false"
-      >
-        <RouterLink class="link h-txt" :to="{ name: 'Jobs' }"
-          >채용공고</RouterLink
-        >
-        <RouterLink class="link h-txt" :to="{ name: 'BlogSchedule' }"
-          >취준플랜</RouterLink
-        >
-        <RouterLink class="link h-txt" :to="{ name: 'QnABoard' }"
-          >커뮤니티</RouterLink
-        >
-        <RouterLink class="link h-txt" :to="{ name: 'Coffee' }"
-          >커피챗</RouterLink
-        >
+      <div id="nav-menu" @mouseover="showDropdown = true" @mouseleave="showDropdown = false">
+        <RouterLink class="link h-txt" :to="{ name: 'Jobs' }">채용공고</RouterLink>
+        <RouterLink class="link h-txt" :to="{ name: 'BlogSchedule' }">취준플랜</RouterLink>
+        <RouterLink class="link h-txt" :to="{ name: 'QnABoard' }">커뮤니티</RouterLink>
+        <RouterLink class="link h-txt" :to="{ name: 'Coffee' }">커피챗</RouterLink>
       </div>
       <transition name="dropdown">
         <div
@@ -49,35 +36,21 @@ authStore.updateUserInfoFromToken();
           <div class="width">
             <div class="width550">
               <div class="sub-nav">
-                <RouterLink class="menu h-txt" :to="{ name: 'Jobs' }"
-                  >공고 검색</RouterLink
-                >
+                <RouterLink class="menu h-txt" :to="{ name: 'Jobs' }">공고 검색</RouterLink>
                 <a class="menu h-txt">스크랩 공고</a>
               </div>
               <div class="sub-nav">
-                <RouterLink class="menu h-txt" :to="{ name: 'BlogSchedule' }"
-                  >나의 일정 관리</RouterLink
-                >
-                <RouterLink class="menu h-txt" :to="{ name: 'BlogReview' }"
-                  >전형 리뷰</RouterLink
-                >
-                <RouterLink class="menu h-txt" :to="{ name: 'BlogApplication' }"
-                  >이력서·자소서</RouterLink
-                >
-                <RouterLink class="menu h-txt" :to="{ name: 'BlogJournal' }"
-                  >다이어리</RouterLink
-                >
+                <RouterLink class="menu h-txt" :to="{ name: 'BlogSchedule' }">나의 일정 관리</RouterLink>
+                <RouterLink class="menu h-txt" :to="{ name: 'BlogReview' }">전형 리뷰</RouterLink>
+                <RouterLink class="menu h-txt" :to="{ name: 'BlogApplication' }">이력서·자소서</RouterLink>
+                <RouterLink class="menu h-txt" :to="{ name: 'BlogJournal' }">다이어리</RouterLink>
               </div>
               <div class="sub-nav">
-                <RouterLink class="menu h-txt" :to="{ name: 'QnABoard' }"
-                  >Q&A 게시판</RouterLink
-                >
+                <RouterLink class="menu h-txt" :to="{ name: 'QnABoard' }">Q&A 게시판</RouterLink>
                 <a class="menu h-txt">나의 Q&A</a>
               </div>
               <div class="sub-nav">
-                <RouterLink class="menu h-txt" :to="{ name: 'Coffee' }"
-                  >채터 탐색하기</RouterLink
-                >
+                <RouterLink class="menu h-txt" :to="{ name: 'Coffee' }">채터 탐색하기</RouterLink>
                 <a class="menu h-txt">마이프로필</a>
                 <a class="menu h-txt">팔로잉 채터</a>
               </div>
@@ -89,15 +62,11 @@ authStore.updateUserInfoFromToken();
 
       <div class="right" v-if="!loggedIn">
         <RouterLink :to="{ name: 'Login' }">
-          <a
-            id="header-login-btn"
-            class="btn-s lined-bg f-color-c h-solid-c h-lined-c a-bright"
-            >로그인 · 회원가입</a
-          >
+          <a id="header-login-btn" class="btn-s lined-bg f-color-c h-solid-c h-lined-c a-bright">로그인 · 회원가입</a>
         </RouterLink>
       </div>
       <div class="right" v-else>
-        <div id="alert" class="pointer h-bright a-dark">
+        <div id="alert" class="pointer h-bright a-dark" :class="{ 'alert-highlighted': hasAlarm }">
           <img src="@/assets/img/icon/non-alert-icon.svg" alt="" />
         </div>
         <RouterLink class="h-bright a-dark" :to="{ name: 'ProfileSetting' }">
@@ -176,6 +145,9 @@ nav {
 }
 #alert img {
   height: 25px;
+}
+.alert-highlighted {
+  background-color: rgba(255, 255, 0, 0.295);
 }
 
 #to-profile {

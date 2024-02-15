@@ -16,8 +16,7 @@ const retryCount = ref(0);
 const hasAlarm = ref(false);
 let sse;
 
-
-const startSSE = async() => {
+const startSSE = async () => {
   sse = new EventSource(`${import.meta.env.VITE_API_BASE_URL}/connect/${authStore.userInfo.sub}`);
 
   sse.onmessage = (event) => {
@@ -35,14 +34,14 @@ const startSSE = async() => {
   };
 };
 
-onMounted(async () => {
-  if (loggedIn) {
-    console.log("ASDFADFS");
-    startSSE();
-  } else {
-    console.log('로그인 안됨')
-  }
-});
+// onMounted(async () => {
+//   if (loggedIn) {
+//     console.log("ASDFADFS");
+//     startSSE();
+//   } else {
+//     console.log('로그인 안됨')
+//   }
+// });
 </script>
 
 <template>
@@ -62,9 +61,7 @@ onMounted(async () => {
 
     <div class="welcome-btn-space">
       <RouterLink :to="{ name: 'Login' }">
-        <a id="to-login" class="btn solid-c h-bright a-dark">
-          SNS 계정으로 시작하기 ->
-        </a>
+        <a id="to-login" class="btn solid-c h-bright a-dark"> SNS 계정으로 시작하기 -> </a>
       </RouterLink>
       <RouterLink :to="{ name: 'Login2' }">
         <a class="login-btn-solid clickable"> 로컬테스트는 이거 누르세요 -> </a>

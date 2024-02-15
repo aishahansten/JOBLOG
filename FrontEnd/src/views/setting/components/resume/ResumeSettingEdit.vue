@@ -51,6 +51,8 @@ onMounted(async () => {
   loading.value = false;
 });
 
+console.log(userInfo);
+
 const filteredInfo = function (category) {
   return this.informations.filter((info) => info.infoCategory === category);
 };
@@ -64,6 +66,31 @@ const deleteInfo = async (id) => {
   await settingResumeStore.deleteInfo(id);
   await handleRefresh();
 };
+
+const uploadFile = async (event) => {
+  const file = event.target.files[0];
+  if (!file) {
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const res = await axios.post(
+      `${import.meta.env.VITE_API_BASE_URL}/users/profile/${authStore.userInfo.sub}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    console.log("업로드성공", res.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
 </script>
 
 <template>
@@ -76,11 +103,7 @@ const deleteInfo = async (id) => {
         <p>이력서 작성에 사용될 개인 이력 정보를 변경합니다.</p>
       </div>
       <div class="content-function">
-        <a
-          @click="submitUserInfo(userInfo)"
-          class="btn lined-c f-color-c h-solid-c a-bright"
-          >저장</a
-        >
+        <a @click="submitUserInfo(userInfo)" class="btn lined-c f-color-c h-solid-c a-bright">저장</a>
       </div>
     </div>
 
@@ -96,14 +119,11 @@ const deleteInfo = async (id) => {
               <li>얼굴이 뚜렷하게 드러난 사진 파일</li>
               <li>배경이 없는 png 등이 아닌 사진 파일</li>
             </ul>
-            <input
-              type="file"
-              class="file-input"
-              accept="image/jpg, image/jpeg"
-            />
+            <input type="file" class="file-input" accept="image/jpg, image/jpeg" @change="uploadFile" />
           </div>
           <div class="identify-pic">
-            <img src="@/assets/img/profile/default-user-pic.jpg" alt="" />
+            <img src="@/assets/img/profile/default-user-pic.jpg" v-if="!userInfo.amazonS3FileUrl" />
+            <img :src="userInfo.amazonS3FileUrl" v-else />
           </div>
         </div>
       </div>
@@ -111,9 +131,7 @@ const deleteInfo = async (id) => {
       <div class="component">
         <div class="title">
           <h2>인적사항 등록</h2>
-          <p class="f-weight-l">
-            성명, 주소, 연락처 등의 인적사항을 등록해주세요.
-          </p>
+          <p class="f-weight-l">성명, 주소, 연락처 등의 인적사항을 등록해주세요.</p>
         </div>
         <div class="info-space">
           <div>
@@ -134,11 +152,7 @@ const deleteInfo = async (id) => {
             <div class="user-info">
               <span class="f-color-g f-weight-b">희망 직군/직무</span>
               <select v-model="userInfo.objective">
-                <option
-                  v-for="item in category"
-                  :key="item.jobCode"
-                  :value="item.jobCode"
-                >
+                <option v-for="item in category" :key="item.jobCode" :value="item.jobCode">
                   {{ item.jobName }}
                 </option>
               </select>
@@ -179,31 +193,17 @@ const deleteInfo = async (id) => {
             <p class="f-color-g f-weight-b">야간 여부</p>
             <p class="f-color-g f-weight-b">　</p>
           </div>
-          <div
-            class="classfy info"
-            v-for="info in filteredInfo('EDUCATION')"
-            :key="info.id"
-          >
+          <div class="classfy info" v-for="info in filteredInfo('EDUCATION')" :key="info.id">
             <p>{{ info.institutionName }}</p>
             <p>{{ info.title }}</p>
             <p>{{ info.startDate }}</p>
             <p>{{ info.endDate }}</p>
             <p>
-              {{
-                info.graduationStatus === 0
-                  ? "재학 중"
-                  : info.graduationStatus === 1
-                  ? "졸업 예정"
-                  : "졸업"
-              }}
+              {{ info.graduationStatus === 0 ? "재학 중" : info.graduationStatus === 1 ? "졸업 예정" : "졸업" }}
             </p>
             <p>{{ info.yesOrNot === 1 ? "O" : "X" }}</p>
             <p>{{ info.dayOrNight === 1 ? "O" : "X" }}</p>
-            <a
-              @click="deleteInfo(info.id)"
-              class="btn-s solid-g h-bright a-dark"
-              >삭제</a
-            >
+            <a @click="deleteInfo(info.id)" class="btn-s solid-g h-bright a-dark">삭제</a>
           </div>
           <Education @refresh="handleRefresh" />
         </div>
@@ -221,21 +221,12 @@ const deleteInfo = async (id) => {
             <p class="f-color-g f-weight-b">시작 일자</p>
             <p class="f-color-g f-weight-b">종료 일자</p>
           </div>
-          <div
-            class="classfy info"
-            id="career-info"
-            v-for="info in filteredInfo('CAREER')"
-            :key="info.id"
-          >
+          <div class="classfy info" id="career-info" v-for="info in filteredInfo('CAREER')" :key="info.id">
             <p>{{ info.institutionName }}</p>
             <p>{{ info.title }}</p>
             <p>{{ info.startDate }}</p>
             <p>{{ info.endDate }}</p>
-            <a
-              @click="deleteInfo(info.id)"
-              class="btn-s solid-g h-bright a-dark"
-              >삭제</a
-            >
+            <a @click="deleteInfo(info.id)" class="btn-s solid-g h-bright a-dark">삭제</a>
           </div>
           <Career @refresh="handleRefresh" />
         </div>
@@ -254,22 +245,13 @@ const deleteInfo = async (id) => {
             <p class="f-color-g f-weight-b">종료 일자</p>
             <p class="f-color-g f-weight-b">상세 내용</p>
           </div>
-          <div
-            class="classfy info"
-            id="activity-info"
-            v-for="info in filteredInfo('ACTIVITY')"
-            :key="info.id"
-          >
+          <div class="classfy info" id="activity-info" v-for="info in filteredInfo('ACTIVITY')" :key="info.id">
             <p>{{ info.title }}</p>
             <p>{{ info.institutionName }}</p>
             <p>{{ info.startDate }}</p>
             <p>{{ info.endDate }}</p>
             <p>{{ info.description }}</p>
-            <a
-              @click="deleteInfo(info.id)"
-              class="btn-s solid-g h-bright a-dark"
-              >삭제</a
-            >
+            <a @click="deleteInfo(info.id)" class="btn-s solid-g h-bright a-dark">삭제</a>
           </div>
           <Activity @refresh="handleRefresh" />
         </div>
@@ -289,23 +271,14 @@ const deleteInfo = async (id) => {
             <p class="f-color-g f-weight-b">자격/언어 종류</p>
             <p class="f-color-g f-weight-b">자격/어학 등급</p>
           </div>
-          <div
-            class="classfy info"
-            id="cert-info"
-            v-for="info in filteredInfo('CERTIFICATE')"
-            :key="info.id"
-          >
+          <div class="classfy info" id="cert-info" v-for="info in filteredInfo('CERTIFICATE')" :key="info.id">
             <p>{{ info.title }}</p>
             <p>{{ info.institutionName }}</p>
             <p>{{ info.startDate }}</p>
             <p>{{ info.endDate }}</p>
             <p>{{ info.description }}</p>
             <p>{{ info.level }}</p>
-            <a
-              @click="deleteInfo(info.id)"
-              class="btn-s solid-g h-bright a-dark"
-              >삭제</a
-            >
+            <a @click="deleteInfo(info.id)" class="btn-s solid-g h-bright a-dark">삭제</a>
           </div>
           <Certificate @refresh="handleRefresh" />
         </div>
@@ -323,21 +296,12 @@ const deleteInfo = async (id) => {
             <p class="f-color-g f-weight-b">수상 일자</p>
             <p class="f-color-g f-weight-b">상세 내용</p>
           </div>
-          <div
-            class="classfy info"
-            id="award-info"
-            v-for="info in filteredInfo('AWARD')"
-            :key="info.id"
-          >
+          <div class="classfy info" id="award-info" v-for="info in filteredInfo('AWARD')" :key="info.id">
             <p>{{ info.title }}</p>
             <p>{{ info.institutionName }}</p>
             <p>{{ info.startDate }}</p>
             <p>{{ info.description }}</p>
-            <a
-              @click="deleteInfo(info.id)"
-              class="btn-s solid-g h-bright a-dark"
-              >삭제</a
-            >
+            <a @click="deleteInfo(info.id)" class="btn-s solid-g h-bright a-dark">삭제</a>
           </div>
           <Award @refresh="handleRefresh" />
         </div>
@@ -346,9 +310,7 @@ const deleteInfo = async (id) => {
       <div class="component">
         <div class="title">
           <h2>사용 기술 등록</h2>
-          <p class="f-weight-l">
-            직무에 도움이 되는 각종 기술에 대한 사용 경험을 등록해주세요.
-          </p>
+          <p class="f-weight-l">직무에 도움이 되는 각종 기술에 대한 사용 경험을 등록해주세요.</p>
         </div>
         <div class="infos">
           <div class="classfy" id="skill-info">
@@ -357,21 +319,12 @@ const deleteInfo = async (id) => {
             <p class="f-color-g f-weight-b">상세 내용</p>
             <p class="f-color-g f-weight-b">숙련도</p>
           </div>
-          <div
-            class="classfy info"
-            id="skill-info"
-            v-for="info in filteredInfo('SKILL')"
-            :key="info.id"
-          >
+          <div class="classfy info" id="skill-info" v-for="info in filteredInfo('SKILL')" :key="info.id">
             <p>{{ info.title }}</p>
             <p>{{ info.institutionName }}</p>
             <p>{{ info.description }}</p>
             <p>{{ info.skillLevel }}</p>
-            <a
-              @click="deleteInfo(info.id)"
-              class="btn-s solid-g h-bright a-dark"
-              >삭제</a
-            >
+            <a @click="deleteInfo(info.id)" class="btn-s solid-g h-bright a-dark">삭제</a>
           </div>
           <Skill @refresh="handleRefresh" />
         </div>

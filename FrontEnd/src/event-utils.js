@@ -13,23 +13,27 @@ export const INITIAL_EVENTS = [
     id: createEventId(),
     title: "신한은행 서류지원",
     start: todayStr,
+    end: todayStr + "T13:00:00",
   },
   {
     id: createEventId(),
     title: "국민은행 면접",
     start: todayStr + "T12:00:00",
+    end: todayStr + "T13:00:00",
   },
   {
     // todayStr보다 이틀 전 일정 추가
     id: createEventId(),
     title: "삼성SDS 코테",
     start: getOffsetDate(-2), // 이틀 전
+    end: todayStr + "T13:00:00",
   },
   {
     // todayStr보다 이틀 후 일정 추가
     id: createEventId(),
     title: "소프티어 코테",
     start: getOffsetDate(2), // 이틀 후
+    end: todayStr + "T13:00:00",
   },
 ];
 

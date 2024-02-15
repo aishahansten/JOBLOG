@@ -1,13 +1,17 @@
 <template>
-  <div>
-    <input type="text" v-model="newMyRecruit.title" placeholder="공고명" />
-    <input type="text" v-model="newMyRecruit.companyName" placeholder="회사명" />
-    <input type="text" v-model="newMyRecruit.job" placeholder="직무명" />
-    <input type="datetime-local" v-model="newMyRecruit.openingDate" />
-    <input type="datetime-local" v-model="newMyRecruit.expirationDate" />
-    <input type="text" v-model="newMyRecruit.description" placeholder="기타 설명" />
-  </div>
-  <button @click="createMyJob()"></button>
+  <form @submit.prevent="createMyJob">
+    <div>
+      <input type="text" v-model="newMyRecruit.title" placeholder="공고명" required />
+      <input type="text" v-model="newMyRecruit.companyName" placeholder="회사명" required />
+      <input type="text" v-model="newMyRecruit.job" placeholder="직무명" required />
+      <input type="datetime-local" v-model="newMyRecruit.openingDate" />
+      <input type="datetime-local" v-model="newMyRecruit.expirationDate" />
+      <input type="text" v-model="newMyRecruit.description" placeholder="기타 설명" />
+    </div>
+    <div>
+      <button>등록하기</button>
+    </div>
+  </form>
 </template>
 
 <script setup>
@@ -18,8 +22,8 @@ const myRecruitStore = useMyRecruitStore();
 
 const newMyRecruit = ref({
   userId: "",
-  companyName: "test company",
-  job: "test job",
+  companyName: "",
+  job: "",
   openingDate: "",
   expirationDate: "",
   description: "",

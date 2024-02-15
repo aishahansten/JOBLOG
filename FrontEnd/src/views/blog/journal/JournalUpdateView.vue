@@ -25,7 +25,7 @@ async function fetchJournal() {
     };
   } catch (error) {
     console.error("불러오기 실패: ", error);
-    return { journal: null }; // Return nulls or defaults on error
+    return { journal: null }; 
   }
 }
 

@@ -47,15 +47,7 @@ function handleDateSelect(selectInfo) {
   });
 }
 
-function handleEventClick(clickInfo) {
-  if (
-    confirm(
-      `Are you sure you want to delete the event '${clickInfo.event.title}'`
-    )
-  ) {
-    clickInfo.event.remove();
-  }
-}
+function handleEventClick(clickInfo) {}
 
 function handleEvents(events) {
   currentEvents.value = events;
@@ -119,85 +111,14 @@ const getSchedules = async () => {
     }
   }
 };
-
-// schedule 생성
-const createSchedule = async () => {
-  try {
-    authStore.updateUserInfoFromToken();
-    const config = {
-      headers: {
-        Authorization: `${authStore.accessToken}`, // 오타 수정: 'Authoriation' -> 'Authorization'
-      },
-    };
-
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_BASE_URL}/schedule/register`,
-      newSchedule.value,
-      config
-    );
-
-    // 캘린더에 스케줄 추가
-    const createdSchedule = response.data;
-    calendarOptions.value.getApi().addEvent({
-      id: createdSchedule.id, // 또는 createEventId() 사용
-      title: createdSchedule.title,
-      start: createdSchedule.startDate,
-      end: createdSchedule.endDate,
-      allDay: true,
-    });
-
-    console.log("스케줄 생성:", response.data);
-  } catch (error) {
-    console.error("스케줄 생성 실패:", error);
-  }
-};
-
-// myRecruit 생성
-
-const createMyRecruit = async () => {
-  try {
-    authStore.updateUserInfoFromToken();
-    newMyRecruit.value.userId = authStore.userInfo.sub;
-    const config = {
-      headers: {
-        Authoriation: `${authStore.accessToken}`,
-      },
-    };
-
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_BASE_URL}/myRecruit/register`,
-      newMyRecruit.value,
-      config
-    );
-    console.log(response.data);
-    newMyRecruit.value = {
-      userId: authStore.userInfo.sub,
-      companyName: "test company",
-      companyCODE: "test code",
-      job: "test job",
-      openingDate: new Date("2024-02-08T00:00:00"),
-      expirationDate: new Date("2024-02-08T00:00:00"),
-      description: "test description",
-    };
-    // router.push();
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-const newMyRecruit = ref({
-  userId: authStore.userInfo.sub,
-  companyName: "test company",
-  companyCODE: "test code",
-  job: "test job",
-  openingDate: new Date("2024-02-08T00:00:00"),
-  expirationDate: new Date("2024-02-08T00:00:00"),
-  description: "test description",
-});
 </script>
 
 <template>
   <div class="container">
+    <div class="title">
+      <h1 class="f-weight-t">이달의 일정</h1>
+      <i class="fa-solid fa-angle-right fa-xl"></i>
+    </div>
     <div class="full-cal">
       <div class="calendar">
         <FullCalendar class="demo-app-calendar" :options="calendarOptions">
@@ -231,6 +152,11 @@ const newMyRecruit = ref({
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+.title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .header {

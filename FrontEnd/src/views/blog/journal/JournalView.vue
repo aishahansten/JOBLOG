@@ -38,17 +38,6 @@ onMounted(async () => {
   justify-content: space-between;
   padding: 20px 0;
 }
-
-  .container {
-    padding: 20px 0;
-  }
-
-  .header {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px 0;
-  }
-
   .content {
   height: 100%;
   padding: 10px 0;
