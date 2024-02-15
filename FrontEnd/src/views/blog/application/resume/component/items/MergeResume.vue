@@ -45,8 +45,8 @@
         </div>
       </div>
 
-      <div class="resume-pic" @click="triggerFileInput">
-        <img v-if="imageUrl" :src="imageUrl" alt="Profile Picture Preview" class="profileImage" />
+      <div class="resume-pic">
+        <img :src="userData.amazonS3FileUrl" alt="Profile Picture Preview" class="profileImage" />
       </div>
     </section>
 
@@ -209,17 +209,6 @@ const triggerFileInput = () => {
   fileInput.value.click();
 };
 
-const handleFileUpload = (event) => {
-  const file = event.target.files[0];
-  if (file && file.type.startsWith("image/")) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      imageUrl.value = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-};
-
 const userData = ref({});
 const info = ref([]);
 const resumeResponse = ref([]);
@@ -366,5 +355,10 @@ input {
 }
 input:focus {
   outline: auto;
+}
+
+.profileImage {
+  width: 30mm;
+  height: 40mm;
 }
 </style>

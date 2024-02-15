@@ -54,7 +54,7 @@
             @dragstart="handleDragStart(essay)"
             :class="{ selected: isEssaySelected(essay) }"
           >
-            <div @click="toggleShowEssay(essay)">
+            <div @click="toggleShowEssay(essay)" class="select-essay">
               <h3>{{ essay.question }}</h3>
               <p>{{ essay.answer }}</p>
             </div>
@@ -272,8 +272,15 @@ onMounted(async () => {
 
 .essay-answer {
   font-size: 18px;
+  white-space: pre-wrap;
 }
 
+.select-essay {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre-wrap;
+  height: 110px;
+}
 .selection-container {
   border: 1px solid var(--border-gray);
   padding: 20px;
