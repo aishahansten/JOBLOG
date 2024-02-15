@@ -46,6 +46,9 @@ public class JsonDataReadWriteConfig {
     @Autowired
     private CompanyRepository companyRepository;
 
+    private final EntityManager entityManager;
+
+
     @Bean
     public Job jsonDataReadWriteJob(JobRepository jobRepository,
                                     Step jsonDataReadWriteStep) {
@@ -76,8 +79,6 @@ public class JsonDataReadWriteConfig {
         return recruitRepository::saveAll;
     }
 
-    static List<Long> companyCodes = new ArrayList<>();
-    private final EntityManager entityManager;
 
     @StepScope
     @Bean

@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static jakarta.persistence.FetchType.LAZY;
-
 @Getter
 @Entity
 @NoArgsConstructor
