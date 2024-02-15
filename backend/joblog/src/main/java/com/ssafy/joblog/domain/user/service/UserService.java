@@ -66,6 +66,7 @@ public class UserService {
         String originName = file.getOriginalFilename();
         String changedName = changedImageName(originName);
         amazonS3Client.putObject(new PutObjectRequest(bucket, changedName, fileObj));
+        fileObj.delete();
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다"));
@@ -89,15 +90,6 @@ public class UserService {
             log.error("Error converting multipartFile to file", e);
         }
         return convertedFile;
-    }
-
-    public String getFile(int userId) {
-        String urltext = "";
-        if (amazonS3Client.doesObjectExist(bucket, String.valueOf(userId))) {
-            URL url = amazonS3Client.getUrl(bucket, String.valueOf(userId));
-            urltext += url;
-        }
-        return urltext;
     }
 
     public void changeRole(int userId) {

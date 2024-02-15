@@ -25,7 +25,7 @@ public class ResumeWithInfoResponseDto {
     private List<InfoResponseDto> infoResponseDtos = new ArrayList<>();
 
 
-    public ResumeWithInfoResponseDto(User user, ResumeResponseDto resumeResponseDto, String amazonS3FileUrl, List<InfoResponseDto> infoResponseDtos) {
+    public ResumeWithInfoResponseDto(User user, ResumeResponseDto resumeResponseDto, List<InfoResponseDto> infoResponseDtos) {
         this.resumeResponseDto = resumeResponseDto;
         this.realName = user.getRealName();
         this.englishName = user.getEnglishName();
@@ -35,7 +35,7 @@ public class ResumeWithInfoResponseDto {
         this.profileImageUrl = user.getProfileImageUrl();
         this.phoneNumber = user.getPhoneNumber();
         this.birthDate = user.getBirthDate();
-        this.amazonS3FileUrl = amazonS3FileUrl;
+        this.amazonS3FileUrl = user.getProfileImageUrl();
         this.infoResponseDtos = infoResponseDtos;
     }
 }

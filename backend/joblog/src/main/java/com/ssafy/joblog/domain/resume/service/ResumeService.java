@@ -49,7 +49,7 @@ public class ResumeService {
         for (Info info : infoList) {
             allInfoDto.add(InfoResponseDto.fromEntity(info));
         }
-        return new ResumeWithInfoResponseDto(resume.getUser(), resumeResponseDto, userService.getFile(resume.getUser().getId()), allInfoDto);
+        return new ResumeWithInfoResponseDto(resume.getUser(), resumeResponseDto, allInfoDto);
     }
 
     public void create(ResumeCreateRequestDto resumeCreateRequestDto) {
