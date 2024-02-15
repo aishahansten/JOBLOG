@@ -20,7 +20,7 @@ public class Resume extends BaseEntity {
     @Column(name = "resume_id")
     private int id;
 
-    @ManyToOne(fetch = LAZY )
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
