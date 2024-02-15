@@ -374,7 +374,7 @@ const deleteSchedule = async () => {
 const selectedEvent = ref("");
 function selectEvent(event) {
   selectedEvent.value = event;
-  console.log(selectedEvent.value);
+  console.log("selectedEvent : ", selectedEvent.value);
 
   if (event.type === "schedule") {
     toggleSchedule();
@@ -590,8 +590,6 @@ function check(item) {
       <div class="detail">
         <p>회사명　|　{{ selectedEvent.company }}</p>
         <br />
-        <p>직무　|　{{ selectedEvent.job }}</p>
-        <br />
         <p>일정 시작　|　{{ selectedEvent.start }}</p>
         <br />
         <p>일정 마감　|　{{ selectedEvent.end }}</p>
@@ -600,7 +598,9 @@ function check(item) {
         v-if="selectedEvent && selectedEvent.id"
         class="btn lined-c h-solid-c a-bright"
         :to="{ name: 'JobDetail', params: { id: selectedEvent.id } }"
-        >공고 상세 바로가기</RouterLink
+      >
+        {{ selectedEvent.id }}
+        공고 상세 바로가기</RouterLink
       >
     </div>
   </div>
