@@ -29,6 +29,7 @@ public class Diary extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(length = 5000)
     private String content;
 
     // 더티 체킹을 통한 update
