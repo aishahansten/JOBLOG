@@ -15,6 +15,7 @@ import DeleteUser from "@/views/home/DeleteUserView.vue";
 //취준토크 페이지
 import CoffeeChat from "@/views/coffee_chat/CoffeeChatView.vue";
 import ChatterSign from "@/views/coffee_chat/ChatterSign.vue";
+// import MyProfile from "@/views/coffee_chat/"
 
 //채용공고 페이지
 import JobPost from "@/views/job_post/JobPostView.vue";

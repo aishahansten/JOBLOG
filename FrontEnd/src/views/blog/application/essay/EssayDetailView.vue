@@ -16,9 +16,16 @@
         <p class="f-weight-b f-color-g">카테고리 | {{ essay.categoryName }}</p>
         <input class="question input" type="text" v-model="essay.question" />
         <textarea class="answer input" type="text" v-model="essay.answer" />
+        <div v-if="checkedSpell.length > 0" class="answer input spell-checked-content">
+          <span v-html="checkedSpell"></span>
+        </div>
         <p>{{ essay.answer.length }}자</p>
+        <a @click="spellCheck()" class="btn solid-c h-bright a-dark"> 맞춤법 검사하기</a>
         <a @click="submitEssay()" class="btn solid-c h-bright a-dark">저장하기</a>
         <a @click="deleteEssay()" class="btn h-solid-g a-dark">삭제하기</a>
+      </div>
+      <div class="content">
+        <p></p>
       </div>
     </div>
   </div>
@@ -36,6 +43,14 @@ const router = useRouter();
 const essay = ref({});
 
 const isLoaded = ref(false);
+
+const checkedSpell = ref("");
+const spellCheck = async () => {
+  console.log("들어가는것", essay.value.answer);
+  await essayResumeStore.spellCheck(essay.value.answer);
+  checkedSpell.value = essayResumeStore.spellChecked;
+  console.log(checkedSpell.value);
+};
 
 const submitEssay = async () => {
   delete essay.value.categoryName;

@@ -91,7 +91,7 @@ export const useAuthStore = defineStore("auth", {
           `${import.meta.env.VITE_API_BASE_URL}/users/permanent/delete/${this.userInfo.sub}`,
           config
         );
-        console.log(res);
+        console.log("영삭.js", res.data);
       } catch (err) {
         console.error(err);
       }
