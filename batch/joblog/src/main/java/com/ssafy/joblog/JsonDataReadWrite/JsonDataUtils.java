@@ -41,8 +41,8 @@ public class JsonDataUtils {
                         .queryParam("access-key", accesskey) //.queryParam으로 추가 가능
                         .queryParam("count", 110)
                         .queryParam("start", start)
-                        .queryParam("published_min", "2024-02-13%2009:00:00") //yyyy-mm-dd+"%20"+hh:mm:ss 형식
-                        .queryParam("published_max", "2024-02-13%2015:00:00")
+                        .queryParam("published_min", published_min) //yyyy-mm-dd+"%20"+hh:mm:ss 형식
+                        .queryParam("published_max", published_max)
                         .queryParam("job_type", 1)
                         .build())
                 .retrieve()
@@ -71,9 +71,8 @@ public class JsonDataUtils {
         DateTimeFormatter dtFmtMax = DateTimeFormatter.ofPattern("yyyy-MM-dd%20HH:59:59");
         result = now.minusHours(1);
         String published_max = result.format(dtFmtMax);
-        System.out.println(published_min);
-        System.out.println(published_max);
-        // 처음 100개 불러오기
+
+        //처음 110개 불러오기
         int total = 0;
         JsonNode jsonNode = getJsonData(0, published_min, published_max);
         if (jsonNode != null) {
@@ -105,7 +104,6 @@ public class JsonDataUtils {
                 recruitRequestDtoList.remove(i);
             }
         }
-        System.out.println("hi");
 
         return recruitRequestDtoList;
     }

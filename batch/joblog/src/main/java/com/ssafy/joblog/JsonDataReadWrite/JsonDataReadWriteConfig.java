@@ -83,13 +83,13 @@ public class JsonDataReadWriteConfig {
     @Bean
     public ItemProcessor<RecruitRequestDto, Recruit> jsonDataProcessor() {
         return item -> {
-            if(item.getCompany().getDetail().getHref() != null){
+            if (item.getCompany().getDetail().getHref() != null) {
                 UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(item.getCompany().getDetail().getHref());
                 String companyCodeValue = builder.build().getQueryParams().get("csn").get(0);
                 Long companyCode = Long.parseLong(companyCodeValue);
 
                 Optional<Company> company = companyRepository.findById(companyCode);
-                if(!company.isPresent()){
+                if (!company.isPresent()) {
                     Company newCompany = companyRepository.save(
                             Company.builder()
                                     .companyCode(companyCode)
@@ -104,7 +104,7 @@ public class JsonDataReadWriteConfig {
             RecruitRequestDto.IndustryDTO industryDTO = item.getPosition().getIndustry();
             List<Industry> industries = new ArrayList<>();
             int industrySize = 0;
-            if(industryDTO.getCode() != null){
+            if (industryDTO.getCode() != null) {
                 List<String> industry = Arrays.asList(industryDTO.getName().split(","));
                 List<String> industryCode = Arrays.asList(industryDTO.getCode().split(","));
                 industrySize = industry.size();
@@ -120,7 +120,7 @@ public class JsonDataReadWriteConfig {
             RecruitRequestDto.LocationDTO locationDTO = item.getPosition().getLocation();
             List<Location> locations = new ArrayList<>();
             int locationSize = 0;
-            if (locationDTO.getCode() != null){
+            if (locationDTO.getCode() != null) {
                 List<String> location = Arrays.asList(locationDTO.getName().split(","));
                 List<String> locationCode = Arrays.asList(locationDTO.getCode().split(","));
                 locationSize = location.size();
@@ -136,7 +136,7 @@ public class JsonDataReadWriteConfig {
             RecruitRequestDto.JobTypeDTO jobTypeDTO = item.getPosition().getJobType();
             List<JobType> jobTypes = new ArrayList<>();
             int jobTypeSize = 0;
-            if(jobTypeDTO.getCode() != null){
+            if (jobTypeDTO.getCode() != null) {
                 List<String> jobType = jobTypeDTO.getName() != null ? Arrays.asList(jobTypeDTO.getName().split(",")) : new ArrayList<>();
                 List<String> jobTypeCode = jobTypeDTO.getCode() != null ? Arrays.asList(jobTypeDTO.getCode().split(",")) : new ArrayList<>();
                 jobTypeSize = jobType.size();
@@ -153,17 +153,15 @@ public class JsonDataReadWriteConfig {
             RecruitRequestDto.JobCodeDTO jobCodeDTO = item.getPosition().getJobCode();
             //상위, 하위 코드 합치기
             String job = "";
-            if(jobMidCodeDTO != null && jobCodeDTO != null){
+            if (jobMidCodeDTO != null && jobCodeDTO != null) {
                 job = jobMidCodeDTO.getCode() + "," + jobCodeDTO.getCode();
-            }
-            else if(jobMidCodeDTO != null){
+            } else if (jobMidCodeDTO != null) {
                 job = jobMidCodeDTO.getCode();
-            }
-            else if(jobCodeDTO != null){
+            } else if (jobCodeDTO != null) {
                 job = jobCodeDTO.getCode();
             }
             List<String> jobCode = new ArrayList<>();
-            if(!job.equals("")){
+            if (!job.equals("")) {
                 jobCode = Arrays.asList(job.split(","));
             }
 
