@@ -1,34 +1,30 @@
 <template>
   <div class="chatter pointer h-solid-lg a-transparent-c" @click="toggleModal">
     <div class="chatter-img">
-      <img src="@/assets/img/profile/default-user-pic.jpg" alt="" />
+      <img src="@/assets/img/profile/default-user-pic.jpg" alt="" v-if="!item.amazonS3FileUrl" />
+      <img :src="item.amazonS3FileUrl" alt="" v-else />
     </div>
     <div class="chatter-info">
-      <h3>{{ item.user_id }}</h3>
-      <span>{{ item.job }}</span>
-      <span>{{ item.career }}차</span>
+      <h3>직군: {{ item.job }}</h3>
+      <span>경력: {{ item.career }}</span>
+      <span>{{ item.description }}</span>
     </div>
   </div>
 
   <div v-if="showModal" class="modal">
     <div class="profile">
-      <a @click="toggleModal" class="exit-btn"
-        ><i class="fa-solid fa-xmark fa-xl"></i
-      ></a>
+      <a @click="toggleModal" class="exit-btn"><i class="fa-solid fa-xmark fa-xl"></i></a>
       <div class="info">
         <h1 class="title">채터 정보</h1>
         <div class="info-img">
-          <img src="@/assets/img/profile/default-user-pic.jpg" alt="" />
+          <img src="@/assets/img/profile/default-user-pic.jpg" alt="" v-if="!item.amazonS3FileUrl" />
+          <img :src="item.amazonS3FileUrl" alt="" v-else />
         </div>
         <div class="info-txt">
-          <h1>{{ item.user_id }}</h1>
-          <div>
-            <i class="fa-solid fa-briefcase"></i>
-            <span>{{ item.job }}</span>
-          </div>
+          <h1>{{ item.job }}</h1>
           <div>
             <i class="fa-solid fa-building-user"></i>
-            <span>경력 {{ item.career }}차</span>
+            <span>경력: {{ item.career }}</span>
           </div>
           <div>
             <i class="fa-solid fa-bullhorn"></i>
@@ -37,14 +33,10 @@
         </div>
       </div>
       <div class="book" v-if="!showBook">
-        <a @click="toggleBook" class="btn lined-c f-color-c h-solid-c a-bright"
-          >커피챗 신청하기</a
-        >
+        <a @click="toggleBook" class="btn lined-c f-color-c h-solid-c a-bright">커피챗 신청하기</a>
       </div>
       <div class="book" v-else>
-        <a @click="toggleBook" class="btn lined-bg h-solid-g a-bright">
-          돌아가기</a
-        >
+        <a @click="toggleBook" class="btn lined-bg h-solid-g a-bright"> 돌아가기</a>
 
         <div>예약 신청 폼</div>
       </div>
@@ -90,13 +82,11 @@ onUnmounted(() => {
 
 <style scoped>
 .chatter {
-  display: flex;
-  justify-content: baseline;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 20px;
-
   padding: 20px;
-
   border-radius: 20px;
 }
 .chatter-img {
@@ -119,6 +109,9 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  max-height: 190px;
+  overflow-y: hidden;
+  text-overflow: ellipsis;
 }
 .chatter-info span {
   color: var(--gray);
