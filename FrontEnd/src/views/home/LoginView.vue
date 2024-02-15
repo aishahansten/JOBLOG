@@ -45,7 +45,6 @@ function callNaver() {
         <span>Naver 로그인</span>
       </a>
     </div>
-    <button @click="toggleEdit">첫 로그인이라면..!</button>
   </div>
   <SelectStatus v-else />
 </template>

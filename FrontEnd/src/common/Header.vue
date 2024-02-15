@@ -9,8 +9,12 @@ const logout = function () {
 const showDropdown = ref(false);
 const authStore = useAuthStore();
 const loggedIn = computed(() => !!authStore.userInfo);
+const userInfo = ref({});
 
-authStore.updateUserInfoFromToken();
+onMounted(async () => {
+  await authStore.updateUserInfoFromToken();
+  userInfo.value = authStore.userInfo;
+});
 </script>
 
 <template>
@@ -49,7 +53,9 @@ authStore.updateUserInfoFromToken();
               </div>
               <div class="sub-nav">
                 <RouterLink class="menu h-txt" :to="{ name: 'Coffee' }">채터 탐색하기</RouterLink>
-                <RouterLink class="menu h-txt" :to="{ name: 'ChatterReg' }">마이프로필</RouterLink>
+                <RouterLink class="menu h-txt" :to="{ name: 'ChatterReg' }"
+                  ><div v-if="authStore.userInfo && userInfo.role == 'ROLE_JUNIOR'">마이프로필</div></RouterLink
+                >
               </div>
             </div>
             <div class="width170">　</div>

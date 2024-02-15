@@ -64,6 +64,10 @@ onMounted(async () => {
   </div>
 
   <div class="container-member" v-else>
+    <RouterLink :to="{ name: 'Alarm' }">
+      <div class="btn-s lined-bg f-color-c h-solid-c h-lined-c a-bright logout-btn" v-if="hasAlarm"></div>
+    </RouterLink>
+
     <Calendar />
     <ResumeEssay />
     <Chatter />
@@ -114,5 +118,10 @@ onMounted(async () => {
   flex-direction: column;
   gap: 100px;
   padding: 50px 0;
+}
+
+.logout-btn {
+  position: absolute;
+  left: 90%;
 }
 </style>

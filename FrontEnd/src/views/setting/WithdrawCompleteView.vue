@@ -4,14 +4,14 @@ import { useRouter } from "vue-router";
 import "@/assets/css/setting/setting-header.css";
 import "@/assets/css/setting/menu/withdraw-setting.css";
 import { useAuthStore } from "@/stores/auth";
-const authStore = useAuthStore()
-const router = useRouter()
+const authStore = useAuthStore();
+const router = useRouter();
 
-onMounted(async() => {
-  await authStore.deleteUser()
-  await authStore.logout2()
+onMounted(async () => {
+  await authStore.deleteUser();
+  await authStore.logout();
   setTimeout(() => {
-    router.push({name: 'Home'});
+    router.push({ name: "Home" });
   }, 4000);
 });
 </script>
@@ -36,7 +36,6 @@ onMounted(async() => {
 </template>
 
 <style scoped>
-
 .withdraw-content {
   display: flex;
   flex-direction: column;

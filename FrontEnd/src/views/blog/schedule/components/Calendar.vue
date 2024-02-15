@@ -192,7 +192,7 @@ const getMyRecruits = async () => {
     myRecruits = response.data;
   } catch (err) {
     if (err.response && err.response.status === 500) {
-      router.push("/login2");
+      router.push("/login");
     } else {
     }
   }
