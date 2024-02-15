@@ -26,6 +26,11 @@ public class ChatterService {
 
     // 1. 채터 프로필 등록하기
     public void createChatter(ChatterCreateRequestDto chatterCreateRequestDto) {
+        int userId = chatterCreateRequestDto.getUserId();
+        if (chatterRepository.existsByUserId(userId)) {
+            throw new IllegalArgumentException("이미 커피챗 프로필을 만들었습니다");
+        }
+
         User user = userRepository.findById(chatterCreateRequestDto.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다"));
         ChatterProfile chatter = chatterCreateRequestDto.createChatter(user);
@@ -39,6 +44,7 @@ public class ChatterService {
         List<ChatterResponseDto> getChattersList = new ArrayList<>();
         chatters.forEach(chatter -> getChattersList.add(ChatterResponseDto.builder()
                 .userId(chatter.getId())
+                .job(chatter.getJob())
                 .career(chatter.getCareer())
                 .description(chatter.getDescription())
                 .build()));
@@ -53,6 +59,7 @@ public class ChatterService {
         ChatterProfile chatter = optionalChatter.orElseThrow(()->new NotFoundException("커피챗을 찾을 수 없습니다"));
         ChatterResponseDto chatterResponseDto = ChatterResponseDto.builder()
                 .userId(chatter.getUser().getId())
+                .job(chatter.getJob())
                 .career(chatter.getCareer())
                 .description(chatter.getDescription())
                 .build();

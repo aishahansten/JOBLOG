@@ -26,20 +26,24 @@ public class ChatterProfile extends BaseEntity {
     @JoinColumn(name="user_id")
     private User user;
 
+    private String job;
     private String career;
+    @Column(length = 1000)
     private String description;
 
     // 생성자
     @Builder
-    public ChatterProfile(int id, User user, String career, String description) {
+    public ChatterProfile(int id, User user, String job, String career, String description) {
         this.id=id;
         this.user=user;
+        this.job=job;
         this.career=career;
         this.description=description;
     }
 
     // update 더티체킹
     public void updateChatter(ChatterUpdateRequestDto chatterUpdateRequestDto) {
+        this.job = chatterUpdateRequestDto.getJob();
         this.career = chatterUpdateRequestDto.getCareer();
         this.description = chatterUpdateRequestDto.getDescription();
     }

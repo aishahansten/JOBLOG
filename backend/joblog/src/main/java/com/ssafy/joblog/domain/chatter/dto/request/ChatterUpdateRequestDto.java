@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 public class ChatterUpdateRequestDto {
     private int userId;
+    private String job;
     private String career;
     private String description;
 }

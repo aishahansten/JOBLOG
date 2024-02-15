@@ -18,4 +18,7 @@ public interface ChatterRepository extends JpaRepository<ChatterProfile, Integer
     @Modifying
     @Query("UPDATE ChatterProfile chatter SET chatter.isDelete = true WHERE chatter.id = :id")
     void markDeletedChatter(@Param("id") int id);
+
+    // 채터 프로필 중복 생성 방지
+    boolean existsByUserId(int userId);
 }

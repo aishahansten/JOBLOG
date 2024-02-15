@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class ChatterCreateRequestDto {
 
     private int userId;
+    private String job;
     private String career;
     private String description;
 
@@ -22,6 +23,7 @@ public class ChatterCreateRequestDto {
         return ChatterProfile.builder()
                 .id(this.userId)
                 .user(user)
+                .job(this.job)
                 .career(this.career)
                 .description(this.description)
                 .build();
