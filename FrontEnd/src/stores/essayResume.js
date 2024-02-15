@@ -10,6 +10,7 @@ export const useEssayResumeStore = defineStore("essayResume", {
     essayList: [],
     categoryList: [],
     spellChecked: {},
+    expectedQuestions: [],
   }),
   actions: {
     async getResume() {
@@ -124,7 +125,6 @@ export const useEssayResumeStore = defineStore("essayResume", {
       const sentence = {
         text: newEssay,
       };
-      console.log("맞춤법js", sentence);
       const config = {
         headers: {
           Authorization: `${authStore.accessToken}`,
@@ -185,6 +185,26 @@ export const useEssayResumeStore = defineStore("essayResume", {
       try {
         const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/category/delete/${id}`, config);
         this.categoryList = this.categoryList.filter((category) => category.categoryId !== id);
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    async expectedQuestion(id) {
+      const authStore = useAuthStore();
+      await authStore.updateUserInfoFromToken();
+      const list = {
+        essayList: null,
+      };
+      list.essayList = [id];
+
+      const config = {
+        headers: {
+          Authorization: `${authStore.accessToken}`,
+        },
+      };
+      try {
+        const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/interview/prompt`, list, config);
+        this.expectedQuestions = res.data;
       } catch (err) {
         console.error(err);
       }

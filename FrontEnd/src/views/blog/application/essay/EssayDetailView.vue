@@ -20,12 +20,13 @@
           <span v-html="checkedSpell"></span>
         </div>
         <p>{{ essay.answer.length }}자</p>
+        <div v-if="expectedQuestion.length > 0" class="answer input spell-checked-content">
+          {{ expectedQuestion }}
+        </div>
+        <a @click="getQuestion()" class="btn solid-c h-bright a-dark"> 예상 질문 받기</a>
         <a @click="spellCheck()" class="btn solid-c h-bright a-dark"> 맞춤법 검사하기</a>
         <a @click="submitEssay()" class="btn solid-c h-bright a-dark">저장하기</a>
         <a @click="deleteEssay()" class="btn h-solid-g a-dark">삭제하기</a>
-      </div>
-      <div class="content">
-        <p></p>
       </div>
     </div>
   </div>
@@ -48,6 +49,13 @@ const checkedSpell = ref("");
 const spellCheck = async () => {
   await essayResumeStore.spellCheck(essay.value.answer);
   checkedSpell.value = essayResumeStore.spellChecked;
+};
+
+const expectedQuestion = ref("");
+
+const getQuestion = async () => {
+  await essayResumeStore.expectedQuestion(essay.essayId);
+  expectedQuestion.value = essayResumeStore.expectedQuestions;
 };
 
 const submitEssay = async () => {

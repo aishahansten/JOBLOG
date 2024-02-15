@@ -48,7 +48,7 @@
         <div v-if="essayList.length > 0" class="list">
           <div
             v-for="essay in essayList"
-            :key="essay.id"
+            :key="essay.essayId"
             class="essay-item"
             draggable="true"
             @dragstart="handleDragStart(essay)"
@@ -61,6 +61,7 @@
           </div>
         </div>
         <div v-else>작성한 자기소개서 문항이 없습니다!</div>
+        <div></div>
       </div>
     </div>
 
@@ -109,6 +110,7 @@ const toggleShowEssay = (selectedEssay) => {
   const index = showEssay.value.findIndex((essay) => essay.essayId === selectedEssay.essayId);
   if (index === -1) {
     showEssay.value.push(selectedEssay);
+    console.log(showEssay.value);
   } else {
     showEssay.value.splice(index, 1);
   }
