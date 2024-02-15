@@ -37,7 +37,7 @@
       <p>고민에 대한 간단한 이야기를 나눌 채터 탐색</p>
     </div>
     <div class="content">
-      <ChatterRecommend />
+      <ChatterRecommend :chatterList="chatterList" />
     </div>
   </div>
 </template>
@@ -58,7 +58,7 @@ onMounted(async () => {
   await authStore.getChatterList;
   userInfo.value = authStore.userInfo.role;
   chatterList.value = authStore.chatterList;
-  console.log(chatterList.value);
+  console.log(authStore.chatterList);
 });
 </script>
 

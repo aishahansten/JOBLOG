@@ -136,7 +136,7 @@ export const useAuthStore = defineStore("auth", {
         console.error(err);
       }
     },
-    async getChatter() {
+    async getChatter(id) {
       await this.updateUserInfoFromToken();
       const config = {
         headers: {
@@ -144,13 +144,13 @@ export const useAuthStore = defineStore("auth", {
         },
       };
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/chat/profile/${this.userInfo.sub}`, config);
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/chat/profile/${id}`, config);
         this.chatter = res.data;
       } catch (err) {
         console.error(err);
       }
     },
-    async updateChatterProfile() {
+    async updateChatterProfile(currChat) {
       await this.updateUserInfoFromToken();
       const config = {
         headers: {
@@ -158,8 +158,21 @@ export const useAuthStore = defineStore("auth", {
         },
       };
       try {
-        const res = await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/chat/profile/${this.userInfo.sub}`, config);
-        this.chatterList = res.data;
+        await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/chat/profile/update`, currChat.value, config);
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    async chatterStatus() {
+      await this.updateUserInfoFromToken();
+      const config = {
+        headers: {
+          Authorization: `${this.accessToken}`,
+        },
+      };
+      try {
+        await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/chat/profile/delete/${this.userInfo.sub}`, config);
+        console.log("변경됨");
       } catch (err) {
         console.error(err);
       }
