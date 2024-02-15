@@ -64,7 +64,9 @@
       </div>
     </div>
 
-    <a @click="exportToPdf" class="btn solid-c h-bright a-dark" id="export-btn">입사지원서 제작하기 !</a>
+    <a @click="exportToPdf" class="btn solid-c h-bright a-dark" id="export-btn"
+      >입사지원서 제작하기 !</a
+    >
   </div>
 </template>
 
@@ -107,7 +109,9 @@ const essayList = ref([]);
 const showEssay = ref([]);
 
 const toggleShowEssay = (selectedEssay) => {
-  const index = showEssay.value.findIndex((essay) => essay.essayId === selectedEssay.essayId);
+  const index = showEssay.value.findIndex(
+    (essay) => essay.essayId === selectedEssay.essayId
+  );
   if (index === -1) {
     showEssay.value.push(selectedEssay);
   } else {
@@ -122,7 +126,9 @@ const handleDragStart = (essay) => {
 
 const handleDrop = () => {
   if (currentDrag.value) {
-    const index = showEssay.value.findIndex((essay) => essay.essayId === currentDrag.value.essayId);
+    const index = showEssay.value.findIndex(
+      (essay) => essay.essayId === currentDrag.value.essayId
+    );
     if (index === -1) {
       showEssay.value.push(currentDrag.value);
     }
