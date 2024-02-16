@@ -1,5 +1,5 @@
 # JOBLOG
-<img> 메인 사진 들어갈 예정
+![JOBLOG_MAIN](/uploads/7fd63e4ff87dc173fb01ab9392cee637/JOBLOG_MAIN.PNG)
 
 ## 목차
 [1️. 개요](#1️⃣-개요)<br>
