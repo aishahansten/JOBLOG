@@ -29,11 +29,13 @@
 <br><br>
 
 # 2️⃣ 팀원 소개
-|![정휘원](/uploads/22a5a783edead303fbcd7ced34249136/정휘원.png)|![김보경](/uploads/24414d1039e5ef0f00cacc36ac4fc20f/김보경.png)|![박시연](/uploads/db4e69215316ef52b10a202cdc77996d/박시연.png)|![방소영](/uploads/d005208653bd789b73784afca51939de/방소영.png)|![이현영](/uploads/93fb371a9278fcf97c02548a73357848/이현영.png)|![이희병](/uploads/5d7201d3ce00122a9f8c7c46156a52fd/이희병.png)|
+|![정휘원](/uploads/22a5a783edead303fbcd7ced34249136/정휘원.png)|!
+[박시연](/uploads/db4e69215316ef52b10a202cdc77996d/박시연.png)|![방소영](/uploads/d005208653bd789b73784afca51939de/방소영.png)|!
+[김보경](/uploads/24414d1039e5ef0f00cacc36ac4fc20f/김보경.png)|![이현영](/uploads/93fb371a9278fcf97c02548a73357848/이현영.png)|![이희병](/uploads/5d7201d3ce00122a9f8c7c46156a52fd/이희병.png)|
 |:--:|:--:|:--:|:--:|:--:|:--:|
 |정휘원|김보경|박시연|방소영|이현영|이희병|
-|FrontEnd & Leader|BackEnd|FrontEnd|Infra|BackEnd|BackEnd|
-|Data Binding<br>Function|CRUD<br>Function|Design & Publishing<br>UCC|Infra<br>WebRTC|Entity<br>Batch|Certification<br>Kafka|
+|FrontEnd & Leader|FrontEnd|Infra|BackEnd|BackEnd|BackEnd|
+|Data Binding<br>Function|Design & Publishing<br>UCC|Infra<br>WebRTC|CRUD<br>Function|DB<br>Batch|Certification<br>Kafka|
 
 <br><br>
 
@@ -66,7 +68,6 @@
         <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> 
         <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white"> 
         <img src="https://img.shields.io/badge/vue.js-4FC08D?style=for-the-badge&logo=vuedotjs&logoColor=white">
-        <img src="https://img.shields.io/badge/vuetify-1867C0?style=for-the-badge&logo=vuetify&logoColor=white">
         <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white">
     </div>
     <br>
