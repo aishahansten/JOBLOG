@@ -1,5 +1,5 @@
 # JOBLOG
-<img> 메인 사진 들어갈 예정
+![JOBLOG_MAIN](/uploads/7fd63e4ff87dc173fb01ab9392cee637/JOBLOG_MAIN.PNG)
 
 ## 목차
 [1️. 개요](#1️⃣-개요)<br>
@@ -108,8 +108,30 @@
 <br><br>
 
 # 4️⃣ 서비스 화면
-<img> 화면 사진 들어갈 예정
-<br><br>
+### 🌈 로그인
+![로그인](/uploads/3a320412fbb0f98ae43beba2f4f3364b/로그인.gif)
+### 🌈 공고 검색 및 상세
+![공고_검색_및_상세](/uploads/493cf41b423ed34e74a90834cd3aa6bc/공고_검색_및_상세.gif)
+### 🌈 공고 등록
+![공고등록](/uploads/ad63502d8945fd02ba3665ff43e54ecf/공고등록.gif)
+### 🌈 자기소개서 문항 작성
+![자기소개서_문항_작성](/uploads/8ef7e1988867dc7b633383f6f07db1ec/자기소개서_문항_작성.gif)
+### 🌈 자기소개서 문항 편집
+![자기소개서_문항_편집](/uploads/ee94a67427d8e1eda9ac0387748da28f/자기소개서_문항_편집.gif)
+### 🌈 전형 생성
+![전형_생성](/uploads/a5b9dfe792d646a2852b8d0b0efae186/전형_생성.gif)
+### 🌈 전형 전용 이력서 생성
+![전형_전용_이력서_생성](/uploads/e89a683365d569b04006ae163e23d097/전형_전용_이력서_생성.gif)
+### 🌈 전형 리뷰 생성
+![전형_리뷰_생성](/uploads/7690cacc88f02af92a4c125ea4d69a7a/전형_리뷰_생성.gif)
+### 🌈 입사지원서 작성 및 다운
+![입사지원서_작성_및_다운](/uploads/b2af2b1dcb7b92773c638cfcd8e8d0a2/입사지원서_작성_및_다운.gif)
+### 🌈 다이어리
+![다이어리](/uploads/8945dde7d98d3c11c49fbaeb39f58297/다이어리.gif)
+### 🌈 커뮤니티
+![커뮤니티](/uploads/fbba7bb609f29cb0a936cb103f1e91ae/커뮤니티.gif)
+### 🌈 설정
+![설정](/uploads/ad96ca09ecf7a3c1b8411999f49b35e5/설정.gif)
 
 # 5️⃣ 주요 기능
 ### 📌 개인 맞춤 채용일정 관리
