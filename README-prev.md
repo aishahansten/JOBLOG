@@ -1,5 +1,5 @@
 # JOBLOG
-![JOBLOG_MAIN](/assets/JOBLOG_MAIN.PNG)
+![JOBLOG_MAIN](/uploads/7fd63e4ff87dc173fb01ab9392cee637/JOBLOG_MAIN.PNG)
 
 ## 목차
 [1️. 개요](#1️⃣-개요)<br>
@@ -29,7 +29,7 @@
 <br><br>
 
 # 2️⃣ 팀원 소개
-|![정휘원](/assets/정휘원.png)|![박시연](/assets/박시연.png)|![방소영](/assets/방소영.png)|![김보경](/assets/김보경.png)|![이현영](/assets/이현영.png)|![이희병](/assets/이희병.png)|
+|![정휘원](/uploads/22a5a783edead303fbcd7ced34249136/정휘원.png)|![박시연](/uploads/db4e69215316ef52b10a202cdc77996d/박시연.png)|![방소영](/uploads/d005208653bd789b73784afca51939de/방소영.png)|![김보경](/uploads/24414d1039e5ef0f00cacc36ac4fc20f/김보경.png)|![이현영](/uploads/93fb371a9278fcf97c02548a73357848/이현영.png)|![이희병](/uploads/5d7201d3ce00122a9f8c7c46156a52fd/이희병.png)|
 |:--:|:--:|:--:|:--:|:--:|:--:|
 |정휘원|박시연|방소영|김보경|이현영|이희병|
 |FrontEnd & Leader|FrontEnd|Infra|BackEnd|BackEnd|BackEnd|
@@ -108,29 +108,29 @@
 
 # 4️⃣ 서비스 화면
 ### 🌈 로그인
-![로그인](/assets/로그인.gif)
+![로그인](/uploads/3a320412fbb0f98ae43beba2f4f3364b/로그인.gif)
 ### 🌈 공고 검색 및 상세
-![공고_검색_및_상세](/assets/공고_검색_및_상세.gif)
+![공고_검색_및_상세](/uploads/493cf41b423ed34e74a90834cd3aa6bc/공고_검색_및_상세.gif)
 ### 🌈 공고 등록
-![공고등록](/assets/공고등록.gif)
+![공고등록](/uploads/ad63502d8945fd02ba3665ff43e54ecf/공고등록.gif)
 ### 🌈 자기소개서 문항 작성
-![자기소개서_문항_작성](/assets/자기소개서_문항_작성.gif)
+![자기소개서_문항_작성](/uploads/8ef7e1988867dc7b633383f6f07db1ec/자기소개서_문항_작성.gif)
 ### 🌈 자기소개서 문항 편집
-![자기소개서_문항_편집](/assets/자기소개서_문항_편집.gif)
+![자기소개서_문항_편집](/uploads/ee94a67427d8e1eda9ac0387748da28f/자기소개서_문항_편집.gif)
 ### 🌈 전형 생성
-![전형_생성](/assets/전형_생성.gif)
+![전형_생성](/uploads/a5b9dfe792d646a2852b8d0b0efae186/전형_생성.gif)
 ### 🌈 전형 전용 이력서 생성
-![전형_전용_이력서_생성](/assets/전형_전용_이력서_생성.gif)
+![전형_전용_이력서_생성](/uploads/e89a683365d569b04006ae163e23d097/전형_전용_이력서_생성.gif)
 ### 🌈 전형 리뷰 생성
-![전형_리뷰_생성](/assets/전형_리뷰_생성.gif)
+![전형_리뷰_생성](/uploads/7690cacc88f02af92a4c125ea4d69a7a/전형_리뷰_생성.gif)
 ### 🌈 입사지원서 작성 및 다운
-![입사지원서_작성_및_다운](/assets/입사지원서_작성_및_다운.gif)
+![입사지원서_작성_및_다운](/uploads/b2af2b1dcb7b92773c638cfcd8e8d0a2/입사지원서_작성_및_다운.gif)
 ### 🌈 다이어리
-![다이어리](/assets/다이어리.gif)
+![다이어리](/uploads/8945dde7d98d3c11c49fbaeb39f58297/다이어리.gif)
 ### 🌈 커뮤니티
-![커뮤니티](/assets/커뮤니티.gif)
+![커뮤니티](/uploads/fbba7bb609f29cb0a936cb103f1e91ae/커뮤니티.gif)
 ### 🌈 설정
-![설정](/assets/설정.gif)
+![설정](/uploads/ad96ca09ecf7a3c1b8411999f49b35e5/설정.gif)
 
 # 5️⃣ 주요 기능
 ### 📌 개인 맞춤 채용일정 관리
@@ -180,10 +180,10 @@
 
 # 7️⃣ 설계 문서
 ### 📂 Swagger
-![JOBLOG_SWAGGER](/assets/JOBLOG_SWAGGER.PNG)
+![JOBLOG_SWAGGER](/uploads/05374104564a44f82a3a720905c54ea4/JOBLOG_SWAGGER.PNG)
 
 ### 📂 ERD
-![JOBLOG_ERD](/assets/JOBLOG_ERD.png)
+![JOBLOG_ERD](/uploads/ec59e000d92562feeccac88c31605502/JOBLOG_ERD.png)
 
 ### 📂 서비스 아키텍처
-![아키텍처](/assets/아키텍처.png)
+![아키텍처](/uploads/d44811c0ee260fe0e1ee7809ca5a1446/아키텍처.png)
